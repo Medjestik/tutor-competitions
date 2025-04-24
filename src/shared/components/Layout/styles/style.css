@@ -1,0 +1,118 @@
+.layout {
+  width: 100%;
+  margin: 0;
+  padding: 0 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  position: relative;
+  background: linear-gradient(180deg, #1B096F 0%, #8229F3 100%);
+}
+.public-layout {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 42px 60px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.layout__container {
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex-grow: 2;
+}
+.layout__container_width_default {
+  max-width: 1280px;
+}
+.layout__main {
+  width: 100%;
+  height: calc(100vh - 20px - 80px - 20px - 20px - 80px - 20px);
+  margin: 0;
+  padding: 30px 10px;
+  box-sizing: border-box;
+  border-radius: 40px;
+  background-color: var(--white-color);
+  display: flex;
+  flex-direction: column;
+}
+.layout__main-container {
+  width: calc(100% - 40px);
+  height: 100%;
+  margin: 0 20px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+.layout__main-container::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.layout__main-container::-webkit-scrollbar-track {
+  border-radius: 40px;
+  background: var(--background-secondary-color);
+}
+.layout__main-container::-webkit-scrollbar-thumb {
+  border-radius: 40px;
+  background: var(--secondary-color);
+}
+.layout__title {
+  margin: 0;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: bold;
+  font-size: 60px;
+  line-height: 1.15;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+  color: var(--title-color);
+}
+
+@media all and (max-width: 1600px) {
+  .public-layout {
+    padding: 36px 60px;
+  }
+}
+
+@media all and (max-width: 1366px) {
+  .public-layout {
+    padding: 32px 40px;
+  }
+}
+
+@media all and (max-width: 1024px) {
+  .public-layout {
+    padding: 24px 32px;
+  }
+}
+
+@media all and (max-width: 1000px) {
+  .public-layout {
+    padding: 8px 16px;
+  }
+  .layout {
+    padding: 8px;
+  }
+  .layout__main {
+    min-height: 80vh;
+    height: auto;
+    margin: 20px 0 0 0;
+    padding: 16px;
+    border-radius: 20px;
+  }
+  .layout__main-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .layout__title {
+    font-size: 36px;
+    letter-spacing: 0px;
+  }
+}

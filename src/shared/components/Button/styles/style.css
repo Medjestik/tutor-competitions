@@ -1,0 +1,57 @@
+.button {
+  margin: 0;
+  width: fit-content;
+  padding: 20px 47px;
+  box-sizing: border-box;
+  border: 1px solid var(--main-color);
+  border-radius: 28px;
+  color: var(--white-color);
+  background-color: var(--main-color);
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all .3s ease-in-out;
+}
+.button_color_primary {
+  color: var(--white-color);
+  background-color: var(--main-color);
+  border: 1px solid var(--main-color);
+}
+.button_color_secondary {
+  color: var(--white-color);
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+}
+.button_color_white {
+  color: var(--main-color);
+  background-color: var(--white-color);
+  border: 1px solid var(--white-color);
+}
+.button_color_cancel {
+  color: var(--secondary-color);
+  background-color: var(--white-color);
+  border: 1px solid var(--border-card-color);
+}
+.button_width_full {
+  width: 100%;
+}
+.button:hover {
+  cursor: pointer;
+  opacity: .7;
+}
+
+@media all and (max-width: 1280px) {
+  .button {
+    font-size: 24px;
+  }
+}
+
+@media all and (max-width: 1000px) {
+  .button {
+    padding: 12px 22px;
+    font-size: 20px;
+  }
+}

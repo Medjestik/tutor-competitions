@@ -1,0 +1,45 @@
+@keyframes spin {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.preloader {
+  color: var(--title-color);
+  box-sizing: border-box;
+  font-weight: 300;
+  font-style: normal;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  width: 100%;
+	margin: 20vh auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.preloader_type_popup {
+  min-height: 0px;
+}
+.preloader__circle {
+	width:  74px;
+	height: 74px;
+	border: 1px solid var(--border-card-color);
+	border-bottom-color: var(--background-secondary-color);
+	border-radius: 50%;
+  animation: spin .75s infinite linear;
+  margin-bottom: 24px;
+}
+.preloader__caption {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 1.4;
+  color: var(--border-card-color);
+}

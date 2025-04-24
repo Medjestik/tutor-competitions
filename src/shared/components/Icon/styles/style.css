@@ -1,0 +1,48 @@
+.icon {
+  margin: 0;
+  width: 24px;
+  height: 24px;
+}
+.icon_type_edit {
+  background-image: url('../../../icons/edit.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.icon_type_remove {
+  background-image: url('../../../icons/remove.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.icon_type_menu {
+  background-image: url('../../../icons/menu.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.icon_type_close {
+  background-image: url('../../../icons/close-white.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.icon_type_home {
+  background-image: url('../../../icons/home.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.icon_type_logout {
+  background-image: url('../../../icons/logout.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.icon_active {
+  transition: all .3s ease-in-out;
+  cursor: pointer;
+}
+.icon_active:hover {
+  opacity: .7;
+}

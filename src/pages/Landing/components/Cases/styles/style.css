@@ -1,0 +1,114 @@
+.cases {
+  width: 100%;
+  margin: 80px 0 0;
+  display: flex;
+  flex-direction: column;
+}
+.cases__section {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.cases__list {
+  width: 100%;
+  margin: 80px 0 0;
+  padding: 0px;
+  list-style-type: none;
+  display: grid;
+  gap: 26px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+}
+.cases__card {
+  width: 100%;
+  margin: 0;
+  padding: 36px 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white-color);
+  border-radius: 40px;
+  position: relative;
+}
+.cases__card_color_grey {
+  background-color: var(--background-main-color);
+}
+.cases__card-title {
+  margin: 0;
+  font-weight: 800;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  line-height: 1.15;
+  color: var(--title-color);
+  text-transform: uppercase;
+}
+.cases__card-title_type_problem {
+  margin: auto 0 0;
+  color: var(--main-color);
+}
+.cases__card-text {
+  margin: 8px 0 20px;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--title-color);
+}
+.cases__card-text-warning {
+  color: var(--main-color);
+}
+.cases__card-footer {
+  margin: 20px 0 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.cases__card-icon {
+  width: auto;
+  height: 30px;
+  margin: 0 0 0 auto;
+  object-fit: contain;
+  object-position: center;
+  z-index: 2;
+  position: relative;
+}
+
+@media all and (max-width: 1440px) {
+  .cases {
+    margin: 56px 0 0;
+  }
+  .cases__section {
+    margin: 32px 0;
+  }
+  .cases__list {
+    margin: 40px 0 0;
+    gap: 24px;
+  }
+}
+
+@media all and (max-width: 1000px) {
+  .cases {
+    margin: 24px 0 0;
+  }
+  .cases__section {
+    margin: 24px 0;
+  }
+  .cases__list {
+    margin: 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .cases__card {
+    margin: 0 0 12px 0;
+    padding: 16px 20px;
+    border-radius: 20px;
+  }
+  .cases__card-title {
+    font-size: 20px;
+  }
+  .cases__card-text {
+    margin: 8px 0 16px;
+    font-size: 16px;
+  }
+}

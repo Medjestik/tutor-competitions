@@ -1,0 +1,129 @@
+.person-stage {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.person-stage__title {
+  margin: 0;
+  font-weight: 800;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 40px;
+  line-height: 1.15;
+  color: var(--title-color);
+  text-transform: uppercase;
+}
+.person-stage__subtitle {
+  margin: 8px 0 0 0;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--title-color);
+}
+.person-stage__number {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: var(--main-color);
+  padding: 11px 16px;
+  box-sizing: border-box;
+  border-radius: 24px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 24px;
+  text-transform: uppercase;
+  color: var(--white-color);
+  user-select: none;
+  pointer-events: none;
+}
+.person-stage__container {
+  margin: 32px 0 0 0;
+  display: flex;
+}
+.person-stage__info {
+  width: 100%;
+  margin: 0 20px 0 0;
+  display: flex;
+  flex-direction: column;
+}
+.person-stage__info-case {
+  margin-right: 32px;
+}
+.person-stage__btn-container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: 20px;
+}
+.person-stage__row {
+  width: 100%;
+  margin: 0 0 32px 0;
+  display: flex;
+  flex-direction: column;
+}
+.person-stage__row:last-of-type {
+  margin: 0;
+}
+.person-stage__row-title {
+  margin: 0;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.15;
+  color: var(--title-color);
+}
+.person-stage__row-subtitle {
+  margin: 8px 0 12px 0;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--title-color);
+}
+.person-stage__video {
+  width: 100%;
+  margin: 0 20px 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media all and (max-width: 1000px) {
+  .person-stage__number {
+    display: none;
+  }
+  .person-stage__title {
+    font-size: 32px;
+  }
+  .person-stage__subtitle {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    line-height: 18px;
+  }
+  .person-stage__container {
+    margin: 24px 0 0 0;
+    flex-direction: column;
+  }
+  .person-stage__row-title {
+    font-size: 24px;
+    line-height: 1.15;
+  }
+  .person-stage__row-subtitle {
+    margin: 4px 0 8px 0;
+    font-size: 14px;
+    line-height: 18px;
+  }
+  .person-stage__row {
+    margin: 0 0 24px 0;
+  }
+  .person-stage__info {
+    margin: 24px 0 20px 0;
+  }
+  .person-stage__info-case {
+    margin: 0;
+  }
+  .person-stage__btn-container {
+    grid-auto-flow: row;
+    gap: 12px;
+    grid-template-columns: 1fr;
+  }
+}
