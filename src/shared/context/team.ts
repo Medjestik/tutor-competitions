@@ -1,7 +1,20 @@
-import type { ICurrentTeam } from '../components/App/interface';
+import type { ICurrentUser } from '../components/App/interface';
 
 import { createContext } from 'react';
 
-export const initialTeam: ICurrentTeam = { id: 0, name: '', university: null, case: null,  current_stage: 0 };
+export const initialUser: ICurrentUser = { 
+  id: 0, username: '', 
+  first_name: '', 
+  last_name: '', 
+  middle_name: '', 
+  current_stage_id: 0, 
+  educational_organization: '',
+  email: '',
+  main_position: '',
+  phone_number: '',
+  role: '',
+  telegram_username: '',
+  timezone: '',
+};
 
-export const CurrentTeamContext = createContext(initialTeam);
+export const CurrentUserContext = createContext(initialUser);

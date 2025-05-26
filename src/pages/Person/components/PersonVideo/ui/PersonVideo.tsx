@@ -8,9 +8,10 @@ import '../styles/style.css';
 
 interface IPersonVideo {
   url: string;
+  isEmpty?: boolean;
 }
 
-const PersonVideo: FC<IPersonVideo> = ({ url }) => {
+const PersonVideo: FC<IPersonVideo> = ({ url, isEmpty = false }) => {
 
   const [isVideoPlay, setIsVideoPlay] = useState<boolean>(false);
 
@@ -25,25 +26,32 @@ const PersonVideo: FC<IPersonVideo> = ({ url }) => {
 
   return (
     <div className='person-video__container'>
-      <video 
-        className='person-video'
-        ref={vidRef} 
-        poster={poster}          
-        controls={isVideoPlay}
-        >
-        <source src={url} type='video/mp4' />
-      </video>
       {
-        !isVideoPlay &&
+        isEmpty 
+        ?
+        <div className='person-video__empty'></div>
+        :
         <>
-          <div className='person-video__overlay'></div>
-          {
-            url &&
-            <button className='person-video__play-btn' onClick={handlePlayVideo}></button>
-          }
+        <video 
+          className='person-video'
+          ref={vidRef} 
+          poster={poster}          
+          controls={isVideoPlay}
+          >
+          <source src={url} type='video/mp4' />
+        </video>
+        {
+          !isVideoPlay &&
+          <>
+            <div className='person-video__overlay'></div>
+            {
+              url &&
+              <button className='person-video__play-btn' onClick={handlePlayVideo}></button>
+            }
+          </>
+        }
         </>
       }
-
     </div>
   );
 };

@@ -1,7 +1,16 @@
 export enum EROUTES {
-  HISTORY= '/',
-  LANDING = '/landing',
+  LANDING = '/',
   REGISTRATION = '/registration',
-  PERSON = '/person-test',
-  LOGIN = '/login-test',
+  LOGIN = '/login',
+  PERSON = '/person',
+}
+
+export enum EROUTESSTAGES {
+  PERSON = '',
+  PERSON_FORM = 'form',
+  PERSON_RESULTS = 'results',
+  PERSON_SCHEDULE = 'schedule',
+  PERSON_SLIDES = 'slides',
+  PERSON_WORKSHOP = 'workshop',
+  PERSON_EVALUATE = 'evaluate',
 }

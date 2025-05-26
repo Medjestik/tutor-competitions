@@ -15,7 +15,7 @@
   text-transform: uppercase;
 }
 .person-stage__subtitle {
-  margin: 8px 0 0 0;
+  margin: 12px 0 0 0;
   font-weight: normal;
   font-size: 20px;
   line-height: 1.15;
@@ -44,7 +44,7 @@
 }
 .person-stage__info {
   width: 100%;
-  margin: 0 20px 0 0;
+  margin: 0 40px 0 0;
   display: flex;
   flex-direction: column;
 }
@@ -85,6 +85,55 @@
   margin: 0 20px 0 0;
   display: flex;
   flex-direction: column;
+}
+.person-stage__title-row {
+  margin: 20px 0 8px 0;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--title-color);
+}
+.person-stage__file-list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.person-stage__file-item {
+  width: 100%;
+  margin: 0;
+  padding: 12px 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-card-color);
+}
+.person-stage__file-item:last-of-type {
+  border-bottom: none;
+}
+.person-stage__file-count {
+  margin: 0 20px 0 0;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--border-card-color);
+}
+.person-stage__file-title {
+  margin: 0;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--title-color);
+}
+.person-stage__file-empty {
+  margin: 0;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--border-card-color);
 }
 
 @media all and (max-width: 1000px) {

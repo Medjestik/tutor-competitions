@@ -2,7 +2,7 @@ import { type FC, useContext } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { CurrentTeamContext } from '../../../../../context/team';
+import { CurrentUserContext } from '../../../../../context/team';
 
 import Icon from '../../../../Icon/ui/Icon';
 
@@ -19,10 +19,9 @@ interface ILayoutHeaderProps {
   onLogout?: () => void;
 }
 
-
 const LayoutHeader: FC<ILayoutHeaderProps> = ({ windowWidth, isLoggedIn, onLogout }) => {
 
-  const currentTeam = useContext(CurrentTeamContext);
+  const currentTeam = useContext(CurrentUserContext);
 
   const navigate = useNavigate();
 
@@ -38,9 +37,16 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ windowWidth, isLoggedIn, onLogou
         <>
         {
           windowWidth > 1000 &&
+          <div className='layout-header__time'>
+            <div className='layout-header__time-img'></div>
+            <p className='layout-header__time-name'>{currentTeam.timezone}</p>
+          </div>
+        }
+        {
+          windowWidth > 1000 &&
           <div className='layout-header__user'>
             <div className='layout-header__user-img'></div>
-            <p className='layout-header__user-name'>{currentTeam.name}</p>
+            <p className='layout-header__user-name'>{currentTeam.username}</p>
           </div>
         }
         {

@@ -1,9 +1,5 @@
 import type { FC } from 'react';
 
-import { Link } from 'react-scroll';
-
-import Section from '../../../../../shared/components/Section/ui/Section';
-import Button from '../../../../../shared/components/Button/ui/Button';
 import { ENAV } from '../../../../../shared/components/Navigation/interface/interface';
 
 import '../styles/style.css';
@@ -14,29 +10,22 @@ interface IDescriptionProps {
 
 const Description: FC<IDescriptionProps> = ({ windowWidth }) => {
 
-  const btnStyle = {
-    margin: '50px 0 0',
-  };
-
-  const mobileBtnStyle = {
-    margin: '20px 0 0',
-  };
+  console.log(windowWidth);
 
   return (
     <div className='description' id={ENAV.DESCRIPTION}>
-      <div className='description__img-container'>
+      <span className='description__subtitle'>О конкурсе</span>
+      <h2 className='description__title'>ЧТО&nbsp;ТАКОЕ&nbsp;КОНКУРС ОБРАЗОВАТЕЛЬНЫХ&nbsp;ПРАКТИК?</h2>
+      <div className='description__container'>
         <div className='description__img'></div>
+        <p className='description__text'>Всероссийский конкурс для транспортных вузов, где представляют эффективные и оригинальные подходы к обучению.</p>
       </div>
-      <Section>
-        <div className='description__section'>
-          <h2 className='section__title'>Что такое проектные соревнования?</h2>
-          <p className='section__subtitle'>Это новый формат студенческих соревнований. Каждая команда получит реальный кейс с описанием действительно существующей проблемы в транспортной отрасли. Следуя шаг за шагом по этапам в личном кабинете вы сможете придумать, как решить описанные проблемы.</p>
-          <p className='section__subtitle'>Вам нужно будет разобраться в предложенной ситуации, провести небольшое исследование, предложить новое решение и представить его прототип экспертам.  Это интенсивная, но очень полезная практика, которая готовит к вызовам будущей профессии, помогает лучше понять отрасль и получить востребованный у работодателей опыт.</p>
-          <Link to='stages' smooth={true} offset={0} duration={750} spy={true}><Button text='подробнее' width='default' style={windowWidth > 1000 ? btnStyle : mobileBtnStyle} /></Link>
-        </div>
-      </Section>
+      <div className='description__info'>
+        <p className='description__info-text'>Мы ищем практики, которые действительно работают: цифровые инструменты, проекты со студентами, взаимодействие с индустрией, формирование современных навыков и создание уникальной университетской среды.</p>
+        <p className='description__info-text'>Здесь ваш опыт может стать примером и двигателем изменений.</p>
+        <span className='description__info-link'>Подробнее</span>
+      </div>
     </div>
-
   );
 };
 

@@ -7,7 +7,7 @@
   flex-direction: column;
   flex-grow: 2;
   position: relative;
-  background: linear-gradient(180deg, #1B096F 0%, #8229F3 100%);
+  background: linear-gradient(180deg, #073AE9 0%, #476DFF 100%);
 }
 .public-layout {
   width: 100%;

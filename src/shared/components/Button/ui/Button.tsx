@@ -21,9 +21,10 @@ const Button: FC<IButtonProps> = ({ text, color, width, style, type = 'button', 
       :
       <button 
         style={style} 
-        className={`button ${color ? `button_color_${color}` : ''} ${width ? `button_width_${width}` : ''}`} 
+        className={`button ${color ? `button_color_${color}` : ''} ${type === 'block' ? 'button_type_block' : ''} ${width ? `button_width_${width}` : ''}`} 
         type='button'
         onClick={onClick}
+        disabled={type === 'block'}
       >
         {text}
       </button>

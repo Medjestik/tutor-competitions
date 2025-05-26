@@ -86,10 +86,10 @@ const UploadFilePopup: FC<IUploadFilePopupProps> = ({ isOpen, onClose, onUpload,
   return (
     <Popup isOpen={isOpen} onClose={onClose} popupWidth='large' closeOutside>
       <h2 className='popup__title'>Добавление файла</h2>
-      <p className='popup__subtitle'>Введите наименование вашей работы и прикрепите файл</p>
+      <p className='popup__subtitle'>Введите наименование и прикрепите файл</p>
 
       <Form formName='upload-file' type='popup' onSubmit={handleSubmit}>
-        <FormField title='Наименование работы'>
+        <FormField title='Наименование'>
           <FormInputString 
             value={title} 
             placeholder='Введите наименование..' 

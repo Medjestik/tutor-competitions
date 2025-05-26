@@ -1,0 +1,8 @@
+.form__text-view {
+  margin: 0;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: var(--background-main-color);
+  border-radius: 12px;
+}

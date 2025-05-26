@@ -20,26 +20,16 @@ const PersonNavigation: FC<IPersonNavigationProps> = ({ stages, openStageId, onC
 
   const renderNavItem = (stage: IStageNavItem, type: string) => {
     const itemClass = `person__nav-item person__nav-item_type_${type}`;
-    switch (type) {
-      case 'active':
-        return (
-          <li key={stage.id} className={itemClass}>
-            {renderNavText(stage)}
-          </li>
-        );
-      case 'block':
-        return (
-          <li key={stage.id} className={itemClass}>
-            {renderNavText(stage)}
-          </li>
-        );
-      default:
-        return (
-          <li key={stage.id} className={itemClass} onClick={() => onChange(stage)} >
-            {renderNavText(stage)}
-          </li>
-        );
-    }
+    return (
+      <li
+        key={stage.id}
+        className={itemClass}
+        onClick={type !== 'block' ? () => onChange(stage) : undefined}
+        style={{ cursor: type !== 'block' ? 'pointer' : 'default' }}
+      >
+        {renderNavText(stage)}
+      </li>
+    );
   };
 
   return (

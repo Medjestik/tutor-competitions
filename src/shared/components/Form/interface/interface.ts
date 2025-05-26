@@ -3,7 +3,7 @@ import type { FormEvent, PropsWithChildren } from 'react';
 export interface IForm extends PropsWithChildren {
   formName: string;
   type?: 'page' | 'popup';
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
 }
 
 export interface IFormField extends PropsWithChildren {
@@ -19,9 +19,16 @@ export interface IFormInputString {
   error?: IFormFieldError;
 }
 
+export interface IFormFieldButton {
+  text?: string;
+  onClick?: () => void;
+  isBlock?: boolean;
+}
+
 export interface IFormFieldError {
   isShow: boolean;
   text: string;
+  type?: 'error' | 'success';
 }
 
 export interface IFormSubmit {

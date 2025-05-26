@@ -3,7 +3,6 @@ import type { ICaseItem } from '../../../../../features/case/interface/interface
 
 import Section from '../../../../../shared/components/Section/ui/Section';
 import CasesCard from './CasesCard';
-import { ENAV } from '../../../../../shared/components/Navigation/interface/interface';
 
 import '../styles/style.css';
 
@@ -14,7 +13,7 @@ interface ICasesProps {
 const Cases: FC<ICasesProps> = ({ cases }) => {
 
   return (
-    <div className='cases' id={ENAV.CASES}>
+    <div className='cases'>
       <Section>
         <div className='cases__section'>
           <h2 className='section__title'>Кейсы соревнования</h2>

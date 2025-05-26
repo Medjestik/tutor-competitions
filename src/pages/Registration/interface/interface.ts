@@ -11,21 +11,16 @@ export interface ICourse {
   name: string;
 }
 
-interface IParticipantData {
+export interface IRegisterData {
   first_name: string;
   last_name: string;
   middle_name: string;
   email: string;
-  phone: string;
-  group_name: string;
-  level: number;
-  telegram_url?: string;
-}
-
-export interface IRegisterData {
-  name: string;
-  login: string;
-  university: number;
-  case: string;
-  participants: IParticipantData[];
+  phone_number: string;
+  telegram_username: string;
+  username: string;
+  password: string;
+  educational_organization: string;
+  main_position: string;
+  timezone: string;
 }

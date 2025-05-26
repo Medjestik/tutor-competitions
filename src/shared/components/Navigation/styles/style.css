@@ -1,5 +1,5 @@
 .navigation {
-  margin: 0;
+  margin: 0 0 0 auto;
 }
 .navigation__list {
   margin: 0;
@@ -9,14 +9,10 @@
   list-style-type: none;
 }
 .navigation__item {
-  margin: 0 50px 0 0;
-  font-family: 'Bebas Neue', sans-serif;
-  font-weight: 800;
-  font-size: 18px;
-  line-height: 24px;
-  color: var(--secondary-color);
-  text-transform: uppercase;
-  text-align: right;
+  margin: 0 44px 0 0;
+  font-size: 20px;
+  line-height: 20px;
+  color: var(--title-color);
   z-index: 2;
   transition: all .3s ease-in-out;
 }

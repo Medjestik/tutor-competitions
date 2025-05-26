@@ -1,18 +1,23 @@
 import './App.css';
 
-import type { ILoginData } from '../../../features/login/interface/interface';
 import type { IFormError } from '../Form/interface/interface';
-import type { ICurrentTeam } from './interface';
+import type { ICurrentUser } from './interface';
+import type { ILoginData } from '../../../pages/Login/interface/interface';
 
 import { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Landing from '../../../pages/Landing/Landing';
-import History from '../../../pages/History/History';
+import Login from '../../../pages/Login/ui/Login';
+import Registration from '../../../pages/Registration/ui/Registration';
+import Expert from '../../../pages/Expert/ui/Expert';
+import Person from '../../../pages/Person/ui/Person';
+import ExpertFormPage from '../../../pages/Expert/components/ExpertFormPage/ui/ExpertFormPage';
 import Preloader from '../Preloader/ui/Preloader';
 import { EROUTES } from '../../utils/ERoutes';
-import { initialTeam, CurrentTeamContext } from '../../context/team';
-import LoginPopup from '../../../features/login/ui/LoginPopup';
+import { PublicRoute } from '../RoutesGuards/PublicRoute';
+import { ProtectedRoute } from '../RoutesGuards/ProtectedRoute';
+import { initialUser, CurrentUserContext } from '../../context/team';
 
 import * as api from '../../../shared/utils/api';
 
@@ -21,7 +26,7 @@ function App() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const [currentTeam, setCurrentTeam] = useState<ICurrentTeam>(initialTeam);
+  const [currentUser, setCurrentUser] = useState<ICurrentUser>(initialUser);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
@@ -30,25 +35,15 @@ function App() {
   const [isLoadingRequest, setIsLoadingRequest] = useState<boolean>(false);
   const [isShowLoginError, setIsShowLoginError] = useState<IFormError>({ text: '', isShow: false });
 
-  const [isOpenLoginPopup, setIsOpenLoginPopup] = useState<boolean>(false);
-
-  const openLoginPopup = () => {
-    setIsOpenLoginPopup(true);
-  };
-
-  const closePopup = () => {
-    setIsOpenLoginPopup(false);
-  };
-
   const tokenCheck = () => {
     const token = localStorage.getItem('token');
     if (token) {
       setIsLoadingPage(true);
-      api.getTeam(token)
+      api.getMe(token)
       .then((res) => {
-        setCurrentTeam(res);
+        setCurrentUser(res);
         setLoggedIn(true);
-        navigate('/person-test');
+        navigate('/');
       })
       .catch((err) => {
         setLoggedIn(false);
@@ -63,20 +58,17 @@ function App() {
     }
   };
 
-  /*
   const handleChangeStage = (stageId: number) => {
-    setCurrentTeam({ ...currentTeam, current_stage: stageId });
+    setCurrentUser({ ...currentUser, current_stage_id: stageId });
   };
-  */
 
   const handleLogin = (data: ILoginData) => {
     setIsLoadingRequest(true);
     setIsShowLoginError({ text: '', isShow: false });
     api.login(data)
     .then((res) => {
-      localStorage.setItem('token', res.key);
+      localStorage.setItem('token', res.access);
       tokenCheck();
-      closePopup();
     })
     .catch((err) => {
       if (err.status === 400) {
@@ -89,16 +81,14 @@ function App() {
     .finally(() => setIsLoadingRequest(false));
   };
 
-  /*
   const handleLogout = () => {
     localStorage.removeItem('token');
     setLoggedIn(false);
     navigate(EROUTES.LANDING);
   };
-  */
 
   useEffect(() => {
-    // tokenCheck();
+    tokenCheck();
   }, []);
 
   useEffect(() => {
@@ -113,7 +103,7 @@ function App() {
   }, []);
   
   return (
-    <CurrentTeamContext.Provider value={currentTeam}>
+    <CurrentUserContext.Provider value={currentUser}>
       <div className='page'>
         {
           isLoadingPage
@@ -121,26 +111,48 @@ function App() {
           <Preloader />
           :
           <Routes>
-            <Route path={EROUTES.LANDING} element={<Landing onLogin={openLoginPopup} windowWidth={windowWidth} />} />
-            <Route path={EROUTES.HISTORY} element={<History windowWidth={windowWidth} />} />
+            <Route path={EROUTES.LANDING} element={
+              <PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
+                <Landing windowWidth={windowWidth} />
+              </PublicRoute>
+            } />
+            
+            <Route path={EROUTES.LOGIN} element={
+              <PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
+                <Login windowWidth={windowWidth} onLogin={handleLogin} loginError={isShowLoginError} isLoadingRequest={isLoadingRequest} />
+              </PublicRoute>
+            } />
+
+            <Route path={EROUTES.REGISTRATION} element={
+              <PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
+                <Registration windowWidth={windowWidth} />
+              </PublicRoute>
+            } />
+
+            <Route path='/person/*' element={
+              <ProtectedRoute isAllowed={loggedIn}>
+                {
+                  currentUser.role === 'expert'
+                  ?
+                  <Expert windowWidth={windowWidth} onLogout={handleLogout} />
+                  :
+                  <Person windowWidth={windowWidth} onLogout={handleLogout} onChangeStage={handleChangeStage} />
+                }
+              </ProtectedRoute>
+            } />
+
             {
-              loggedIn &&
-              <Route path={EROUTES.PERSON} element={<div />} />
+              currentUser.role === 'expert' &&
+              <Route path='/form/:formId/*' element={
+                <ProtectedRoute isAllowed={loggedIn}>
+                  <ExpertFormPage windowWidth={windowWidth} onLogout={handleLogout} />
+                </ProtectedRoute>
+              } />
             }
           </Routes>
         }
-        {
-        isOpenLoginPopup &&
-        <LoginPopup 
-          isOpen={isOpenLoginPopup}
-          onClose={closePopup}
-          onSubmit={handleLogin}
-          loginError={isShowLoginError}
-          isLoadingRequest={isLoadingRequest}
-        />
-      }
       </div>
-    </CurrentTeamContext.Provider>
+    </CurrentUserContext.Provider>
   );
 }
 

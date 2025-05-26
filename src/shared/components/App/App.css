@@ -6,8 +6,8 @@
   --background-main-color: #F7F8F8;
   --background-secondary-color: #f2f2f2;
   --border-card-color: #D9D9D9;
-  --main-color: #8229F3;
-  --secondary-color: #1B096F;
+  --main-color: #073AE9;
+  --secondary-color: #476DFF;
   --third-color: #6E88C5;
   --success-color: #0BCB8D;
   --error-color: #FD3429;
@@ -17,7 +17,7 @@
   min-height: 100vh;
   box-sizing: border-box;
   font-family: 'Akrobat', sans-serif;
-  font-weight: 300;
+  font-weight: normal;
   font-style: normal;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;

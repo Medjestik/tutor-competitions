@@ -1,25 +1,19 @@
 import { useState, type FC } from 'react';
 
-import PublicLayout from '../../shared/components/Layout/ui/PublicLayout';
 import Header from './components/Header/ui/Header';
 import Main from './components/Main/ui/Main';
-import LeaderBoard from './components/LeaderBoard/ui/LeaderBoard';
 import Description from './components/Description/ui/Description';
-import Stages from './components/Stages/ui/Stages';
 import Recruitment from './components/Recruitment/ui/Recruitment';
-import FAQ from './components/FAQ/ui/FAQ';
-import Document from './components/Document/ui/Document';
-import Footer from './components/Footer/ui/Footer';
+import Advantages from './components/Advantages/ui/Advantages';
 import MobileMenu from './components/MobileMenu/ui/MobileMenu';
 
 import './Landing.css';
 
 interface ILandingProps {
   windowWidth: number;
-  onLogin: () => void;
 }
 
-const Landing: FC<ILandingProps> = ({ windowWidth, onLogin }) => {
+const Landing: FC<ILandingProps> = ({ windowWidth }) => {
 
   const [isShowMobileMenu, setIsShowMobileMenu] = useState<boolean>(false);
 
@@ -28,32 +22,37 @@ const Landing: FC<ILandingProps> = ({ windowWidth, onLogin }) => {
   };
 
   return (
-    <PublicLayout>
-      <div className='landing'>
+    <div className='landing'>
+      <div className='landing__background'></div>
+      <div className='landing__lines'></div>
+      {
+        <>
         {
-          <>
-          {
-            windowWidth < 1001 &&
-            <MobileMenu isShow={isShowMobileMenu} onClose={toggleMobileMenu} />
-          }
-          <Header windowWidth={windowWidth} showMobileMenu={toggleMobileMenu} />
-          <Main windowWidth={windowWidth} onLogin={onLogin} />
+          windowWidth < 1001 &&
+          <MobileMenu isShow={isShowMobileMenu} onClose={toggleMobileMenu} />
+        }
+        <Header windowWidth={windowWidth} showMobileMenu={toggleMobileMenu} />
+        <Main windowWidth={windowWidth} />
+        <Description windowWidth={windowWidth} />
+        <Recruitment />
+        <Advantages windowWidth={windowWidth} />
+
+        {
+          /*
           <LeaderBoard windowWidth={windowWidth} />
-          <Description windowWidth={windowWidth} />
+
           <Stages />
-          {
-            /*
-            <Cases cases={cases} />
-            */
-          }
-          <Recruitment />
+          <Cases cases={cases} />
+
           <FAQ />
           <Document />
           <Footer windowWidth={windowWidth} />
-          </>
+          */
         }
-      </div>
-    </PublicLayout>
+
+        </>
+      }
+    </div>
   );
 };
 

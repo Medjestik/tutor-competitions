@@ -1,4 +1,12 @@
 import type { PropsWithChildren, } from 'react';
+import type { IFormData, ICriteria } from '../../../../pages/Person/interface/interface';
+
+export interface IEvaluation {
+  participant_form?: number;
+  criteria?: number;
+  score?: string;
+  comment?: string;
+}
 
 export interface IPopupProps extends PropsWithChildren {
   isOpen: boolean;
@@ -11,6 +19,14 @@ export interface IConfirmRemovePopupProps {
   isOpen: boolean;
   onClose: () => void;
   onRemove: () => void;
+}
+
+export interface ISetScorePopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+  form: IFormData;
+  isLoading: boolean;
+  onScore: (data: ICriteria[]) => void;
 }
 
 export interface IUploadFile {

@@ -1,24 +1,25 @@
 .header {
   width: 100%;
+  max-width: 1440px;
   height: 90px;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
-  background-color: var(--background-main-color);
-  border-radius: 80px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   z-index: 2;
 }
 .header__icons {
-  margin: 0 0 0 40px;
+  margin: 0;
   display: flex;
   align-items: center;
 }
 .header__icon {
   margin: 0 20px 0 0;
+  width: 36px;
   height: 36px;
+  background-color: var(--border-card-color);
+  border-radius: 12px;
   object-fit: contain;
   object-position: center;
   user-select: none;
@@ -28,26 +29,24 @@
 .header__icon:last-of-type {
   margin: 0;
 }
-.header__icon-rut {
-  height: 28px;
-}
 .header__contacts {
-  height: 100%;
-  margin: 0;
-  padding: 0 56px 0 24px;
+  margin: 0 0 0 50px;
+  padding: 0;
+  width: 160px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: var(--secondary-color);
+  background-color: inherit;
   color: var(--white-color);
-  border-top-right-radius: 80px;
-  border-bottom-right-radius: 80px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-weight: 800;
-  font-size: 24px;
-  line-height: 24px;
-  text-transform: uppercase;
+  border-color: var(--white-color);
+  border: 1px solid var(--white-color);
+  box-sizing: border-box;
+  border-radius: 20px;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: normal;
   transition: .3s ease-in-out;
   flex-shrink: 0;
 }
@@ -55,61 +54,14 @@
   opacity: .7;
   cursor: pointer;
 }
-.header__contacts::before {
-  content: '';
-  position: absolute;
-  top: 0px;
-  left: -14px;
-  width: 14px;
-  height: 100%;
-  background-color: var(--main-color);
-  border-top-left-radius: 80px;
-  border-bottom-left-radius: 80px;
-}
 
 @media all and (max-width: 1366px) {
-  .header {
-    height: 72px;
-  }
-  .header__icons {
-    margin: 0 0 0 32px;
-  }
-  .header__contacts {
-    padding: 0 32px 0 16px;
-    font-size: 24px;
-    line-height: 24px;
-  }
+
 }
 
 @media all and (max-width: 1280px) {
-  .header__icon {
-    margin: 0 16px 0 0;
-    height: 32px;
-  }
-  .header__icon-rut {
-    height: 24px;
-  }
-  .header__contacts {
-    font-size: 20px;
-    line-height: 20px;
-  }
+
 }
 
 @media all and (max-width: 1000px) {
-  .header {
-    height: auto;
-    padding: 12px 16px;
-    border-radius: 20px;
-    background-color: var(--white-color);
-  }
-  .header__icons {
-    margin: 0;
-  }
-  .header__icon {
-    margin: 0 12px 0 0;
-    height: 24px;
-  }
-  .header__icon-rut {
-    height: 20px;
-  }
 }

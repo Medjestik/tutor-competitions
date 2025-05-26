@@ -1,7 +1,8 @@
 .select-search {
-  margin: 8px 0px 0px 0px;
+  margin: 0;
   min-width: 164px;
   min-height: 40px;
+  width: 100%;
   position: relative;
   display: flex;
   align-items: center;

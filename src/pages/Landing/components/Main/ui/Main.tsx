@@ -1,62 +1,63 @@
 import type { FC } from 'react';
 
-import { Link } from 'react-scroll';
+import { useNavigate } from 'react-router-dom';
+
 import Button from '../../../../../shared/components/Button/ui/Button';
+import CountdownTimer from '../../../../../widgets/CountdownTimer/ui/CountdownTimer';
+
+import { EROUTES } from '../../../../../shared/utils/ERoutes';
+import { registrationOverDate } from '../../../../../shared/mock/dates';
 
 import '../styles/style.css';
 
 interface IMainProps {
   windowWidth: number;
-  onLogin: () => void;
 }
-
-const btnStyle = {
-  margin: '40px 0 0',
-};
-
-const mobileBtnStyle = {
-  margin: '20px auto',
-  width: '100%',
-};
 
 const Main: FC<IMainProps> = ({ windowWidth }) => {
 
+  const navigate = useNavigate();
+
+  const openLoginPage = () => {
+    navigate(EROUTES.LOGIN);
+  };
+
+  const openRegistrationPage = () => {
+    navigate(EROUTES.REGISTRATION);
+  };
+  
   return (
-    <div className='main'>
+    <main className='main' id='main'>
       {
         windowWidth > 1000
         ?
         <>
-        <div className='main__column'>
-          <div className='main__section main__section-registration'>
-            <h3 className='main__timer-title'>Отбор команд завершен!</h3>
-            <p className='main__timer-text'>Мы благодарим все команды за участие!</p>
-            <p className='main__timer-text'>Наши эксперты оценили ваши работы и вы можете ознакомиться с результатами.</p>
-            <Link to='leaderboard' smooth={true} offset={0} duration={750} spy={true}><Button text='Результаты' width='default' style={windowWidth > 1000 ? btnStyle : mobileBtnStyle} /></Link>
+          <div className='main__drone'></div>
+          <span className='main__caption'>ВСЕРОССИЙСКИЙ&nbsp;КОНКУРС ЛУЧШИХ&nbsp;ОБРАЗОВАТЕЛЬНЫХ&nbsp;ПРАКТИК</span>
+          <div className='main__title-container'>
+            <h1 className='main__title'>«ЛИДЕРЫ </h1>
+            <span className='main__title-stroke'></span>
+            <h1 className='main__title main__title_color_transparent'>ТРАНСПОРТНОГО ОБРАЗОВАНИЯ»</h1>
           </div>
-        </div>
-        <div className='main__column'>
-          <div className='main__section main__section-img'> 
-            <h1 className='main__title'>Межвузовские&nbsp;транспортные проектные&nbsp;соревнования</h1>
-            <div className='main__img'></div>
+          <div className='main__info'>
+            <p className='main__subtitle'>Конкурс проводится в&nbsp;рамках реализации Концепции подготовки кадров для&nbsp;транспортного комплекса до&nbsp;2035 года и&nbsp;направлен на&nbsp;выявление, поддержку и&nbsp;масштабирование лучших решений в&nbsp;системе транспортного образования.</p>
+            <div className='main__time'>
+              <p className='main__timer-text'>ДО КОНЦА ПРИЕМА ЗАЯВОК</p>
+              <div className='main__timer'>
+                <CountdownTimer targetDate={registrationOverDate} />
+              </div>
+            </div>
           </div>
-        </div>
+          <div className='main__buttons'>
+            <Button text='Регистрация' onClick={openRegistrationPage} />
+            <Button text='Личный кабинет' onClick={openLoginPage} color='inherit' />
+          </div>
         </>
         :
         <> 
-          <div className='main__img'>
-            <h3 className='main__timer-title'>Отбор команд завершен</h3>
-            <h1 className='main__title'>Межвузовские транспортные проектные&nbsp;cоревнования</h1>
-          </div>
-          <div className='main__section'>
-            <h3 className='main__section-title'>Мы благодарим все команды за участие!</h3>
-            <p className='main__section-text'>Наши эксперты оценили ваши работы и вы можете ознакомиться с результатами.</p>
-            <Link to='leaderboard' smooth={true} offset={0} duration={750} spy={true}><Button text='Результаты' width='default' style={windowWidth > 1000 ? btnStyle : mobileBtnStyle} /></Link>
-          </div>
-          
         </>
       }
-    </div>
+    </main>
   );
 };
 

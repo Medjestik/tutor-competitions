@@ -1,13 +1,9 @@
 import type { FC, FormEvent } from 'react';
-import type { ISelectOption } from '../../../shared/components/Select/interface/interface';
 import type { IFormFieldError } from '../../../shared/components/Form/interface/interface';
-import type { ICaseItem } from '../../../features/case/interface/interface';
-import type { IParticipant } from '../../../features/participant/interface/interface';
-import type { IUniversity, ICourse } from '../interface/interface';
+import type { ISelectOption } from '../../../shared/components/Select/interface/interface';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 
 import * as api from '../../../shared/utils/api';
 
@@ -18,15 +14,12 @@ import FormInputString from '../../../shared/components/Form/components/FormInpu
 import FormSubmit from '../../../shared/components/Form/components/FormSubmit/ui/FormSubmit';
 import Link from '../../../shared/components/Link/ui/Link';
 import SelectWithSearch from '../../../shared/components/Select/ui/SelectWithSearch';
-import CaseList from '../../../features/case/ui/CaseList';
-import ParticipantList from '../../../features/participant/ui/ParticipantList';
-import Preloader from '../../../shared/components/Preloader/ui/Preloader';
 
-import CaseDetailPopup from '../../../features/case/ui/CaseDetailPopup';
-import AddParticipantPopup from '../../../features/participant/ui/AddParticipantPopup';
-import ConfirmRemovePopup from '../../../shared/components/Popup/ui/ConfirmRemovePopup';
 import RegistrationSuccessPopup from './RegistrationSuccessPopup';
 import RegistrationErrorPopup from './RegistrationErrorPopup';
+
+import { timezone } from '../../../shared/utils/timezone';
+import { educationalOrganization } from '../../../shared/utils/educationalOrganization';
 
 import '../styles/style.css';
 
@@ -36,132 +29,46 @@ interface IRegistrationProps {
 
 const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
 
-  const initialCase = useMemo(() => ({
-    id: '',
-    situation: '',
-    problem: '',
-    title: '',
-    icon: '',
-  }), []);
-  
-  const initialUniversity = useMemo(() => ({
-    id: 0, 
-    name: 'Выберите ВУЗ..',
-  }), []);
-  
-  const initialParticipant = useMemo(() => ({
-    firstName: '',
-    secondName: '',
-    middleName: '',
-    course: { id: 0, name: 'Выберите курс..' },
-    group: '',
-    mail: '',
-    phone: '',
-    telegram: '',
-    uniqId: '',
-  }), []);
-
   const navigate = useNavigate();
 
-  const [cases, setCases] = useState<ICaseItem[]>([]);
-  const [currentCase, setCurrentCase] = useState<ICaseItem>(initialCase);
-  const [selectCaseId, setSelectCaseId] = useState<string>('');
+  const [firstName, setFirstName] = useState<string>('');
+  const [isShowErrorFirstName, setIsShowErrorFirstName] = useState<IFormFieldError>({ isShow: false, text: '' });
+  const [secondName, setSecondName] = useState<string>('');
+  const [isShowErrorSecondName, setIsShowErrorSecondName] = useState<IFormFieldError>({ isShow: false, text: '' });
+  const [middleName, setMiddleName] = useState<string>('');
+  const [isShowErrorMiddleName, setIsShowErrorMiddleName] = useState<IFormFieldError>({ isShow: false, text: '' });
+  const [mail, setMail] = useState<string>('');
+  const [isShowErrorMail, setIsShowErrorMail] = useState<IFormFieldError>({ isShow: false, text: '' });
+  const [phone, setPhone] = useState<string>('');
+  const [isShowErrorPhone, setIsShowErrorPhone] = useState<IFormFieldError>({ isShow: false, text: '' });
+  const [telegram, setTelegram] = useState<string>('');
+  const [isShowErrorTelegram, setIsShowErrorTelegram] = useState<IFormFieldError>({ isShow: false, text: '' });
 
-  const [university, setUniversity] = useState<IUniversity[]>([]);
-  const [currentUniversity, setCurrentUniversity] = useState<ISelectOption>(initialUniversity);
+  const [job, setJob] = useState<string>('');
+  const [isShowErrorJob, setIsShowErrorJob] = useState<IFormFieldError>({ isShow: false, text: '' });
+  const [organization, setOrganization] = useState<ISelectOption>({ id: 0, name: 'Введите образовательную организацию высшего образования, которую вы представляете..'});
+  const [organizationText, setOrganizationText] = useState<string>('');
 
-  const [courses, setCourses] = useState<ICourse[]>([]);
-
-  const [participants, setParticipants] = useState<IParticipant[]>([]);
-  const [currentParticipant, setCurrentParticipant] = useState<IParticipant>(initialParticipant);
-
-  const [name, setName] = useState<string>('');
-  const [isShowErrorName, setIsShowErrorName] = useState<IFormFieldError>({ isShow: false, text: '' });
+  const [currentTimezone, setCurrentTimezone] = useState<ISelectOption>({ id: 0, name: 'Выберите часовой пояс..'});
   const [login, setLogin] = useState<string>('');
   const [isShowErrorLogin, setIsShowErrorLogin] = useState<IFormFieldError>({ isShow: false, text: '' });
+  const [password, setPassword] = useState<string>('');
+  const [isShowErrorPassword, setIsShowErrorPassword] = useState<IFormFieldError>({ isShow: false, text: '' });
 
   const [isCheckFirst, setIsCheckFirst] = useState<boolean>(false);
   const [isCheckSecond, setIsCheckSecond] = useState<boolean>(false);
   const [isCheckThird, setIsCheckThird] = useState<boolean>(false);
 
-  const [isOpenCaseDetailPopup, setIsOpenCaseDetailPopup] = useState<boolean>(false);
-  const [isOpenAddParticipantPopup, setIsOpenAddParticipantPopup] = useState<boolean>(false);
-  const [isOpenEditParticipantPopup, setIsOpenEditParticipantPopup] = useState<boolean>(false);
-  const [isOpenRemoveParticipantPopup, setIsOpenRemoveParticipantPopup] = useState<boolean>(false);
   const [isOpenRegistrationSuccessPopup, setIsOpenRegistrationSuccessPopup] = useState<boolean>(false);
   const [isOpenRegistrationErrorPopup, setIsOpenRegistrationErrorPopup] = useState<boolean>(false);
 
   const [isBlockSubmitButton, setIsBlockSubmitButton] = useState<boolean>(true);
-  const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
-
-  const handleChangeName = (value: string) => {
-    setName(value);
-    setIsShowErrorName(value.length > 0 ? { isShow: false, text: '' } : { isShow: true, text: 'Поле не может быть пустым' });
-  };
-
-  const handleChangeLogin = (value: string) => {
-    setLogin(value);
-    setIsShowErrorLogin(value.length > 5 ? { isShow: false, text: '' } : { isShow: true, text: 'Логин должен содержать более 5 символов' });
-  };
-
-  const handleSelectCase = (caseId: string) => {
-    setSelectCaseId(caseId);
-  };
-
-  const handleChangeUniversity = (option: ISelectOption) => {
-    setCurrentUniversity(option);
-  };
-
-  const handleAddParticipant = (participant: IParticipant) => {
-    setParticipants((prevState => [...prevState, { ...participant, uniqId: uuidv4()}]));
-    closePopup();
-  };
-
-  const handleEditParticipant = (participant: IParticipant) => {
-    setParticipants(prevState =>
-      prevState.map(item =>
-        participant.uniqId === item.uniqId ? participant : item
-      )
-    );
-    closePopup();
-  };
-
-  const handleRemoveParticipant = () => {
-    setParticipants(prevState =>
-      prevState.filter(item => item.uniqId !== currentParticipant.uniqId)
-    );
-    closePopup();
-  };
-
-  const openCaseDetailPopup = (data: ICaseItem) => {
-    setCurrentCase(data);
-    setIsOpenCaseDetailPopup(true);
-  };
-
-  const openAddParticipantPopup = () => {
-    setCurrentParticipant(initialParticipant);
-    setIsOpenAddParticipantPopup(true);
-  };
-
-  const openEditParticipantPopup = (participant: IParticipant) => {
-    setCurrentParticipant(participant);
-    setIsOpenEditParticipantPopup(true);
-  };
-
-  const openRemoveParticipantPopup = (participant: IParticipant) => {
-    setCurrentParticipant(participant);
-    setIsOpenRemoveParticipantPopup(true);
-  };
 
   const closeRegistration = () => {
     navigate('/');
   };
 
   const closePopup = () => {
-    setIsOpenCaseDetailPopup(false);
-    setIsOpenAddParticipantPopup(false);
-    setIsOpenEditParticipantPopup(false);
-    setIsOpenRemoveParticipantPopup(false);
     setIsOpenRegistrationErrorPopup(false);
   };
 
@@ -169,20 +76,17 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
     setIsBlockSubmitButton(true);
     e.preventDefault();
     const data = {
-      name,
-      login,
-      university: currentUniversity.id,
-      case: selectCaseId,
-      participants: participants.map((item: IParticipant) => ({
-        first_name: item.firstName,
-        last_name: item.secondName,
-        middle_name: item.middleName,
-        email: item.mail,
-        phone: item.phone,
-        group_name: item.group,
-        level: item.course.id,
-        telegram_url: item.telegram,
-      })),
+      first_name: firstName,
+      last_name: secondName,
+      middle_name: middleName,
+      email: mail,
+      phone_number: phone,
+      telegram_username: telegram,
+      username: login,
+      password: password,
+      educational_organization: organization.id === 0 ? organizationText : organization.name,
+      main_position: job,
+      timezone: currentTimezone.name,
     };
     api.registration(data)
     .then(() => {
@@ -195,91 +99,209 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
     .finally(() => setIsBlockSubmitButton(false));
   };
 
-  useEffect(() => {
-    if (name.length > 0 && login.length > 5 && selectCaseId.length > 0 && currentUniversity.id !== 0 && participants.length === 4 && isCheckFirst && isCheckSecond && isCheckThird) {
-      setIsBlockSubmitButton(false);
-    } else {
-      setIsBlockSubmitButton(true);
-    }
-  }, [name, login, selectCaseId, currentUniversity, participants, isCheckFirst, isCheckSecond , isCheckThird]);
-
-  const getData = () => {
-    setIsLoadingData(true);
-    Promise.all([
-      api.getCases(),
-      api.getUniversity(),
-      api.getCourses(),
-    ])
-    .then(([cases, university, courses]) => {
-      setCases(cases);
-      setUniversity(university);
-      setCourses(courses);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => setIsLoadingData(false));
+  const handleChangeFirstName = (value: string) => {
+    setFirstName(value);
+    setIsShowErrorFirstName(value.length > 0 ? { isShow: false, text: '' } : { isShow: true, text: 'Поле не может быть пустым' });
   };
 
+  const handleChangeSecondName = (value: string) => {
+    setSecondName(value);
+    setIsShowErrorSecondName(value.length > 0 ? { isShow: false, text: '' } : { isShow: true, text: 'Поле не может быть пустым' });
+  };
+
+  const handleChangeMiddleName = (value: string) => {
+    setMiddleName(value);
+    setIsShowErrorMiddleName({ isShow: false, text: '' });
+  };
+
+  const handleChangeMail = (value: string) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setMail(value);
+  
+    if (value.length === 0) {
+      setIsShowErrorMail({ isShow: true, text: 'Поле не может быть пустым' });
+    } else if (!emailPattern.test(value)) {
+      setIsShowErrorMail({ isShow: true, text: 'Неверный формат электронной почты' });
+    } else {
+      setIsShowErrorMail({ isShow: false, text: '' });
+    }
+  };
+
+  const handleChangePhone = (value: string) => {
+    const phoneRegex = /^(\+7|8)[\s-]?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
+    setPhone(value);
+  
+    if (value.length === 0) {
+      setIsShowErrorPhone({ isShow: true, text: 'Поле не может быть пустым' });
+    } else if (!phoneRegex.test(value)) {
+      setIsShowErrorPhone({ isShow: true, text: 'Неверный формат номера телефона' });
+    } else {
+      setIsShowErrorPhone({ isShow: false, text: '' });
+    }
+  };
+
+  const handleChangeTelegram = (value: string) => {
+    const telegramRegex = /^(https:\/\/t\.me\/[a-zA-Z0-9_]{5,})?$/;
+    
+    if (value.length === 0) {
+      setIsShowErrorTelegram({ isShow: false, text: '' });
+    } else if (!telegramRegex.test(value)) {
+      setIsShowErrorTelegram({ isShow: true, text: 'Некорректная ссылка на Telegram' });
+    } else {
+      setIsShowErrorTelegram({ isShow: false, text: '' });
+    }
+  
+    setTelegram(value);
+  };
+
+  const handleChangeJob = (value: string) => {
+    setJob(value);
+    setIsShowErrorJob(value.length > 0 ? { isShow: false, text: '' } : { isShow: true, text: 'Поле не может быть пустым' });
+  };
+
+  const handleChangeOrganization = (option: ISelectOption) => {
+    setOrganizationText('');
+    setOrganization(option);
+  };
+
+  const handleChangeOrganizationText = (value: string) => {
+    setOrganization({ id: 0, name: 'Введите образовательную организацию высшего образования, которую вы представляете..'});
+    setOrganizationText(value);
+  };
+
+  const handleChangeLogin = (value: string) => {
+    setLogin(value);
+    setIsShowErrorLogin(value.length > 5 ? { isShow: false, text: '' } : { isShow: true, text: 'Логин должен содержать минимум 6 символов' });
+  };
+
+  const handleChangePassword = (value: string) => {
+    setPassword(value);
+  
+    const passwordPattern = /^(?=.*[a-zа-яё])(?=.*[A-ZА-ЯЁ])(?=.*\d).{8,}$/;
+  
+    if (value.length === 0) {
+      setIsShowErrorPassword({ isShow: true, text: 'Поле не может быть пустым' });
+    } else if (!passwordPattern.test(value)) {
+      setIsShowErrorPassword({ isShow: true, text: 'Пароль должен содержать минимум 8 символов, заглавную букву, строчную букву и цифру' });
+    } else {
+      setIsShowErrorPassword({ isShow: false, text: '' });
+    }
+  };
+
+  const handleChangeTime = (option: ISelectOption) => {
+    setCurrentTimezone(option);
+  };
+  
   useEffect(() => {
-    getData();
-  }, []);
+    const isOrganizationValid = isCheckFirst 
+      ? organizationText.trim().length > 0 
+      : organization.id !== 0;
+  
+    const isAnyFieldEmpty = (
+      firstName.trim().length < 1 ||
+      secondName.trim().length < 1 ||
+      mail.trim().length < 1 ||
+      phone.trim().length < 1 ||
+      job.trim().length < 1 ||
+      login.trim().length < 1 ||
+      password.trim().length < 1 ||
+      !isOrganizationValid
+    );
+  
+    const hasAnyError = (
+      isShowErrorMail.isShow ||
+      isShowErrorPhone.isShow ||
+      isShowErrorTelegram.isShow ||
+      isShowErrorLogin.isShow ||
+      isShowErrorPassword.isShow ||
+      isShowErrorJob.isShow
+    );
+  
+    if (isAnyFieldEmpty || hasAnyError || !isCheckSecond || !isCheckThird) {
+      setIsBlockSubmitButton(true);
+    } else {
+      setIsBlockSubmitButton(false);
+    }
+  }, [
+    firstName, secondName, mail, phone, job, login, password, 
+    organization, organizationText, isCheckFirst, 
+    isShowErrorMail, isShowErrorPhone, isShowErrorTelegram, 
+    isShowErrorLogin, isShowErrorPassword, isShowErrorJob,
+    isCheckSecond, isCheckThird
+  ]);
 
   return (
     <>
-    {
-    isLoadingData
-    ?
-    <Preloader />
-    :
     <MainLayout windowWidth={windowWidth} isLoggedIn={false} >
       <h1 className='layout__title'>Регистрация</h1>
 
       <Form formName={'registration-form'} onSubmit={onSubmit}>
 
-        <FormField title='Название команды' subtitle='Придумайте название для вашей команды'>
+      <FormField title='Фамилия'>
           <FormInputString 
-            value={name} 
-            placeholder='Введите название..' 
-            onChange={handleChangeName} 
-            error={isShowErrorName} 
+            value={secondName} 
+            placeholder='Введите фамилию..' 
+            onChange={handleChangeSecondName} 
+            error={isShowErrorSecondName} 
           />
         </FormField>
-
-        <FormField title='Логин команды' subtitle='Придумайте логин для вашей команды'>
+        <FormField title='Имя'>
           <FormInputString 
-            value={login} 
-            placeholder='Введите логин..' 
-            onChange={handleChangeLogin} 
-            error={isShowErrorLogin} 
+            value={firstName} 
+            placeholder='Введите имя..' 
+            onChange={handleChangeFirstName} 
+            error={isShowErrorFirstName} 
           />
         </FormField>
-
-        <FormField title='Кейсы соревнований' subtitle='Выберите кейс для вашей команды'>
-          <CaseList items={cases} selectItemId={selectCaseId} onSelect={handleSelectCase} onDetail={openCaseDetailPopup} windowWidth={windowWidth} />
-        </FormField>
-
-        <FormField title='Информация о ВУЗе' subtitle='Выберите ВУЗ, который представляет ваша команда'>
-          <SelectWithSearch 
-            options={university}
-            currentOption={currentUniversity} 
-            onChooseOption={handleChangeUniversity}
+        <FormField title='Отчество (при наличии)'>
+          <FormInputString 
+            value={middleName} 
+            placeholder='Введите отчество..' 
+            onChange={handleChangeMiddleName}
+            error={isShowErrorMiddleName}
           />
         </FormField>
-
-        <FormField title='Информация о команде' subtitle='Добавьте участников вашей команды (обязательно 4 участника)'>
-          <ParticipantList 
-            items={participants} 
-            onAdd={openAddParticipantPopup} 
-            onEdit={openEditParticipantPopup} 
-            onRemove={openRemoveParticipantPopup} 
-            windowWidth={windowWidth}
+        <FormField title='Почта'>
+          <FormInputString 
+            value={mail} 
+            placeholder='Введите почту..' 
+            onChange={handleChangeMail} 
+            error={isShowErrorMail} 
           />
-          
         </FormField>
-
-        <FormField title='Персональные данные'>
-          <div className='checkbox__item'>
+        <FormField title='Телефон'>
+          <FormInputString 
+            value={phone} 
+            placeholder='Введите телефон..' 
+            onChange={handleChangePhone} 
+            error={isShowErrorPhone} 
+          />
+        </FormField>
+        <FormField title='Telegram (необязательно)'>
+          <FormInputString 
+            value={telegram} 
+            placeholder='Введите ссылку (пример https://t.me/telegram)' 
+            onChange={handleChangeTelegram} 
+            error={isShowErrorTelegram} 
+          />
+        </FormField>
+        <FormField title='Образовательная организация'>
+          {
+            isCheckFirst 
+            ?
+            <FormInputString 
+              value={organizationText} 
+              placeholder='Введите образовательную организацию высшего образования, которую вы представляете..' 
+              onChange={handleChangeOrganizationText} 
+            />
+            : 
+            <SelectWithSearch 
+              options={educationalOrganization}
+              currentOption={organization} 
+              onChooseOption={handleChangeOrganization}
+            />
+          }
+          <div className='checkbox__item checkbox__item_margin_top'>
             <label className='checkbox'>
               <input 
                 name='registration-check-first'
@@ -291,8 +313,42 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
               </input>
               <span></span>
             </label>
-            <div className='checkbox__text'>Подтверждаю своё согласие и получение мною согласия третьих лиц на передачу своих и их персональных данных на обработку.</div>
+            <div className='checkbox__text'>Другая образовательная организация высшего образования</div>
           </div>
+        </FormField>
+        <FormField title='Основная должность'>
+          <FormInputString 
+            value={job} 
+            placeholder='Введите должность..' 
+            onChange={handleChangeJob} 
+            error={isShowErrorJob} 
+          />
+        </FormField>
+        <FormField title='Выберите свой часовой пояс'>
+          <SelectWithSearch 
+            options={timezone}
+            currentOption={currentTimezone} 
+            onChooseOption={handleChangeTime}
+          />
+        </FormField>
+        <FormField title='Придумайте логин для входа в личный кабинет'>
+          <FormInputString 
+            value={login} 
+            placeholder='Введите логин..' 
+            onChange={handleChangeLogin} 
+            error={isShowErrorLogin} 
+          />
+        </FormField>
+        <FormField title='Придумайте пароль для входа в личный кабинет'>
+          <FormInputString 
+            value={password} 
+            placeholder='Введите пароль..' 
+            onChange={handleChangePassword} 
+            error={isShowErrorPassword} 
+          />
+        </FormField>
+
+        <FormField title='Персональные данные'>
           <div className='checkbox__item checkbox__item_margin_top'>
             <label className='checkbox'>
               <input 
@@ -306,9 +362,9 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
               <span></span>
             </label>
             <div className='checkbox__text'>
-              {'Подтверждаю, что субъекты персональных данных лично ознакомились с '}
-              <Link text='Положением об обработке персональных данных' path='https://rut-miit.ru/org/privacy' />
-              {' РУТ (МИИТ) и принимают условия этого Положения.'}
+              {'Подтверждаю, что ознакомился (-ась) с '}
+              <Link text='Положением об обработке персональных данных РУТ (МИИТ),' path='https://rut-miit.ru/org/privacy' />
+              {'принимаю условия этого Положения и даю своё согласие на обработку персональных данных.'}
             </div>
           </div>
           <div className='checkbox__item checkbox__item_margin_top'>
@@ -324,7 +380,7 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
               <span></span>
             </label>
             <div className='checkbox__text'>
-            {'Подтверждаю, что Участники команды ознакомлены и согласны с условиями и правилами участия в соревнованиях, изложенными в '}
+            {'Подтверждаю, что ознакомился (-ась) и согласен (-а) с условиями и правилами участия в конкурсе, изложенными в '}
               <Link text='Положении' path='https://cloud.mail.ru/public/Rfcu/ZCm3ZmDBR' />
               {' и '}
               <Link text='Регламенте' path='https://cloud.mail.ru/public/YhUL/vuXbSSsgF' />
@@ -336,46 +392,6 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
         <FormSubmit text='Отправить анкету' isBlock={isBlockSubmitButton} /> 
 
       </Form>
-
-      {
-        isOpenCaseDetailPopup &&
-        <CaseDetailPopup 
-          isOpen={isOpenCaseDetailPopup} 
-          onClose={closePopup} 
-          currentCase={currentCase} 
-        />
-      }
-
-      {
-        isOpenAddParticipantPopup &&
-        <AddParticipantPopup
-          isOpen={isOpenAddParticipantPopup} 
-          courses={courses}
-          currentParticipant={currentParticipant}
-          onClose={closePopup} 
-          onSubmit={handleAddParticipant}
-        />
-      }
-
-      {
-        isOpenEditParticipantPopup &&
-        <AddParticipantPopup
-          isOpen={isOpenEditParticipantPopup} 
-          courses={courses}
-          currentParticipant={currentParticipant}
-          onClose={closePopup} 
-          onSubmit={handleEditParticipant}
-        />
-      }
-
-      {
-        isOpenRemoveParticipantPopup &&
-        <ConfirmRemovePopup
-          isOpen={isOpenRemoveParticipantPopup} 
-          onClose={closePopup} 
-          onRemove={handleRemoveParticipant}
-        />
-      }
 
       {
         isOpenRegistrationSuccessPopup &&
@@ -394,7 +410,6 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
       }
 
     </MainLayout>
-    }
     </>
   );
 };

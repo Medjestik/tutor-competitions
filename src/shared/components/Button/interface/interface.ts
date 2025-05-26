@@ -3,9 +3,9 @@ import type { CSSProperties } from 'react';
 export interface IButtonProps {
   text: string;
   width?: 'default' | 'full';
-  color?: 'primary' | 'secondary' | 'white' | 'cancel';
+  color?: 'primary' | 'secondary' | 'white' | 'cancel' | 'inherit';
   style?: CSSProperties;
-  type?: 'link' | 'button';
+  type?: 'link' | 'button' | 'block';
   link?: string;
   onClick?: () => void;
 }

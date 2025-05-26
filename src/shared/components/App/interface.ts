@@ -1,10 +1,19 @@
-export interface ICurrentTeam {
+export interface ICurrentUser {
   id: number;
-  name: string;
-  university: IUniversity | null;
-  case: ICase | null;
-  current_stage: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  middle_name: string;
+  current_stage_id: number;
+  educational_organization: string;
+  email: string;
+  main_position: string;
+  phone_number: string;
+  role: string;
+  telegram_username: string;
+  timezone: string;
 }
+
 
 export interface ICase {
   id: string
