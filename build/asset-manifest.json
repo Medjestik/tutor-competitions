@@ -1,8 +1,9 @@
 {
   "files": {
-    "main.css": "/static/css/main.07032d11.css",
-    "main.js": "/static/js/main.1b808985.js",
+    "main.css": "/static/css/main.be13bcbe.css",
+    "main.js": "/static/js/main.7cbeafcc.js",
     "static/js/453.32f853e6.chunk.js": "/static/js/453.32f853e6.chunk.js",
+    "static/media/moscow.svg": "/static/media/moscow.f3da14e3bdb0f168dbe3.svg",
     "static/media/poster.png": "/static/media/poster.0d47aa7ebb75484b529e.png",
     "static/media/drone.png": "/static/media/drone.ec899a0cde5fa0b873fc.png",
     "static/media/Akrobat-ExtraLight.woff": "/static/media/Akrobat-ExtraLight.781b11c9636cc2dea2a1.woff",
@@ -25,12 +26,12 @@
     "static/media/footer-background.svg": "/static/media/footer-background.2b160b505e2757f04419.svg",
     "static/media/landing-background.svg": "/static/media/landing-background.7802c811047e2a4d671c.svg",
     "static/media/arrow.svg": "/static/media/arrow.55a4ec4915bbcdabc744.svg",
-    "main.07032d11.css.map": "/static/css/main.07032d11.css.map",
-    "main.1b808985.js.map": "/static/js/main.1b808985.js.map",
+    "main.be13bcbe.css.map": "/static/css/main.be13bcbe.css.map",
+    "main.7cbeafcc.js.map": "/static/js/main.7cbeafcc.js.map",
     "453.32f853e6.chunk.js.map": "/static/js/453.32f853e6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.07032d11.css",
-    "static/js/main.1b808985.js"
+    "static/css/main.be13bcbe.css",
+    "static/js/main.7cbeafcc.js"
   ]
 }

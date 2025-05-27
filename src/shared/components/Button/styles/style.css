@@ -16,6 +16,7 @@
   justify-content: center;
   text-decoration: none;
   transition: all .3s ease-in-out;
+  z-index: 2;
 }
 .button_color_primary {
   color: var(--white-color);

@@ -96,6 +96,7 @@ const Stages: FC = () => {
             </div>
           </li>
         </ul>
+        <div className='stages__background'></div>
       </div>
       {
         isOpenPreparationInfoPopup &&
