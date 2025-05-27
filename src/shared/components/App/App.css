@@ -10,6 +10,7 @@
   --secondary-color: #476DFF;
   --third-color: #6E88C5;
   --success-color: #0BCB8D;
+  --pending-color: #E5A100;
   --error-color: #FD3429;
   --border-radius: 12px;
   background-color: var(--white-color);

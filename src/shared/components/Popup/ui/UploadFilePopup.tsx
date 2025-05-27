@@ -19,6 +19,7 @@ const UploadFilePopup: FC<IUploadFilePopupProps> = ({ isOpen, onClose, onUpload,
   const btnStyle = {
     width: '100%',
     padding: '8px 14px',
+    height: '40px',
     borderRadius: '12px',
     fontSize: '18px',
     lineHeight: '1',

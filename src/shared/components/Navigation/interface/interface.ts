@@ -20,6 +20,7 @@ export enum ENAV {
   FAQ = 'faq',
   DOCUMENT = 'document',
   LEADERBOARD = 'leaderboard',
+  PRIZE = 'prize',
 }
 
 export const NavHeaderLinks: INavigationLink[] = [

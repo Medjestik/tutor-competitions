@@ -19,10 +19,9 @@ const AccordionItem: FC<IAccordionItemProps> = ({ item }) => {
   };
 
   return (
-    <li className={`accordion__item ${isOpenAccordion ? 'accordion__item_state_open' : ''}`}>
-      <div ref={mainRef} className='accordion__main' onClick={handleToggleAccordion}>
+    <li className={`accordion__item ${isOpenAccordion ? 'accordion__item_state_open' : ''}`} onClick={handleToggleAccordion}>
+      <div ref={mainRef} className='accordion__main'>
         <h4 className='accordion__title'>{item.title}</h4>
-        <div className='accordion__icon'></div>
       </div>
       <div style={{ maxHeight: `${height}` }} ref={childrenRef} className='accordion__children'>
         <p className='accordion-text'>{item.content}</p>

@@ -1,0 +1,53 @@
+.nominations {
+  margin: 0 auto;
+  padding: 40px 0 80px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1440px;
+  display: flex;
+  position: relative;
+  gap: 40px;
+  z-index: 2;
+}
+
+.nominations__info {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: 440px;
+  width: 100%
+}
+
+.nominations__title {
+  margin: 0;
+  color: var(--main-color);
+  font-size: 114px;
+  line-height: 1;
+  text-align: left;
+  font-weight: bold;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.nominations__text {
+  margin: auto 0 0 0;
+  color: var(--main-color);
+  font-size: 24px;
+  line-height: 1;
+  text-align: left;
+  font-weight: bold;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+@media all and (max-width: 1440px) {
+
+}
+
+@media all and (max-width: 1280px) {
+
+}
+
+@media all and (max-width: 1000px) {
+
+}

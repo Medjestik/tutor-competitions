@@ -32,7 +32,6 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
         windowWidth > 1000
         ?
         <>
-          <div className='main__drone'></div>
           <span className='main__caption'>ВСЕРОССИЙСКИЙ&nbsp;КОНКУРС ЛУЧШИХ&nbsp;ОБРАЗОВАТЕЛЬНЫХ&nbsp;ПРАКТИК</span>
           <div className='main__title-container'>
             <h1 className='main__title'>«ЛИДЕРЫ </h1>

@@ -35,6 +35,8 @@ const btnFilesStyle = {
 const btnLinksStyle = {
   margin: '0 0 0 auto',
   fontSize: '18px',
+  height: '40px',
+  borderRadius: '12px',
   lineHeight: '18px',
   padding: '8px 20px',
 };

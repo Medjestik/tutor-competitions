@@ -74,6 +74,10 @@
   border-radius: 12px;
 }
 
+.expert__item-tag_type_wait {
+  background-color: var(--pending-color);
+}
+
 .expert__item-name {
   margin: 0;
   color: var(--title-color);

@@ -54,7 +54,6 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
     if (token) {
       api.nextStage(token)
       .then((res) => {
-        console.log(res.current_stage);
         onChangeStage(res.current_stage.id);
         const newStages = stages.map((elem: IStageNavItem) => ({ ...elem, type: res.current_stage.id >= elem.id ? 'default' : 'block' }));
         setStages(newStages);

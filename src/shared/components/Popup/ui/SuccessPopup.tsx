@@ -14,6 +14,7 @@ const SuccessPopup: FC<IPopupProps> = ({ isOpen, onClose }) => {
     width: '100%',
     margin: '20px 0 0 0',
     padding: '8px 14px',
+    height: '40px',
     borderRadius: '12px',
     fontSize: '18px',
     lineHeight: '1',

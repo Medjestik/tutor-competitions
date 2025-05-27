@@ -5,6 +5,11 @@ import Main from './components/Main/ui/Main';
 import Description from './components/Description/ui/Description';
 import Recruitment from './components/Recruitment/ui/Recruitment';
 import Advantages from './components/Advantages/ui/Advantages';
+import Nominations from './components/Nominations/ui/Nominations';
+import Prize from './components/Prize/ui/Prize';
+import Stages from './components/Stages/ui/Stages';
+import FAQ from './components/FAQ/ui/FAQ';
+import International from './components/International/ui/International';
 import MobileMenu from './components/MobileMenu/ui/MobileMenu';
 
 import './Landing.css';
@@ -36,17 +41,18 @@ const Landing: FC<ILandingProps> = ({ windowWidth }) => {
         <Description windowWidth={windowWidth} />
         <Recruitment />
         <Advantages windowWidth={windowWidth} />
+        <Nominations />
+        <Prize />
+        <Stages />
+        <FAQ />
+        <International />
+
+        <div className='footer__background'></div>
 
         {
           /*
-          <LeaderBoard windowWidth={windowWidth} />
-
-          <Stages />
-          <Cases cases={cases} />
-
-          <FAQ />
           <Document />
-          <Footer windowWidth={windowWidth} />
+          
           */
         }
 

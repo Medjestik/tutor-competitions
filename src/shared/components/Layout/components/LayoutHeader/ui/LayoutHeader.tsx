@@ -6,7 +6,6 @@ import { CurrentUserContext } from '../../../../../context/team';
 
 import Icon from '../../../../Icon/ui/Icon';
 
-import icon from '../../../../../icons/icon.svg';
 import logoRUT from '../../../../../icons/logo-rut.svg';
 
 import { EROUTES } from '../../../../../utils/ERoutes';
@@ -28,7 +27,6 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ windowWidth, isLoggedIn, onLogou
   return (
     <header className='layout-header'>
       <div className='layout-header__icons'>
-        <img className='layout-header__icon' src={icon} alt='логотип'></img>
         <img className='layout-header__icon layout-header__icon-rut' src={logoRUT} alt='логотип'></img>
       </div>
       {

@@ -1,166 +1,119 @@
 .stages {
+  margin: 12px 0 80px 0;
   width: 100%;
-  margin: 80px 0 0;
+  padding: 80px 0;
+  background-color: var(--main-color);
+  z-index: 2;
+}
+
+.stages__container {
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  max-width: 1440px;
   display: flex;
   flex-direction: column;
-}
-.stages__section {
-  width: 100%;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-.stages__list {
-  width: 100%;
-  margin: 80px 0 0;
-  padding: 0px;
-  list-style-type: none;
-  display: grid;
-  gap: 80px 26px;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 1fr;
-}
-.stages__card {
-  width: 100%;
-  margin: 0;
-  padding: 44px 40px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--white-color);
-  border-radius: 40px;
   position: relative;
 }
-.stages__card_type_gradient {
-  background: linear-gradient(
-    135deg,
-    #1B096F 0%,
-    #8229F3 100% 
-  );
+
+.stages__title {
+  margin: 0 0 40px 0;
+  color: var(--white-color);
+  font-size: 114px;
+  line-height: 1;
+  text-align: left;
+  font-weight: bold;
+  flex-shrink: 0;
+  z-index: 2;
 }
-.stages__card_type_photo {
-  background: url('../../../../../shared/images/stage-moscow.jpg');
-  background-position: left;
-  background-repeat: no-repeat;
-  background-size: cover;
+
+.stages__list {
+  margin: 20px auto 0;
+  padding: 0;
+  width: 100%;
+  max-width: 1080px;
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
 }
-.stages__card_type_photo::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(27, 9, 111, 0) 0%,
-    rgba(70,22,166, 0.5) 43%,
-    rgba(100, 32, 204, 0.85) 65%,
-    rgba(130, 41, 243, 1) 100% 
-  );
-  border-radius: inherit;
-}
-.stages__card-date {
+
+.stages__item {
   margin: 0;
-  font-family: 'Bebas Neue', sans-serif;
-  font-weight: 800;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.stages__separate {
+  margin: 0;
+  align-self: stretch;
+  width: 1px;
+  background-color: var(--white-color);
+}
+
+.stages__dates {
+  margin: 0;
+  width: 100%;
+  max-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px 0;
+  box-sizing: border-box;
+  align-self: flex-end;
+}
+
+.stages__date {
+  margin: 0 0 0 auto;
+  max-width: 200px;
+  color: var(--white-color);
   font-size: 24px;
-  line-height: 28px;
-  color: var(--main-color);
-  text-transform: uppercase;
+  line-height: 1;
   text-align: right;
+  font-weight: bold;
+  flex-shrink: 0;
   z-index: 2;
 }
-.stages__card_type_gradient .stages__card-date {
+
+.stages__item-title {
+  margin: 0 0 0 auto;
   color: var(--white-color);
+  font-size: 44px;
+  line-height: 1;
+  text-align: right;
+  font-weight: bold;
+  flex-shrink: 0;
+  z-index: 2
 }
-.stages__card-title {
-  margin: 120px 0 0;
-  max-width: 85%;
-  font-family: 'Bebas Neue', sans-serif;
-  font-weight: 800;
-  font-size: 70px;
-  line-height: 1.15;
-  color: var(--title-color);
-  text-transform: uppercase;
+
+.stages__description {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px 0;
+  box-sizing: border-box;
+  align-self: flex-end;
+}
+
+.stages__item-text {
+  margin: 0;
+  max-width: 600px;
+  color: var(--white-color);
+  font-size: 32px;
+  line-height: 1;
   text-align: left;
-  z-index: 2;
-}
-.stages__card_type_gradient .stages__card-title {
-  color: var(--white-color);
-}
-.stages__card_type_photo .stages__card-title {
-  color: var(--white-color);
-}
-.stages__card-text {
-  margin: 20px 0 0;
-  font-size: 24px;
-  line-height: 28px;
-  color: var(--title-color);
-  text-align: left;
-  z-index: 2;
-}
-.stages__card-text:first-of-type {
-  margin: 48px 0 0;
-}
-.stages__card_type_gradient .stages__card-text {
-  color: var(--white-color);
-}
-.stages__card_type_photo .stages__card-text {
-  color: var(--white-color);
+  font-weight: bold;
+  flex-shrink: 0;
+  z-index: 2
 }
 
 @media all and (max-width: 1440px) {
-  .stages {
-    margin: 56px 0 0;
-  }
-  .stages__section {
-    margin: 32px 0;
-  }
-  .stages__list {
-    margin: 40px 0 0;
-    gap: 24px;
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .stages__card-title {
-    margin: 60px 0 0;
-    font-size: 56px;
-  }
+
 }
 
 @media all and (max-width: 1000px) {
-  .stages {
-    margin: 24px 0 0;
-  }
-  .stages__section {
-    margin: 24px 0;
-  }
-  .stages__list {
-    margin: 24px 0 0;
-    grid-template-columns: repeat(1, 1fr);
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .stages__card {
-    margin: 0 0 12px 0;
-    padding: 24px 20px;
-    border-radius: 20px;
-  }
-  .stages__card-date {
-    font-size: 20px;
-    line-height: 24px;
-  }
-  .stages__card-title {
-    margin: 32px 0 0;
-    font-size: 28px;
-  }
-  .stages__card-text {
-    margin: 12px 0 0;
-    font-size: 16px;
-    line-height: 20px;
-  }
-  .stages__card-text:first-of-type {
-    margin: 20px 0 0;
-  }
+
 }

@@ -103,12 +103,18 @@ const Expert: FC<IExpertProps> = ({ windowWidth, onLogout }) => {
                             <span className='expert__item-count'>{i + 1}.</span>
                             <div className='expert__item-info'>
                               {
-                                elem.is_evaluated 
+                                elem.is_evaluated
+                                ?
+                                  <span className='expert__item-tag'>Оценена</span>
+                                :
+                                  <span className='expert__item-tag expert__item-tag_type_wait'>Ожидает оценки</span>
                               }
-                              <span className='expert__item-tag'>Оценена</span>
                               <h4 className='expert__item-name'>{elem.name}</h4>
                             </div>
-                            <span className='expert__item-score'>2,8</span>
+                            {
+                              elem.is_evaluated &&
+                              <span className='expert__item-score'>{elem.average_score}</span>
+                            }
                           </li>
                         ))
                       }

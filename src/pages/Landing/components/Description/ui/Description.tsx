@@ -1,5 +1,7 @@
 import type { FC } from 'react';
 
+import { Link } from 'react-scroll';
+
 import { ENAV } from '../../../../../shared/components/Navigation/interface/interface';
 
 import '../styles/style.css';
@@ -23,7 +25,7 @@ const Description: FC<IDescriptionProps> = ({ windowWidth }) => {
       <div className='description__info'>
         <p className='description__info-text'>Мы ищем практики, которые действительно работают: цифровые инструменты, проекты со студентами, взаимодействие с индустрией, формирование современных навыков и создание уникальной университетской среды.</p>
         <p className='description__info-text'>Здесь ваш опыт может стать примером и двигателем изменений.</p>
-        <span className='description__info-link'>Подробнее</span>
+        <p className='description__info-link'><Link to={ENAV.RECRUITMENT} smooth={true} offset={0} duration={500} spy={true}>Подробнее</Link></p>
       </div>
     </div>
   );

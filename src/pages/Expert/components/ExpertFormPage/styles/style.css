@@ -6,3 +6,11 @@
   background-color: var(--background-main-color);
   border-radius: 12px;
 }
+
+.expert-form__container {
+  margin: 0;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}

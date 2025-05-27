@@ -12,6 +12,7 @@ const ConfirmRemovePopup: FC<IConfirmRemovePopupProps> = ({ isOpen, onClose, onR
 
   const btnStyle = {
     width: '100%',
+    height: '40px',
     padding: '8px 14px',
     borderRadius: '12px',
     fontSize: '18px',

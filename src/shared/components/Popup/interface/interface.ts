@@ -2,10 +2,10 @@ import type { PropsWithChildren, } from 'react';
 import type { IFormData, ICriteria } from '../../../../pages/Person/interface/interface';
 
 export interface IEvaluation {
-  participant_form?: number;
-  criteria?: number;
-  score?: string;
-  comment?: string;
+  participant_form: string;
+  criteria: number;
+  score: number;
+  comment: string;
 }
 
 export interface IPopupProps extends PropsWithChildren {
@@ -13,6 +13,13 @@ export interface IPopupProps extends PropsWithChildren {
   onClose: () => void;
   popupWidth?: 'small' | 'medium' | 'large' | 'full' | 'default' | 'mobile';
   closeOutside?: boolean;
+}
+
+export interface IInfoPopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  text: string;
 }
 
 export interface IConfirmRemovePopupProps {

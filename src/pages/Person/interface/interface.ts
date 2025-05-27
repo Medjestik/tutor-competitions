@@ -23,6 +23,7 @@ export interface IFormData {
   id: number;
   name: string;
   nomination: number;
+  nomination_name: string;
   originality: string;
   status: string;
   task: string;
@@ -35,9 +36,9 @@ export interface IFormData {
 
 export interface ICriteria {
   description: string;
-  expert_score: string;
+  expert_score: number;
   id: number;
-  max_score: string;
+  max_score: number;
   name: string;
   position: number;
   weight: number;

@@ -25,6 +25,15 @@ const btnFilesStyle = {
   lineHeight: '20px',
 };
 
+const btnLinksStyle = {
+  margin: '0 0 0 auto',
+  fontSize: '18px',
+  height: '40px',
+  borderRadius: '12px',
+  lineHeight: '18px',
+  padding: '8px 20px',
+};
+
 const ExpertFormPage: FC<IExpertFormPageProps> = ({ windowWidth, onLogout }) => {
 
   const navigate = useNavigate();
@@ -57,21 +66,22 @@ const ExpertFormPage: FC<IExpertFormPageProps> = ({ windowWidth, onLogout }) => 
     setIsLoadingScore(true);
     const token = localStorage.getItem('token');
     if (token) {
-      const evaluations = data.map((elem) => ({
-        score: elem.expert_score.toString(),
+      const evaluations = data.map((elem: ICriteria) => ({
+        score: elem.expert_score,
         criteria: elem.id,
-        participant_form: formId,
+        participant_form: formId || '',
         comment: ''
       }));
   
       api.scoreForm(token, evaluations)
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        closePopup();
+        navigate('/person');
       })
       .catch((err) => {
         console.error(err);
       })
-      .finally(() => setIsLoadingData(false));
+      .finally(() => setIsLoadingScore(false));
     }
   };
 
@@ -106,9 +116,9 @@ const ExpertFormPage: FC<IExpertFormPageProps> = ({ windowWidth, onLogout }) => 
         <PersonContainer>
         {
             form &&
-            <>
+            <div className='expert-form__container'>
               <FormField title='1. Номинация'>
-                <p className='form__text-view'>{form.nomination}</p>
+                <p className='form__text-view'>{form.nomination_name}</p>
               </FormField>
 
               <FormField title={texts.name.title} subtitle={texts.name.subtitle}>
@@ -151,6 +161,7 @@ const ExpertFormPage: FC<IExpertFormPageProps> = ({ windowWidth, onLogout }) => 
                           type='link' 
                           link={elem.type === 'link' ? elem.link : elem.file} 
                           color='secondary'
+                          style={btnLinksStyle}
                         />
                       </li>
                     ))
@@ -164,7 +175,7 @@ const ExpertFormPage: FC<IExpertFormPageProps> = ({ windowWidth, onLogout }) => 
                 <Button onClick={backToNominations} text='Вернуть к номинациям' style={btnFilesStyle} color='cancel' />
                 <Button onClick={openSetScorePopup} text='Оценить анкету' style={btnFilesStyle} color='secondary' />
               </div>
-            </>
+            </div>
           }
           {
             isOpenSetScorePopup && form &&
