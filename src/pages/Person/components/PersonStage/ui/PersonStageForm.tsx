@@ -28,25 +28,31 @@ import '../styles/style.css';
 const btnFilesStyle = {
   margin: '0',
   height: '40px',
-  fontSize: '20px',
-  lineHeight: '20px',
+  fontSize: '18px',
+  lineHeight: '18px',
+  borderRadius: '12px',
 };
 
 const btnLinksStyle = {
   margin: '0 0 0 auto',
-  fontSize: '18px',
+  fontSize: '16px',
   height: '40px',
   borderRadius: '12px',
-  lineHeight: '18px',
-  padding: '8px 20px',
+  lineHeight: '16px',
+  padding: '6px 14px',
 };
 
-const btnNextStageStyle = {
-  margin: '20px 0 0 0',
-  fontSize: '24px',
-  lineHeight: '24px',
-  padding: '8px 20px',
+const btnRemoveStyle = {
+  margin: '0 0 0 8px',
+  fontSize: '16px',
+  height: '40px',
+  borderRadius: '12px',
+  lineHeight: '16px',
+  padding: '6px 14px',
+  backgroundColor: '#E5A100',
+  border: '1px solid #E5A100',
 };
+
 
 const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
   const nameInput = useFormInput('', api.saveFormName, 200);
@@ -79,6 +85,8 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
     setIsShowForm(false);
     setIsBlockButtonNomination(false);
   };
+
+  console.log(onNextStage);
 
   const handleSaveNomination = () => {
     const token = localStorage.getItem('token');
@@ -145,6 +153,22 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
 
   const openUploadFilePopup = () => {
     setIsOpenUploadFilePopup(true);
+  };
+
+  const handleRemoveMaterial = (id: string) => {
+    const token = localStorage.getItem('token');
+    if (token && formData) {
+      api.removeMaterial(token, id)
+        .then(() => {
+          console.log(id);
+          console.log(formData);
+          const updatedResources = formData.resources.filter((res) => res.id.toString() !== id);
+          setFormData({ ...formData, resources: updatedResources });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
 
   const closePopup = () => {
@@ -363,6 +387,11 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
                               color='secondary'
                               style={btnLinksStyle} 
                             />
+                            <Button 
+                              text='Удалить' 
+                              style={btnRemoveStyle} 
+                              onClick={() => handleRemoveMaterial(elem.id.toString())}
+                            />
                           </li>
                         ))
                         }
@@ -377,8 +406,9 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
               </Form>
               :
               <>
-              <div className='person-stage__row-title '>Спасибо! Анкета практики успешно отправлена.</div>
-              <Button text='Перейти к следующему этапу' onClick={onNextStage} style={btnNextStageStyle} />
+              <h4 className='person-stage__row-title'>Спасибо! Анкета практики успешно отправлена.</h4>
+              <p className='person-stage__row-subtitle'>Вы сможете ознакомиться с результатами оценки своей работы сразу после того, как&nbsp;жюри завершит проверку анкет.</p>
+              <p className='person-stage__row-subtitle'>Актуальные сроки этапов конкурса указаны на основной странице.</p>
               </>
             }
             </>

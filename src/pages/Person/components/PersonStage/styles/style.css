@@ -65,7 +65,7 @@
   margin: 0;
 }
 .person-stage__row-title {
-  margin: 0;
+  margin: 12px 0 0 0;
   font-weight: bold;
   font-size: 24px;
   line-height: 1.15;
@@ -147,7 +147,7 @@
     line-height: 18px;
   }
   .person-stage__container {
-    margin: 24px 0 0 0;
+    margin: 12px 0 0 0;
     flex-direction: column;
   }
   .person-stage__row-title {
@@ -163,7 +163,7 @@
     margin: 0 0 24px 0;
   }
   .person-stage__info {
-    margin: 24px 0 20px 0;
+    margin: 8px 0 20px 0;
   }
   .person-stage__info-case {
     margin: 0;
@@ -172,5 +172,12 @@
     grid-auto-flow: row;
     gap: 12px;
     grid-template-columns: 1fr;
+  }
+  .person-stage__title-row {
+    margin: 20px 0 8px 0;
+    font-size: 18px;
+  }
+  .person-stage__file-title {
+    font-size: 18px;
   }
 }

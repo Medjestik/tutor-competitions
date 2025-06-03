@@ -8,7 +8,8 @@ export interface INavigationLink {
 export interface INavigationProps {
   links: INavigationLink[];
   color: 'default' | 'white';
-  onClick?: () => void; 
+  direction?: 'row'| 'column';
+  onClick?: () => void;
 }
 
 export enum ENAV {

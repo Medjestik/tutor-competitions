@@ -34,20 +34,19 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 2;
 }
 
-.main__drone {
+.main__tutor {
   position: absolute;
-  top: -180px;
+  top: 0;
   right: 40px;
-  width: 600px;
+  width: 840px;
   height: 100%;
-  background-image: url('../../../../../shared/images/drone.png');
-  background-position: center;
+  background-image: url('../../../../../shared/images/tutor.svg');
+  background-position: bottom;
   background-repeat: no-repeat;
   background-size: contain;
-  animation: drone-float 4s ease-in-out infinite;
+  z-index: 1;
 }
 
 .main__caption {
@@ -59,12 +58,14 @@
   text-align: left;
   font-weight: bold;
   flex-shrink: 0;
+  z-index: 2;
 }
 
 .main__title-container {
   margin: 20px 0 0 0;
   display: flex;
   align-items: center;
+  z-index: 2;
 }
 
 .main__title {
@@ -75,6 +76,7 @@
   text-align: left;
   font-weight: bold;
   flex-shrink: 0;
+  z-index: 2;
 }
 
 .main__title_color_transparent {
@@ -103,6 +105,7 @@
   background-color: var(--white-color);
   animation: blink 1s ease-in-out infinite;
 }
+
 .main__subtitle {
   margin: 20px 0 0 0;
   width: 100%;
@@ -113,6 +116,7 @@
   text-align: left;
   font-weight: normal;
   flex-shrink: 0;
+  z-index: 2;
 }
 
 .main__info {
@@ -121,6 +125,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 2;
 }
 
 .main__time {
@@ -146,11 +151,12 @@
   margin: 0;
   display: flex;
   align-items: flex-end;
-  font-size: 56px;
+  font-size: 44px;
   line-height: 1.15;
   text-align: left;
   font-weight: bold;
   color: var(--white-color);
+  z-index: 2;
 }
 
 .main__buttons {
@@ -161,17 +167,93 @@
 }
 
 @media all and (max-width: 1440px) {
-
+  .main {
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
+  .main__caption {
+    font-size: 24px;
+  }
+  .main__title {
+    font-size: 64px;
+  }
+  .main__title-stroke {
+    height: 64px;
+  }
+  .main__timer {
+    font-size: 32px;
+  }
 }
 
 @media all and (max-width: 1366px) {
-
+  .main {
+    margin: 0 auto 120px;
+    height: calc(100vh - 90px - 120px);
+  }
 }
 
 @media all and (max-width: 1280px) {
-
+  .main {
+    margin: 0 auto 80px;
+    height: calc(100vh - 90px - 80px);
+  }
+  .main__title {
+    font-size: 56px;
+  }
+  .main__timer {
+    font-size: 28px;
+  }
 }
 
 @media all and (max-width: 1000px) {
-
+  .main {
+    padding: 0 16px;
+    margin: 0 auto 80px;
+    height: calc(100vh - 60px - 80px);
+    overflow: hidden;
+  }
+  .main__tutor {
+    position: absolute;
+    top: 0;
+    right: -40px;
+    width: 120%;
+    height: 100%;
+    background-image: url('../../../../../shared/images/tutor.svg');
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+    z-index: 1;
+  }
+  .main__caption {
+    margin: 32px 0 0 0;
+    max-width: none;
+    font-size: 16px;
+  }
+  .main__title {
+    font-size: 20px;
+  }
+  .main__title-stroke {
+    margin: 0 6px;
+    height: 28px;
+  }
+  .main__timer {
+    font-size: 20px;
+  }
+  .main__title_color_transparent::after {
+    width: calc(100% - 12px);
+    height: 16px;
+  }
+  .main__timer {
+    margin: auto 0 0 0;
+    font-size: 24px;
+  }
+  .main__subtitle {
+    margin: 20px 0 0 0;
+    max-width: none;
+    font-size: 18px;
+  }
+  .main__buttons {
+    margin: 40px 0 0 0;
+    gap: 20px;
+  }
 }

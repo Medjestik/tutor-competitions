@@ -213,6 +213,22 @@ export const uploadFile = (token: string, data: IUploadFile) => {
   .then(res => handleResponse(res));
 };
 
+export const removeMaterial = (token: string, id: string) => {
+  return fetch(`${API_URL}/competition/forms/delete-resource/`, {
+    method: 'DELETE',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      resource_id: id,
+    }),
+  })
+  .then(res => handleResponse(res));
+};
+
+
 export const getUniversity = () => {
   return fetch(`${API_URL}/universities`, {
     method: 'GET',

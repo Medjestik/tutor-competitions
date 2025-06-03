@@ -6,12 +6,17 @@ import { data } from '../mock/data';
 
 import '../styles/style.css';
 
-const Nominations: FC = () => {
+interface INominationsProps {
+  windowWidth: number;
+}
+
+
+const Nominations: FC<INominationsProps> = ({ windowWidth }) => {
   return (
     <div className='nominations' id={ENAV.NOMINATIONS}>
       <div className='nominations__info'>
-        <h2 className='nominations__title'>НОМИ- НАЦИИ</h2>
-        <p className='nominations__text'>Эти номинации отражают современные подходы, способствующие развитию студенческого опыта, цифровой трансформации и&nbsp;эффективному партнёрству.</p>
+        <h2 className='nominations__title'>{windowWidth > 1000 ? 'НОМИ- НАЦИИ' : 'НОМИНАЦИИ'}</h2>
+        <p className='nominations__text'>Номинации отражают современные подходы к&nbsp;профессиональной подготовке студентов, к&nbsp;цифровой трансформации и&nbsp;эффективному партнёрству.</p>
       </div>
       <Accordion items={data} />
     </div>

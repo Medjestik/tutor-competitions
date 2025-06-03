@@ -8,7 +8,24 @@ import InfoPopup from '../../../../../shared/components/Popup/ui/InfoPopup';
 
 import '../styles/style.css';
 
-const Stages: FC = () => {
+interface IStagesProps {
+  windowWidth: number;
+}
+
+const btnStubStyle = {
+  margin: '0',
+};
+
+const btnMobileStyle = {
+  margin: '0',
+  fontSize: '18px',
+  height: '40px',
+  borderRadius: '12px',
+  lineHeight: '18px',
+  padding: '8px 20px',
+};
+
+const Stages: FC<IStagesProps> = ({ windowWidth }) => {
 
   const [isOpenPreparationInfoPopup, setIsOpenPreparationInfoPopup] = useState<boolean>(false);
   const [isOpenFinalInfoPopup, setIsOpenFinalInfoPopup] = useState<boolean>(false);
@@ -33,24 +50,24 @@ const Stages: FC = () => {
         <ul className='stages__list'>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>до&nbsp;10&nbsp;сентября 2025&nbsp;года</span>
+              <span className='stages__date'>с&nbsp;10&nbsp;июня 2025&nbsp;года</span>
               <h4 className='stages__item-title'>РЕГИСТРАЦИЯ</h4>
             </div>
             <div className='stages__separate'></div>
             <div className='stages__description'>
               <p className='stages__item-text'>Зарегистрируйтесь на&nbsp;сайте, чтобы стать участником конкурса</p>
-              <Button text='Регистрация' type='link' link={EROUTES.REGISTRATION} color='inherit' />
+              <Button text='Регистрация' type='link' link={EROUTES.REGISTRATION} color='inherit' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
             </div>
           </li>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>до&nbsp;10&nbsp;сентября 2025&nbsp;года</span>
+              <span className='stages__date'>с&nbsp;10&nbsp;июня 2025&nbsp;года</span>
               <h4 className='stages__item-title'>АНКЕТА ПРАКТИКИ</h4>
             </div>
             <div className='stages__separate'></div>
             <div className='stages__description'>
               <p className='stages__item-text'>Опишите практику в&nbsp;личном кабинете, чтобы претендовать на&nbsp;выход в&nbsp;следующий этап</p>
-              <Button text='Личный кабинет' type='link' link={EROUTES.LOGIN} color='inherit' />
+              <Button text='Личный кабинет' type='link' link={EROUTES.LOGIN} color='inherit' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
             </div>
           </li>
           <li className='stages__item'>
@@ -81,7 +98,7 @@ const Stages: FC = () => {
             <div className='stages__separate'></div>
             <div className='stages__description'>
               <p className='stages__item-text'>Дождитесь результатов отбора и&nbsp;готовьтесь к&nbsp;выступлению на&nbsp;финале. Если не&nbsp;прошли в&nbsp;финал — подайте заявку на&nbsp;проведение своей лаборатории или&nbsp;события в&nbsp;рамках финала</p>
-              <Button onClick={openPreparationInfoPopup} text='Подробнее' color='inherit' />
+              <Button onClick={openPreparationInfoPopup} text='Подробнее' color='inherit' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
             </div>
           </li>
           <li className='stages__item'>
@@ -92,7 +109,7 @@ const Stages: FC = () => {
             <div className='stages__separate'></div>
             <div className='stages__description'>
               <p className='stages__item-text'>Приезжайте на&nbsp;трехдневный финал для&nbsp;лучших из&nbsp;лучших. Примите участие в&nbsp;специальном обучении и&nbsp;получите шанс представить свою практику на&nbsp;международном уровне в&nbsp;рамках Транспортной недели 2025</p>
-              <Button onClick={openFinalInfoPopup} text='Подробнее' color='inherit' />
+              <Button onClick={openFinalInfoPopup} text='Подробнее' color='inherit' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
             </div>
           </li>
         </ul>

@@ -20,8 +20,8 @@
 .recruitment__title {
   margin: 0;
   color: var(--main-color);
-  font-size: 80px;
-  line-height: 1.15;
+  font-size: 112px;
+  line-height: 1;
   text-align: left;
   font-weight: bold;
   flex-shrink: 0;
@@ -92,13 +92,59 @@
 }
 
 @media all and (max-width: 1440px) {
-
+  .recruitment {
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
+  .recruitment__title {
+    font-size: 64px;
+  }
 }
 
 @media all and (max-width: 1280px) {
-
+  .recruitment__title {
+    font-size: 56px;
+  }
+  .recruitment__item-count {
+    font-size: 56px;
+  }
+  .recruitment__item-title {
+    font-size: 28px;
+  }
+  .recruitment__item-text {
+    font-size: 20px;
+  }
 }
 
 @media all and (max-width: 1000px) {
-
+  .recruitment {
+    margin: 0 0 60px;
+    flex-direction: column;
+  }
+  .recruitment__info {
+    width: 100%;
+  }
+  .recruitment__title {
+    font-size: 28px;
+  }
+  .recruitment__subtitle {
+    margin: 12px 0 0 0;
+    font-size: 18px;
+  }
+  .recruitment__list {
+    margin: 32px 0 0 0;
+    width: 100%;
+  }
+  .recruitment__item {
+    gap: 8px;
+  }
+  .recruitment__item-count {
+    font-size: 32px;
+  }
+  .recruitment__item-title {
+    font-size: 20px;
+  }
+  .recruitment__item-text {
+    font-size: 18px;
+  }
 }

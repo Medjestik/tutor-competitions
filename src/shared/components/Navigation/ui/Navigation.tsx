@@ -5,11 +5,11 @@ import { Link } from 'react-scroll';
 
 import '../styles/style.css';
 
-const Navigation: FC<INavigationProps> =  ({ links, color, onClick }) => {
+const Navigation: FC<INavigationProps> =  ({ links, color, direction = 'row', onClick }) => {
 
   return (
     <nav className='navigation'>
-      <ul className='navigation__list'>
+      <ul className={`navigation__list navigation__list_direction_${direction}`}>
         {
           links.map((link: INavigationLink) => (
             <li className={`navigation__item navigation__item_color_${color}`} key={link.id}>

@@ -389,7 +389,7 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
           </div>
         </FormField>
 
-        <FormSubmit text='Отправить анкету' isBlock={isBlockSubmitButton} /> 
+        <FormSubmit text='Регистрация' isBlock={isBlockSubmitButton} /> 
 
       </Form>
 

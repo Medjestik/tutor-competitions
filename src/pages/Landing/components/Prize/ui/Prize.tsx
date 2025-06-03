@@ -9,7 +9,7 @@ const Prize: FC = () => {
   return (
     <div className='prize' id={ENAV.PRIZE}>
       <h2 className='prize__title'>ПРИЗОВОЙ&nbsp;ФОНД 1&nbsp;МИЛЛИОН&nbsp;РУБЛЕЙ</h2>
-      <p className='prize__caption'>Здесь ваш опыт может стать примером и двигателем изменений.</p>
+      <p className='prize__caption'>Здесь ваш опыт может стать примером и&nbsp;двигателем изменений.</p>
     </div>
   );
 };

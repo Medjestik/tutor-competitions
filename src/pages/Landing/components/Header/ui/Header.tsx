@@ -19,17 +19,16 @@ const Header: FC<IHeaderProps> = ({ windowWidth, showMobileMenu }) => {
     <header className='header' id='header'>
       <div className='header__icons'>
         <div className='header__icon'></div>
-        <div className='header__icon'></div>
       </div>
       {
         windowWidth > 1000 
         ?
-        <>
-        <Navigation links={NavHeaderLinks} color='white' />
-        <div className='header__contacts'>
-          <Link to='footer' smooth={true} offset={0} duration={1750} spy={true}>Контакты</Link>
+        <div className='header__navigation'>
+          <Navigation links={NavHeaderLinks} color='white' />
+          <div className='header__contacts'>
+            <Link to='footer' smooth={true} offset={0} duration={1750} spy={true}>Контакты</Link>
+          </div>
         </div>
-        </>
         :
         <Icon type='menu' onClick={showMobileMenu} />
       }

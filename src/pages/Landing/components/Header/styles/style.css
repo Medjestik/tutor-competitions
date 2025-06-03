@@ -29,8 +29,14 @@
 .header__icon:last-of-type {
   margin: 0;
 }
+.header__navigation {
+  margin: 0 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 44px;
+}
 .header__contacts {
-  margin: 0 0 0 50px;
+  margin: 0;
   padding: 0;
   width: 160px;
   height: 40px;
@@ -49,19 +55,32 @@
   font-weight: normal;
   transition: .3s ease-in-out;
   flex-shrink: 0;
+  z-index: 2;
 }
 .header__contacts:hover {
   opacity: .7;
   cursor: pointer;
 }
 
-@media all and (max-width: 1366px) {
-
+@media all and (max-width: 1441px) {
+  .header {
+    padding: 0 24px;
+  }
 }
 
 @media all and (max-width: 1280px) {
-
+  .header__navigation {
+    gap: 24px;
+  }
 }
 
+
 @media all and (max-width: 1000px) {
+  .header {
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
 }

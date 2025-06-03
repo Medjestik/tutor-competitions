@@ -1,11 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.be13bcbe.css",
-    "main.js": "/static/js/main.7cbeafcc.js",
+    "main.css": "/static/css/main.03ea8025.css",
+    "main.js": "/static/js/main.fd6c8d27.js",
     "static/js/453.32f853e6.chunk.js": "/static/js/453.32f853e6.chunk.js",
-    "static/media/moscow.svg": "/static/media/moscow.f3da14e3bdb0f168dbe3.svg",
+    "static/media/telegram.svg": "/static/media/telegram.1a6585cc0da81db7a32f.svg",
+    "static/media/moscow.svg": "/static/media/moscow.135b93580249d1fd8cee.svg",
+    "static/media/description-background.svg": "/static/media/description-background.1332b9de5210559b1c4c.svg",
+    "static/media/tutor.svg": "/static/media/tutor.0c447ed356a36354c3b5.svg",
+    "static/media/6.svg": "/static/media/6.bed7cfc8b7db9356226197f93db6da91.svg",
+    "static/media/2.svg": "/static/media/2.2e5681208bdc61da5a78133148acbe41.svg",
     "static/media/poster.png": "/static/media/poster.0d47aa7ebb75484b529e.png",
-    "static/media/drone.png": "/static/media/drone.ec899a0cde5fa0b873fc.png",
+    "static/media/4.svg": "/static/media/4.6517a733c415b4f044e1ed8c127d1b6a.svg",
+    "static/media/3.svg": "/static/media/3.681c744cfb708fc3c6795d24f6c361ad.svg",
+    "static/media/1.svg": "/static/media/1.e8d4bc33922526996df4bb2ec0f0e18d.svg",
+    "static/media/5.svg": "/static/media/5.b5717e08c21c5e40df579413b0ea2725.svg",
+    "static/media/mail.svg": "/static/media/mail.c64f63bbe166f76f2d67.svg",
     "static/media/Akrobat-ExtraLight.woff": "/static/media/Akrobat-ExtraLight.781b11c9636cc2dea2a1.woff",
     "static/media/Akrobat-Light.woff": "/static/media/Akrobat-Light.203431379c7d180867f3.woff",
     "static/media/Akrobat-SemiBold.woff": "/static/media/Akrobat-SemiBold.0c7fa14ee99df518260c.woff",
@@ -19,19 +28,17 @@
     "static/media/BebasNeue-Thin.woff": "/static/media/BebasNeue-Thin.83e86240c8a62475c312.woff",
     "static/media/BebasNeueBold.woff": "/static/media/BebasNeueBold.e0462489b6967dbc5942.woff",
     "static/media/user.png": "/static/media/user.8d49e377c7c342895ec2.png",
-    "static/media/logo-rut.svg": "/static/media/logo-rut.8a1505e3a7e469213d9a91721fee75ac.svg",
-    "static/media/logo-rut-white.svg": "/static/media/logo-rut-white.d259705517743de0d67f7d6663abbb55.svg",
     "static/media/wave.svg": "/static/media/wave.494d9a44d420e618e028.svg",
     "index.html": "/index.html",
     "static/media/footer-background.svg": "/static/media/footer-background.2b160b505e2757f04419.svg",
     "static/media/landing-background.svg": "/static/media/landing-background.7802c811047e2a4d671c.svg",
     "static/media/arrow.svg": "/static/media/arrow.55a4ec4915bbcdabc744.svg",
-    "main.be13bcbe.css.map": "/static/css/main.be13bcbe.css.map",
-    "main.7cbeafcc.js.map": "/static/js/main.7cbeafcc.js.map",
+    "main.03ea8025.css.map": "/static/css/main.03ea8025.css.map",
+    "main.fd6c8d27.js.map": "/static/js/main.fd6c8d27.js.map",
     "453.32f853e6.chunk.js.map": "/static/js/453.32f853e6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.be13bcbe.css",
-    "static/js/main.7cbeafcc.js"
+    "static/css/main.03ea8025.css",
+    "static/js/main.fd6c8d27.js"
   ]
 }

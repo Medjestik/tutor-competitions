@@ -31,7 +31,6 @@ const Login: FC<ILoginProps> = ({ windowWidth, onLogin, loginError, isLoadingReq
   const [isBlockSubmitButton, setIsBlockSubmitButton] = useState<boolean>(true);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    setIsBlockSubmitButton(true);
     e.preventDefault();
     const data = {
       username: login,
@@ -96,7 +95,7 @@ const Login: FC<ILoginProps> = ({ windowWidth, onLogin, loginError, isLoadingReq
           />
         </FormField>
 
-        <FormSubmit text='Войти' isBlock={isBlockSubmitButton} isLoading={isLoadingRequest} /> 
+        <FormSubmit text='Войти' isBlock={isBlockSubmitButton} isLoading={isLoadingRequest} loadingText='Вход..' /> 
         {loginError.isShow && <div>Ошибка входа</div>}
         <p className='login__caption'>У меня нет <Link text='логина и пароля' path={EROUTES.REGISTRATION} target={false}/></p>
 

@@ -1,7 +1,17 @@
 import type { FC } from 'react';
 
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+import icon1 from '../../../../../shared/icons/advantages/1.svg';
+import icon2 from '../../../../../shared/icons/advantages/2.svg';
+import icon3 from '../../../../../shared/icons/advantages/3.svg';
+import icon4 from '../../../../../shared/icons/advantages/4.svg';
+import icon5 from '../../../../../shared/icons/advantages/5.svg';
+import icon6 from '../../../../../shared/icons/advantages/6.svg';
 
 import { ENAV } from '../../../../../shared/components/Navigation/interface/interface';
 
@@ -11,51 +21,60 @@ interface IAdvantagesProps {
   windowWidth: number;
 }
 
-const Advantages: FC<IAdvantagesProps> = ({ windowWidth }) => {
-
-  console.log(windowWidth);
+export const Advantages: FC<IAdvantagesProps> = ({ windowWidth }) => {
 
   return (
     <div className='advantages' id={ENAV.ADVANTAGES}>
       <div className='advantages__container'>
         <h2 className='advantages__title'>ЗАЧЕМ УЧАСТВОВАТЬ</h2>
-        <Carousel
-          swipeable
-          autoPlay={true}
-          showThumbs={false}
-          showStatus={false}
-          showIndicators={false}
-          showArrows={false}
-          infiniteLoop
-          centerMode
-          centerSlidePercentage={30}
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          slidesPerView={windowWidth > 1440 ? 3 : windowWidth > 1000 ? 2 : 1}
+          spaceBetween={20}
+          loop
+          autoplay={{ delay: 4000 }}
         >
-          <div className='advantages__item'>
-            <div className='advantages__item-icon'></div>
-            <h4 className='advantages__item-title'>Масштабирование опыта</h4>
-            <h4 className='advantages__item-text'>Лучшие практики будут рекомендованы к&nbsp;распространению в&nbsp;других вузах страны</h4>
-          </div>
-          <div className='advantages__item'>
-            <div className='advantages__item-icon'></div>
-            <h4 className='advantages__item-title'>Признание на&nbsp;федеральном уровне</h4>
-            <h4 className='advantages__item-text'>Продемонстрируйте свои инновационные методики ведущим экспертам отрасли и&nbsp;коллегам со&nbsp;всей России</h4>
-          </div>
-          <div className='advantages__item'>
-            <div className='advantages__item-icon'></div>
-            <h4 className='advantages__item-title'>Профессиональный рост и&nbsp;обмен опытом</h4>
-            <h4 className='advantages__item-text'> Участие в&nbsp;мастер-классах, обсуждениях с&nbsp;экспертами и&nbsp;нетворкинг с лучшими преподавателями транспортных вузов</h4>
-          </div>
-          <div className='advantages__item'>
-            <div className='advantages__item-icon'></div>
-            <h4 className='advantages__item-title'>Денежный приз</h4>
-            <h4 className='advantages__item-text'>Победители каждой номинации получат денежные призы</h4>
-          </div>
-          <div className='advantages__item'>
-            <div className='advantages__item-icon'></div>
-            <h4 className='advantages__item-title'>Международная конференция</h4>
-            <h4 className='advantages__item-text'>Выступите с&nbsp;презентацией своей практики на&nbsp;сессии Транспортной недели 2025 в&nbsp;Москве</h4>
-          </div>
-        </Carousel>
+          {[
+            {
+              icon: icon1,
+              title: 'Масштабирование опыта',
+              text: 'Лучшие практики будут рекомендованы к\u00A0распространению в\u00A0других вузах страны',
+            },
+            {
+              icon: icon2,
+              title: 'Признание на\u00A0федеральном уровне',
+              text: 'Продемонстрируйте свои инновационные методики ведущим экспертам отрасли и\u00A0коллегам со\u00A0всей России',
+            },
+            {
+              icon: icon3,
+              title: 'Профессиональный рост',
+              text: 'Финалисты конкурса получат уникальные консультации по\u00A0профессиональному росту',
+            },
+            {
+              icon: icon4,
+              title: 'Обмен опытом',
+              text: 'Участие в\u00A0мастер-классах, обсуждениях с\u00A0экспертами и\u00A0нетворкинг с\u00A0лучшими преподавателями транспортных вузов',
+            },
+            {
+              icon: icon5,
+              title: 'Денежный приз',
+              text: 'Победители каждой номинации получат денежные призы. Призовой фонд конкурса – 1\u00A0000\u00A0000\u00A0рублей',
+            },
+            {
+              icon: icon6,
+              title: 'Международная конференция',
+              text: 'Победители представят свой университет на\u00A0Международном форуме в\u00A0рамках Транспортной недели',
+            },
+          ].map((item, index) => (
+            <SwiperSlide style={{ display: 'flex' }} key={index}>
+              <div className='advantages__item'>
+                <img className='advantages__item-icon' src={item.icon} alt='иконка' />
+                <h4 className='advantages__item-title'>{item.title}</h4>
+                <h4 className='advantages__item-text'>{item.text}</h4>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
     </div>
   );

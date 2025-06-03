@@ -41,13 +41,38 @@
 }
 
 @media all and (max-width: 1440px) {
-
+  .nominations {
+    padding: 40px 24px 80px;
+  }
+  .nominations__title {
+    font-size: 88px;
+  }
 }
 
 @media all and (max-width: 1280px) {
-
+  .nominations__title {
+    font-size: 56px;
+  }
+  .nominations__info {
+    max-width: 300px;
+  }
+  .nominations__text {
+    font-size: 20px;
+  }
 }
 
 @media all and (max-width: 1000px) {
-
+  .nominations {
+    margin: 0;
+    padding: 20px 16px;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .nominations__title {
+    font-size: 36px;
+  }
+  .nominations__text {
+    margin: 12px 0 0 0;
+    font-size: 20px;
+  }
 }

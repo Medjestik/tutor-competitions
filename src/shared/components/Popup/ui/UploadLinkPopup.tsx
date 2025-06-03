@@ -38,12 +38,9 @@ const UploadLinkPopup: FC<IUploadLinkPopupProps> = ({ isOpen, onClose, onUpload,
   };
 
   const handleChangeLink = (value: string) => {
-    const urlPattern = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$/;
     setLink(value);
     if (value.length === 0) {
       setIsShowErrorLink({ isShow: true, text: 'Поле не может быть пустым' });
-    } else if (!urlPattern.test(value)) {
-      setIsShowErrorLink({ isShow: true, text: 'Введите корректную ссылку' });
     } else {
       setIsShowErrorLink({ isShow: false, text: '' });
     }
