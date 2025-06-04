@@ -25,7 +25,7 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ windowWidth, isLoggedIn, onLogou
   return (
     <header className='layout-header'>
       <div className='layout-header__icons'>
-        <div className='header__icon'></div>  
+        <div className='layout-header__icon'></div>  
       </div>
       {
         isLoggedIn

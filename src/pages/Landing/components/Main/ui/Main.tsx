@@ -61,7 +61,7 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
             </div>
           </div>
           <div className='main__buttons'>
-            <Button text='Регистрация' onClick={openRegistrationPage} />
+            <Button text='Регистрация' onClick={openRegistrationPage} color='registration' />
             <Button text='Личный кабинет' onClick={openLoginPage} color='inherit' />
           </div>
         </>
@@ -77,7 +77,7 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
           <p className='main__timer'>Приём заявок уже открыт!</p>
           <p className='main__subtitle'>Конкурс проводится в&nbsp;рамках реализации Концепции подготовки кадров для&nbsp;транспортного комплекса до&nbsp;2035 года и&nbsp;направлен на&nbsp;выявление, поддержку и&nbsp;масштабирование лучших решений в&nbsp;системе транспортного образования.</p>
           <div className='main__buttons'>
-            <Button text='Регистрация' onClick={openRegistrationPage} style={btnMobileStyle} />
+            <Button text='Регистрация' onClick={openRegistrationPage} style={btnMobileStyle} color='registration' />
             <Button text='Личный кабинет' onClick={openLoginPage} color='inherit' style={btnMobileStyle} />
           </div>
         </>

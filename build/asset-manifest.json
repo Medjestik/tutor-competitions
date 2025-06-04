@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.03ea8025.css",
-    "main.js": "/static/js/main.fd6c8d27.js",
+    "main.css": "/static/css/main.3a0e9e08.css",
+    "main.js": "/static/js/main.1f9f9304.js",
     "static/js/453.32f853e6.chunk.js": "/static/js/453.32f853e6.chunk.js",
     "static/media/telegram.svg": "/static/media/telegram.1a6585cc0da81db7a32f.svg",
     "static/media/moscow.svg": "/static/media/moscow.135b93580249d1fd8cee.svg",
@@ -23,6 +23,7 @@
     "static/media/Akrobat-Regular.woff": "/static/media/Akrobat-Regular.9e31e53d72556b7eb4e7.woff",
     "static/media/Akrobat-Black.woff": "/static/media/Akrobat-Black.f14750998f34f5477f3f.woff",
     "static/media/Akrobat-Thin.woff": "/static/media/Akrobat-Thin.2e3f6f4a53187d9ba215.woff",
+    "static/media/logo.svg": "/static/media/logo.dba4bdca534e0ae6b981.svg",
     "static/media/BebasNeueLight.woff": "/static/media/BebasNeueLight.fb1021edc3744b98b5b7.woff",
     "static/media/BebasNeueRegular.woff": "/static/media/BebasNeueRegular.c07e076467a248c2f672.woff",
     "static/media/BebasNeue-Thin.woff": "/static/media/BebasNeue-Thin.83e86240c8a62475c312.woff",
@@ -33,12 +34,12 @@
     "static/media/footer-background.svg": "/static/media/footer-background.2b160b505e2757f04419.svg",
     "static/media/landing-background.svg": "/static/media/landing-background.7802c811047e2a4d671c.svg",
     "static/media/arrow.svg": "/static/media/arrow.55a4ec4915bbcdabc744.svg",
-    "main.03ea8025.css.map": "/static/css/main.03ea8025.css.map",
-    "main.fd6c8d27.js.map": "/static/js/main.fd6c8d27.js.map",
+    "main.3a0e9e08.css.map": "/static/css/main.3a0e9e08.css.map",
+    "main.1f9f9304.js.map": "/static/js/main.1f9f9304.js.map",
     "453.32f853e6.chunk.js.map": "/static/js/453.32f853e6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.03ea8025.css",
-    "static/js/main.fd6c8d27.js"
+    "static/css/main.3a0e9e08.css",
+    "static/js/main.1f9f9304.js"
   ]
 }

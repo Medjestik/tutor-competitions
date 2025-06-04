@@ -43,6 +43,11 @@
   background-color: inherit;
   border: 1px solid var(--white-color);
 }
+.button_color_registration {
+  background-color: #B2FE0C;
+  border: 1px solid #B2FE0C;
+  color: var(--main-color),
+}
 .button_width_full {
   width: 100%;
 }

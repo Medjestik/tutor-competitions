@@ -15,10 +15,7 @@ const Document: FC<IDocumentProps> = ({ windowWidth }) => {
     margin: '0',
     width: '100%',
     fontSize: windowWidth > 1000 ? '24px' : '18px',
-    height: '40px',
-    backgroundColor: '#ffffff',
-    color: '#073AE9',
-    borderRadius: '0',
+    height: windowWidth > 1000 ? '60px' : '40px',
     lineHeight: '1',
     padding: '8px 20px',
   };
@@ -27,7 +24,7 @@ const Document: FC<IDocumentProps> = ({ windowWidth }) => {
     margin: '0',
     width: '100%',
     fontSize: windowWidth > 1000 ? '24px' : '18px',
-    height: '40px',
+    height: windowWidth > 1000 ? '60px' : '40px',
     borderRadius: windowWidth > 1000 ? '20px' : '12px',
     lineHeight: '1',
     padding: '8px 20px',
@@ -40,19 +37,20 @@ const Document: FC<IDocumentProps> = ({ windowWidth }) => {
         <Button 
           text='СКАЧАТЬ ПОЛОЖЕНИЕ' 
           type='link' 
-          link='https://cloud.mail.ru/public/Rfcu/ZCm3ZmDBR'
+          link='https://cloud.mail.ru/public/D2WW/96UszWzkP'
           style={btnLinksStyle} 
         />
         <Button 
           text='СКАЧАТЬ РЕГЛАМЕНТ' 
           type='link' 
-          link='https://cloud.mail.ru/public/YhUL/vuXbSSsgF'
+          link='https://cloud.mail.ru/public/krgk/cMSykKYCT'
           style={btnLinksStyle} 
         />
         <Button 
-          text='Регистрация' 
+          text='РЕГИСТРАЦИЯ' 
           type='link' 
           link='/registration'
+          color='registration'
           style={btnRegStyle} 
         />
       </div>

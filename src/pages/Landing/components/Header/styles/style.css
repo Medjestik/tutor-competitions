@@ -16,12 +16,12 @@
 }
 .header__icon {
   margin: 0 20px 0 0;
-  width: 36px;
-  height: 36px;
-  background-color: var(--border-card-color);
-  border-radius: 12px;
-  object-fit: contain;
-  object-position: center;
+  width: 72px;
+  height: 72px;
+  background-image: url('../../../../../shared/icons/logo.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
   user-select: none;
   pointer-events: none;
   z-index: 2;
@@ -82,5 +82,9 @@
     align-items: center;
     justify-content: space-between;
     height: 60px;
+  }
+  .header__icon {
+    width: 48px;
+    height: 48px;
   }
 }
