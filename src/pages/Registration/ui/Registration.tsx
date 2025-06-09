@@ -381,9 +381,9 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
             </label>
             <div className='checkbox__text'>
             {'Подтверждаю, что ознакомился (-ась) и согласен (-а) с условиями и правилами участия в конкурсе, изложенными в '}
-              <Link text='Положении' path='https://cloud.mail.ru/public/Rfcu/ZCm3ZmDBR' />
+              <Link text='Положении' path='https://cloud.mail.ru/public/D2WW/96UszWzkP' />
               {' и '}
-              <Link text='Регламенте' path='https://cloud.mail.ru/public/YhUL/vuXbSSsgF' />
+              <Link text='Регламенте' path='https://cloud.mail.ru/public/krgk/cMSykKYCT' />
               {'.'}
             </div>
           </div>
