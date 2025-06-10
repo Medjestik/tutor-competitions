@@ -65,7 +65,6 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
     }
   };
 
-  console.log(handleNextStage);
 
   const getData = () => {
     setIsLoadingData(true);

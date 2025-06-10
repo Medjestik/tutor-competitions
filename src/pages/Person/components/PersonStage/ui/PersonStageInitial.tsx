@@ -16,7 +16,7 @@ const PersonStageInitial: FC = () => {
           <p className='person-stage__subtitle'>При заполнении анкеты постарайтесь максимально конкретно отвечать на&nbsp;вопросы, описывая практику коротко, но&nbsp;содержательно.</p>
           <p className='person-stage__subtitle'>Желаем удачи!</p>
         </div>
-        <PersonVideo url='' isEmpty={true} />
+        <PersonVideo url='https://course.emiit.ru/webtutor/ivan/land/video/video1.mp4' />
       </div>
     </div>
   );

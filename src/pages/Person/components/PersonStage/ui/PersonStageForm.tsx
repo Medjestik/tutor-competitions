@@ -86,8 +86,6 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
     setIsBlockButtonNomination(false);
   };
 
-  console.log(onNextStage);
-
   const handleSaveNomination = () => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -118,6 +116,7 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
       .catch((err) => {
         console.error(err);
         setIsShowRequestError(true);
+        console.log(onNextStage);
       })
       .finally(() => {
         setIsLoadingRequest(false);
@@ -279,7 +278,7 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
                 <p className='person-stage__subtitle'>Для описания практики заполните анкету. Перед этим рекомендуем посмотреть видеоинструкцию.</p>
                 <p className='person-stage__subtitle'>Если у вас нет вопросов или трудностей, можете сразу приступать к заполнению.</p>
               </div>
-              <PersonVideo url='' isEmpty={true} />
+              <PersonVideo url='https://course.emiit.ru/webtutor/ivan/land/video/video2.mp4' />
             </div>
             {
               formData.status === 'draft'

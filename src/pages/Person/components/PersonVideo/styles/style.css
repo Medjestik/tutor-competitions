@@ -1,14 +1,15 @@
 .person-video__container {
   margin: 0;
-  width: 600px;
+  width: 440px;
+  height: 247.5px;
   display: flex;
   flex-direction: column;
   position: relative;
 }
 .person-video {
   margin: 0px;
-  width: 600px;
-  height: auto;
+  width: 440px;
+  height: 247.5px;
   border-radius: var(--border-radius);
 }
 .person-video__empty {
@@ -59,10 +60,12 @@
   .person-video__container {
     margin: 0;
     width: 100%;
+    height: auto;
   }
   .person-video {
     margin: 0;
     width: 100%;
+    height: auto;
   }
   .person-video__play-btn {
     width: 64px;

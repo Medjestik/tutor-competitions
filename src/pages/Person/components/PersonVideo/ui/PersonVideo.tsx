@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { useRef, useState } from 'react';
 
-import poster from '../../../../../shared/images/poster.png';
+import poster from '../../../../../shared/images/video-poster.png';
 
 import '../styles/style.css';
 
