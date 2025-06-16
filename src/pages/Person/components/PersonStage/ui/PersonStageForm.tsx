@@ -1,6 +1,6 @@
 import type { FC, FormEvent } from 'react';
 import type { IUploadLink, IUploadFile } from '../../../../../shared/components/Popup/interface/interface';
-import type { IStageFormProps, INomination, IFormData } from '../../../interface/interface';
+import type { IStageFormProps, ISelectNomination, IFormData } from '../../../interface/interface';
 
 import { useState, useEffect } from 'react';
 
@@ -63,8 +63,8 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
   const usabilityInput = useFormInput('', api.saveFormUsability, 2000);
 
   const [formData, setFormData] = useState<IFormData | null>(null);
-  const [nominations, setNominations] = useState<INomination[]>([]);
-  const [currentNomination, setCurrentNomination] = useState<INomination>({ name: 'Выберите номинацию..', id: 0 });
+  const [nominations, setNominations] = useState<ISelectNomination[]>([]);
+  const [currentNomination, setCurrentNomination] = useState<ISelectNomination>({ name: 'Выберите номинацию..', id: 0 });
   const [isBlockButtonNomination, setIsBlockButtonNomination] = useState<boolean>(true);
 
   const texts = nominationFieldTexts[currentNomination.id] || nominationFieldTexts[1];
@@ -80,7 +80,7 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
   const [isShowForm, setIsShowForm] = useState<boolean>(false);
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
 
-  const handleChangeNomination = (option: INomination) => {
+  const handleChangeNomination = (option: ISelectNomination) => {
     setCurrentNomination(option);
     setIsShowForm(false);
     setIsBlockButtonNomination(false);
@@ -212,7 +212,7 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
         api.getFormData(token),
       ])
         .then(([nominationsRes, formDataRes]) => {
-          const foundNomination = nominationsRes.find((elem: INomination  ) => elem.id === formDataRes.nomination);
+          const foundNomination = nominationsRes.find((elem: ISelectNomination  ) => elem.id === formDataRes.nomination);
           if (foundNomination) {
             setCurrentNomination(foundNomination);
             setIsShowForm(true);

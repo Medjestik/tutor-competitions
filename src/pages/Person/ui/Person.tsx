@@ -78,7 +78,7 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
           3: `${EROUTES.PERSON}/${EROUTESSTAGES.PERSON_SCHEDULE}`,
           4: `${EROUTES.PERSON}/${EROUTESSTAGES.PERSON_SLIDES}`,
           5: `${EROUTES.PERSON}/${EROUTESSTAGES.PERSON_WORKSHOP}`,
-          6: `${EROUTESSTAGES.PERSON}/${EROUTESSTAGES.PERSON_EVALUATE}`,
+          6: `${EROUTES.PERSON}/${EROUTESSTAGES.PERSON_EVALUATE}`,
         };
       
         const newStages = res.map((elem: IStage) => ({
@@ -118,7 +118,7 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
         <PersonNavigation stages={stages} openStageId={openStageId} onChange={toggleStage} /> 
         <PersonContainer>
           {
-            isLoadingData
+            isLoadingData || !stages.length
             ?
             <Preloader />
             :

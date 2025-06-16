@@ -71,7 +71,7 @@ export const getNominations = (token: string) => {
   .then(res => handleResponse(res));
 };
 
-export const getNominationForms = (token: string, nominationId: number) => {
+export const getNominationForms = (token: string, nominationId: string) => {
   return fetch(`${API_URL}/competition/evaluations/nomination/${nominationId}`, {
     method: 'GET',
     headers: {

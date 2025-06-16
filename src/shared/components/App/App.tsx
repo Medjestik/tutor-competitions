@@ -43,7 +43,6 @@ function App() {
       .then((res) => {
         setCurrentUser(res);
         setLoggedIn(true);
-        navigate('/');
       })
       .catch((err) => {
         setLoggedIn(false);
@@ -129,17 +128,20 @@ function App() {
               </PublicRoute>
             } />
 
-            <Route path='/person/*' element={
-              <ProtectedRoute isAllowed={loggedIn}>
-                {
-                  currentUser.role === 'expert'
-                  ?
-                  <Expert windowWidth={windowWidth} onLogout={handleLogout} />
-                  :
-                  <Person windowWidth={windowWidth} onLogout={handleLogout} onChangeStage={handleChangeStage} />
-                }
-              </ProtectedRoute>
-            } />
+            {
+              loggedIn &&
+              <Route path='/person/*' element={
+                <ProtectedRoute isAllowed={loggedIn}>
+                  {
+                    currentUser.role === 'expert'
+                    ?
+                    <Expert windowWidth={windowWidth} onLogout={handleLogout} />
+                    :
+                    <Person windowWidth={windowWidth} onLogout={handleLogout} onChangeStage={handleChangeStage} />
+                  }
+                </ProtectedRoute>
+              } />
+            }
 
             {
               currentUser.role === 'expert' &&

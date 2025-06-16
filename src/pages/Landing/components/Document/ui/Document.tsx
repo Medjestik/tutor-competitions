@@ -47,9 +47,9 @@ const Document: FC<IDocumentProps> = ({ windowWidth }) => {
           style={btnLinksStyle} 
         />
         <Button 
-          text='РЕГИСТРАЦИЯ' 
+          text='ВЕБИНАР "ЭТАПЫ КОНКУРСА"' 
           type='link' 
-          link='/registration'
+          link='https://course.emiit.ru/webtutor/ivan/land/video/video3.mp4'
           color='registration'
           style={btnRegStyle} 
         />

@@ -16,18 +16,29 @@
 }
 .header__icon {
   margin: 0 20px 0 0;
-  width: 72px;
-  height: 72px;
-  background-image: url('../../../../../shared/icons/logo.svg');
+  width: 48px;
+  height: 48px;
+  background-image: url('../../../../../shared/icons/logo-white.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
   user-select: none;
   pointer-events: none;
   z-index: 2;
+  flex-shrink: 0;
 }
-.header__icon:last-of-type {
+.header__rut {
   margin: 0;
+  width: 120px;
+  height: 48px;
+  background-image: url('../../../../../shared/icons/logo-rut-white.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  user-select: none;
+  pointer-events: none;
+  flex-shrink: 0;
+  z-index: 2;
 }
 .header__navigation {
   margin: 0 0 0 auto;
@@ -84,7 +95,12 @@
     height: 60px;
   }
   .header__icon {
-    width: 48px;
-    height: 48px;
+    width: 32px;
+    height: 32px;
+  }
+  .header__rut {
+    margin: 0;
+    width: 96px;
+    height: 40px;
   }
 }

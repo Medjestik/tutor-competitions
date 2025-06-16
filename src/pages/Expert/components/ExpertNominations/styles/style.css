@@ -1,0 +1,93 @@
+.expert-nominations__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.expert-nominations__item {
+  margin: 0;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 300px;
+  background-color: var(--background-secondary-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: var(--border-radius);
+}
+
+.expert-nomination__item-icon {
+  margin: 0;
+  width: 114px;
+  height: 114px;
+  border-radius: var(--border-radius);
+  background-color: var(--border-card-color);
+}
+
+.expert-nomination__item-icon_type_1 {
+  background-color: inherit;
+  border-radius: 0;
+  background-image: url('../../../../../shared/icons/nominations/1.svg');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.expert-nomination__item-icon_type_2 {
+  background-color: inherit;
+  border-radius: 0;
+  background-image: url('../../../../../shared/icons/nominations/2.svg');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.expert-nomination__item-icon_type_3 {
+  background-color: inherit;
+  border-radius: 0;
+  background-image: url('../../../../../shared/icons/nominations/3.svg');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.expert-nomination__item-icon_type_4 {
+  background-color: inherit;
+  border-radius: 0;
+  background-image: url('../../../../../shared/icons/nominations/4.svg');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.expert-nomination__item-icon_type_5 {
+  background-color: inherit;
+  border-radius: 0;
+  background-image: url('../../../../../shared/icons/nominations/5.svg');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.expert-nomination__item-text {
+  margin: 12px 0 0 0;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--title-color);
+  text-align: center;
+}
+
+.expert-nomination__item-caption {
+  margin: 8px 0 0 0;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.15;
+  color: var(--title-color);
+  text-align: center;
+}

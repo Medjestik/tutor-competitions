@@ -4,9 +4,16 @@ export interface IStageFormProps {
   onNextStage: () => void;
 }
 
+export interface ISelectNomination {
+  name: string;
+  id: number;
+}
+
 export interface INomination {
   name: string;
   id: number;
+  position: number;
+  total_forms: number;
 }
 
 export interface IItemForm {
