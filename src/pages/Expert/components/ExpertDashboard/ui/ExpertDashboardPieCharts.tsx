@@ -68,12 +68,19 @@ const ExpertDashboardPieCharts: FC<IExpertDashboardPieChartsProps> = ({ data }) 
                 const nominationMatch =
                   !selectedNomination ||
                   Object.entries(nominationMap).find(([, name]) => name === selectedNomination)?.[0] == String(p.nomination);
-
+              
                 if (!nominationMatch) return false;
-
-                if (statusId === 'Анкета оценена') return p.isScored;
-                if (statusId === 'Отправили анкету') return !p.isScored && p.isSubmitted;
-                if (statusId === 'Выбрали номинацию') return !p.isSubmitted && !p.isScored;
+              
+                if (statusId === 'Выбрали номинацию') {
+                  return p.nomination != null && !p.isSubmitted && !p.isScored;
+                }
+                if (statusId === 'Отправили анкету') {
+                  return p.isSubmitted && !p.isScored;
+                }
+                if (statusId === 'Анкета оценена') {
+                  return p.isScored;
+                }
+              
                 return false;
               });
 
