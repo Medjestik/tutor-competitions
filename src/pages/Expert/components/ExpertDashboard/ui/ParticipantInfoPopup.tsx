@@ -71,10 +71,7 @@ const ParticipantInfoPopup: FC<IParticipantInfoPopupProps> = ({
             </div>
             {isExpanded && (
               <div className='dashboard-participants__bottom'>
-                {
-                  subtitleText === 'Другие университеты' && 
-                  <p className='dashboard-participants__text'><span className='dashboard-participants__text_weight_bold'>Университет: </span>{elem.educational_organization}</p>
-                }
+                <p className='dashboard-participants__text'><span className='dashboard-participants__text_weight_bold'>Университет: </span>{elem.educational_organization}</p>
                 <p className='dashboard-participants__text'><span className='dashboard-participants__text_weight_bold'>Должность: </span>{elem.main_position}</p>
                 <p className='dashboard-participants__text'><span className='dashboard-participants__text_weight_bold'>Часовой пояс: </span>{elem.timezone}</p>
                 <p className='dashboard-participants__text'><span className='dashboard-participants__text_weight_bold'>Почта: </span>{elem.email}</p>
