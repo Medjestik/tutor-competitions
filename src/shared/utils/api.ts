@@ -107,6 +107,18 @@ export const getExpertForm = (token: string, formId: string) => {
   .then(res => handleResponse(res));
 };
 
+export const getDashboardData = (token: string) => {
+  return fetch(`${API_URL}/competition/dashboard/participants`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  })
+  .then(res => handleResponse(res));
+};
+
 export const setNomination = (token: string, nominationId: number) => {
   return fetch(`${API_URL}/competition/forms/select-nomination/`, {
     method: 'POST',

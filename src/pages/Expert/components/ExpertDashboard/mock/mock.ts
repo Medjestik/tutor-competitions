@@ -22,3 +22,39 @@ export const barData = [
   { id: 21, name: 'Сибирский государственный автомобильно-дорожный университет', shortName: 'СибАДИ', registered: 2, nominationSelected: 3, formSubmitted: 4 },
   { id: 22, name: 'Другие университеты', shortName: 'Другое', registered: 3, nominationSelected: 4, formSubmitted: 5 },
 ];
+
+export const pieData = [
+  {
+    id: 'Территория роста',
+    label: 'Территория роста',
+    value: 200,
+  },
+  {
+    id: 'Технологии партнерства',
+    label: 'Технологии партнерства',
+    value: 160,
+  },
+  {
+    id: 'Педагогический прием',
+    label: 'Педагогический прием',
+    value: 80,
+  },
+  {
+    id: 'Технологии и инновации',
+    label: 'Технологии и инновации',
+    value: 175,
+  },
+  {
+    id: 'Цифровой педагог',
+    label: 'Цифровой педагог',
+    value: 70,
+  }
+];
+
+export const customColors = [
+  '#4CAF50',
+  '#F57C00',
+  '#D32F2F',
+  '#073AE9',
+  '#7B1FA2'
+];
