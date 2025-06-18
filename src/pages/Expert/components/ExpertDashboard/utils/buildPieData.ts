@@ -21,7 +21,9 @@ export const buildPieDataByNominationStatus = (
   const statuses = { selected: 0, submitted: 0, scored: 0 };
 
   const shouldInclude = (p: IParticipant): boolean => {
-    if (!selectedNominationName) return true;
+    if (selectedNominationName === null) {
+      return p.nomination !== null && p.nomination !== undefined;
+    }
 
     const nominationId = Object.entries(nominationMap).find(([, name]) => name === selectedNominationName)?.[0];
     if (!nominationId) return false;

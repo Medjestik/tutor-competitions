@@ -6,6 +6,47 @@
   gap: 20px;
 }
 
+.dashboard-header {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-header__title {
+  margin: 0;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.15;
+  color: var(--title-color);
+}
+
+.dashboard-header__export {
+  margin: 0 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dashboard-header__icon {
+  width: 48px;
+  height: 48px;
+}
+
+.dashboard-header__icon_type_png {
+  background-image: url('../../../../../shared/icons/export-png.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.dashboard-header__icon_type_pdf {
+  background-image: url('../../../../../shared/icons/export-pdf.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 .dashboard__section {
   margin: 0;
   padding: 24px 20px;
