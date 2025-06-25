@@ -21,7 +21,7 @@
 .nominations__title {
   margin: 0;
   color: var(--main-color);
-  font-size: 114px;
+  font-size: 88px;
   line-height: 1;
   text-align: left;
   font-weight: bold;
@@ -45,7 +45,7 @@
     padding: 40px 24px 80px;
   }
   .nominations__title {
-    font-size: 88px;
+    font-size: 72px;
   }
 }
 
@@ -67,6 +67,9 @@
     padding: 20px 16px;
     flex-direction: column;
     gap: 20px;
+  }
+  .nominations__info {
+    max-width: none;
   }
   .nominations__title {
     font-size: 36px;
