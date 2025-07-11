@@ -5,11 +5,10 @@ import Popup from './Popup';
 import Button from '../../Button/ui/Button';
 import Form from '../../Form/ui/Form';
 import FormField from '../../Form/components/FormField/ui/FormField';
-import FormFieldError from '../../Form/components/FormField/ui/FormFieldError';
-import FormInputString from '../../Form/components/FormInput/ui/FormInputString';
 import FormSubmit from '../../Form/components/FormSubmit/ui/FormSubmit';
 
 import '../styles/style.css';
+import '../styles/score-popup.css';
 
 const btnStyle = {
   width: '100%',
@@ -20,76 +19,88 @@ const btnStyle = {
 };
 
 const SetScorePopup: FC<ISetScorePopupProps> = ({ isOpen, onClose, form, isLoading, onScore }) => {
-  const [scores, setScores] = useState<string[]>([]);
-  const [errors, setErrors] = useState<string[]>([]);
-  const [isValid, setIsValid] = useState(false);
+  const [scores, setScores] = useState<Record<number, number | null>>({});
 
-  useEffect(() => {
-    if (form?.criteria_with_evaluations) {
-      setScores(form.criteria_with_evaluations.map(c => String(c.expert_score ?? '')));
-      setErrors(form.criteria_with_evaluations.map(() => ''));
-    }
-  }, [form]);
+  const calculateTotalScore = () => {
+    return Object.values(scores)
+      .filter((v): v is number => v !== null && v !== undefined)
+      .reduce((sum, score) => sum + score, 0);
+  };
+  
+  const totalScore = calculateTotalScore();
 
-  const handleChange = (value: string, index: number) => {
-    const newScores = [...scores];
-    newScores[index] = value;
-  
-    const newErrors = [...errors];
-  
-    const num = Number(value);
-    if (value.trim() === '') {
-      newErrors[index] = 'Поле не может быть пустым';
-    } else if (isNaN(num)) {
-      newErrors[index] = 'Введите число';
-    } else if (num < 0 || num > 3) {
-      newErrors[index] = 'Оценка должна быть от 0 до 3';
-    } else {
-      newErrors[index] = '';
-    }
-  
-    setScores(newScores);
-    setErrors(newErrors);
-  
-    const allFieldsFilled = newScores.every((score) => score.trim() !== '');
-    const noErrors = newErrors.every((err) => err === '');
-  
-    setIsValid(allFieldsFilled && noErrors);
+  const handleChange = (indicatorId: number, value: number) => {
+    setScores(prev => ({
+      ...prev,
+      [indicatorId]: value,
+    }));
+  };
+
+  const isFormValid = (): boolean => {
+    return form.evaluation_details.every(criteria =>
+      criteria.indicators.every(ind => scores[ind.id] !== null)
+    );
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (!isValid) return;
-
-    const evaluatedCriteria = form.criteria_with_evaluations.map((c, i) => ({
-      ...c,
-      expert_score: Number(scores[i])
-    }));
-
-    onScore(evaluatedCriteria);
+    if (!isFormValid()) return;
+  
+    const evaluations = form.evaluation_details.flatMap(criteria =>
+      criteria.indicators.map(indicator => ({
+        participant_form: form.id,
+        indicator: indicator.id,
+        score: scores[indicator.id] ?? 0,
+        comment: '',
+      }))
+    );
+  
+    onScore(evaluations);
   };
 
+  useEffect(() => {
+    if (form?.evaluation_details) {
+      const initialScores: Record<number, number | null> = {};
+      form.evaluation_details.forEach(criteria => {
+        criteria.indicators.forEach(ind => {
+          initialScores[ind.id] = ind.score ?? null;
+        });
+      });
+      setScores(initialScores);
+    }
+  }, [form]);
+
+
   return (
-    <Popup isOpen={isOpen} onClose={onClose} popupWidth='medium' closeOutside>
+    <Popup isOpen={isOpen} onClose={onClose} popupWidth='large' closeOutside>
       <h2 className='popup__title'>Оценка анкеты</h2>
-      <p className='popup__subtitle'>Введите оценки по каждому критерию:</p>
+      <p className='popup__subtitle'>Выберите оценку для каждого индикатора:</p>
       <Form formName='set-score' type='popup' onSubmit={handleSubmit}>
-        {
-          form.criteria_with_evaluations.map((criteria, index) => (
-            <FormField key={index} title={`${index + 1}. ${criteria.name}`}>
-              <FormInputString 
-                value={scores[index] ?? ''}
-                placeholder='Введите оценку от 0 до 3'
-                onChange={(e) => handleChange(e, index)}
-              />
-              <FormFieldError isShow={!!errors[index]} text={errors[index]} />
-            </FormField>
-          ))
-        }
+        {form.evaluation_details.map((criteria, cIdx) => (
+          <FormField key={criteria.criteria_id} title={`${cIdx + 1}. ${criteria.criteria_name}`}>
+            {criteria.indicators.map((indicator, iIdx) => (
+              <div key={indicator.id} className='indicator-score-block'>
+                <p className='indicator-name'>{`${cIdx + 1}.${iIdx + 1} ${indicator.name}`}</p>
+                <div className='score-buttons'>
+                  {[0, 0.5, 1].map(value => (
+                    <button
+                      key={value}
+                      type='button'
+                      className={`score-button score-button-${String(value).replace('.', '-')} ${scores[indicator.id] === value ? 'selected' : ''}`}
+                      onClick={() => handleChange(indicator.id, value)}
+                    >
+                      {value === 0 ? 'Нет' : value === 0.5 ? 'Частично' : 'Да'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </FormField>
+        ))}
+        <p className='score-caption'> Итоговый балл: {totalScore}</p>
         <div className='form__buttons'>
           <Button style={btnStyle} text='Отменить' color='cancel' onClick={onClose} />
-          <FormSubmit text='Сохранить' isLoading={isLoading} isBlock={!isValid} />
+          <FormSubmit text='Сохранить' isLoading={isLoading} isBlock={!isFormValid()} />
         </div>
       </Form>
     </Popup>

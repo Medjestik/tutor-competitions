@@ -1,6 +1,7 @@
 import type { ILoginData } from '../../pages/Login/interface/interface';
 import type { IRegisterData } from '../../pages/Registration/interface/interface';
-import type { IUploadFile, IUploadLink, IEvaluation } from '../components/Popup/interface/interface'; 
+import type { IUploadFile, IUploadLink } from '../components/Popup/interface/interface'; 
+import type { IScoreItem } from '../../pages/Person/interface/interface';
 
 import { API_URL } from './config';
 
@@ -178,7 +179,18 @@ export const submitForm = (token: string, name: string, task: string, descriptio
   }).then(res => handleResponse(res));
 };
 
-export const scoreForm = (token: string, evaluations: IEvaluation[]) => {
+export const editForm = (token: string) => {
+  return fetch(`${API_URL}/competition/forms/my-form/draft/`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  }).then(res => handleResponse(res));
+};
+
+export const scoreForm = (token: string, evaluations: IScoreItem[]) => {
   return fetch(`${API_URL}/competition/evaluations/`, {
     method: 'POST',
     headers: {

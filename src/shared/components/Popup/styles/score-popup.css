@@ -1,0 +1,54 @@
+.indicator-score-block {
+  margin: 0 0 12px 0;
+}
+
+.indicator-name {
+  margin: 4px 0 0 0;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.15;
+}
+
+.score-buttons {
+  margin: 8px 0 0 0;
+  display: flex;
+  gap: 12px;
+}
+
+.score-button {
+  margin: 0;
+  min-width: 80px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-card-color);
+  background-color: var(--background-main-color);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1;
+  transition: all .3s ease-in-out;
+}
+
+.score-button:hover {
+  cursor: pointer;
+  opacity: .7;
+}
+
+.score-button-0.selected  {
+  background-color: var(--error-color);
+}
+
+.score-button-0-5.selected  {
+  background-color: var(--pending-color);
+}
+
+.score-button-1.selected  {
+  background-color: var(--success-color);
+}
+
+.score-caption {
+  margin: 0 0 20px 0;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.15;
+}

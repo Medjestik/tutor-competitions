@@ -17,6 +17,7 @@ export interface INomination {
 }
 
 export interface IItemForm {
+  total_evaluations: number;
   name: string;
   id: number;
   average_score: number;
@@ -38,17 +39,28 @@ export interface IFormData {
   usability: string;
   user: number;
   resources: IResource[];
-  criteria_with_evaluations: ICriteria[];
+  evaluation_details: ICriteria[];
+}
+
+export interface IScoreItem {
+  participant_form: number,
+  indicator: number,
+  score: number,
+  comment: string
 }
 
 export interface ICriteria {
-  description: string;
-  expert_score: number;
+  criteria_id: number;
+  criteria_name: string;
+  indicators: IIndicator[];
+}
+
+export interface IIndicator {
   id: number;
-  max_score: number;
+  comment: string;
   name: string;
   position: number;
-  weight: number;
+  score: number | null;
 }
 
 export interface IResource {

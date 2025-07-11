@@ -61,6 +61,14 @@
   gap: 4px;
 }
 
+.expert__item-tags {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .expert__item-tag {
   margin: 0;
   padding: 4px 12px;
@@ -74,8 +82,20 @@
   border-radius: 12px;
 }
 
-.expert__item-tag_type_wait {
+.expert__item-tag_color_blue {
+  background-color: var(--secondary-color);
+}
+
+.expert__item-tag_color_red {
+  background-color: var(--error-color);
+}
+
+.expert__item-tag_color_orange {
   background-color: var(--pending-color);
+}
+
+.expert__item-tag_color_green {
+  background-color: var(--success-color);
 }
 
 .expert__item-name {

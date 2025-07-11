@@ -1,5 +1,5 @@
 import type { FC} from 'react';
-import type { IFormData, ICriteria } from '../../../../Person/interface/interface';
+import type { IFormData, IScoreItem } from '../../../../Person/interface/interface';
 import type { IExpertFormPageProps } from '../../../interface/interface';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -7,8 +7,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import * as api from '../../../../../shared/utils/api';
 
-import MainLayout from '../../../../../shared/components/Layout/ui/MainLayout';
-import PersonContainer from '../../../../Person/components/PersonContainer/ui/PersonContainer';
 import FormField from '../../../../../shared/components/Form/components/FormField/ui/FormField';
 import Button from '../../../../../shared/components/Button/ui/Button';
 import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
@@ -20,9 +18,9 @@ import '../styles/style.css';
 
 const btnFilesStyle = {
   margin: '0',
-  height: '40px',
-  fontSize: '20px',
-  lineHeight: '20px',
+  height: '32px',
+  fontSize: '16px',
+  lineHeight: '16px',
 };
 
 const btnLinksStyle = {
@@ -34,11 +32,11 @@ const btnLinksStyle = {
   padding: '8px 20px',
 };
 
-const ExpertFormPage: FC<IExpertFormPageProps> = ({ windowWidth, onLogout }) => {
+const ExpertFormPage: FC<IExpertFormPageProps> = () => {
 
   const navigate = useNavigate();
 
-  const { formId } = useParams();
+  const { nominationId, formId } = useParams();
   const [form, setForm] = useState<IFormData | null>(null);
 
   const [isOpenSetScorePopup, setIsOpenSetScorePopup] = useState<boolean>(false);
@@ -50,6 +48,15 @@ const ExpertFormPage: FC<IExpertFormPageProps> = ({ windowWidth, onLogout }) => 
     return nominationFieldTexts[form?.nomination ?? 1];
   }, [form?.nomination]);
 
+  const totalScore = useMemo(() => {
+    if (!form) return 0;
+    return form.evaluation_details.reduce((sum, criteria) => {
+      return sum + criteria.indicators.reduce((innerSum, indicator) => {
+        return innerSum + (indicator.score ?? 0);
+      }, 0);
+    }, 0);
+  }, [form]);
+
   const openSetScorePopup = () => {
     setIsOpenSetScorePopup(true);
   };
@@ -58,25 +65,18 @@ const ExpertFormPage: FC<IExpertFormPageProps> = ({ windowWidth, onLogout }) => 
     setIsOpenSetScorePopup(false);
   };
 
-  const backToNominations = () => {
-    navigate('/person');
+  const backToForms = () => {
+    navigate(`/person/nomination/${nominationId}`);
   };
 
-  const handleScoreForm = (data: ICriteria[]) => {
+  const handleScoreForm = (data: IScoreItem[]) => {
     setIsLoadingScore(true);
     const token = localStorage.getItem('token');
     if (token) {
-      const evaluations = data.map((elem: ICriteria) => ({
-        score: elem.expert_score,
-        criteria: elem.id,
-        participant_form: formId || '',
-        comment: ''
-      }));
-  
-      api.scoreForm(token, evaluations)
-      .then(() => {
+      api.scoreForm(token, data)
+      .then((res) => {
+        setForm(prev => prev ? { ...prev, evaluation_details: res } : prev);
         closePopup();
-        navigate('/person');
       })
       .catch((err) => {
         console.error(err);
@@ -84,7 +84,6 @@ const ExpertFormPage: FC<IExpertFormPageProps> = ({ windowWidth, onLogout }) => 
       .finally(() => setIsLoadingScore(false));
     }
   };
-
 
   const getData = () => {
     setIsLoadingData(true);
@@ -111,85 +110,83 @@ const ExpertFormPage: FC<IExpertFormPageProps> = ({ windowWidth, onLogout }) => 
     ?
     <Preloader />
     :
-    <MainLayout mainContainer={false} windowWidth={windowWidth} onLogout={onLogout} > 
-      <div className='person'>
-        <PersonContainer>
-        {
-            form &&
-            <div className='expert-form__container'>
-              <FormField title='1. Номинация'>
-                <p className='form__text-view'>{form.nomination_name}</p>
-              </FormField>
-
-              <FormField title={texts.name.title} subtitle={texts.name.subtitle}>
-                <p className='form__text-view'>{form.name}</p>
-              </FormField>
-    
-              <FormField title={texts.task.title} subtitle={texts.task.subtitle}>
-                <p className='form__text-view'>{form.task}</p>
-              </FormField>
-    
-              <FormField title={texts.description.title} subtitle={texts.description.subtitle}>
-                <p className='form__text-view'>{form.description}</p>
-              </FormField>
-    
-              <FormField title={texts.originality.title} subtitle={texts.originality.subtitle}>
-                <p className='form__text-view'>{form.originality}</p>
-              </FormField>
-
-              <FormField title={texts.text.title} subtitle={texts.text.subtitle}>
-                <p className='form__text-view'>{form.text}</p>
-              </FormField>
-
-              <FormField title={texts.usability.title} subtitle={texts.usability.subtitle}>
-                <p className='form__text-view'>{form.usability}</p>
-              </FormField>
-    
-    
-              <FormField title={texts.files.title} subtitle={texts.files.subtitle}>
-                <h3 className='person-stage__title-row'>Прикрепленные источники:</h3>
-                {
-                  form && form.resources.length > 0
-                  ?
-                  <ul className='person-stage__file-list'>
-                    { form.resources.map((elem, i) => (
-                      <li className='person-stage__file-item' key={i}>
-                        <span className='person-stage__file-count'>{i + 1}.</span>
-                        <h4 className='person-stage__file-title'>{elem.description}</h4>
-                        <Button 
-                          text='Ссылка' 
-                          type='link' 
-                          link={elem.type === 'link' ? elem.link : elem.file} 
-                          color='secondary'
-                          style={btnLinksStyle}
-                        />
-                      </li>
-                    ))
-                    }
-                  </ul>
-                  :
-                  <span className='person-stage__file-empty'>Список источников пока пуст.</span>
-                }
-              </FormField>
-              <div className='form__input-field'>
-                <Button onClick={backToNominations} text='Вернуть к номинациям' style={btnFilesStyle} color='cancel' />
-                <Button onClick={openSetScorePopup} text='Оценить анкету' style={btnFilesStyle} color='secondary' />
-              </div>
+    <> 
+      {
+        form &&
+        <>
+        <div className='expert-form__data'> 
+          <div className={`expert-form__img expert-form__img_type_${form.nomination}`}></div>
+          <div className='expert-form__info'>
+            <span className='expert-form__nomination'>{form.nomination_name}</span>
+            <h4 className='expert-form__name'>{form.name}</h4>
+            <p className='expert-form__score'>Текущая оценка - {totalScore}</p>
+            <div className='form__input-field'>
+              <Button onClick={backToForms} text='Вернуться к списку' style={btnFilesStyle} color='cancel' />
+              <Button onClick={openSetScorePopup} text='Оценить анкету' style={btnFilesStyle} color='secondary' />
             </div>
-          }
-          {
-            isOpenSetScorePopup && form &&
-            <SetScorePopup 
-              isOpen={isOpenSetScorePopup}
-              onClose={closePopup}
-              form={form}
-              isLoading={isLoadingScore}
-              onScore={handleScoreForm}
-            />
-          }
-        </PersonContainer>
-      </div>
-    </MainLayout>
+          </div>
+        </div>
+        <div className='expert-form__container'>
+
+          <FormField title={texts.task.title}>
+            <p className='form__text-view'>{form.task}</p>
+          </FormField>
+
+          <FormField title={texts.description.title}>
+            <p className='form__text-view'>{form.description}</p>
+          </FormField>
+
+          <FormField title={texts.originality.title}>
+            <p className='form__text-view'>{form.originality}</p>
+          </FormField>
+
+          <FormField title={texts.text.title}>
+            <p className='form__text-view'>{form.text}</p>
+          </FormField>
+
+          <FormField title={texts.usability.title}>
+            <p className='form__text-view'>{form.usability}</p>
+          </FormField>
+
+          <FormField title={texts.files.title}>
+            <h3 className='person-stage__title-row'>Прикрепленные источники:</h3>
+            {
+              form && form.resources.length > 0
+              ?
+              <ul className='person-stage__file-list'>
+                { form.resources.map((elem, i) => (
+                  <li className='person-stage__file-item' key={i}>
+                    <span className='person-stage__file-count'>{i + 1}.</span>
+                    <h4 className='person-stage__file-title'>{elem.description}</h4>
+                    <Button 
+                      text='Ссылка' 
+                      type='link' 
+                      link={elem.type === 'link' ? elem.link : elem.file} 
+                      color='secondary'
+                      style={btnLinksStyle}
+                    />
+                  </li>
+                ))
+                }
+              </ul>
+              :
+              <span className='person-stage__file-empty'>Список источников пока пуст.</span>
+            }
+          </FormField>
+        </div>
+        </>
+      }
+      {
+        isOpenSetScorePopup && form &&
+        <SetScorePopup 
+          isOpen={isOpenSetScorePopup}
+          onClose={closePopup}
+          form={form}
+          isLoading={isLoadingScore}
+          onScore={handleScoreForm}
+        />
+      }
+    </>
   );
 };
 

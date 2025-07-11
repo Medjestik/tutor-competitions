@@ -12,7 +12,6 @@ import Login from '../../../pages/Login/ui/Login';
 import Registration from '../../../pages/Registration/ui/Registration';
 import Expert from '../../../pages/Expert/ui/Expert';
 import Person from '../../../pages/Person/ui/Person';
-import ExpertFormPage from '../../../pages/Expert/components/ExpertFormPage/ui/ExpertFormPage';
 import Preloader from '../Preloader/ui/Preloader';
 import { EROUTES } from '../../utils/ERoutes';
 import { PublicRoute } from '../RoutesGuards/PublicRoute';
@@ -143,14 +142,6 @@ function App() {
               } />
             }
 
-            {
-              currentUser.role === 'expert' &&
-              <Route path='/form/:formId/*' element={
-                <ProtectedRoute isAllowed={loggedIn}>
-                  <ExpertFormPage windowWidth={windowWidth} onLogout={handleLogout} />
-                </ProtectedRoute>
-              } />
-            }
           </Routes>
         }
       </div>

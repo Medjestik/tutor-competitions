@@ -8,6 +8,7 @@ import PersonContainer from '../../Person/components/PersonContainer/ui/PersonCo
 import ExpertNominations from '../components/ExpertNominations/ui/ExpertNominations';
 import ExpertForms from '../components/ExpertForms/ui/ExpertForms';
 import ExpertDashboard from '../components/ExpertDashboard/ui/ExpertDashboard';
+import ExpertFormPage from '../components/ExpertFormPage/ui/ExpertFormPage';
 import Tabs from '../../../shared/components/Tabs/ui/Tabs';
 
 import '../styles/style.css';
@@ -42,6 +43,8 @@ const Expert: FC<IExpertProps> = ({ windowWidth, onLogout }) => {
               <Route path='menu/dashboard' element={<ExpertDashboard />} />
 
               <Route path='nomination/:nominationId' element={<ExpertForms />} />
+
+              <Route path='nomination/:nominationId/form/:formId/*' element={<ExpertFormPage windowWidth={windowWidth} onLogout={onLogout} />} />
 
               <Route path='*' element={<Navigate to='/person/menu' replace />} />
             </Routes>
