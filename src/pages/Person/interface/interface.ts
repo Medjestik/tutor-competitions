@@ -33,6 +33,7 @@ export interface IFormData {
   nomination: number;
   nomination_name: string;
   originality: string;
+  educational_organization: string;
   status: string;
   task: string;
   text: string;

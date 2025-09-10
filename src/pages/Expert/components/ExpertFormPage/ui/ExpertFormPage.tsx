@@ -128,6 +128,10 @@ const ExpertFormPage: FC<IExpertFormPageProps> = () => {
         </div>
         <div className='expert-form__container'>
 
+          <FormField title='Образовательная организация'>
+            <p className='form__text-view'>{form.educational_organization}</p>
+          </FormField>
+
           <FormField title={texts.task.title}>
             <p className='form__text-view'>{form.task}</p>
           </FormField>
