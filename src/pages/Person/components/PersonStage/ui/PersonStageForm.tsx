@@ -1,4 +1,4 @@
-import type { FC, FormEvent } from 'react';
+import type { FC } from 'react';
 import type { IUploadLink, IUploadFile } from '../../../../../shared/components/Popup/interface/interface';
 import type { IStageFormProps, ISelectNomination, IFormData } from '../../../interface/interface';
 
@@ -14,7 +14,6 @@ import FormFieldButton from '../../../../../shared/components/Form/components/Fo
 import FormFieldError from '../../../../../shared/components/Form/components/FormField/ui/FormFieldError';
 import FormTextArea from '../../../../../shared/components/Form/components/FormTextArea/ui/FormTextArea';
 import FormInputString from '../../../../../shared/components/Form/components/FormInput/ui/FormInputString';
-import FormSubmit from '../../../../../shared/components/Form/components/FormSubmit/ui/FormSubmit';
 import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
 import Button from '../../../../../shared/components/Button/ui/Button';
 import UploadLinkPopup from '../../../../../shared/components/Popup/ui/UploadLinkPopup';
@@ -74,8 +73,6 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
 
   const [isLoadingRequest, setIsLoadingRequest] = useState<boolean>(false);
   const [isShowRequestError, setIsShowRequestError] = useState<boolean>(false);
-  const [isBlockSubmitButton, setIsBlockSubmitButton] = useState<boolean>(false);
-  const [isLoadingSubmit, setIsLoadingSubmit] = useState<boolean>(false);
 
   const [isShowForm, setIsShowForm] = useState<boolean>(false);
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
@@ -176,35 +173,6 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
     setIsShowRequestError(false);
   };
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    setIsLoadingSubmit(true);
-    e.preventDefault();
-    const token = localStorage.getItem('token');
-    if (token) {
-      api.submitForm(
-        token,
-        nameInput.value,
-        taskInput.value,
-        descriptionInput.value,
-        originalityInput.value,
-        textInput.value,
-        usabilityInput.value
-      )
-      .then(() => {
-        if (formData) {
-          setFormData({...formData, status: 'submitted'});
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setIsLoadingSubmit(false);
-      });
-    }
-  };
-  
-
   const getData = () => {
     setIsLoadingData(true);
     const token = localStorage.getItem('token');
@@ -237,29 +205,6 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
   };
 
   useEffect(() => {
-    const isValid = [
-      nameInput,
-      taskInput,
-      descriptionInput,
-      originalityInput,
-      textInput,
-      usabilityInput
-    ].every((input) =>
-      input.value.trim() !== '' &&
-      !input.error.isShow
-    );
-  
-    setIsBlockSubmitButton(!isValid);
-  }, [
-    nameInput.value, nameInput.error.isShow, nameInput.isBlocked,
-    taskInput.value, taskInput.error.isShow, taskInput.isBlocked,
-    descriptionInput.value, descriptionInput.error.isShow, descriptionInput.isBlocked,
-    originalityInput.value, originalityInput.error.isShow, originalityInput.isBlocked,
-    textInput.value, textInput.error.isShow, textInput.isBlocked,
-    usabilityInput.value, usabilityInput.error.isShow, usabilityInput.isBlocked
-  ]);
-
-  useEffect(() => {
     getData();
   }, []);
 
@@ -286,7 +231,7 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
             {
               formData.status === 'draft'
               ?
-              <Form formName={'stage-form'} onSubmit={onSubmit}>
+              <Form formName={'stage-form'}>
                 <FormField title='1. Выбор номинации' subtitle='Выберите номинацию и нажмите кнопку "Сохранить".'>
                   <div className='form__input-field'>
                     <SelectWithSearch options={nominations} currentOption={currentNomination} onChooseOption={handleChangeNomination} />
@@ -402,7 +347,6 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
                       <span className='person-stage__file-empty'>Список источников пока пуст.</span>
                     }
                   </FormField>
-                  <FormSubmit text='Отправить анкету' isBlock={isBlockSubmitButton} loadingText='Отправка..' isLoading={isLoadingSubmit} />
                   </>
                 }
               </Form>

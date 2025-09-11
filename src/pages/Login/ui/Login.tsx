@@ -9,9 +9,6 @@ import Form from '../../../shared/components/Form/ui/Form';
 import FormField from '../../../shared/components/Form/components/FormField/ui/FormField';
 import FormInputString from '../../../shared/components/Form/components/FormInput/ui/FormInputString';
 import FormSubmit from '../../../shared/components/Form/components/FormSubmit/ui/FormSubmit';
-import Link from '../../../shared/components/Link/ui/Link';
-
-import { EROUTES } from '../../../shared/utils/ERoutes';
 
 import '../styles/style.css';
 
@@ -97,7 +94,6 @@ const Login: FC<ILoginProps> = ({ windowWidth, onLogin, loginError, isLoadingReq
 
         <FormSubmit text='Войти' isBlock={isBlockSubmitButton} isLoading={isLoadingRequest} loadingText='Вход..' /> 
         {loginError.isShow && <div>Ошибка входа</div>}
-        <p className='login__caption'>У меня нет <Link text='логина и пароля' path={EROUTES.REGISTRATION} target={false}/></p>
 
       </Form>
 
