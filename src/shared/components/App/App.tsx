@@ -9,7 +9,6 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Landing from '../../../pages/Landing/Landing';
 import Login from '../../../pages/Login/ui/Login';
-import Registration from '../../../pages/Registration/ui/Registration';
 import Expert from '../../../pages/Expert/ui/Expert';
 import Person from '../../../pages/Person/ui/Person';
 import Preloader from '../Preloader/ui/Preloader';
@@ -118,12 +117,6 @@ function App() {
             <Route path={EROUTES.LOGIN} element={
               <PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
                 <Login windowWidth={windowWidth} onLogin={handleLogin} loginError={isShowLoginError} isLoadingRequest={isLoadingRequest} />
-              </PublicRoute>
-            } />
-
-            <Route path={EROUTES.REGISTRATION} element={
-              <PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
-                <Registration windowWidth={windowWidth} />
               </PublicRoute>
             } />
 

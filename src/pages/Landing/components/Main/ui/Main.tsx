@@ -29,10 +29,6 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
     navigate(EROUTES.LOGIN);
   };
 
-  const openRegistrationPage = () => {
-    navigate(EROUTES.REGISTRATION);
-  };
-  
   return (
     <main className='main' id='main'>
       {
@@ -49,7 +45,7 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
           <div className='main__info'>
             <p className='main__subtitle'>Конкурс проводится в&nbsp;рамках реализации Концепции подготовки кадров для&nbsp;транспортного комплекса до&nbsp;2035 года и&nbsp;направлен на&nbsp;выявление, поддержку и&nbsp;масштабирование лучших решений в&nbsp;системе транспортного образования. Партнёр конкурса —&nbsp;Московский городской педагогический университет.</p>
             <div className='main__time'>
-              <p className='main__timer'>Приём заявок уже открыт!</p>
+              <p className='main__timer'>Приём заявок закрыт!</p>
               {
                 /*
                   <p className='main__timer-text'>ДО КОНЦА ПРИЕМА ЗАЯВОК</p>
@@ -61,7 +57,6 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
             </div>
           </div>
           <div className='main__buttons'>
-            <Button text='Регистрация' onClick={openRegistrationPage} color='registration' />
             <Button text='Личный кабинет' onClick={openLoginPage} color='inherit' />
           </div>
         </>
@@ -77,7 +72,6 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
           <p className='main__timer'>Приём заявок уже открыт!</p>
           <p className='main__subtitle'>Конкурс проводится в&nbsp;рамках реализации Концепции подготовки кадров для&nbsp;транспортного комплекса до&nbsp;2035 года и&nbsp;направлен на&nbsp;выявление, поддержку и&nbsp;масштабирование лучших решений в&nbsp;системе транспортного образования. Партнёр конкурса —&nbsp;Московский городской педагогический университет.</p>
           <div className='main__buttons'>
-            <Button text='Регистрация' onClick={openRegistrationPage} style={btnMobileStyle} color='registration' />
             <Button text='Личный кабинет' onClick={openLoginPage} color='inherit' style={btnMobileStyle} />
           </div>
         </>

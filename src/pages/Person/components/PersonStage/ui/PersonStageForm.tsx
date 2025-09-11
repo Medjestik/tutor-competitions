@@ -170,21 +170,6 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
     }
   };
 
-  const handleEditForm = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      api.editForm(token)
-        .then(() => {
-          if (formData) {
-            setFormData({...formData, status: 'draft'});
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
-
   const closePopup = () => {
     setIsOpenUploadLinkPopup(false);
     setIsOpenUploadFilePopup(false);
@@ -426,7 +411,6 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
               <h4 className='person-stage__row-title'>Спасибо! Анкета практики успешно отправлена.</h4>
               <p className='person-stage__row-subtitle'>Вы сможете ознакомиться с результатами оценки своей работы сразу после того, как&nbsp;жюри завершит проверку анкет.</p>
               <p className='person-stage__row-subtitle'>Актуальные сроки этапов конкурса указаны на основной странице.</p>
-              <Button onClick={handleEditForm} text='Редактировать анкету' style={btnFilesStyle} color='secondary' />
               </>
             }
             </>
