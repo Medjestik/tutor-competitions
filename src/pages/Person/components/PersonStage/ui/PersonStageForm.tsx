@@ -353,8 +353,8 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
               :
               <>
               <h4 className='person-stage__row-title'>Спасибо! Анкета практики успешно отправлена.</h4>
-              <p className='person-stage__row-subtitle'>Вы сможете ознакомиться с результатами оценки своей работы сразу после того, как&nbsp;жюри завершит проверку анкет.</p>
-              <p className='person-stage__row-subtitle'>Актуальные сроки этапов конкурса указаны на основной странице.</p>
+              <p className='person-stage__row-subtitle'>Вы прошли в следующий этап Всероссийского конкурса лучших педагогических практик «Лидеры транспортного образования».</p>
+              <p className='person-stage__row-subtitle'>Выберите удобное время для проведения онлайн-мастер-класса (кнопка «02»).</p>
               </>
             }
             </>

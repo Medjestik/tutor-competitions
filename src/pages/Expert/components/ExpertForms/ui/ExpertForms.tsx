@@ -98,10 +98,7 @@ const ExpertForms: FC = () => {
                 </div>
                 <h4 className='expert__item-name'>{elem.name}</h4>
               </div>
-              {
-                elem.is_evaluated &&
-                <span className='expert__item-score'>{elem.average_score}</span>
-              }
+              <span className='expert__item-score'>{elem.average_score || ''}</span>
             </li>
           ))
         }

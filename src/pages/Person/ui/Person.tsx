@@ -14,36 +14,26 @@ import PersonContainer from '../components/PersonContainer/ui/PersonContainer';
 import PersonStage from '../components/PersonStage/ui/PersonStage';
 import PersonStageInitial from '../components/PersonStage/ui/PersonStageInitial';
 import PersonStageForm from '../components/PersonStage/ui/PersonStageForm';
+import PersonStageSchedule from '../components/PersonStage/ui/PersonStageSchedule';
+import PersonStageSlides from '../components/PersonStage/ui/PersonStageSlides';
+import PersonStageWorkshop from '../components/PersonStage/ui/PersonStageWorkshop';
 
 import { EROUTES, EROUTESSTAGES } from '../../../shared/utils/ERoutes';
+import { personStages, personStagesClose } from '../lib/stages';
 
 import '../styles/style.css';
 
 const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
-
-  const initialStage = { 
-    name: 'Начало',  
-    id: 0, 
-    route: EROUTES.PERSON,
-    is_active: true, 
-    position: 0, 
-    view: 'info', 
-    type: 'default',
-    url_template: '',
-    url_video: '',
-    team_file_count: 0, 
-    team_videos: [],
-  };
 
   const currentUser = useContext(CurrentUserContext);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const [stages, setStages] = useState<IStageNavItem[]>([initialStage]);
-  const [openStageId, setOpenStageId] = useState<number>(initialStage.id);
+  const [stages, setStages] = useState<IStageNavItem[]>(currentUser.passed_second_stage ? personStages : personStagesClose);
+  const [openStageId, setOpenStageId] = useState<number>(personStages[0].id);
 
-  const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
+  const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
 
   const toggleStage = (stage: IStageNavItem) => {
     navigate(stage.route);
@@ -64,7 +54,6 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
       });
     }
   };
-
 
   const getData = () => {
     setIsLoadingData(true);
@@ -88,7 +77,7 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
           type: currentUser.current_stage_id >= elem.id ? 'default' : 'block'
         }));
       
-        setStages([initialStage, ...newStages]);
+        setStages([...newStages]);
       })
       .catch((err) => {
         console.error(err);
@@ -98,7 +87,10 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
   };
 
   useEffect(() => {
-    getData();
+    const close = false;
+    if (close) {
+      getData();
+    }
   }, []);
 
   useEffect(() => {
@@ -125,10 +117,9 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
             <Routes>
               <Route index element={<PersonStageInitial />} />
               <Route path={EROUTESSTAGES.PERSON_FORM} element={<PersonStageForm onNextStage={handleNextStage} />} />
-              <Route path={EROUTESSTAGES.PERSON_RESULTS} element={<PersonStage />} />
-              <Route path={EROUTESSTAGES.PERSON_SCHEDULE} element={<PersonStage />} />
-              <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStage />} />
-              <Route path={EROUTESSTAGES.PERSON_WORKSHOP} element={<PersonStage />} />
+              <Route path={EROUTESSTAGES.PERSON_SCHEDULE} element={<PersonStageSchedule />} />
+              <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides />} />
+              <Route path={EROUTESSTAGES.PERSON_WORKSHOP} element={<PersonStageWorkshop />} />
               <Route path={EROUTESSTAGES.PERSON_EVALUATE} element={<PersonStage />} />
             </Routes>
           }

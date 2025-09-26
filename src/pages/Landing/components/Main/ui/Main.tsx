@@ -23,6 +23,15 @@ interface IMainProps {
 
 const Main: FC<IMainProps> = ({ windowWidth }) => {
 
+  const btnRegStyle = {
+    margin: '0',
+    fontSize: windowWidth > 1000 ? '24px' : '18px',
+    borderRadius: windowWidth > 1000 ? '50px' : '12px',
+    height: windowWidth > 1000 ? '60px' : '40px',
+    lineHeight: '1',
+    padding: '8px 20px',
+  };
+
   const navigate = useNavigate();
 
   const openLoginPage = () => {
@@ -45,7 +54,7 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
           <div className='main__info'>
             <p className='main__subtitle'>Конкурс проводится в&nbsp;рамках реализации Концепции подготовки кадров для&nbsp;транспортного комплекса до&nbsp;2035 года и&nbsp;направлен на&nbsp;выявление, поддержку и&nbsp;масштабирование лучших решений в&nbsp;системе транспортного образования. Партнёр конкурса —&nbsp;Московский городской педагогический университет.</p>
             <div className='main__time'>
-              <p className='main__timer'>Приём заявок закрыт!</p>
+              <p className='main__timer'>Подведены итоги 1 этапа!</p>
               {
                 /*
                   <p className='main__timer-text'>ДО КОНЦА ПРИЕМА ЗАЯВОК</p>
@@ -58,6 +67,13 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
           </div>
           <div className='main__buttons'>
             <Button text='Личный кабинет' onClick={openLoginPage} color='inherit' />
+            <Button 
+              text='Итоги отборочного этапа' 
+              type='link' 
+              link='https://cloud.mail.ru/public/1q7t/1GUqR4HFs'
+              color='registration'
+              style={btnRegStyle} 
+            />
           </div>
         </>
         :
@@ -69,10 +85,17 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
             <span className='main__title-stroke'></span>
             <h1 className='main__title main__title_color_transparent'>ТРАНСПОРТНОГО ОБРАЗОВАНИЯ»</h1>
           </div>
-          <p className='main__timer'>Приём заявок уже открыт!</p>
+          <p className='main__timer'>Подведены итоги 1 этапа!</p>
           <p className='main__subtitle'>Конкурс проводится в&nbsp;рамках реализации Концепции подготовки кадров для&nbsp;транспортного комплекса до&nbsp;2035 года и&nbsp;направлен на&nbsp;выявление, поддержку и&nbsp;масштабирование лучших решений в&nbsp;системе транспортного образования. Партнёр конкурса —&nbsp;Московский городской педагогический университет.</p>
           <div className='main__buttons'>
             <Button text='Личный кабинет' onClick={openLoginPage} color='inherit' style={btnMobileStyle} />
+            <Button 
+              text='Итоги отборочного этапа' 
+              type='link' 
+              link='https://cloud.mail.ru/public/1q7t/1GUqR4HFs'
+              color='registration'
+              style={btnRegStyle} 
+            />
           </div>
         </>
       }

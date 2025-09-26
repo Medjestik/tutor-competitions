@@ -15,6 +15,8 @@ export const initialUser: ICurrentUser = {
   role: '',
   telegram_username: '',
   timezone: '',
+  passed_second_stage: false,
+  nomination: null,
 };
 
 export const CurrentUserContext = createContext(initialUser);

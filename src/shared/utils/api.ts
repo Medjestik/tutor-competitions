@@ -213,7 +213,8 @@ export const uploadLink = (token: string, data: IUploadLink) => {
     body: JSON.stringify({
       type: 'link',
       link: data.link,
-      description: data.name
+      description: data.name,
+      stage_id: 4,
     }),
   })
   .then(res => handleResponse(res));
@@ -232,6 +233,7 @@ export const uploadFile = (token: string, data: IUploadFile) => {
       file_data: data.file,
       description: data.name,
       filename: data.fileName,
+      stage_id: 4,
     }),
   })
   .then(res => handleResponse(res));
@@ -276,13 +278,13 @@ export const getStages = (token: string) => {
   .then(res => handleResponse(res));
 };
 
-export const getStage = (token: string, stageId: number) => {
-  return fetch(`${API_URL}/stages/${stageId}`, {
+export const getStage = (token: string) => {
+  return fetch(`${API_URL}/competition/resources?stage_id=4`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Token ${token}`,
+      'Authorization': `Bearer ${token}`,
     }
   })
   .then(res => handleResponse(res));
@@ -316,3 +318,34 @@ export const nextStage = (token: string) => {
   })
   .then(res => handleResponse(res));
 };
+
+export const getSlots = (token: string) => {
+  return fetch(`${API_URL}/competition/slots`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  })
+  .then(res => handleResponse(res));
+};
+
+export interface ISLot {
+  date: string;
+  time: string;
+}
+
+export const SelectSlots = (token: string, slots: ISLot[]) => {
+  return fetch(`${API_URL}/competition/slots/`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(slots),
+  })
+  .then(res => handleResponse(res));
+};
+

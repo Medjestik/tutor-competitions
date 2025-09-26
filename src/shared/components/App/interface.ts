@@ -12,6 +12,8 @@ export interface ICurrentUser {
   role: string;
   telegram_username: string;
   timezone: string;
+  passed_second_stage: boolean;
+  nomination: { id: number, name: string } | null;
 }
 
 
