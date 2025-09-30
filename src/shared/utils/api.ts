@@ -331,6 +331,18 @@ export const getSlots = (token: string) => {
   .then(res => handleResponse(res));
 };
 
+export const getWebinars = (token: string) => {
+  return fetch(`${API_URL}/competition/masterclass`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  })
+  .then(res => handleResponse(res));
+};
+
 export interface ISLot {
   date: string;
   time: string;
