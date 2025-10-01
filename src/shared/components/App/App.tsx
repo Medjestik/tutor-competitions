@@ -11,6 +11,7 @@ import Landing from '../../../pages/Landing/Landing';
 import Login from '../../../pages/Login/ui/Login';
 import Expert from '../../../pages/Expert/ui/Expert';
 import Person from '../../../pages/Person/ui/Person';
+import Records from '../../../pages/Records/ui/Records';
 import Preloader from '../Preloader/ui/Preloader';
 import { EROUTES } from '../../utils/ERoutes';
 import { PublicRoute } from '../RoutesGuards/PublicRoute';
@@ -108,6 +109,11 @@ function App() {
           <Preloader />
           :
           <Routes>
+
+            <Route path={EROUTES.RECORDS} element={
+              <Records windowWidth={windowWidth} />
+            } />
+
             <Route path={EROUTES.LANDING} element={
               <PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
                 <Landing windowWidth={windowWidth} />

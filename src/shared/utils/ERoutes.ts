@@ -3,6 +3,7 @@ export enum EROUTES {
   REGISTRATION = '/registration',
   LOGIN = '/login',
   PERSON = '/person',
+  RECORDS = '/records',
 }
 
 export enum EROUTESSTAGES {
