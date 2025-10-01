@@ -179,7 +179,7 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
   
     if (token) {
       Promise.all([
-        api.getNominations(token),
+        api.getNominations(),
         api.getFormData(token),
       ])
         .then(([nominationsRes, formDataRes]) => {

@@ -60,13 +60,12 @@ export const registration = (data: IRegisterData) => {
   .then(res => handleResponse(res));
 };
 
-export const getNominations = (token: string) => {
+export const getNominations = () => {
   return fetch(`${API_URL}/competition/nominations`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
     }
   })
   .then(res => handleResponse(res));

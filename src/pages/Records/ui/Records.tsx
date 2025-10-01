@@ -33,21 +33,17 @@ const Records: FC<IRecordsProps> = ({ windowWidth }) => {
 
   const getData = () => {
     setIsLoadingData(true);
-    const token = localStorage.getItem('token');
-  
-    if (token) {
-      Promise.all([
-        api.getNominations(token),
-      ])
-        .then(([nominationsRes]) => {
-          setNominations(nominationsRes);
-          setCurrentNomination(null);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .finally(() => setIsLoadingData(false));
-    }
+    Promise.all([
+      api.getNominations(),
+    ])
+      .then(([nominationsRes]) => {
+        setNominations(nominationsRes);
+        setCurrentNomination(null);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => setIsLoadingData(false));
   };
 
   const handleSelectNomination = (elem: ISelectNomination) => {
@@ -58,12 +54,9 @@ const Records: FC<IRecordsProps> = ({ windowWidth }) => {
     }
   };
 
-  console.log(nominations);
-
   useEffect(() => {
     getData();
   }, []);
-
 
   return (
     <>

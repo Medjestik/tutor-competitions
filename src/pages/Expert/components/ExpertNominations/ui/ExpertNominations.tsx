@@ -34,7 +34,7 @@ const ExpertNominations: FC = () => {
     setIsLoadingData(true);
     const token = localStorage.getItem('token');
     if (token) {
-      api.getNominations(token)
+      api.getNominations()
       .then((res) => {
         setNominations(res);
       })
