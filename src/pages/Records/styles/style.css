@@ -128,3 +128,45 @@
   line-height: 1.15;
   color: var(--subtitle-color);
 }
+
+
+@media all and (max-width: 1439px) {
+  .records__title {
+    font-size: 24px;
+  }
+  .records__subtitle {
+    margin: 8px 0 0 0;
+    font-size: 16px;
+  }
+  .records__nomination-list {
+    margin: 12px 0 0 0;
+  }
+  .records__nomination-item {
+    margin: 0;
+    padding: 0 0 8px 0;
+    font-size: 16px;
+  }
+  .records__card-item-caption {
+    margin: 12px 0 0 0;
+    font-size: 14px;
+  }
+  .records__card-item-title {
+    margin: 12px 0 0 0;
+    font-size: 16px;;
+  }
+  .records__card-empty {
+    margin: 12px 0 0 0;
+    font-size: 14px;
+  }
+}
+
+@media all and (max-width: 1000px) {
+  .records__nomination-list {
+    display: none;
+  }
+  .records__card-list {
+    margin: 20px 0 0 0;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
