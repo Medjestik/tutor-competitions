@@ -342,6 +342,17 @@ export const getWebinars = (token: string) => {
   .then(res => handleResponse(res));
 };
 
+export const getPublicWebinars = () => {
+  return fetch(`${API_URL}/competition/public/masterclasses`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+  .then(res => handleResponse(res));
+};
+
 export interface ISLot {
   date: string;
   time: string;

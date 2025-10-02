@@ -14,19 +14,19 @@ interface IRecordsProps {
   windowWidth: number;
 }
 
-const cards = [
-  { name: 'Северные конвои – патриотическое воспитание в курсе ESP', id: 1, nominationId : 1, organization: 'ГУМРФ им.адм. С.О. Макарова', category: 1, link: 'https://pruffme.com/landing/u2634840/1', },
-  { name: 'Игра‑тренажёр «Повышение эффективности ремонта подвижного состава»', id: 2, nominationId : 3, organization: 'РУТ (МИИТ)', category: 2, link: 'https://pruffme.com/landing/u2634840/1', },
-  { name: 'Игра‑тренажёр «Повышение эффективности ремонта подвижного состава»', id: 2, nominationId : 3, organization: 'РУТ (МИИТ)', category: 3, link: 'https://pruffme.com/landing/u2634840/1', },
-  { name: 'Северные конвои – патриотическое воспитание в курсе ESP', id: 3, nominationId : 1, organization: 'ГУМРФ им.адм. С.О. Макарова', category: 4, link: 'https://pruffme.com/landing/u2634840/1', },
-  { name: 'Игра‑тренажёр «Повышение эффективности ремонта подвижного состава»', id: 4, nominationId : 3, organization: 'РУТ (МИИТ)', category: 5, link: 'https://pruffme.com/landing/u2634840/1', },
-  { name: 'Северные конвои – патриотическое воспитание в курсе ESP', id: 5, nominationId : 1, organization: 'ГУМРФ им.адм. С.О. Макарова', category: 6, link: 'https://pruffme.com/landing/u2634840/1', },
-  { name: 'Игра‑тренажёр «Повышение эффективности ремонта подвижного состава»', id: 6, nominationId : 3, organization: 'РУТ (МИИТ)', category: 7, link: 'https://pruffme.com/landing/u2634840/1', },
-];
+interface IRecord {
+  category: number;
+  id: number;
+  link: string;
+  name: string;
+  nominationId: 4;
+  organization: string;
+}
 
 const Records: FC<IRecordsProps> = ({ windowWidth }) => {
 
   const [nominations, setNominations] = useState<ISelectNomination[]>([]);
+  const [webinars, setWebinars] = useState<IRecord[]>([]);
   const [currentNomination, setCurrentNomination] = useState<ISelectNomination | null>(null);
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
@@ -35,8 +35,10 @@ const Records: FC<IRecordsProps> = ({ windowWidth }) => {
     setIsLoadingData(true);
     Promise.all([
       api.getNominations(),
+      api.getPublicWebinars(),
     ])
-      .then(([nominationsRes]) => {
+      .then(([nominationsRes, webinarsRes]) => {
+        setWebinars(webinarsRes);
         setNominations(nominationsRes);
         setCurrentNomination(null);
       })
@@ -85,8 +87,8 @@ const Records: FC<IRecordsProps> = ({ windowWidth }) => {
         {
           (() => {
             const filteredCards = currentNomination
-              ? cards.filter((card) => card.nominationId === currentNomination.id)
-              : cards;
+              ? webinars.filter((card) => card.nominationId === currentNomination.id)
+              : webinars;
 
             return filteredCards.length > 0 ? (
               <div className='records__card-list'>
