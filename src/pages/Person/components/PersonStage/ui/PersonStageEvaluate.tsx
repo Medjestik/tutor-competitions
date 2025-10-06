@@ -134,15 +134,12 @@ const PersonStageEvaluate: FC = () => {
   };
 
   const isFormValid = () =>
-    currentPractice !== null && rating > 0 && comment.trim().length >= 25;
+    currentPractice !== null && rating > 0 && comment.trim().length >= 250;
 
   // Только неопубликованные оценки попадают в список выбора
   const availableOptions = webinarData.filter(
     (item) => !scores.some((s) => s.id === item.user_rating?.id)
   );
-
-  console.log(availableOptions);
-  console.log(scores);
 
   return (
     <div className="person-stage">
