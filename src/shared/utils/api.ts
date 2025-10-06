@@ -201,6 +201,18 @@ export const scoreForm = (token: string, evaluations: IScoreItem[]) => {
   }).then(res => handleResponse(res));
 };
 
+export const scoreWebinar = (token: string, masterclass_id: number, rating: number, comment: string ) => {
+  return fetch(`${API_URL}/competition/masterclass/rating/`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({  masterclass_id, rating, comment }),
+  }).then(res => handleResponse(res));
+};
+
 export const uploadLink = (token: string, data: IUploadLink) => {
   return fetch(`${API_URL}/competition/forms/add-resource/`, {
     method: 'POST',
@@ -332,6 +344,18 @@ export const getSlots = (token: string) => {
 
 export const getWebinars = (token: string) => {
   return fetch(`${API_URL}/competition/masterclass`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  })
+  .then(res => handleResponse(res));
+};
+
+export const getCompletedWebinars = (token: string) => {
+  return fetch(`${API_URL}/competition/masterclass/completed`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',

@@ -44,6 +44,10 @@ const SelectWithSearch: FC<ISelectWithSearchProps> = ({ options, currentOption, 
 
   useOnClickOutside(selectRef, closeSelectOptions);
 
+  useEffect(() => {
+    setFilteredOptions(options);
+  }, [options]);
+
   return (
     <div ref={selectRef} className={`select-search ${isOpenSelectOptions ? 'select-search_status_open' : ''}`}>
       <div className='select-search__main' onClick={!isOpenSelectOptions ? openSelectOptions : undefined}>

@@ -110,10 +110,6 @@ function App() {
           :
           <Routes>
 
-            <Route path={EROUTES.RECORDS} element={
-              <Records windowWidth={windowWidth} />
-            } />
-
             <Route path={EROUTES.LANDING} element={
               <PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
                 <Landing windowWidth={windowWidth} />
@@ -125,6 +121,15 @@ function App() {
                 <Login windowWidth={windowWidth} onLogin={handleLogin} loginError={isShowLoginError} isLoadingRequest={isLoadingRequest} />
               </PublicRoute>
             } />
+
+            {
+              loggedIn &&
+              <Route path='/records' element={
+                <ProtectedRoute isAllowed={loggedIn}>
+                  <Records windowWidth={windowWidth} isLoggedIn={loggedIn} />
+                </ProtectedRoute>
+              } />
+            }
 
             {
               loggedIn &&

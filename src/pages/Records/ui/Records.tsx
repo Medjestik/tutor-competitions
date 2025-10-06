@@ -12,6 +12,7 @@ import '../styles/style.css';
 
 interface IRecordsProps {
   windowWidth: number;
+  isLoggedIn: boolean;
 }
 
 interface IRecord {
@@ -23,7 +24,7 @@ interface IRecord {
   organization: string;
 }
 
-const Records: FC<IRecordsProps> = ({ windowWidth }) => {
+const Records: FC<IRecordsProps> = ({ windowWidth, isLoggedIn }) => {
 
   const [nominations, setNominations] = useState<ISelectNomination[]>([]);
   const [webinars, setWebinars] = useState<IRecord[]>([]);
@@ -62,7 +63,7 @@ const Records: FC<IRecordsProps> = ({ windowWidth }) => {
 
   return (
     <>
-    <MainLayout windowWidth={windowWidth} isLoggedIn={false} >
+    <MainLayout windowWidth={windowWidth} isLoggedIn={isLoggedIn} >
       {
         isLoadingData
         ?

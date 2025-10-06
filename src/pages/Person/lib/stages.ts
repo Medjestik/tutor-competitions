@@ -73,7 +73,7 @@ export const personStages = [
     is_active: true, 
     position: 5, 
     view: 'stage', 
-    type: 'block',
+    type: 'default',
     url_template: '',
     url_video: '',
     team_file_count: 0, 

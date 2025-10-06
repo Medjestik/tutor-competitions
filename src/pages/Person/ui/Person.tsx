@@ -11,12 +11,12 @@ import MainLayout from '../../../shared/components/Layout/ui/MainLayout';
 import Preloader from '../../../shared/components/Preloader/ui/Preloader';
 import PersonNavigation from '../components/PersonNavigation/ui/PersonNavigation';
 import PersonContainer from '../components/PersonContainer/ui/PersonContainer';
-import PersonStage from '../components/PersonStage/ui/PersonStage';
 import PersonStageInitial from '../components/PersonStage/ui/PersonStageInitial';
 import PersonStageForm from '../components/PersonStage/ui/PersonStageForm';
 import PersonStageSchedule from '../components/PersonStage/ui/PersonStageSchedule';
 import PersonStageSlides from '../components/PersonStage/ui/PersonStageSlides';
 import PersonStageWorkshop from '../components/PersonStage/ui/PersonStageWorkshop';
+import PersonStageEvaluate from '../components/PersonStage/ui/PersonStageEvaluate';
 
 import { EROUTES, EROUTESSTAGES } from '../../../shared/utils/ERoutes';
 import { personStages, personStagesClose } from '../lib/stages';
@@ -120,7 +120,7 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
               <Route path={EROUTESSTAGES.PERSON_SCHEDULE} element={<PersonStageSchedule />} />
               <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides />} />
               <Route path={EROUTESSTAGES.PERSON_WORKSHOP} element={<PersonStageWorkshop />} />
-              <Route path={EROUTESSTAGES.PERSON_EVALUATE} element={<PersonStage />} />
+              <Route path={EROUTESSTAGES.PERSON_EVALUATE} element={<PersonStageEvaluate />} />
             </Routes>
           }
         </PersonContainer>
