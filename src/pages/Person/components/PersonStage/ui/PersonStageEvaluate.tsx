@@ -48,6 +48,8 @@ const PersonStageEvaluate: FC = () => {
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
 
+  const isShowForm = false;
+
   const getData = () => {
     setIsLoadingData(true);
     const token = localStorage.getItem('token');
@@ -173,56 +175,60 @@ const PersonStageEvaluate: FC = () => {
             </p>
           )}
 
-          <Form formName="evaluate-form" onSubmit={handleSubmit}>
-            <FormField
-              title="1. Выберите практику"
-              subtitle="Просмотрите запись вебинара и выберите практику для оценки в раскрывающемся списке."
-            >
-              <SelectWithSearch
-                options={availableOptions.map((item) => ({
-                  id: item.id,
-                  name: `${item.name || 'Без названия'} — ${item.user_info?.last_name || ''} ${item.user_info?.first_name || ''}`.trim(),
-                }))}
-                currentOption={
-                  currentPractice
-                    ? {
-                        id: currentPractice.id,
-                        name: `${currentPractice.name || 'Без названия'} — ${currentPractice.user_info?.last_name || ''} ${currentPractice.user_info?.first_name || ''}`.trim(),
-                      }
-                    : { id: 0, name: 'Выберите практику' }
-                }
-                onChooseOption={(option) => {
-                  const selected = webinarData.find((w) => w.id === option.id);
-                  if (selected) handleChangePractice(selected);
-                }}
+          {
+            isShowForm &&
+            <Form formName="evaluate-form" onSubmit={handleSubmit}>
+              <FormField
+                title="1. Выберите практику"
+                subtitle="Просмотрите запись вебинара и выберите практику для оценки в раскрывающемся списке."
+              >
+                <SelectWithSearch
+                  options={availableOptions.map((item) => ({
+                    id: item.id,
+                    name: `${item.name || 'Без названия'} — ${item.user_info?.last_name || ''} ${item.user_info?.first_name || ''}`.trim(),
+                  }))}
+                  currentOption={
+                    currentPractice
+                      ? {
+                          id: currentPractice.id,
+                          name: `${currentPractice.name || 'Без названия'} — ${currentPractice.user_info?.last_name || ''} ${currentPractice.user_info?.first_name || ''}`.trim(),
+                        }
+                      : { id: 0, name: 'Выберите практику' }
+                  }
+                  onChooseOption={(option) => {
+                    const selected = webinarData.find((w) => w.id === option.id);
+                    if (selected) handleChangePractice(selected);
+                  }}
+                />
+              </FormField>
+
+              <FormField
+                title="2. Оценка практики"
+                subtitle="Выберите оценку для практики от 1 до 5 звёзд."
+              >
+                <RatingStars value={rating} onChange={setRating} />
+              </FormField>
+
+              <FormField
+                title="3. Комментарий"
+                subtitle="Объем комментария должен составлять не менее 300 знаков — это поможет экспертам и участникам получить ценную обратную связь и сделать конкурс еще более полезным и интересным."
+              >
+                <FormTextArea
+                  value={comment}
+                  placeholder="Введите текст..."
+                  onChange={handleChangeComment}
+                />
+              </FormField>
+
+              <FormSubmit
+                text="Сохранить"
+                isBlock={!isFormValid()}
+                isLoading={isLoadingRequest}
+                loadingText="Сохранение..."
               />
-            </FormField>
+            </Form>
+          }
 
-            <FormField
-              title="2. Оценка практики"
-              subtitle="Выберите оценку для практики от 1 до 5 звёзд."
-            >
-              <RatingStars value={rating} onChange={setRating} />
-            </FormField>
-
-            <FormField
-              title="3. Комментарий"
-              subtitle="Объем комментария должен составлять не менее 300 знаков — это поможет экспертам и участникам получить ценную обратную связь и сделать конкурс еще более полезным и интересным."
-            >
-              <FormTextArea
-                value={comment}
-                placeholder="Введите текст..."
-                onChange={handleChangeComment}
-              />
-            </FormField>
-
-            <FormSubmit
-              text="Сохранить"
-              isBlock={!isFormValid()}
-              isLoading={isLoadingRequest}
-              loadingText="Сохранение..."
-            />
-          </Form>
         </>
       )}
     </div>
