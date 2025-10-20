@@ -54,7 +54,7 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
           <div className='main__info'>
             <p className='main__subtitle'>Конкурс проводится в&nbsp;рамках реализации Концепции подготовки кадров для&nbsp;транспортного комплекса до&nbsp;2035 года и&nbsp;направлен на&nbsp;выявление, поддержку и&nbsp;масштабирование лучших решений в&nbsp;системе транспортного образования. Партнёр конкурса —&nbsp;Московский городской педагогический университет.</p>
             <div className='main__time'>
-              <p className='main__timer'>Подведены итоги 1 этапа!</p>
+              <p className='main__timer'>Подведены итоги 2 этапа!</p>
               {
                 /*
                   <p className='main__timer-text'>ДО КОНЦА ПРИЕМА ЗАЯВОК</p>
@@ -68,9 +68,9 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
           <div className='main__buttons'>
             <Button text='Личный кабинет' onClick={openLoginPage} color='inherit' />
             <Button 
-              text='Итоги отборочного этапа' 
+              text='Итоги полуфинала' 
               type='link' 
-              link='https://cloud.mail.ru/public/1q7t/1GUqR4HFs'
+              link='https://cloud.mail.ru/public/pWq7/2MvtYXzQh'
               color='registration'
               style={btnRegStyle} 
             />
@@ -85,14 +85,14 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
             <span className='main__title-stroke'></span>
             <h1 className='main__title main__title_color_transparent'>ТРАНСПОРТНОГО ОБРАЗОВАНИЯ»</h1>
           </div>
-          <p className='main__timer'>Подведены итоги 1 этапа!</p>
+          <p className='main__timer'>Подведены итоги 2 этапа!</p>
           <p className='main__subtitle'>Конкурс проводится в&nbsp;рамках реализации Концепции подготовки кадров для&nbsp;транспортного комплекса до&nbsp;2035 года и&nbsp;направлен на&nbsp;выявление, поддержку и&nbsp;масштабирование лучших решений в&nbsp;системе транспортного образования. Партнёр конкурса —&nbsp;Московский городской педагогический университет.</p>
           <div className='main__buttons'>
             <Button text='Личный кабинет' onClick={openLoginPage} color='inherit' style={btnMobileStyle} />
             <Button 
-              text='Итоги отборочного этапа' 
+              text='Итоги полуфинала' 
               type='link' 
-              link='https://cloud.mail.ru/public/1q7t/1GUqR4HFs'
+              link='https://cloud.mail.ru/public/pWq7/2MvtYXzQh'
               color='registration'
               style={btnRegStyle} 
             />
