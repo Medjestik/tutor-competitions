@@ -70,7 +70,7 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
             <Button 
               text='Итоги полуфинала' 
               type='link' 
-              link='https://cloud.mail.ru/public/pWq7/2MvtYXzQh'
+              link='https://cloud.mail.ru/public/obLS/t2HCUTfBs'
               color='registration'
               style={btnRegStyle} 
             />
@@ -92,7 +92,7 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
             <Button 
               text='Итоги полуфинала' 
               type='link' 
-              link='https://cloud.mail.ru/public/pWq7/2MvtYXzQh'
+              link='https://cloud.mail.ru/public/obLS/t2HCUTfBs'
               color='registration'
               style={btnRegStyle} 
             />
