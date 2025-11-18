@@ -111,19 +111,6 @@
   z-index: 2
 }
 
-.stages__background {
-  position: absolute;
-  bottom: -80px;
-  right: 0;
-  width: 1000px;
-  height: 1000px;
-  background-image: url('../../../../../shared/images/moscow.svg');
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  z-index: 1;
-}
-
 @media all and (max-width: 1440px) {
   .stages {
     padding: 80px 24px;

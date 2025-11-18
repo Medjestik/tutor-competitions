@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.09e6db99.css",
+    "main.css": "/static/css/main.70ed4684.css",
     "main.js": "/static/js/main.829bac1b.js",
     "static/js/977.005b45d1.chunk.js": "/static/js/977.005b45d1.chunk.js",
     "static/js/732.de1d92cb.chunk.js": "/static/js/732.de1d92cb.chunk.js",
@@ -15,7 +15,6 @@
     "static/media/1.svg": "/static/media/1.dfdab6ccc5e1cb3cb27e.svg",
     "static/media/schedule.svg": "/static/media/schedule.0675973f9b64cfd8e9d5d74db1900d9c.svg",
     "static/media/telegram.svg": "/static/media/telegram.1a6585cc0da81db7a32f.svg",
-    "static/media/moscow.svg": "/static/media/moscow.135b93580249d1fd8cee.svg",
     "static/media/video-poster.png": "/static/media/video-poster.b5bbc27bb7de8952704f.png",
     "static/media/description-background.svg": "/static/media/description-background.1332b9de5210559b1c4c.svg",
     "static/media/tutor.svg": "/static/media/tutor.0c447ed356a36354c3b5.svg",
@@ -38,14 +37,14 @@
     "static/media/footer-background.svg": "/static/media/footer-background.2b160b505e2757f04419.svg",
     "static/media/landing-background.svg": "/static/media/landing-background.7802c811047e2a4d671c.svg",
     "static/media/arrow.svg": "/static/media/arrow.55a4ec4915bbcdabc744.svg",
-    "main.09e6db99.css.map": "/static/css/main.09e6db99.css.map",
+    "main.70ed4684.css.map": "/static/css/main.70ed4684.css.map",
     "main.829bac1b.js.map": "/static/js/main.829bac1b.js.map",
     "977.005b45d1.chunk.js.map": "/static/js/977.005b45d1.chunk.js.map",
     "732.de1d92cb.chunk.js.map": "/static/js/732.de1d92cb.chunk.js.map",
     "453.b0a274c9.chunk.js.map": "/static/js/453.b0a274c9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.09e6db99.css",
+    "static/css/main.70ed4684.css",
     "static/js/main.829bac1b.js"
   ]
 }
