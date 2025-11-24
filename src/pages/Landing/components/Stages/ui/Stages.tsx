@@ -112,7 +112,6 @@ const Stages: FC<IStagesProps> = ({ windowWidth }) => {
             </div>
           </li>
         </ul>
-        <div className='stages__background'></div>
       </div>
       {
         isOpenPreparationInfoPopup &&
