@@ -352,6 +352,24 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
           <div className='checkbox__item checkbox__item_margin_top'>
             <label className='checkbox'>
               <input 
+                name='registration-check-first'
+                type='checkbox'
+                id='registration-check-first'
+                defaultChecked={isCheckFirst}
+                onChange={() => setIsCheckFirst(!isCheckFirst)}
+              >
+              </input>
+              <span></span>
+            </label>
+            <div className='checkbox__text'>
+              {'Выражаю '}
+              <Link text='согласие на обработку своих персональных данных' path='https://edtech.miit.ru/consent' />
+              {' и подтверждаю получение согласия о передаче персональных данных третьих лиц на обработку.'}
+            </div>
+          </div>
+          <div className='checkbox__item checkbox__item_margin_top'>
+            <label className='checkbox'>
+              <input 
                 name='registration-check-second'
                 type='checkbox'
                 id='registration-check-second'
@@ -362,9 +380,9 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
               <span></span>
             </label>
             <div className='checkbox__text'>
-              {'Подтверждаю, что ознакомился (-ась) с '}
-              <Link text='Положением об обработке персональных данных РУТ (МИИТ),' path='https://rut-miit.ru/org/privacy' />
-              {'принимаю условия этого Положения и даю своё согласие на обработку персональных данных.'}
+              {'Подтверждаю, что субъекты персональных данных лично ознакомились с '}
+              <Link text='Положением об обработке персональных данных РУТ (МИИТ)' path='https://rut-miit.ru/org/privacy' />
+              {' и принимают условия этого положения.'}
             </div>
           </div>
           <div className='checkbox__item checkbox__item_margin_top'>
@@ -380,7 +398,7 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
               <span></span>
             </label>
             <div className='checkbox__text'>
-            {'Подтверждаю, что ознакомился (-ась) и согласен (-а) с условиями и правилами участия в конкурсе, изложенными в '}
+            {'Подтверждаю, что участники команды ознакомлены и согласны с условиями и правилами участия в соревнованиях, изложенными в '}
               <Link text='Положении' path='https://cloud.mail.ru/public/D2WW/96UszWzkP' />
               {' и '}
               <Link text='Регламенте' path='https://cloud.mail.ru/public/krgk/cMSykKYCT' />

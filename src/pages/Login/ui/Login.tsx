@@ -18,6 +18,7 @@ interface ILoginProps {
   loginError: IFormError;
   isLoadingRequest: boolean;
 }
+
 const Login: FC<ILoginProps> = ({ windowWidth, onLogin, loginError, isLoadingRequest }) => {
 
   const [login, setLogin] = useState<string>('');

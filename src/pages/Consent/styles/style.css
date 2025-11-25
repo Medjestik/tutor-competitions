@@ -1,0 +1,13 @@
+.consent__title {
+  margin: 0;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: bold;
+}
+
+.consent__text {
+  margin: 8px 0 0 0;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: normal;
+}

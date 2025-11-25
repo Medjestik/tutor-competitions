@@ -9,6 +9,7 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Landing from '../../../pages/Landing/Landing';
 import Login from '../../../pages/Login/ui/Login';
+import Consent from '../../../pages/Consent/ui/Consent';
 import Expert from '../../../pages/Expert/ui/Expert';
 import Person from '../../../pages/Person/ui/Person';
 import Records from '../../../pages/Records/ui/Records';
@@ -119,6 +120,12 @@ function App() {
             <Route path={EROUTES.LOGIN} element={
               <PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
                 <Login windowWidth={windowWidth} onLogin={handleLogin} loginError={isShowLoginError} isLoadingRequest={isLoadingRequest} />
+              </PublicRoute>
+            } />
+
+            <Route path={EROUTES.CONSENT} element={
+              <PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
+                <Consent windowWidth={windowWidth}  />
               </PublicRoute>
             } />
 
