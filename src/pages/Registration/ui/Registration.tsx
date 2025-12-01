@@ -58,6 +58,7 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
   const [isCheckFirst, setIsCheckFirst] = useState<boolean>(false);
   const [isCheckSecond, setIsCheckSecond] = useState<boolean>(false);
   const [isCheckThird, setIsCheckThird] = useState<boolean>(false);
+  const [isCheckFourth, setIsCheckFourth] = useState<boolean>(false);
 
   const [isOpenRegistrationSuccessPopup, setIsOpenRegistrationSuccessPopup] = useState<boolean>(false);
   const [isOpenRegistrationErrorPopup, setIsOpenRegistrationErrorPopup] = useState<boolean>(false);
@@ -363,8 +364,8 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
             </label>
             <div className='checkbox__text'>
               {'Выражаю '}
-              <Link text='согласие на обработку своих персональных данных' path='https://edtech.miit.ru/consent' />
-              {' и подтверждаю получение согласия о передаче персональных данных третьих лиц на обработку.'}
+              <Link text='согласие на обработку' path='https://edtech.miit.ru/consent' />
+              {' своих персональных данных.'}
             </div>
           </div>
           <div className='checkbox__item checkbox__item_margin_top'>
@@ -380,9 +381,27 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
               <span></span>
             </label>
             <div className='checkbox__text'>
-              {'Подтверждаю, что субъекты персональных данных лично ознакомились с '}
+              {'Подтверждаю, что лично ознакомился(-ась) с '}
               <Link text='Положением об обработке персональных данных РУТ (МИИТ)' path='https://rut-miit.ru/org/privacy' />
-              {' и принимают условия этого положения.'}
+              {' и принимаю условия этого положения.'}
+            </div>
+          </div>
+          <div className='checkbox__item checkbox__item_margin_top'>
+            <label className='checkbox'>
+              <input 
+                name='registration-check-fourth'
+                type='checkbox'
+                id='registration-check-fourth'
+                defaultChecked={isCheckFourth}
+                onChange={() => setIsCheckFourth(!isCheckFourth)}
+              >
+              </input>
+              <span></span>
+            </label>
+            <div className='checkbox__text'>
+              {'Выражаю '}
+              <Link text='согласие на распространение' path='https://edtech.miit.ru/privacy' />
+              {' своих персональных данных в целях освещения конкурса.'}
             </div>
           </div>
           <div className='checkbox__item checkbox__item_margin_top'>
@@ -398,7 +417,7 @@ const Registration: FC<IRegistrationProps> = ({ windowWidth }) => {
               <span></span>
             </label>
             <div className='checkbox__text'>
-            {'Подтверждаю, что участники команды ознакомлены и согласны с условиями и правилами участия в соревнованиях, изложенными в '}
+            {'Подтверждаю, что лично ознакомился(-ась) и согласен(-а) с условиями и правилами участия в конкурсе, изложенными в '}
               <Link text='Положении' path='https://cloud.mail.ru/public/D2WW/96UszWzkP' />
               {' и '}
               <Link text='Регламенте' path='https://cloud.mail.ru/public/krgk/cMSykKYCT' />

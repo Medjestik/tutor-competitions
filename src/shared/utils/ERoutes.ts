@@ -4,7 +4,8 @@ export enum EROUTES {
   LOGIN = '/login',
   PERSON = '/person',
   RECORDS = '/records',
-  CONSENT = 'consent',
+  CONSENT = '/consent',
+  PRIVACY = '/privacy'
 }
 
 export enum EROUTESSTAGES {
