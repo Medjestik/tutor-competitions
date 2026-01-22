@@ -68,9 +68,9 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
           <div className='main__buttons'>
             <Button text='Личный кабинет' onClick={openLoginPage} color='inherit' />
             <Button 
-              text='Итоги финала' 
+              text='Лучшие практики 2025' 
               type='link' 
-              link='https://cloud.mail.ru/public/K46H/qmUUPH3Wz'
+              link='https://cloud.mail.ru/public/pFAF/Za3dRyRjF'
               color='registration'
               style={btnRegStyle} 
             />
@@ -90,9 +90,9 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
           <div className='main__buttons'>
             <Button text='Личный кабинет' onClick={openLoginPage} color='inherit' style={btnMobileStyle} />
             <Button 
-              text='Итоги финала' 
+              text='Лучшие практики 2025' 
               type='link' 
-              link='https://cloud.mail.ru/public/K46H/qmUUPH3Wz'
+              link='https://cloud.mail.ru/public/pFAF/Za3dRyRjF'
               color='registration'
               style={btnRegStyle} 
             />
