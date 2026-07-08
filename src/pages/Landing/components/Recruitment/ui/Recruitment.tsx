@@ -25,7 +25,7 @@ const Recruitment: FC = () => {
         <li className='recruitment__item'>
           <span className='recruitment__item-count'>/03</span>
           <h4 className='recruitment__item-title'>Административный состав</h4>
-          <p className='recruitment__item-text'>развивающий университетскую среду и&nbsp;связывающих образование с&nbsp;индустрией</p>
+          <p className='recruitment__item-text'>развивающий университетскую среду и&nbsp;связывающий образование с&nbsp;индустрией</p>
         </li>
       </ul>
     </div>

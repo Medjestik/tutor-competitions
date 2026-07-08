@@ -16,7 +16,7 @@ const MobileMenu: FC<IMobileMenu> = ({ isShow, onClose }) => {
   return (
     <div className={`mobile-menu ${isShow ? 'mobile-menu_show' : ''}`}>
       <div className='mobile-menu__header'>
-        <div className='header__icon'></div>
+        <div></div>
         <Icon type='close' color='white' onClick={onClose} />
       </div>
       <Navigation links={NavHeaderLinks} color='white' onClick={onClose} direction='column' />

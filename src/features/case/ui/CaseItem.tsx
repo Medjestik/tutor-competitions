@@ -50,13 +50,13 @@ const CaseItem: FC<ICaseItemProps> = ({ item, selectItemId, onSelect, onDetail, 
         <>
           <h4 className='case-item__title'>Кейс «{item.title}»</h4>
           <img className='case-item__icon' src={item.icon} alt='иконка'></img>
-          <Button text='Подробнее' color='secondary' style={btnStyle} onClick={() => onDetail(item)}></Button>
+          <Button text='Подробнее' color='primary' style={btnStyle} onClick={() => onDetail(item)}></Button>
         </>
         :
         <>
         <div className='case-item__info'>
           <h4 className='case-item__title'>Кейс «{item.title}»</h4>
-          <Button text='Подробнее' color='secondary' style={btnMobileStyle} onClick={() => onDetail(item)}></Button>
+          <Button text='Подробнее' color='primary' style={btnMobileStyle} onClick={() => onDetail(item)}></Button>
         </div>
         <img className='case-item__icon' src={item.icon} alt='иконка'></img>
         </>

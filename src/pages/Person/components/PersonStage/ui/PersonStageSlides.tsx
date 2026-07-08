@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { FC } from 'react';
 import type { IUploadFile, IUploadLink } from '../../../../../shared/components/Popup/interface/interface';
 
@@ -7,8 +8,6 @@ import PersonVideo from '../../PersonVideo/ui/PersonVideo';
 
 import Button from '../../../../../shared/components/Button/ui/Button';
 import Link from '../../../../../shared/components/Link/ui/Link';
-import UploadFilePopup from '../../../../../shared/components/Popup/ui/UploadFilePopup';
-import UploadLinkPopup from '../../../../../shared/components/Popup/ui/UploadLinkPopup';
 import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
 
 import * as api from '../../../../../shared/utils/api';
@@ -119,7 +118,7 @@ const PersonStageSlides: FC = () => {
             <div className='person-stage__info'>
               <p className='person-stage__subtitle'>Мы подготовили шаблон презентации — он поможет вам структурировать выступление и&nbsp;не&nbsp;упустить самое важное. Рекомендуем использовать шаблон для&nbsp;проведения онлайн-мастер-класса!</p>
               <p className='person-stage__subtitle'>Ознакомьтесь с критериями, по&nbsp;которым выступление будут оценивать эксперты — <Link text='https://t.me/edtechmiit/5' path='https://t.me/edtechmiit/5' /></p>
-              <Button text='Скачать шаблон' style={btnStyle} type='link' link='https://course.emiit.ru/webtutor/ivan/land/template/edtech/template.pptx' />
+              <Button text='Скачать шаблон' style={btnStyle} type='link' href='https://course.emiit.ru/webtutor/ivan/land/template/edtech/template.pptx' />
             </div>
             <PersonVideo url='https://course.emiit.ru/webtutor/ivan/land/video/edtech/video.mp4' />
           </div>
@@ -142,27 +141,6 @@ const PersonStageSlides: FC = () => {
           }
 
         </>
-      }
-      
-      {
-        isOpenUploadFilePopup &&
-        <UploadFilePopup 
-          isOpen={isOpenUploadFilePopup}
-          isLoading={isLoadingRequest}
-          isShowRequestError={isShowRequestError}
-          onClose={closePopup}
-          onUpload={handleUploadFile}
-        />
-      }
-      {
-        isOpenUploadLinkPopup &&
-        <UploadLinkPopup 
-          isOpen={isOpenUploadLinkPopup}
-          isLoading={isLoadingRequest}
-          isShowRequestError={isShowRequestError}
-          onClose={closePopup}
-          onUpload={handleUploadLink}
-        />
       }
     </div>
   );

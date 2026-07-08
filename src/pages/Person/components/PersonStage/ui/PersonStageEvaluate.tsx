@@ -1,12 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 
 import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
 import Link from '../../../../../shared/components/Link/ui/Link';
-import Form from '../../../../../shared/components/Form/ui/Form';
-import FormField from '../../../../../shared/components/Form/components/FormField/ui/FormField';
-import FormTextArea from '../../../../../shared/components/Form/components/FormTextArea/ui/FormTextArea';
-import FormSubmit from '../../../../../shared/components/Form/components/FormSubmit/ui/FormSubmit';
+
 import SelectWithSearch from '../../../../../shared/components/Select/ui/SelectWithSearch';
 import RatingStars from '../../../../../widgets/RatingStars/ui/RatingStars';
 
@@ -177,6 +175,8 @@ const PersonStageEvaluate: FC = () => {
 
           {
             isShowForm &&
+            <></>
+            /*
             <Form formName="evaluate-form" onSubmit={handleSubmit}>
               <FormField
                 title="1. Выберите практику"
@@ -227,6 +227,7 @@ const PersonStageEvaluate: FC = () => {
                 loadingText="Сохранение..."
               />
             </Form>
+            */
           }
 
         </>

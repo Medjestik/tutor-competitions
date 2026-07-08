@@ -146,6 +146,8 @@ const PersonStageSchedule: FC = () => {
 
   const isBlock = totalSelectedSlots < 3;
 
+  console.log(isBlock);
+
   useEffect(() => {
     getData();
   }, []);
@@ -216,7 +218,7 @@ const PersonStageSchedule: FC = () => {
                     )}
                   </ul>
                 </div>
-                <Button text='Отправить' style={btnStyle} onClick={handleSelectSlots} type={isBlock ? 'block' : 'button'} />
+                <Button text='Отправить' style={btnStyle} onClick={handleSelectSlots} />
                 </>
               }
             </>

@@ -1,0 +1,77 @@
+.header {
+	margin: 0;
+	width: 100%;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.logos {
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.logo {
+	margin: 0;
+	width: 160px;
+	height: 48px;
+	&_min {
+		background-image: url('../../../../../images/logo-min.svg');
+		background-position: left;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	&_rut {
+		background-image: url('../../../../../images/logo-rut.svg');
+		background-position: left;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+}
+
+@media (max-width: 1600px) {
+	.logo {
+		margin: 0;
+		width: 148px;
+		height: 44px;
+	}
+}
+
+@media (max-width: 1536px) {
+	.header {
+		height: 40px;
+	}
+	.logo {
+		margin: 0;
+		width: 128px;
+		height: 40px;
+	}
+	.lang {
+		font-size: 14px;
+	}
+}
+
+@media (max-width: 1366px) {
+	.lang {
+		font-size: 12px;
+	}
+}
+
+@media (max-width: 768px) {
+	.header {
+		height: 32px;
+	}
+	.control {
+		gap: 8px;
+	}
+	.logos {
+		gap: 8px;
+	}
+	.logo {
+		width: 72px;
+		height: 32px;
+	}
+}

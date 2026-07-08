@@ -1,10 +1,9 @@
-import { useState, type FC } from 'react';
+import { type FC } from 'react';
 
 import { ENAV } from '../../../../../shared/components/Navigation/interface/interface';
 import { EROUTES } from '../../../../../shared/utils/ERoutes';
 
 import Button from '../../../../../shared/components/Button/ui/Button';
-import InfoPopup from '../../../../../shared/components/Popup/ui/InfoPopup';
 
 import '../styles/style.css';
 
@@ -14,6 +13,9 @@ interface IStagesProps {
 
 const btnStubStyle = {
   margin: '0',
+  fontSize: '24px',
+  borderRadius: '12px',
+  lineHeight: '24px',
 };
 
 const btnMobileStyle = {
@@ -26,22 +28,6 @@ const btnMobileStyle = {
 };
 
 const Stages: FC<IStagesProps> = ({ windowWidth }) => {
-
-  const [isOpenPreparationInfoPopup, setIsOpenPreparationInfoPopup] = useState<boolean>(false);
-  const [isOpenFinalInfoPopup, setIsOpenFinalInfoPopup] = useState<boolean>(false);
-
-  const openPreparationInfoPopup = () => {
-    setIsOpenPreparationInfoPopup(true);
-  };
-
-  const openFinalInfoPopup = () => {
-    setIsOpenFinalInfoPopup(true);
-  };
-
-  const closePopup = () => {
-    setIsOpenPreparationInfoPopup(false);
-    setIsOpenFinalInfoPopup(false);
-  };
 
   return (
     <div className='stages' id={ENAV.STAGES}>
@@ -56,22 +42,33 @@ const Stages: FC<IStagesProps> = ({ windowWidth }) => {
             <div className='stages__separate'></div>
             <div className='stages__description'>
               <p className='stages__item-text'>Зарегистрируйтесь на&nbsp;сайте, чтобы стать участником конкурса</p>
+              <Button text='Регистрация' type='link' href={EROUTES.LOGIN} color='primary' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
             </div>
           </li>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>с&nbsp;10&nbsp;июня 2025&nbsp;года</span>
+              <span className='stages__date'>с&nbsp;10&nbsp;июня 2026&nbsp;года</span>
               <h4 className='stages__item-title'>АНКЕТА ПРАКТИКИ</h4>
             </div>
             <div className='stages__separate'></div>
             <div className='stages__description'>
-              <p className='stages__item-text'>Опишите практику в&nbsp;личном кабинете, чтобы претендовать на&nbsp;выход в&nbsp;следующий этап</p>
-              <Button text='Личный кабинет' type='link' link={EROUTES.LOGIN} color='inherit' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
+              <p className='stages__item-text'>Опишите практику в&nbsp;личном кабинете, чтобы пройти в&nbsp;следующий этап</p>
+              <Button text='Личный кабинет' type='link' href={EROUTES.LOGIN} color='inherit' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
             </div>
           </li>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>до&nbsp;24&nbsp;сентября 2025&nbsp;года</span>
+              <span className='stages__date'>с&nbsp;10&nbsp;июня 2026&nbsp;года</span>
+              <h4 className='stages__item-title'>ПОВЫШЕНИЕ КВАЛИФИКАЦИИ</h4>
+            </div>
+            <div className='stages__separate'></div>
+            <div className='stages__description'>
+              <p className='stages__item-text'>Загрузите необходимые документы и&nbsp;бесплатно пройдите программу повышения квалификации по&nbsp;инженерной дидактике с&nbsp;выдачей удостоверения установленного образца — курс доступен в&nbsp;личном кабинете участника</p>
+            </div>
+          </li>
+          <li className='stages__item'>
+            <div className='stages__dates'>
+              <span className='stages__date'>до&nbsp;21&nbsp;сентября 2026&nbsp;года</span>
               <h4 className='stages__item-title'>ИТОГИ 1&nbsp;ЭТАПА</h4>
             </div>
             <div className='stages__separate'></div>
@@ -81,56 +78,36 @@ const Stages: FC<IStagesProps> = ({ windowWidth }) => {
           </li>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>c&nbsp;01&nbsp;по&nbsp;15&nbsp;октября 2025&nbsp;года</span>
-              <h4 className='stages__item-title'>ОНЛАЙН- МАСТЕР-КЛАССЫ</h4>
+              <span className='stages__date'>c&nbsp;21&nbsp; сентября по&nbsp;14&nbsp;октября 2026&nbsp;года</span>
+              <h4 className='stages__item-title'>ПРЕЗЕНТАЦИЯ ПРАКТИКИ</h4>
             </div>
             <div className='stages__separate'></div>
             <div className='stages__description'>
-              <p className='stages__item-text'>Проведите короткий мастер-класс онлайн — поделитесь своей практикой с&nbsp;другими участниками и&nbsp;оцените мастер-классы других участников, чтобы получить дополнительные баллы</p>
+              <p className='stages__item-text'>Запишите и&nbsp;загрузите в&nbsp;личный кабинет короткую видеопрезентацию своей практики. В&nbsp;зависимости от&nbsp;формата работы это может быть краткая демонстрация занятия со&nbsp;студентами, мастер-класс по&nbsp;применению педагогического инструмента или&nbsp;презентация реализуемого подхода и&nbsp;достигнутых результатов.</p>
             </div>
           </li>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>до&nbsp;19&nbsp;октября 2025&nbsp;года</span>
-              <h4 className='stages__item-title'>ПОДГОТОВКА К&nbsp;ФИНАЛУ</h4>
+              <span className='stages__date'>до&nbsp;21&nbsp;октября 2026&nbsp;года</span>
+              <h4 className='stages__item-title'>ИТОГИ 2&nbsp;ЭТАПА</h4>
             </div>
             <div className='stages__separate'></div>
             <div className='stages__description'>
               <p className='stages__item-text'>Дождитесь результатов отбора и&nbsp;готовьтесь к&nbsp;выступлению на&nbsp;финале. Если не&nbsp;прошли в&nbsp;финал — подайте заявку на&nbsp;проведение своей лаборатории или&nbsp;события в&nbsp;рамках финала</p>
-              <Button onClick={openPreparationInfoPopup} text='Подробнее' color='inherit' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
             </div>
           </li>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>с&nbsp;17&nbsp;по&nbsp;19&nbsp;ноября 2025 года</span>
+              <span className='stages__date'>с&nbsp;17&nbsp;по&nbsp;19&nbsp;ноября 2026 года</span>
               <h4 className='stages__item-title'>ФИНАЛ В&nbsp;МОСКВЕ</h4>
             </div>
             <div className='stages__separate'></div>
             <div className='stages__description'>
-              <p className='stages__item-text'>Приезжайте на&nbsp;трехдневный финал для&nbsp;лучших из&nbsp;лучших. Примите участие в&nbsp;специальном обучении и&nbsp;получите шанс представить свою практику на&nbsp;международном уровне в&nbsp;рамках Транспортной недели 2025</p>
-              <Button onClick={openFinalInfoPopup} text='Подробнее' color='inherit' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
+              <p className='stages__item-text'>Приезжайте на&nbsp;трехдневный финал для&nbsp;лучших из&nbsp;лучших. Получите шанс представить свою практику на&nbsp;международном уровне в&nbsp;рамках Транспортной недели 2025</p>
             </div>
           </li>
         </ul>
       </div>
-      {
-        isOpenPreparationInfoPopup &&
-        <InfoPopup
-          isOpen={isOpenPreparationInfoPopup}
-          onClose={closePopup}
-          title='ПОДГОТОВКА К ФИНАЛУ'
-          text='По завершении этапа отбора жюри определит лучшие практики, авторы которых будут приглашены к участию в финале конкурса. Участникам финала предстоит выступить перед экспертами, представить свою практику и ответить на вопросы жюри. Если ваша заявка не прошла в финал — это ещё не конец пути. Вы можете предложить проведение собственной образовательной лаборатории, мастер-класса или другого события в рамках программы финала. Это отличная возможность поделиться своим опытом, обсудить его с коллегами и экспертами, а также расширить профессиональные связи. Подать заявку на организацию события можно будет после публикации итогов отбора. Мы приветствуем инициативу и готовы поддерживать качественные идеи, даже если они не попали в основной список финалистов.'
-        />
-      }
-      {
-        isOpenFinalInfoPopup &&
-        <InfoPopup
-          isOpen={isOpenFinalInfoPopup}
-          onClose={closePopup}
-          title='ФИНАЛ В МОСКВЕ'
-          text='Финал конкурса — это трехдневное очное мероприятие для участников, чьи практики признаны лучшими. Вас ждет насыщенная программа: защита практик перед экспертным жюри, участие в образовательных сессиях и обсуждениях с лидерами инженерного и педагогического сообществ. Отдельное внимание будет уделено профессиональному развитию финалистов. Мы подготовим специальные обучающие модули, которые помогут развить навыки презентации, публичных выступлений и продвижения собственных образовательных решений. Самые сильные и значимые практики будут отобраны для презентации на международной сессии в рамках Транспортной недели — 2025. Это уникальная возможность заявить о себе и масштабировать свою работу на всю страну и за её пределы.'
-        />
-      }
     </div>
   );
 };

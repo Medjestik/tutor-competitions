@@ -1,10 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { FC, FormEvent } from 'react';
 import type { IConfirmRemovePopupProps } from '../interface/interface';
 
 import Popup from './Popup';
-import Form from '../../Form/ui/Form';
-import Button from '../../Button/ui/Button';
-import FormSubmit from '../../Form/components/FormSubmit/ui/FormSubmit';
 
 import '../styles/style.css';
 
@@ -28,12 +26,17 @@ const ConfirmRemovePopup: FC<IConfirmRemovePopupProps> = ({ isOpen, onClose, onR
     <Popup isOpen={isOpen} onClose={onClose} popupWidth='medium' closeOutside>
       <h2 className='popup__title'>Подтверждение удаления</h2>
       <p className='popup__subtitle'>Вы действительно хотите отправить запрос на удаление?</p>
+      {
+        /*
+
       <Form formName='add-participant' type='popup' onSubmit={handleSubmit}>
         <div className='form__buttons'>
-          <Button style={btnStyle} text='Отменить' color='cancel' onClick={onClose} />
+          <Button style={btnStyle} text='Отменить' color='default' onClick={onClose} />
           <FormSubmit text='Удалить' />
         </div>
       </Form>
+      */
+      }
     </Popup>
   );
 };

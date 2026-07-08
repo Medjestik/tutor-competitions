@@ -37,20 +37,20 @@ const Document: FC<IDocumentProps> = ({ windowWidth }) => {
         <Button 
           text='СКАЧАТЬ ПОЛОЖЕНИЕ' 
           type='link' 
-          link='https://cloud.mail.ru/public/D2WW/96UszWzkP'
+          href='https://cloud.mail.ru/public/D2WW/96UszWzkP'
           style={btnLinksStyle} 
         />
         <Button 
           text='СКАЧАТЬ РЕГЛАМЕНТ' 
           type='link' 
-          link='https://cloud.mail.ru/public/krgk/cMSykKYCT'
+          href='https://cloud.mail.ru/public/krgk/cMSykKYCT'
           style={btnLinksStyle} 
         />
         <Button 
           text='ИТОГИ ФИНАЛА' 
           type='link' 
-          link='https://cloud.mail.ru/public/K46H/qmUUPH3Wz'
-          color='registration'
+          href='https://cloud.mail.ru/public/K46H/qmUUPH3Wz'
+          color='primary'
           style={btnRegStyle} 
         />
       </div>

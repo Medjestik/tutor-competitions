@@ -1,0 +1,10 @@
+.container {
+	margin: 8px 0 0 0;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	&_margin_top {
+		margin: 80px 0 0 0;
+	}
+}

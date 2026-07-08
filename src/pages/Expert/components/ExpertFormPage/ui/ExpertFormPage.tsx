@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { FC} from 'react';
 import type { IFormData, IScoreItem } from '../../../../Person/interface/interface';
 import type { IExpertFormPageProps } from '../../../interface/interface';
@@ -7,7 +8,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import * as api from '../../../../../shared/utils/api';
 
-import FormField from '../../../../../shared/components/Form/components/FormField/ui/FormField';
 import Button from '../../../../../shared/components/Button/ui/Button';
 import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
 import SetScorePopup from '../../../../../shared/components/Popup/ui/SetScorePopup';
@@ -121,13 +121,14 @@ const ExpertFormPage: FC<IExpertFormPageProps> = () => {
             <h4 className='expert-form__name'>{form.name}</h4>
             <p className='expert-form__score'>Текущая оценка - {totalScore}</p>
             <div className='form__input-field'>
-              <Button onClick={backToForms} text='Вернуться к списку' style={btnFilesStyle} color='cancel' />
-              <Button onClick={openSetScorePopup} text='Оценить анкету' style={btnFilesStyle} color='secondary' />
+              <Button onClick={backToForms} text='Вернуться к списку' style={btnFilesStyle} color='default' />
+              <Button onClick={openSetScorePopup} text='Оценить анкету' style={btnFilesStyle} color='primary' />
             </div>
           </div>
         </div>
         <div className='expert-form__container'>
-
+        {
+          /*
           <FormField title='Образовательная организация'>
             <p className='form__text-view'>{form.educational_organization}</p>
           </FormField>
@@ -165,8 +166,8 @@ const ExpertFormPage: FC<IExpertFormPageProps> = () => {
                     <Button 
                       text='Ссылка' 
                       type='link' 
-                      link={elem.type === 'link' ? elem.link : elem.file} 
-                      color='secondary'
+                      href={elem.type === 'link' ? elem.link : elem.file} 
+                      color='primary'
                       style={btnLinksStyle}
                     />
                   </li>
@@ -177,6 +178,10 @@ const ExpertFormPage: FC<IExpertFormPageProps> = () => {
               <span className='person-stage__file-empty'>Список источников пока пуст.</span>
             }
           </FormField>
+          */
+        }
+
+
         </div>
         </>
       }

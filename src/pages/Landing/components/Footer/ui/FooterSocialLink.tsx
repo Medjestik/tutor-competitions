@@ -1,27 +1,34 @@
 import type { FC } from 'react';
 import type { IFooterSocialLinkProps } from '../interface/interface';
 
-import { ESOCIAL } from '../interface/interface';
+import vkIcon from '../../../../../shared/images/social-vk.svg';
+import maxIcon from '../../../../../shared/images/social-max.svg';
+import telegramIcon from '../../../../../shared/images/social-tg.svg';
 
-import telegramIcon from '../../../../../shared/icons/social-telegram.svg';
-import vkIcon from '../../../../../shared/icons/social-vk.svg';
-import mailIcon from '../../../../../shared/icons/social-mail.svg';
+import { getCurrentYear } from '../../../../../shared/utils/getCurrentYear';
 
 import '../styles/style.css';
 
-const iconMap = {
-  [ESOCIAL.TELEGRAM]: telegramIcon,
-  [ESOCIAL.VK]: vkIcon,
-  [ESOCIAL.MAIL]: mailIcon,
-};
-
-const FooterSocialLink: FC<IFooterSocialLinkProps> = ({ type, link }) => {
-  const Icon = iconMap[type];
+const FooterSocialLink: FC<IFooterSocialLinkProps> = ({ withCopy = true }) => {
 
   return (
-    <a className='footer__social-link' href={link} target='_blank'>
-      <img className='footer__social-icon' src={Icon} alt={`${type} icon`} />
-    </a>
+    <div className='footer__social'>
+      {
+        withCopy &&
+        <p className='footer__copy'>&copy; {getCurrentYear()}, Все права защищены РУТ (МИИТ)</p>
+      }
+      <ul className='footer__social-icons'>
+        <a className='footer__social-link' href={'/'} target='_blank'>
+          <img className='footer__social-icon' src={vkIcon} alt='icon' />
+        </a>
+        <a className='footer__social-link' href={'/'} target='_blank'>
+          <img className='footer__social-icon' src={maxIcon} alt='icon' />
+        </a>
+        <a className='footer__social-link' href={'/'} target='_blank'>
+          <img className='footer__social-icon' src={telegramIcon} alt='icon' />
+        </a>
+      </ul>
+    </div>
   );
 };
 

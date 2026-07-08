@@ -22,7 +22,7 @@ const StagesCard: FC<IStagesCardProps> = ({ card }) => {
       }
       {
         card.type === 'registration' &&
-        <Button text='Клик!' width='default' color='secondary' style={btnStyle} />
+        <Button text='Клик!' width='default' color='primary' style={btnStyle} />
       }
     </li>
   );

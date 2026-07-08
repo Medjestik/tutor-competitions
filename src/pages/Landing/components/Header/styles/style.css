@@ -9,36 +9,28 @@
   align-items: center;
   z-index: 2;
 }
-.header__icons {
-  margin: 0;
-  display: flex;
-  align-items: center;
+.header__logos {
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 16px;
 }
-.header__icon {
-  margin: 0 20px 0 0;
-  width: 48px;
-  height: 48px;
-  background-image: url('../../../../../shared/icons/logo-white.svg');
-  background-position: center;
+.header__logo {
+	margin: 0;
+	width: 148px;
+	height: 44px;
+}
+.header__logo_type_min {
+  background-image: url('../../../../../shared/images/logo-min.svg');
+  background-position: left;
   background-repeat: no-repeat;
   background-size: contain;
-  user-select: none;
-  pointer-events: none;
-  z-index: 2;
-  flex-shrink: 0;
 }
-.header__rut {
-  margin: 0;
-  width: 120px;
-  height: 48px;
-  background-image: url('../../../../../shared/icons/logo-rut-white.svg');
-  background-position: center;
+.header__logo_type_rut {
+  background-image: url('../../../../../shared/images/logo-rut.svg');
+  background-position: left;
   background-repeat: no-repeat;
   background-size: contain;
-  user-select: none;
-  pointer-events: none;
-  flex-shrink: 0;
-  z-index: 2;
 }
 .header__navigation {
   margin: 0 0 0 auto;
@@ -73,15 +65,28 @@
   cursor: pointer;
 }
 
+@media (max-width: 1536px) {
+	.header__logo {
+		margin: 0;
+		width: 128px;
+		height: 40px;
+	}
+}
+
 @media all and (max-width: 1441px) {
   .header {
     padding: 0 24px;
+  }
+  .header__contacts {
+    width: 120px;
+    font-size: 16px;
+    height: 32px;
   }
 }
 
 @media all and (max-width: 1280px) {
   .header__navigation {
-    gap: 24px;
+    gap: 16px;
   }
 }
 
@@ -94,13 +99,8 @@
     justify-content: space-between;
     height: 60px;
   }
-  .header__icon {
-    width: 32px;
-    height: 32px;
-  }
-  .header__rut {
-    margin: 0;
-    width: 96px;
-    height: 40px;
-  }
+	.header__logo {
+		width: 86px;
+		height: 32px;
+	}
 }

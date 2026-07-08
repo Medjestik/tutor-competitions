@@ -5,7 +5,10 @@ import '../styles/style.css';
 const PublicLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className='public-layout'>
-      {children}
+      <div className='public-lines'></div>
+      <div className='public-container'>
+        {children}
+      </div>
     </div>
   );
 };

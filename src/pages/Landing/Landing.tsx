@@ -1,5 +1,7 @@
 import { useState, type FC } from 'react';
 
+import { useWindowWidth } from '../../shared/hooks/useWindowWidth';
+
 import Header from './components/Header/ui/Header';
 import Main from './components/Main/ui/Main';
 import Description from './components/Description/ui/Description';
@@ -16,17 +18,15 @@ import MobileMenu from './components/MobileMenu/ui/MobileMenu';
 
 import './Landing.css';
 
-interface ILandingProps {
-  windowWidth: number;
-}
-
-const Landing: FC<ILandingProps> = ({ windowWidth }) => {
+const Landing: FC = () => {
 
   const [isShowMobileMenu, setIsShowMobileMenu] = useState<boolean>(false);
 
   const toggleMobileMenu = () => {
     setIsShowMobileMenu(!isShowMobileMenu);
   };
+
+  const windowWidth = useWindowWidth();
 
   return (
     <div className='landing'>
@@ -40,10 +40,10 @@ const Landing: FC<ILandingProps> = ({ windowWidth }) => {
         }
         <Header windowWidth={windowWidth} showMobileMenu={toggleMobileMenu} />
         <Main windowWidth={windowWidth} />
-        <Description windowWidth={windowWidth} />
+        <Description />
         <Recruitment />
         <Advantages windowWidth={windowWidth} />
-        <Nominations windowWidth={windowWidth} />
+        <Nominations />
         <Prize />
         <Stages windowWidth={windowWidth} />
         <FAQ />
@@ -52,7 +52,7 @@ const Landing: FC<ILandingProps> = ({ windowWidth }) => {
         <Footer windowWidth={windowWidth} />
         </>
       }
-      <div className='footer__background'></div>
+      
     </div>
   );
 };

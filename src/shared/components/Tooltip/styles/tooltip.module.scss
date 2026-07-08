@@ -1,0 +1,26 @@
+.trigger {
+	display: inline-flex;
+}
+
+.tooltip {
+	position: absolute;
+
+	padding: 16px;
+	max-width: 400px;
+
+	background-color: var(--secondary-color);
+	border: 1px solid var(--main-color);
+	border-radius: var(--border-radius);
+
+	z-index: 20000;
+
+	opacity: 0;
+	animation: fadeIn .25s forwards;
+
+	overflow-wrap: break-word;
+	pointer-events: none;
+}
+
+@keyframes fadeIn {
+	to { opacity: 1; }
+}

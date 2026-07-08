@@ -39,7 +39,7 @@ const ParticipantList: FC<IParticipantListProps> = ({ items, onAdd, onEdit, onRe
         :
         <span className='participant__empty'>Участники пока не добавлены!</span>
       }
-      <Button style={windowWidth > 1000 ? btnStyle : btnMobileStyle} color='secondary' text='Добавить участника' onClick={onAdd} />
+      <Button style={windowWidth > 1000 ? btnStyle : btnMobileStyle} color='primary' text='Добавить участника' onClick={onAdd} />
     </div>
   );
 };

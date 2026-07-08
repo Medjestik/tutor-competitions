@@ -164,7 +164,6 @@
   display: flex;
   align-content: flex-start;
   gap: 20px;
-  flex-direction: column;
 }
 
 @media all and (max-width: 1440px) {
@@ -231,7 +230,7 @@
     font-size: 16px;
   }
   .main__title {
-    font-size: 20px;
+    font-size: 32px;
   }
   .main__title-stroke {
     margin: 0 6px;
@@ -255,6 +254,6 @@
   }
   .main__buttons {
     margin: 40px 0 0 0;
-    gap: 20px;
+    gap: 12px;
   }
 }

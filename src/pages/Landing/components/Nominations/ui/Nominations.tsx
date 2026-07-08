@@ -6,13 +6,7 @@ import { data } from '../mock/data';
 
 import '../styles/style.css';
 
-interface INominationsProps {
-  windowWidth: number;
-}
-
-const Nominations: FC<INominationsProps> = ({ windowWidth }) => {
-
-  console.log(windowWidth);
+const Nominations: FC = () => {
 
   return (
     <div className='nominations' id={ENAV.NOMINATIONS}>

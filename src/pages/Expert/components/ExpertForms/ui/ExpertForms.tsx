@@ -66,7 +66,7 @@ const ExpertForms: FC = () => {
         <h4 className='expert-form__name'>{nominationId ? nominationMap[Number(nominationId)] : ''}</h4>
         <p className='expert-form__score'>Количество анкет: {forms.length}</p>
         <div className='form__input-field'>
-          <Button onClick={backToNominations} text='Вернуться к списку' style={btnFilesStyle} color='cancel' />
+          <Button onClick={backToNominations} text='Вернуться к списку' style={btnFilesStyle} color='default' />
         </div>
       </div>
     </div>

@@ -1,7 +1,9 @@
 export enum EROUTES {
   LANDING = '/',
+  INTERNATIONAL = '/international',
   REGISTRATION = '/registration',
   LOGIN = '/login',
+
   PERSON = '/person',
   RECORDS = '/records',
   CONSENT = '/consent',

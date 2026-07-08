@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { FC } from 'react';
 import type { IUploadLink, IUploadFile } from '../../../../../shared/components/Popup/interface/interface';
 import type { IStageFormProps, ISelectNomination, IFormData } from '../../../interface/interface';
@@ -8,18 +9,8 @@ import * as api from '../../../../../shared/utils/api';
 
 import PersonVideo from '../../PersonVideo/ui/PersonVideo';
 import SelectWithSearch from '../../../../../shared/components/Select/ui/SelectWithSearch';
-import Form from '../../../../../shared/components/Form/ui/Form';
-import FormField from '../../../../../shared/components/Form/components/FormField/ui/FormField';
-import FormFieldButton from '../../../../../shared/components/Form/components/FormField/ui/FormFieldButton';
-import FormFieldError from '../../../../../shared/components/Form/components/FormField/ui/FormFieldError';
-import FormTextArea from '../../../../../shared/components/Form/components/FormTextArea/ui/FormTextArea';
-import FormInputString from '../../../../../shared/components/Form/components/FormInput/ui/FormInputString';
 import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
 import Button from '../../../../../shared/components/Button/ui/Button';
-import UploadLinkPopup from '../../../../../shared/components/Popup/ui/UploadLinkPopup';
-import UploadFilePopup from '../../../../../shared/components/Popup/ui/UploadFilePopup';
-
-import { useFormInput } from '../../../../../shared/hooks/useFormInput';
 import { nominationFieldTexts } from '../utils/nominationFields';
 
 import '../styles/style.css';
@@ -54,12 +45,6 @@ const btnRemoveStyle = {
 
 
 const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
-  const nameInput = useFormInput('', api.saveFormName, 200);
-  const taskInput = useFormInput('', api.saveFormTask, 2000);
-  const descriptionInput = useFormInput('', api.saveFormDescription, 2000);
-  const originalityInput = useFormInput('', api.saveFormOriginality, 2000);
-  const textInput = useFormInput('', api.saveFormText, 2000);
-  const usabilityInput = useFormInput('', api.saveFormUsability, 2000);
 
   const [formData, setFormData] = useState<IFormData | null>(null);
   const [nominations, setNominations] = useState<ISelectNomination[]>([]);
@@ -190,12 +175,12 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
           }
           setNominations(nominationsRes);
           setFormData(formDataRes);
-          nameInput.setValue(formDataRes.name || '');
-          taskInput.setValue(formDataRes.task || '');
-          descriptionInput.setValue(formDataRes.description || '');
-          originalityInput.setValue(formDataRes.originality || '');
-          textInput.setValue(formDataRes.text || '');
-          usabilityInput.setValue(formDataRes.usability || '');
+          // nameInput.setValue(formDataRes.name || '');
+          // taskInput.setValue(formDataRes.task || '');
+          // descriptionInput.setValue(formDataRes.description || '');
+          // originalityInput.setValue(formDataRes.originality || '');
+          // textInput.setValue(formDataRes.text || '');
+          // usabilityInput.setValue(formDataRes.usability || '');
         })
         .catch((err) => {
           console.error(err);
@@ -231,7 +216,9 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
             {
               formData.status === 'draft'
               ?
-              <Form formName={'stage-form'}>
+              {
+                /*
+                              <Form formName={'stage-form'}>
                 <FormField title='1. Выбор номинации' subtitle='Выберите номинацию и нажмите кнопку "Сохранить".'>
                   <div className='form__input-field'>
                     <SelectWithSearch options={nominations} currentOption={currentNomination} onChooseOption={handleChangeNomination} />
@@ -315,8 +302,8 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
 
                   <FormField title={texts.files.title} subtitle={texts.files.subtitle}>
                     <div className='form__input-field'>
-                      <Button onClick={openUploadLinkPopup} text='Прикрепить ссылку' style={btnFilesStyle} color='secondary' />
-                      <Button onClick={openUploadFilePopup} text='Добавить файл' style={btnFilesStyle} color='secondary' />
+                      <Button onClick={openUploadLinkPopup} text='Прикрепить ссылку' style={btnFilesStyle} color='primary' />
+                      <Button onClick={openUploadFilePopup} text='Добавить файл' style={btnFilesStyle} color='primary' />
                     </div>
                     <h3 className='person-stage__title-row'>Прикрепленные источники:</h3>
                     {
@@ -330,8 +317,8 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
                             <Button 
                               text='Ссылка' 
                               type='link' 
-                              link={elem.type === 'link' ? elem.link : elem.file} 
-                              color='secondary'
+                              href={elem.type === 'link' ? elem.link : elem.file} 
+                              color='primary'
                               style={btnLinksStyle} 
                             />
                             <Button 
@@ -350,6 +337,9 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
                   </>
                 }
               </Form>
+              */
+              }
+
               :
               <>
               <h4 className='person-stage__row-title'>Спасибо! Анкета практики успешно отправлена.</h4>
@@ -361,26 +351,6 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
           )
         }
         </>
-      }
-      {
-        isOpenUploadLinkPopup &&
-        <UploadLinkPopup 
-          isOpen={isOpenUploadLinkPopup}
-          onClose={closePopup}
-          onUpload={handleUploadLink} 
-          isLoading={isLoadingRequest} 
-          isShowRequestError={isShowRequestError}
-        />
-      }
-      {
-        isOpenUploadFilePopup &&
-        <UploadFilePopup 
-          isOpen={isOpenUploadFilePopup}
-          onClose={closePopup}
-          onUpload={handleUploadFile} 
-          isLoading={isLoadingRequest} 
-          isShowRequestError={isShowRequestError}
-        />
       }
     </div>
   );

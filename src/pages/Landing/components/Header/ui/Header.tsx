@@ -17,9 +17,9 @@ const Header: FC<IHeaderProps> = ({ windowWidth, showMobileMenu }) => {
 
   return (
     <header className='header' id='header'>
-      <div className='header__icons'>
-        <div className='header__icon'></div>
-        <div className='header__rut'></div>
+      <div className='header__logos'>
+        <div className='header__logo header__logo_type_min'></div>
+        <div className='header__logo header__logo_type_rut'></div>
       </div>
       {
         windowWidth > 1000 

@@ -1,11 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState, type FC, FormEvent } from 'react';
 import type { ISetScorePopupProps } from '../interface/interface';
 
 import Popup from './Popup';
 import Button from '../../Button/ui/Button';
-import Form from '../../Form/ui/Form';
-import FormField from '../../Form/components/FormField/ui/FormField';
-import FormSubmit from '../../Form/components/FormSubmit/ui/FormSubmit';
 
 import '../styles/style.css';
 import '../styles/score-popup.css';
@@ -75,6 +73,8 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({ isOpen, onClose, form, isLoadi
     <Popup isOpen={isOpen} onClose={onClose} popupWidth='large' closeOutside>
       <h2 className='popup__title'>Оценка анкеты</h2>
       <p className='popup__subtitle'>Выберите оценку для каждого индикатора:</p>
+      {
+        /*
       <Form formName='set-score' type='popup' onSubmit={handleSubmit}>
         {form.evaluation_details.map((criteria, cIdx) => (
           <FormField key={criteria.criteria_id} title={`${cIdx + 1}. ${criteria.criteria_name}`}>
@@ -99,10 +99,12 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({ isOpen, onClose, form, isLoadi
         ))}
         <p className='score-caption'> Итоговый балл: {totalScore}</p>
         <div className='form__buttons'>
-          <Button style={btnStyle} text='Отменить' color='cancel' onClick={onClose} />
+          <Button style={btnStyle} text='Отменить' color='default' onClick={onClose} />
           <FormSubmit text='Сохранить' isLoading={isLoading} isBlock={!isFormValid()} />
         </div>
       </Form>
+      */
+      }
     </Popup>
   );
 };

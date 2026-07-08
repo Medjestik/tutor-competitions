@@ -1,0 +1,122 @@
+.container {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	position: relative;
+
+	&_direction_row {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+	}
+
+	&_width {
+		&_small {
+			max-width: 320px;
+		}
+		&_medium {
+			max-width: 480px;
+		}
+		&_large {
+			max-width: 720px;
+		}
+	}
+	&_height_stretch {
+		flex: 1;
+		min-height: 0;
+	}
+}
+
+.title {
+	margin: 0 0 12px 0;
+	width: 100%;
+	text-align: center;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: bold;
+	line-height: 1.15;
+	color: var(--main-black-color);
+	position: relative;
+	&_align_left {
+		text-align: left;
+	}
+	&_align_center {
+		text-align: center;
+	}
+
+}
+
+.subtitle {
+	margin: 0 0 12px 0;
+	width: 100%;
+	text-align: center;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 20px;
+	color: var(--main-black-color);
+	position: relative;
+	&_align_left {
+		text-align: left;
+	}
+	&_align_center {
+		text-align: center;
+	}
+}
+
+.upload {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+	&__field {
+		margin: 0;
+		width: 100%;
+		height: 50px;
+		padding: 9px 16px 9px 16px;
+		box-sizing: border-box;
+		border: 1px solid #F1F1F1;
+		border-radius: 12px;
+		background: rgb(241, 241, 241, 0.04);
+		font-size: 16px;
+		line-height: 1;
+		color: var(--main-white-color);
+		outline: none;
+		transition: border-color .3s ease-in-out;
+		display: flex;
+		align-items: center;
+		&:hover {
+			cursor: pointer;
+			border-color: #9E9E9E;
+		}
+	}
+	&__text {
+		margin: 0 12px 0 0;
+    font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 18px;
+		color: #9E9E9E;
+		-webkit-line-clamp: 1;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	&__input {
+  	display: none;
+	}
+}
+
+.upload__icon {
+  margin: 0 0 0 auto;
+  width: 20px;
+  height: 20px;
+  background-image: url('../../../icons/upload.png');
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: all .3s ease-in-out;
+}
+.upload__field:hover .upload__icon {
+	opacity: .7;
+}
