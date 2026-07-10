@@ -49,7 +49,7 @@ const Landing: FC = () => {
         <FAQ />
         <International />
         <Document windowWidth={windowWidth} />
-        <Footer windowWidth={windowWidth} />
+        <Footer />
         </>
       }
       

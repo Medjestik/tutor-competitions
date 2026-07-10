@@ -17,6 +17,7 @@
   margin: 0;
   width: 100%;
   max-width: 600px;
+    z-index: 2;
 }
 
 .caption {
@@ -128,19 +129,20 @@
 /* 768 */
 @media (max-width: 768px) {
   .main {
-    gap: 32px;
+    gap: 12px;
   }
 
   .caption {
+    margin: 12px 0 0 0;
     font-size: 14px;
   }
 
   .title {
-    font-size: 32px;
+    font-size: 24px;
   }
 
   .subtitle {
-    margin-top: 16px;
+    margin-top: 12px;
     max-width: 100%;
     font-size: 14px;
   }

@@ -30,7 +30,7 @@
   padding: 0;
   width: 100%;
   max-width: 1440px;
-  height: calc(100vh - 90px - 160px);
+  height: calc(100vh - 90px);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -38,11 +38,11 @@
 
 .main__tutor {
   position: absolute;
-  top: 0;
+  bottom: -140px;
   right: 40px;
-  width: 840px;
+  width: 880px;
   height: 100%;
-  background-image: url('../../../../../shared/images/tutor.svg');
+  background-image: url('../../../../../shared/images/tutor.png');
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: contain;
@@ -50,7 +50,7 @@
 }
 
 .main__caption {
-  margin: auto 0 0 0;
+  margin: 88px 0 0 0;
   color: var(--white-color);
   max-width: 400px;
   font-size: 28px;
@@ -91,7 +91,7 @@
   left: 0;
   width: calc(100% - 40px);
   height: 16px;
-  background-image: url('../../../../../shared/images//wave.svg');
+  background-image: url('../../../../../shared/images/wave.svg');
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
@@ -120,7 +120,7 @@
 }
 
 .main__info {
-  margin: 20px 0 80px 0;
+  margin: 20px 0 60px 0;
   width: 100%;
   display: flex;
   align-items: center;
@@ -128,34 +128,16 @@
   z-index: 2;
 }
 
-.main__time {
-  margin: 0;
-  padding: 0 4px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-}
-
-.main__timer-text {
-  margin: 0;
-  color: var(--white-color);
-  font-size: 16px;
-  line-height: 1.15;
-  text-align: left;
-  font-weight: bold;
-  flex-shrink: 0;
-}
-
 .main__timer {
-  margin: 0;
+  margin: auto 0 40px auto;
+  max-width: 600px;
   display: flex;
   align-items: flex-end;
-  font-size: 44px;
+  font-size: 48px;
   line-height: 1.15;
   text-align: left;
   font-weight: bold;
-  color: var(--white-color);
+  color: var(--main-color);
   z-index: 2;
 }
 
@@ -181,27 +163,28 @@
     height: 64px;
   }
   .main__timer {
-    font-size: 32px;
+    font-size: 40px;
   }
 }
 
 @media all and (max-width: 1366px) {
   .main {
     margin: 0 auto 120px;
-    height: calc(100vh - 90px - 120px);
   }
 }
 
 @media all and (max-width: 1280px) {
   .main {
     margin: 0 auto 80px;
-    height: calc(100vh - 90px - 80px);
   }
   .main__title {
     font-size: 56px;
   }
+  .main__info {
+    margin: 20px 0 32px 0;
+  }
   .main__timer {
-    font-size: 28px;
+    margin: auto 0 32px auto;
   }
 }
 
@@ -209,51 +192,54 @@
   .main {
     padding: 0 16px;
     margin: 0 auto 80px;
-    height: calc(100vh - 60px - 80px);
     overflow: hidden;
+    height: calc(100vh - 60px);
   }
   .main__tutor {
     position: absolute;
-    top: 0;
+    bottom: -40px;
     right: -40px;
     width: 120%;
     height: 100%;
-    background-image: url('../../../../../shared/images/tutor.svg');
-    background-position: top;
+    background-image: url('../../../../../shared/images/tutor.png');
+    background-position: bottom;
     background-repeat: no-repeat;
     background-size: contain;
     z-index: 1;
   }
   .main__caption {
-    margin: 32px 0 0 0;
+    margin: 8vh 0 0 0;
     max-width: none;
     font-size: 16px;
   }
+  .main__title-container {
+    margin: 12px 0 0 0;
+  }
   .main__title {
-    font-size: 32px;
+    font-size: 20px;
+  }
+  .main__subtitle {
+    margin: 12px 0 0 0;
+    max-width: none;
+    font-size: 16px;
   }
   .main__title-stroke {
     margin: 0 6px;
     height: 28px;
   }
+  .main__info {
+    margin: 0;
+  }
   .main__timer {
-    font-size: 20px;
+    font-size: 28px;
+    max-width: none;
   }
   .main__title_color_transparent::after {
     width: calc(100% - 12px);
     height: 16px;
   }
-  .main__timer {
-    margin: auto 0 0 0;
-    font-size: 24px;
-  }
-  .main__subtitle {
-    margin: 20px 0 0 0;
-    max-width: none;
-    font-size: 18px;
-  }
   .main__buttons {
-    margin: 40px 0 0 0;
+    margin: 24px 0 0 0;
     gap: 12px;
   }
 }

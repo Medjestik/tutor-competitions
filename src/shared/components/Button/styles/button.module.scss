@@ -35,8 +35,8 @@
 		width: auto;
 	}
 	&_color_default {
-		color: var(--white-color);
-		background: var(--main-color);
+		color: var(--main-color);
+		background: inherit;
 		border: 1px solid var(--main-color);
 	}
 	&_color_primary {

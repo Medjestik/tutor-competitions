@@ -26,7 +26,7 @@ const Login: FC = () => {
           </Card>
         </div>
       </main>
-      <PublicFooter />
+      <PublicFooter withCopy={false} />
     </PublicLayout>
   );
 };

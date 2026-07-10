@@ -2,10 +2,14 @@ import type { FC } from 'react';
 
 import FooterSocialLink from '../../../../../../pages/Landing/components/Footer/ui/FooterSocialLink';
 
-const PublicFooter: FC = () => {
+interface IPublicFooterProps {
+  withCopy?: boolean;
+}
+
+const PublicFooter: FC<IPublicFooterProps> = ({ withCopy }) => {
   return (
     <footer className='public-footer'>
-      <FooterSocialLink />
+      <FooterSocialLink withCopy={withCopy} />
     </footer>
   );
 };
