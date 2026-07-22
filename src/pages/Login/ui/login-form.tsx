@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from '../../../store/store';
 import { useForm } from '../../../shared/hooks/useForm';
 import { useToast } from '../../../shared/components/ToastProvider/ui/ToastProvider';
 
-import { Form } from '../../../shared/components/Form/ui/form';
+import { Form } from '../../../shared/components/Form/ui/Form';
 import { FormField, FormButtons, FormInput } from '../../../shared/components/Form/components';
 import Button from '../../../shared/components/Button/ui/Button';
 
