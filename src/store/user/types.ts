@@ -6,5 +6,6 @@ export interface IUserStore {
 }
 
 export interface IAuthResponse {
-	key: string;
+	access: string;
+	refresh?: string;
 }

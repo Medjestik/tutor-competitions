@@ -19,8 +19,8 @@ export const login = (data: ILoginData) => {
 			password: data.password,
 		}),
 	}).then((res: IAuthResponse) => {
-		if (res.key) {
-			setTokens(res.key);
+		if (res.access) {
+			setTokens(res.access);
 		}
 		return res;
 	});

@@ -44,20 +44,16 @@
 		background: var(--primary-color);
 		border: 1px solid var(--primary-color);
 	}
-	&_color_primary {
-		color: var(--main-color);
-		background: var(--primary-color);
-		border: 1px solid var(--primary-color);
-	}
 	&_color_gradient {
-		color: var(--white-color);
+		color: var(--main-color);
+		font-weight: 600;
 		background: linear-gradient(
 			90deg,
-			#00CB3D 0%,
-			#55FE0C 57%,
-			#B2FF00 100%
+			#00CB3D -8.49%,
+			#55FE0C 40.55%,
+			#B2FF00 77.23%
 		);
-		color: var(--main-color);
+		border: none;
 	}
 	&_color_inherit {
 		background: inherit;

@@ -29,5 +29,6 @@ export interface IButtonProps {
 	};
 	width?: 'default' | 'full' | 'auto';
 	isBlock?: boolean;
+	disabled?: boolean;
 	onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }

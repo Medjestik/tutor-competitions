@@ -13,10 +13,11 @@ const Button: FC<IButtonProps> = ({
 	onClick,
 	href = '/',
 	withIcon,
+	disabled = false,
 }) => {
 	const baseClass = `${styles.button} ${styles[`button_width_${width}`]} ${
 		styles[`button_color_${color}`]
-	} ${isBlock ? styles.button_block : ''}`;
+	} ${isBlock || disabled ? styles.button_block : ''}`;
 
 	const renderContent = () => (
 		<>
@@ -73,7 +74,8 @@ const Button: FC<IButtonProps> = ({
 			onClick={onClick}
 			form={form}
 			className={baseClass}
-			style={style}>
+			style={style}
+			disabled={disabled || isBlock}>
 			{renderContent()}
 		</button>
 	);

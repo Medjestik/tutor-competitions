@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import type { IPersonProps, IStage, IStageNavItem } from '../interface/interface';
+import type { IPersonProps, IStage, IStageNavItem, ILearningNavItem } from '../interface/interface';
 
 import { useState, useEffect, useContext } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
@@ -17,9 +17,11 @@ import PersonStageSchedule from '../components/PersonStage/ui/PersonStageSchedul
 import PersonStageSlides from '../components/PersonStage/ui/PersonStageSlides';
 import PersonStageWorkshop from '../components/PersonStage/ui/PersonStageWorkshop';
 import PersonStageEvaluate from '../components/PersonStage/ui/PersonStageEvaluate';
+import PersonLearningProgram from '../components/PersonLearning/ui/PersonLearningProgram';
+import PersonLearningListener from '../components/PersonLearning/ui/PersonLearningListener';
 
-import { EROUTES, EROUTESSTAGES } from '../../../shared/utils/ERoutes';
-import { personStages, personStagesClose } from '../lib/stages';
+import { EROUTES, EROUTESSTAGES, EROUTESLEARNING } from '../../../shared/utils/ERoutes';
+import { personStages, personStagesClose, learningNavItems } from '../lib/stages';
 
 import '../styles/style.css';
 
@@ -32,11 +34,17 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
 
   const [stages, setStages] = useState<IStageNavItem[]>(currentUser.passed_second_stage ? personStages : personStagesClose);
   const [openStageId, setOpenStageId] = useState<number>(personStages[0].id);
+  const [openLearningId, setOpenLearningId] = useState<string | null>(null);
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
 
   const toggleStage = (stage: IStageNavItem) => {
+    setOpenLearningId(null);
     navigate(stage.route);
+  };
+
+  const toggleLearning = (item: ILearningNavItem) => {
+    navigate(item.route);
   };
 
   const handleNextStage = () => {
@@ -94,7 +102,21 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
   }, []);
 
   useEffect(() => {
-    const matched = stages.find(stage => pathname.endsWith(stage.route));
+    const matchedLearning = learningNavItems.find((item) => pathname === item.route);
+
+    if (matchedLearning) {
+      setOpenLearningId(matchedLearning.id);
+      setOpenStageId(-1);
+      return;
+    }
+
+    setOpenLearningId(null);
+
+    if (pathname === EROUTES.PERSON || pathname === `${EROUTES.PERSON}/`) {
+      setOpenStageId(0);
+      return;
+    }
+    const matched = stages.find(stage => stage.route !== EROUTES.PERSON && pathname.endsWith(stage.route));
     if (matched) {
       setOpenStageId(matched.id);
     }
@@ -105,9 +127,15 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
     ?
     <Preloader />
     :
-    <MainLayout mainContainer={false} windowWidth={windowWidth} onLogout={onLogout} > 
+    <MainLayout mainContainer={false} transparentMain windowWidth={windowWidth} onLogout={onLogout} > 
       <div className='person'>
-        <PersonNavigation stages={stages} openStageId={openStageId} onChange={toggleStage} /> 
+        <PersonNavigation
+          stages={stages}
+          openStageId={openStageId}
+          onChange={toggleStage}
+          openLearningId={openLearningId}
+          onLearningChange={toggleLearning}
+        /> 
         <PersonContainer>
           {
             isLoadingData || !stages.length
@@ -121,6 +149,8 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
               <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides />} />
               <Route path={EROUTESSTAGES.PERSON_WORKSHOP} element={<PersonStageWorkshop />} />
               <Route path={EROUTESSTAGES.PERSON_EVALUATE} element={<PersonStageEvaluate />} />
+              <Route path={EROUTESLEARNING.PROGRAM} element={<PersonLearningProgram />} />
+              <Route path={EROUTESLEARNING.LISTENER} element={<PersonLearningListener />} />
             </Routes>
           }
         </PersonContainer>

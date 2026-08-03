@@ -16,6 +16,7 @@ export const initialUser: ICurrentUser = {
   telegram_username: '',
   timezone: '',
   passed_second_stage: false,
+  is_staff: false,
   nomination: null,
 };
 

@@ -13,6 +13,7 @@ export interface ICurrentUser {
   telegram_username: string;
   timezone: string;
   passed_second_stage: boolean;
+  is_staff: boolean;
   nomination: { id: number, name: string } | null;
 }
 

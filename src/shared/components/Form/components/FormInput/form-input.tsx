@@ -11,6 +11,8 @@ export const FormInput: FC<IFormInputProps> = ({
 	autoComplete = 'off',
 	onChange,
 	disabled = false,
+	min,
+	hasError = false,
 }) => {
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -20,7 +22,7 @@ export const FormInput: FC<IFormInputProps> = ({
 	return (
 		<div className={styles.wrapper}>
 			<input
-				className={`${styles.input} ${disabled ? styles.disabled : ''}`}
+				className={`${styles.input} ${disabled ? styles.disabled : ''} ${hasError ? styles.input_error : ''}`}
 				type={inputType}
 				name={name}
 				id={`id-${name}`}
@@ -29,6 +31,7 @@ export const FormInput: FC<IFormInputProps> = ({
 				placeholder={placeholder}
 				autoComplete={autoComplete}
 				disabled={disabled}
+				min={min}
 			/>
 
 			{isPassword && (

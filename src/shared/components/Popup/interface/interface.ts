@@ -5,6 +5,7 @@ export interface IPopupProps extends PropsWithChildren {
   isOpen: boolean;
   onClose: () => void;
   popupWidth?: 'small' | 'medium' | 'large' | 'full' | 'default' | 'mobile';
+  /** Закрывать попап по клику вне контейнера. По умолчанию false. */
   closeOutside?: boolean;
 }
 
