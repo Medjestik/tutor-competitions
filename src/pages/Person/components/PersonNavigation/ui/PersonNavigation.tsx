@@ -1,53 +1,79 @@
 import type { FC } from 'react';
 import type { IPersonNavigationProps, IStageNavItem } from '../../../interface/interface';
 
+import { learningNavItems } from '../../../lib/stages';
+
+import PersonNavItem from './PersonNavItem';
+
 import '../styles/style.css';
 
-const PersonNavigation: FC<IPersonNavigationProps> = ({ stages, openStageId, onChange }) => {
+const formatStageNumber = (position: number) => String(position).padStart(2, '0');
 
-  const renderNavText = (stage: IStageNavItem) => {
-    switch (stage.view) {
-      case 'info':
-        return (
-          <div className='person__nav-icon-home'></div>
-        );
-      default:
-        return (
-          <span>0{stage.position || ''}</span>
-        );
+const PersonNavigation: FC<IPersonNavigationProps> = ({
+  stages,
+  openStageId,
+  onChange,
+  openLearningId,
+  onLearningChange,
+}) => {
+
+  const resolveState = (stage: IStageNavItem) => {
+    if (openLearningId) {
+      return stage.type === 'block' ? 'block' as const : 'default' as const;
     }
-  };
-
-  const renderNavItem = (stage: IStageNavItem, type: string) => {
-    const itemClass = `person__nav-item person__nav-item_type_${type}`;
-    return (
-      <li
-        key={stage.id}
-        className={itemClass}
-        onClick={type !== 'block' ? () => onChange(stage) : undefined}
-        style={{ cursor: type !== 'block' ? 'pointer' : 'default' }}
-      >
-        {renderNavText(stage)}
-      </li>
-    );
+    if (stage.id === openStageId) {
+      return 'active' as const;
+    }
+    if (stage.type === 'block') {
+      return 'block' as const;
+    }
+    return 'default' as const;
   };
 
   return (
-    <nav className='person__nav'>
-      <ul className='person__nav-list'>
-        {
-          stages.map((stage) => {
-            const type = stage.id === openStageId
-              ? 'active'
-              : stage.type !== 'block'
-              ? 'default'
-              : 'block';
+    <aside className='person__nav'>
+      <div className='person__nav-card'>
+        <h2 className='person__nav-card-title'>Этапы конкурса</h2>
+        <ul className='person__nav-list'>
+          {
+            stages.map((stage) => {
+              const state = resolveState(stage);
+              const isHome = stage.view === 'info';
 
-            return renderNavItem(stage, type);
-          })
-        }
-      </ul>
-    </nav>
+              return (
+                <PersonNavItem
+                  key={stage.id}
+                  title={stage.name}
+                  description={stage.description}
+                  number={isHome ? undefined : formatStageNumber(stage.position)}
+                  state={state}
+                  isHome={isHome}
+                  onClick={state !== 'block' ? () => onChange(stage) : undefined}
+                />
+              );
+            })
+          }
+        </ul>
+      </div>
+
+      <div className='person__nav-card person__nav-card_learning'>
+        <h2 className='person__nav-card-title'>Обучение</h2>
+        <ul className='person__nav-list'>
+          {
+            learningNavItems.map((item) => (
+              <PersonNavItem
+                key={item.id}
+                title={item.name}
+                description={item.description}
+                number={item.number}
+                state={openLearningId === item.id ? 'active' : 'default'}
+                onClick={() => onLearningChange(item)}
+              />
+            ))
+          }
+        </ul>
+      </div>
+    </aside>
   );
 };
 

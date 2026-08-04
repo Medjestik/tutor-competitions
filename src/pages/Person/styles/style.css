@@ -3,11 +3,19 @@
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  gap: 20px; /* 377 - (80 + 277) в макете 1920 */
 }
 
 @media all and (max-width: 1000px) {
   .person {
     flex-direction: column;
+    gap: 12px;
+    height: auto;
+  }
+
+  /* Контент сверху, навигация ниже — иначе сайдбар занимает весь первый экран */
+  .person-container {
+    order: -1;
   }
 }

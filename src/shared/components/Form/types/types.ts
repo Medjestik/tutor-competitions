@@ -29,6 +29,11 @@ export interface IFormFieldError {
 	isShow: boolean;
 }
 
+export interface IFormError {
+	text: string;
+	isShow: boolean;
+}
+
 export interface IFormInputProps {
 	type?: 'text' | 'number' | 'password';
 	name: string;
@@ -37,6 +42,8 @@ export interface IFormInputProps {
 	autoComplete?: string;
 	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 	disabled?: boolean;
+	min?: number;
+	hasError?: boolean;
 }
 
 export interface IFormInputStubProps {

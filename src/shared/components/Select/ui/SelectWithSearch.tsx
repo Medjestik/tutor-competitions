@@ -6,7 +6,12 @@ import useOnClickOutside from '../../../hooks/useOnClickOutside';
 
 import '../styles/style.css';
 
-const SelectWithSearch: FC<ISelectWithSearchProps> = ({ options, currentOption, onChooseOption }) => {
+const SelectWithSearch: FC<ISelectWithSearchProps> = ({
+  options,
+  currentOption,
+  onChooseOption,
+  disabled = false,
+}) => {
 
   const selectRef = createRef<HTMLDivElement>(); 
 
@@ -30,6 +35,7 @@ const SelectWithSearch: FC<ISelectWithSearchProps> = ({ options, currentOption, 
   }
 
   function openSelectOptions() {
+    if (disabled) return;
     setIsOpenSelectOptions(true);
   }
 
@@ -49,7 +55,10 @@ const SelectWithSearch: FC<ISelectWithSearchProps> = ({ options, currentOption, 
   }, [options]);
 
   return (
-    <div ref={selectRef} className={`select-search ${isOpenSelectOptions ? 'select-search_status_open' : ''}`}>
+    <div
+      ref={selectRef}
+      className={`select-search ${isOpenSelectOptions ? 'select-search_status_open' : ''} ${disabled ? 'select-search_disabled' : ''}`}
+    >
       <div className='select-search__main' onClick={!isOpenSelectOptions ? openSelectOptions : undefined}>
         {
           isOpenSelectOptions

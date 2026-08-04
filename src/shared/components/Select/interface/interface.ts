@@ -7,4 +7,5 @@ export interface ISelectWithSearchProps {
   options: ISelectOption[];
   currentOption: ISelectOption;
   onChooseOption: (option: ISelectOption) => void;
+  disabled?: boolean;
 }

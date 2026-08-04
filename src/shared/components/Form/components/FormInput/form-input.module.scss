@@ -39,6 +39,17 @@
     }
   }
 
+  &.input_error {
+    border-color: var(--error-color);
+
+    &:hover,
+    &:focus,
+    &:active,
+    &:focus-visible {
+      border-color: var(--error-color);
+    }
+  }
+
   &::placeholder {
     font-style: normal;
 		font-weight: normal;

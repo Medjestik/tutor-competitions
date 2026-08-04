@@ -108,10 +108,20 @@ export interface IPersonProps {
   onChangeStage:(stageId: number) => void;
 }
 
+export interface ILearningNavItem {
+  id: string;
+  number: string;
+  name: string;
+  description: string;
+  route: string;
+}
+
 export interface IPersonNavigationProps {
   stages: IStageNavItem[];
-  openStageId: number; 
+  openStageId: number;
   onChange: (stage: IStageNavItem) => void;
+  openLearningId: string | null;
+  onLearningChange: (item: ILearningNavItem) => void;
 }
 
 export interface IPersonContainerProps extends PropsWithChildren {

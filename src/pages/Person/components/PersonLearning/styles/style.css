@@ -1,0 +1,331 @@
+@import './listener.css';
+
+.person-learning {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.person-learning__header {
+  margin: 0 0 24px 0;
+}
+
+.person-learning__title {
+  margin: 0;
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.12;
+  color: var(--main-color);
+  text-transform: uppercase;
+}
+
+.person-learning__lead {
+  margin: 12px 0 0 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--subtitle-color);
+}
+
+.person-learning__body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.person-learning__grid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 689fr) minmax(0, 689fr);
+  gap: 21px;
+  align-items: start;
+}
+
+.person-learning__left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.person-learning__video-wrap {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--main-color);
+  position: relative;
+}
+
+.person-learning__info {
+  margin: 0;
+  padding: 20px 24px 33px 24px;
+  box-sizing: border-box;
+  min-height: 512px;
+  background-color: #f4f8ff;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.person-learning__info-title {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: var(--main-color);
+}
+
+.person-learning__info-text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 400;
+  color: #232323;
+}
+
+.person-learning__footer {
+  margin: auto 0 0 0;
+  padding-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.person-learning__footer_split {
+  justify-content: space-between;
+}
+
+/* Tabs */
+
+.person-learning-tabs {
+  margin: 0 0 24px 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.person-learning-tabs__item {
+  margin: 0;
+  padding: 16px 24px;
+  box-sizing: border-box;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 40px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  transition: opacity .3s ease-in-out;
+}
+
+.person-learning-tabs__check {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.person-learning-tabs__check::after {
+  content: '';
+  width: 12px;
+  height: 7px;
+  box-sizing: border-box;
+  border-left: 3.5px solid var(--main-color);
+  border-bottom: 3.5px solid var(--main-color);
+  transform: rotate(-45deg);
+  margin-top: -3px;
+}
+
+.person-learning-tabs__item_active .person-learning-tabs__check::after {
+  border-color: var(--white-color);
+}
+
+.person-learning-tabs__label {
+  display: block;
+}
+
+.person-learning-tabs__item:hover {
+  cursor: pointer;
+  opacity: .85;
+}
+
+.person-learning-tabs__item_active {
+  background-color: var(--main-color);
+  color: var(--white-color);
+  border: 1px solid var(--main-color);
+}
+
+.person-learning-tabs__item_default {
+  background-color: var(--white-color);
+  color: var(--main-color);
+  border: 1px solid var(--main-color);
+}
+
+/* Download card */
+
+.person-learning-download {
+  margin: 0;
+  padding: 20px 24px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100px;
+  background-color: #f4f8ff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.person-learning-download__text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 397px;
+}
+
+.person-learning-download__title {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--main-color);
+}
+
+.person-learning-download__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--subtitle-color);
+}
+
+.person-learning-download__btn {
+  flex-shrink: 0;
+}
+
+/* Accordion */
+
+.person-learning-accordion {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.person-learning-accordion__item {
+  margin: 0;
+  padding: 17px 16px;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: var(--white-color);
+  border: 1px solid var(--main-color);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  transition: all .3s ease-in-out;
+}
+
+.person-learning-accordion__item:hover {
+  cursor: pointer;
+}
+
+.person-learning-accordion__main {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+}
+
+.person-learning-accordion__title {
+  margin: 0;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--main-color);
+  flex: 1 1 auto;
+}
+
+.person-learning-accordion__icon {
+  margin: 0;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  background-image: url('../../../../../shared/icons/arrow.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: rotate(0deg);
+  transition: transform .3s ease-in-out;
+}
+
+.person-learning-accordion__item_open .person-learning-accordion__icon {
+  transform: rotate(180deg);
+}
+
+.person-learning-accordion__children {
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: max-height .3s ease;
+}
+
+.person-learning-accordion__text {
+  margin: 12px 0 0 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #232323;
+  max-width: 1314px;
+}
+
+@media all and (max-width: 1366px) {
+  .person-learning__title {
+    font-size: 36px;
+  }
+}
+
+@media all and (max-width: 1000px) {
+  .person-learning__title {
+    font-size: 28px;
+  }
+
+  .person-learning__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .person-learning-download {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .person-learning__footer {
+    flex-wrap: wrap;
+  }
+
+  .person-learning-tabs {
+    flex-wrap: wrap;
+  }
+}

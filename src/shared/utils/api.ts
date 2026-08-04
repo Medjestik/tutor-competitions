@@ -22,7 +22,7 @@ function checkResponse (res: Response) {
 }
 
 export const getMe = (token: string) => {
-  return fetch(`${API_URL}/accounts/me`, {
+  return fetch(`${API_URL}/accounts/me/`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -393,5 +393,180 @@ export const SelectSlots = (token: string, slots: ISLot[]) => {
     body: JSON.stringify(slots),
   })
   .then(res => handleResponse(res));
+};
+
+export const getLearningApplication = (token: string) => {
+  return fetch(`${API_URL}/learning/applications/my/`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+  }).then((res) => handleResponse(res));
+};
+
+export const updateLearningApplication = (token: string, data: Record<string, unknown>) => {
+  return fetch(`${API_URL}/learning/applications/my/`, {
+    method: 'PATCH',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  }).then((res) => handleResponse(res));
+};
+
+export const confirmLearningSection = (
+  token: string,
+  section: string,
+  password: string
+) => {
+  return fetch(`${API_URL}/learning/applications/my/confirm-section/`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      section,
+      password,
+      agreed: true,
+    }),
+  }).then((res) => handleResponse(res));
+};
+
+export const uploadLearningDocument = (
+  token: string,
+  documentType: string,
+  fileData: string,
+  filename: string
+) => {
+  return fetch(`${API_URL}/learning/applications/my/documents/`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      document_type: documentType,
+      file_data: fileData,
+      filename,
+    }),
+  }).then((res) => handleResponse(res));
+};
+
+export const submitLearningApplication = (token: string, password: string) => {
+  return fetch(`${API_URL}/learning/applications/my/submit/`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({ password }),
+  }).then((res) => handleResponse(res));
+};
+
+export interface ILearningApplicationListItem {
+  id: number;
+  status: string;
+  statusDisplay: string;
+  lastName: string;
+  firstName: string;
+  middleName: string | null;
+  email: string;
+  phone: string | null;
+  updatedAt: string;
+}
+
+export interface ILearningApplicationsListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: ILearningApplicationListItem[];
+}
+
+export const getLearningApplicationsList = (
+  token: string,
+  params: { page?: number; search?: string } = {}
+) => {
+  const searchParams = new URLSearchParams();
+  if (params.page) {
+    searchParams.set('page', String(params.page));
+  }
+  if (params.search) {
+    searchParams.set('search', params.search);
+  }
+
+  const query = searchParams.toString();
+  const url = `${API_URL}/learning/applications/${query ? `?${query}` : ''}`;
+
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => handleResponse(res)) as Promise<ILearningApplicationsListResponse>;
+};
+
+export const getLearningApplicationDetail = (token: string, applicationId: number) => {
+  return fetch(`${API_URL}/learning/applications/${applicationId}/`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => handleResponse(res));
+};
+
+export const approveLearningApplication = (token: string, applicationId: number) => {
+  return fetch(`${API_URL}/learning/applications/${applicationId}/approve/`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => handleResponse(res));
+};
+
+export const requestLearningApplicationCorrection = (
+  token: string,
+  applicationId: number,
+  data: { comment: string; sectionsToRevise: string[] }
+) => {
+  return fetch(
+    `${API_URL}/learning/applications/${applicationId}/request-correction/`,
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }
+  ).then((res) => handleResponse(res));
+};
+
+export const rejectLearningApplication = (
+  token: string,
+  applicationId: number,
+  data: { comment: string }
+) => {
+  return fetch(`${API_URL}/learning/applications/${applicationId}/reject/`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  }).then((res) => handleResponse(res));
 };
 

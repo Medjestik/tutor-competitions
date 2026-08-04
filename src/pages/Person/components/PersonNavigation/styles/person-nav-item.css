@@ -1,0 +1,127 @@
+﻿.person-nav-item {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+}
+
+.person-nav-item__badge {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: #f4f8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.person-nav-item__badge_active {
+  width: 82px;
+  height: 40px;
+  border-radius: 40px;
+  background-color: var(--main-color);
+  gap: 10px;
+  padding: 8px 16px;
+  box-sizing: border-box;
+}
+
+.person-nav-item__number {
+  margin: 0;
+  font-size: 20px;
+  line-height: 20px;
+  color: var(--main-color);
+  font-weight: 400;
+}
+
+.person-nav-item__arrow {
+  width: 15px;
+  height: 12px;
+  object-fit: contain;
+  display: block;
+}
+
+.person-nav-item__rocket {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}
+
+.person-nav-item__rocket_muted {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) saturate(100%) invert(18%) sepia(98%) saturate(2878%) hue-rotate(221deg) brightness(92%) contrast(97%);
+}
+
+.person-nav-item__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.person-nav-item__title {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 500;
+  color: #232323;
+}
+
+.person-nav-item__title_active {
+  color: var(--main-color);
+}
+
+.person-nav-item__desc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 400;
+  color: var(--subtitle-color);
+}
+
+.person-nav-item__desc_active {
+  color: var(--main-color);
+}
+
+.person-nav-item_state_block {
+  opacity: 0.55;
+}
+
+.person-nav-item_state_default:hover .person-nav-item__title {
+  color: var(--main-color);
+}
+
+@media all and (max-width: 1000px) {
+  .person-nav-item__badge {
+    width: 36px;
+    height: 36px;
+  }
+
+  .person-nav-item__badge_active {
+    width: 72px;
+    height: 36px;
+    padding: 6px 12px;
+    gap: 8px;
+  }
+
+  .person-nav-item__number {
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  .person-nav-item__title {
+    font-size: 15px;
+  }
+
+  .person-nav-item__rocket {
+    width: 20px;
+    height: 20px;
+  }
+}

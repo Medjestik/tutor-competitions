@@ -1,1 +1,2 @@
-export const API_URL = 'https://edtech-api.emiit.ru/api';
+export const API_URL =
+  process.env.REACT_APP_API_URL || 'https://edtech-api.emiit.ru/api';
