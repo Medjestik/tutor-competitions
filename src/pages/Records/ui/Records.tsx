@@ -10,11 +10,6 @@ import * as api from '../../../shared/utils/api';
 
 import '../styles/style.css';
 
-interface IRecordsProps {
-  windowWidth: number;
-  isLoggedIn: boolean;
-}
-
 interface IRecord {
   category: number;
   id: number;
@@ -24,7 +19,7 @@ interface IRecord {
   organization: string;
 }
 
-const Records: FC<IRecordsProps> = ({ windowWidth, isLoggedIn }) => {
+const Records: FC = () => {
 
   const [nominations, setNominations] = useState<ISelectNomination[]>([]);
   const [webinars, setWebinars] = useState<IRecord[]>([]);
@@ -63,7 +58,7 @@ const Records: FC<IRecordsProps> = ({ windowWidth, isLoggedIn }) => {
 
   return (
     <>
-    <MainLayout windowWidth={windowWidth} isLoggedIn={isLoggedIn} >
+    <MainLayout >
       {
         isLoadingData
         ?

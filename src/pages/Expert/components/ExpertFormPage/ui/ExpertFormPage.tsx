@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { FC} from 'react';
 import type { IFormData, IScoreItem } from '../../../../Person/interface/interface';
-import type { IExpertFormPageProps } from '../../../interface/interface';
 
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -32,7 +31,7 @@ const btnLinksStyle = {
   padding: '8px 20px',
 };
 
-const ExpertFormPage: FC<IExpertFormPageProps> = () => {
+const ExpertFormPage: FC = () => {
 
   const navigate = useNavigate();
 

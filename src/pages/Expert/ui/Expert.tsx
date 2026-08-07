@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import type { IExpertProps } from '../interface/interface';
 
 import { Navigate, Routes, Route, useLocation } from 'react-router-dom';
 
@@ -26,13 +25,13 @@ const tabs = [
   },
 ];
 
-const Expert: FC<IExpertProps> = ({ windowWidth, onLogout }) => {
+const Expert: FC = () => {
 
   const location = useLocation();
   const showTabs = location.pathname.includes('/menu');
 
   return (
-    <MainLayout mainContainer={false} windowWidth={windowWidth} onLogout={onLogout}> 
+    <MainLayout mainContainer={false}> 
       <div className='person'>
         <PersonContainer>
           <div className='expert'>
@@ -44,7 +43,7 @@ const Expert: FC<IExpertProps> = ({ windowWidth, onLogout }) => {
 
               <Route path='nomination/:nominationId' element={<ExpertForms />} />
 
-              <Route path='nomination/:nominationId/form/:formId/*' element={<ExpertFormPage windowWidth={windowWidth} onLogout={onLogout} />} />
+              <Route path='nomination/:nominationId/form/:formId/*' element={<ExpertFormPage />} />
 
               <Route path='*' element={<Navigate to='/person/menu' replace />} />
             </Routes>

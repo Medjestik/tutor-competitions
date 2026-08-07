@@ -1,11 +1,8 @@
-import type { IFormError } from '../Form/types/types';
-import type { ICurrentUser } from './interface';
-import type { ILoginData } from '../../../pages/Login/interface/interface';
+import { Routes, Route } from 'react-router-dom';
 
-import { useEffect, useState } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from '../../../store/store';
 
-import { ToastProvider } from '../ToastProvider/ui/ToastProvider';
 import Landing from '../../../pages/Landing/Landing';
 import Login from '../../../pages/Login/ui/Login';
 import Registration from '../../../pages/Registration/ui/Registration';
@@ -13,241 +10,62 @@ import Consent from '../../../pages/Consent/ui/Consent';
 import Privacy from '../../../pages/Privacy/ui/Privacy';
 import Expert from '../../../pages/Expert/ui/Expert';
 import Person from '../../../pages/Person/ui/Person';
-import Records from '../../../pages/Records/ui/Records';
 import StaffLearningApplications from '../../../pages/Staff/StaffLearningApplications';
 import StaffLearningApplicationDetail from '../../../pages/Staff/StaffLearningApplicationDetail';
-import Preloader from '../Preloader/ui/Preloader';
-import { EROUTES } from '../../utils/ERoutes';
-import { PublicRoute } from '../RoutesGuards/PublicRoute';
-import { ProtectedRoute } from '../RoutesGuards/ProtectedRoute';
-import { initialUser, CurrentUserContext } from '../../context/team';
 
-import * as api from '../../../shared/utils/api';
+import { EROUTES } from '../../utils/ERoutes';
+import { OnlyAuth, OnlyUnAuth, } from '../RoutesGuards/ProtectedRoute';
+import { ToastProvider } from '../ToastProvider/ui/ToastProvider';
+import { ScrollToTop } from '../../../features/ScrollToTop/ui/scroll-to-top';
+import { checkUserAuth } from '../../../store/user/actions';
 
 import styles from './app.module.scss';
 
 export const App = () => {
-	const navigate = useNavigate();
-	const { pathname } = useLocation();
-
-	const [currentUser, setCurrentUser] = useState<ICurrentUser>(initialUser);
-	const [loggedIn, setLoggedIn] = useState<boolean>(false);
-	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-
-	const [isLoadingPage, setIsLoadingPage] = useState<boolean>(
-		() => Boolean(localStorage.getItem('token'))
-	);
-
-	const [isLoadingRequest, setIsLoadingRequest] = useState<boolean>(false);
-	const [isShowLoginError, setIsShowLoginError] = useState<IFormError>({
-		text: '',
-		isShow: false,
-	});
-
-	const tokenCheck = () => {
-		const token = localStorage.getItem('token');
-		if (token) {
-			setIsLoadingPage(true);
-			api
-				.getMe(token)
-				.then((res) => {
-					setCurrentUser(res);
-					setLoggedIn(true);
-				})
-				.catch((err) => {
-					setLoggedIn(false);
-					console.error(err);
-				})
-				.finally(() => setIsLoadingPage(false));
-		} else {
-			if (pathname !== EROUTES.REGISTRATION) {
-				// navigate(EROUTES.LANDING);
-			}
-			setIsLoadingPage(false);
-		}
-	};
-
-	const handleChangeStage = (stageId: number) => {
-		setCurrentUser({ ...currentUser, current_stage_id: stageId });
-	};
-
-	const handleLogin = (data: ILoginData) => {
-		setIsLoadingRequest(true);
-		setIsShowLoginError({ text: '', isShow: false });
-		api
-			.login(data)
-			.then((res) => {
-				localStorage.setItem('token', res.access);
-				tokenCheck();
-			})
-			.catch((err) => {
-				if (err.status === 400 || err.status === 401) {
-					setIsShowLoginError({
-						text: 'Неправильный логин или пароль!',
-						isShow: true,
-					});
-				} else if (err.status === 403) {
-					setIsShowLoginError({
-						text: 'Вход в личный кабинет временно закрыт',
-						isShow: true,
-					});
-				} else {
-					setIsShowLoginError({
-						text: 'К сожалению произошла ошибка! Обратитесь в техническую поддержку.',
-						isShow: true,
-					});
-				}
-				console.error(err);
-			})
-			.finally(() => setIsLoadingRequest(false));
-	};
-
-	const handleLogout = () => {
-		localStorage.removeItem('token');
-		setLoggedIn(false);
-		setCurrentUser(initialUser);
-		navigate(EROUTES.LANDING);
-	};
+	const dispatch = useDispatch();
+	const { user } = useSelector((state) => state.user);
 
 	useEffect(() => {
-		tokenCheck();
-	}, []);
-
-	useEffect(() => {
-		function resizeWindow(evt: UIEvent) {
-			const target = evt.target as Window;
-			setWindowWidth(target.innerWidth);
-		}
-		window.addEventListener('resize', resizeWindow);
-		return () => {
-			window.removeEventListener('resize', resizeWindow);
-		};
-	}, []);
+		dispatch(checkUserAuth());
+	}, [dispatch]);
 
 	return (
 		<ToastProvider>
-			<CurrentUserContext.Provider value={currentUser}>
-				<div className={styles.page}>
-					{isLoadingPage ? (
-						<Preloader />
-					) : (
-						<Routes>
-							<Route
-								path={EROUTES.LANDING}
-								element={
-									<PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
-										<Landing />
-									</PublicRoute>
-								}
-							/>
+			<div className={styles.page}>
+			<ScrollToTop />
+			<Routes>
+				<Route
+						path={EROUTES.LANDING}
+						element={<OnlyUnAuth component={<Landing />} />}
+					/>
+					<Route
+						path={EROUTES.LOGIN}
+						element={<OnlyUnAuth component={<Login />} />}
+					/>
+					<Route
+						path={EROUTES.REGISTRATION}
+						element={<OnlyUnAuth component={<Registration />} />}
+					/>
+					<Route path={EROUTES.CONSENT} element={<Consent />} />
+					<Route path={EROUTES.PRIVACY} element={<Privacy />} />
 
-							<Route
-								path={EROUTES.LOGIN}
-								element={
-									<PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
-										<Login
-											onLogin={handleLogin}
-											loginError={isShowLoginError}
-											isLoadingRequest={isLoadingRequest}
-										/>
-									</PublicRoute>
-								}
-							/>
+					<Route
+						path={EROUTES.STAFF_LEARNING_APPLICATIONS}
+						element={<OnlyAuth component={<StaffLearningApplications />} />}
+					/>
+					<Route
+						path={EROUTES.STAFF_LEARNING_APPLICATION}
+						element={<OnlyAuth component={<StaffLearningApplicationDetail />} />}
+					/>
+					<Route
+						path='/person/*'
+						element={<OnlyAuth component={user?.role === 'test' ? <Expert /> : <Person />} />}
+					/>
 
-							<Route
-								path={EROUTES.REGISTRATION}
-								element={
-									<PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
-										<Registration />
-									</PublicRoute>
-								}
-							/>
-
-							<Route
-								path={EROUTES.CONSENT}
-								element={
-									<PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
-										<Consent windowWidth={windowWidth} />
-									</PublicRoute>
-								}
-							/>
-
-							<Route
-								path={EROUTES.PRIVACY}
-								element={
-									<PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
-										<Privacy windowWidth={windowWidth} />
-									</PublicRoute>
-								}
-							/>
-
-							{loggedIn && (
-								<Route
-									path="/records"
-									element={
-										<ProtectedRoute isAllowed={loggedIn}>
-											<Records
-												windowWidth={windowWidth}
-												isLoggedIn={loggedIn}
-											/>
-										</ProtectedRoute>
-									}
-								/>
-							)}
-
-							<Route
-								path={EROUTES.STAFF_LEARNING_APPLICATIONS}
-								element={
-									<ProtectedRoute
-										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
-									>
-										<StaffLearningApplications
-											windowWidth={windowWidth}
-											onLogout={handleLogout}
-										/>
-									</ProtectedRoute>
-								}
-							/>
-
-							<Route
-								path={EROUTES.STAFF_LEARNING_APPLICATION}
-								element={
-									<ProtectedRoute
-										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
-									>
-										<StaffLearningApplicationDetail
-											windowWidth={windowWidth}
-											onLogout={handleLogout}
-										/>
-									</ProtectedRoute>
-								}
-							/>
-
-							{loggedIn && (
-								<Route
-									path="/person/*"
-									element={
-										<ProtectedRoute isAllowed={loggedIn}>
-											{currentUser.role === 'expert' ? (
-												<Expert
-													windowWidth={windowWidth}
-													onLogout={handleLogout}
-												/>
-											) : (
-												<Person
-													windowWidth={windowWidth}
-													onLogout={handleLogout}
-													onChangeStage={handleChangeStage}
-												/>
-											)}
-										</ProtectedRoute>
-									}
-								/>
-							)}
-						</Routes>
-					)}
-				</div>
-			</CurrentUserContext.Provider>
+					</Routes>
+					<div id='modal-root'></div>
+					<div id='toast-root'></div>
+			</div>
 		</ToastProvider>
 	);
 };

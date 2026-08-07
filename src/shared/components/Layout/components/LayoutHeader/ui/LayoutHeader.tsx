@@ -1,37 +1,31 @@
-import { type FC, useContext } from 'react';
+import { type FC } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-
-import { CurrentUserContext } from '../../../../../context/team';
+import { useDispatch, useSelector } from '../../../../../../store/store';
 
 import Icon from '../../../../Icon/ui/Icon';
-
-import { EROUTES } from '../../../../../utils/ERoutes';
-
 import logoMintrans from '../../../../../images/person-cabinet/logo-mintrans.svg';
 import logoMintransText from '../../../../../images/person-cabinet/logo-mintrans-text.svg';
 import logoRut from '../../../../../images/person-cabinet/logo-rut-white.svg';
 import iconUser from '../../../../../images/person-cabinet/icon-user.svg';
 
+import { EROUTES } from '../../../../../utils/ERoutes';
+import { logoutUser } from '../../../../../../store/user/actions';
+
 import '../styles/style.css';
 
-interface ILayoutHeaderProps {
-  windowWidth: number;
-  isLoggedIn: boolean;
-  onLogout?: () => void;
-}
-
-const LayoutHeader: FC<ILayoutHeaderProps> = ({ isLoggedIn, onLogout }) => {
-  const currentTeam = useContext(CurrentUserContext);
+const LayoutHeader: FC = () => {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 
   const formatUserShortName = () => {
-    const lastName = currentTeam.last_name?.trim();
-    const firstInitial = currentTeam.first_name?.trim()?.[0];
-    const middleInitial = currentTeam.middle_name?.trim()?.[0];
+    const lastName = user?.last_name?.trim();
+    const firstInitial = user?.first_name?.trim()?.[0];
+    const middleInitial = user?.middle_name?.trim()?.[0];
 
     if (!lastName && !firstInitial) {
-      return currentTeam.username;
+      return user?.username;
     }
 
     const initials = [firstInitial, middleInitial]
@@ -41,6 +35,10 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ isLoggedIn, onLogout }) => {
 
     return [lastName, initials].filter(Boolean).join(' ');
   };
+
+  const handleLogout = () => {
+		dispatch(logoutUser());
+	};
 
   return (
     <header className='layout-header'>
@@ -52,7 +50,7 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ isLoggedIn, onLogout }) => {
         <img className='layout-header__logo-rut' src={logoRut} alt='Российский университет транспорта' />
       </div>
       {
-        isLoggedIn
+        user
         ?
         <div className='layout-header__actions'>
           <div className='layout-header__lang layout-header__desktop-only' aria-label='Язык'>
@@ -67,12 +65,12 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ isLoggedIn, onLogout }) => {
           <button
             className='layout-header__btn layout-header__desktop-only'
             type='button'
-            onClick={onLogout}
+            onClick={handleLogout}
           >
             Выход
           </button>
           <span className='layout-header__mobile-only'>
-            <Icon type='logout' onClick={onLogout} />
+            <Icon type='logout' onClick={handleLogout} />
           </span>
         </div>
         :

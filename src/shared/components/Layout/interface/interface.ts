@@ -5,7 +5,6 @@ export interface ILayoutProps extends PropsWithChildren {
   mainContainer?: boolean;
   /** Прозрачный main без белой карточки (ЛК по новому макету) */
   transparentMain?: boolean;
-  windowWidth: number;
   isLoggedIn?: boolean;
   onLogout?: () => void;
 }

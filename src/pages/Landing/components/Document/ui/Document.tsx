@@ -12,7 +12,6 @@ interface IDocumentProps {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Document: FC<IDocumentProps> = ({ windowWidth }) => {
 
-
   return (
     <div className='document' id={ENAV.DOCUMENT}>
       <h2 className='document__title'>ДОКУМЕНТЫ</h2>

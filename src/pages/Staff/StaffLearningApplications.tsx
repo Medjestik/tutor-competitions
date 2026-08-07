@@ -12,11 +12,6 @@ import { EROUTES } from '../../shared/utils/ERoutes';
 
 import './staff-learning-applications.css';
 
-interface IStaffLearningApplicationsProps {
-  windowWidth: number;
-  onLogout: () => void;
-}
-
 const formatFullName = (item: ILearningApplicationListItem) =>
   [item.lastName, item.firstName, item.middleName || ''].filter(Boolean).join(' ');
 
@@ -34,10 +29,7 @@ const formatDate = (value: string) => {
   });
 };
 
-const StaffLearningApplications: FC<IStaffLearningApplicationsProps> = ({
-  windowWidth,
-  onLogout,
-}) => {
+const StaffLearningApplications: FC = () => {
   const [applications, setApplications] = useState<ILearningApplicationListItem[]>([]);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -98,9 +90,6 @@ const StaffLearningApplications: FC<IStaffLearningApplicationsProps> = ({
     <MainLayout
       mainContainer={false}
       transparentMain
-      windowWidth={windowWidth}
-      isLoggedIn
-      onLogout={onLogout}
     >
       <div className='staff-applications'>
         <div className='staff-applications__card'>

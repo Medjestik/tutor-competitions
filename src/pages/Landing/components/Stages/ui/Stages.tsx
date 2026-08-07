@@ -14,7 +14,6 @@ interface IStagesProps {
 const btnStubStyle = {
   margin: '0',
   fontSize: '24px',
-  borderRadius: '12px',
   lineHeight: '24px',
 };
 
@@ -22,7 +21,6 @@ const btnMobileStyle = {
   margin: '0',
   fontSize: '18px',
   height: '40px',
-  borderRadius: '12px',
   lineHeight: '18px',
   padding: '8px 20px',
 };
@@ -42,7 +40,7 @@ const Stages: FC<IStagesProps> = ({ windowWidth }) => {
             <div className='stages__separate'></div>
             <div className='stages__description'>
               <p className='stages__item-text'>Зарегистрируйтесь на&nbsp;сайте, чтобы стать участником конкурса</p>
-              <Button text='Регистрация' type='link' href={EROUTES.LOGIN} color='primary' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
+              <Button text='Регистрация' type='link' href={EROUTES.LOGIN} color='gradient' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
             </div>
           </li>
           <li className='stages__item'>

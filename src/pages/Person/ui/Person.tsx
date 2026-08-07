@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import type { IPersonProps, IStage, IStageNavItem, ILearningNavItem } from '../interface/interface';
+import type { IStage, IStageNavItem, ILearningNavItem } from '../interface/interface';
 
 import { useState, useEffect, useContext } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
@@ -25,7 +25,7 @@ import { personStages, personStagesClose, learningNavItems } from '../lib/stages
 
 import '../styles/style.css';
 
-const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
+const Person: FC = () => {
 
   const currentUser = useContext(CurrentUserContext);
 
@@ -45,6 +45,10 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
 
   const toggleLearning = (item: ILearningNavItem) => {
     navigate(item.route);
+  };
+
+  const onChangeStage = (id: number) => {
+    console.log(id);
   };
 
   const handleNextStage = () => {
@@ -127,7 +131,7 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
     ?
     <Preloader />
     :
-    <MainLayout mainContainer={false} transparentMain windowWidth={windowWidth} onLogout={onLogout} > 
+    <MainLayout mainContainer={false} transparentMain > 
       <div className='person'>
         <PersonNavigation
           stages={stages}

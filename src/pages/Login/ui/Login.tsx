@@ -1,22 +1,31 @@
 import type { FC } from 'react';
-import type { ILoginData } from '../interface/interface';
-import type { IFormError } from '../../../shared/components/Form/types/types';
+
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from '../../../store/store';
 
 import PublicLayout from '../../../shared/components/Layout/ui/PublicLayout';
 import PublicHeader from '../../../shared/components/Layout/components/PublicHeader/ui/PublicHeader';
 import PublicFooter from '../../../shared/components/Layout/components/PublicFooter/ui/PublicFooter';
 import { Card } from '../../../shared/components/Card/ui';
 import LoginForm from './login-form';
+import Preloader from '../../../shared/components/Preloader/ui/Preloader';
+
+import { getSettingsAction } from '../../../store/user/actions';
 
 import styles from '../styles/login.module.scss';
 
-interface ILoginProps {
-	onLogin: (data: ILoginData) => void;
-	loginError: IFormError;
-	isLoadingRequest: boolean;
-}
+const Login: FC = () => {
+  const dispatch = useDispatch();
+  const { isLoadingSettings } = useSelector((state) => state.user);
 
-const Login: FC<ILoginProps> = ({ onLogin, loginError, isLoadingRequest }) => {
+  useEffect(() => {
+    dispatch(getSettingsAction());
+  }, [dispatch]);
+
+  if (isLoadingSettings) {
+    return <Preloader />;
+  }
+
 	return (
 		<PublicLayout>
 			<PublicHeader />
@@ -39,11 +48,7 @@ const Login: FC<ILoginProps> = ({ onLogin, loginError, isLoadingRequest }) => {
 						title="Вход"
 						subtitle="Войдите в свой аккаунт, чтобы начать участие в конкурсе"
 					>
-						<LoginForm
-							onLogin={onLogin}
-							loginError={loginError}
-							isLoadingRequest={isLoadingRequest}
-						/>
+						<LoginForm />
 					</Card>
 				</div>
 			</main>
