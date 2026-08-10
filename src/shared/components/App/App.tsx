@@ -16,6 +16,13 @@ import Person from '../../../pages/Person/ui/Person';
 import Records from '../../../pages/Records/ui/Records';
 import StaffLearningApplications from '../../../pages/Staff/StaffLearningApplications';
 import StaffLearningApplicationDetail from '../../../pages/Staff/StaffLearningApplicationDetail';
+import StaffLmsHub from '../../../pages/Staff/StaffLmsHub';
+import StaffLmsCourses from '../../../pages/Staff/StaffLmsCourses';
+import StaffLmsCourseEditor from '../../../pages/Staff/StaffLmsCourseEditor';
+import StaffLmsTests from '../../../pages/Staff/StaffLmsTests';
+import StaffLmsTestEditor from '../../../pages/Staff/StaffLmsTestEditor';
+import StaffLmsTasks from '../../../pages/Staff/StaffLmsTasks';
+import StaffLmsTaskEditor from '../../../pages/Staff/StaffLmsTaskEditor';
 import Preloader from '../Preloader/ui/Preloader';
 import { EROUTES } from '../../utils/ERoutes';
 import { PublicRoute } from '../RoutesGuards/PublicRoute';
@@ -216,6 +223,104 @@ export const App = () => {
 										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
 									>
 										<StaffLearningApplicationDetail
+											windowWidth={windowWidth}
+											onLogout={handleLogout}
+										/>
+									</ProtectedRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.STAFF_LMS}
+								element={
+									<ProtectedRoute
+										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
+									>
+										<StaffLmsHub
+											windowWidth={windowWidth}
+											onLogout={handleLogout}
+										/>
+									</ProtectedRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.STAFF_LMS_COURSES}
+								element={
+									<ProtectedRoute
+										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
+									>
+										<StaffLmsCourses
+											windowWidth={windowWidth}
+											onLogout={handleLogout}
+										/>
+									</ProtectedRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.STAFF_LMS_COURSE}
+								element={
+									<ProtectedRoute
+										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
+									>
+										<StaffLmsCourseEditor
+											windowWidth={windowWidth}
+											onLogout={handleLogout}
+										/>
+									</ProtectedRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.STAFF_LMS_TESTS}
+								element={
+									<ProtectedRoute
+										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
+									>
+										<StaffLmsTests
+											windowWidth={windowWidth}
+											onLogout={handleLogout}
+										/>
+									</ProtectedRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.STAFF_LMS_TEST}
+								element={
+									<ProtectedRoute
+										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
+									>
+										<StaffLmsTestEditor
+											windowWidth={windowWidth}
+											onLogout={handleLogout}
+										/>
+									</ProtectedRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.STAFF_LMS_TASKS}
+								element={
+									<ProtectedRoute
+										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
+									>
+										<StaffLmsTasks
+											windowWidth={windowWidth}
+											onLogout={handleLogout}
+										/>
+									</ProtectedRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.STAFF_LMS_TASK}
+								element={
+									<ProtectedRoute
+										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
+									>
+										<StaffLmsTaskEditor
 											windowWidth={windowWidth}
 											onLogout={handleLogout}
 										/>

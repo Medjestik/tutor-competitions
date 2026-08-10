@@ -19,6 +19,7 @@ import PersonStageWorkshop from '../components/PersonStage/ui/PersonStageWorksho
 import PersonStageEvaluate from '../components/PersonStage/ui/PersonStageEvaluate';
 import PersonLearningProgram from '../components/PersonLearning/ui/PersonLearningProgram';
 import PersonLearningListener from '../components/PersonLearning/ui/PersonLearningListener';
+import PersonLearningMaterials from '../components/PersonLearning/ui/PersonLearningMaterials';
 
 import { EROUTES, EROUTESSTAGES, EROUTESLEARNING } from '../../../shared/utils/ERoutes';
 import { personStages, personStagesClose, learningNavItems } from '../lib/stages';
@@ -151,6 +152,7 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
               <Route path={EROUTESSTAGES.PERSON_EVALUATE} element={<PersonStageEvaluate />} />
               <Route path={EROUTESLEARNING.PROGRAM} element={<PersonLearningProgram />} />
               <Route path={EROUTESLEARNING.LISTENER} element={<PersonLearningListener />} />
+              <Route path={EROUTESLEARNING.MATERIALS} element={<PersonLearningMaterials />} />
             </Routes>
           }
         </PersonContainer>

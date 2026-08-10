@@ -570,3 +570,307 @@ export const rejectLearningApplication = (
   }).then((res) => handleResponse(res));
 };
 
+function handleLmsResponse(res: Response) {
+  if (res.ok) {
+    if (res.status === 204) {
+      return null;
+    }
+    return res.json();
+  }
+  return Promise.reject(res);
+}
+
+const lmsAuthHeaders = (token: string) => ({
+  Accept: 'application/json',
+  Authorization: `Bearer ${token}`,
+  'Content-Type': 'application/json',
+});
+
+export interface ILmsPartType {
+  id: number;
+  code: string;
+  name: string;
+}
+
+export interface ILmsCourse {
+  id: number;
+  name: string;
+  description: string;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ILmsCoursePart {
+  id: number;
+  course: number;
+  name: string;
+  part_type: ILmsPartType;
+  level: number;
+  position: number;
+  parent: number | null;
+  parent_id: number | null;
+  is_mandatory: boolean;
+  text: string;
+  file_url: string | null;
+  test_id: number | null;
+  task_id: number | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ILmsCourseDetail extends ILmsCourse {
+  parts: ILmsCoursePart[];
+}
+
+export interface ILmsAnswer {
+  id?: number | null;
+  text: string;
+  is_correct: boolean;
+  match_text: string;
+  position: number;
+}
+
+export interface ILmsQuestion {
+  id?: number | null;
+  text: string;
+  question_type: 'single' | 'multiple' | 'text' | 'matching' | 'ordering';
+  position: number;
+  answers: ILmsAnswer[];
+}
+
+export interface ILmsTest {
+  id: number;
+  name: string;
+  description: string;
+  pass_score: number | null;
+  questions_count?: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ILmsTestDetail extends Omit<ILmsTest, 'questions_count'> {
+  questions: ILmsQuestion[];
+}
+
+export interface ILmsTask {
+  id: number;
+  name: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export const getLmsPartTypes = (token: string) =>
+  fetch(`${API_URL}/lms/part-types/`, {
+    method: 'GET',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsPartType[]>;
+
+export const getLmsCourses = (token: string, search = '') => {
+  const query = search ? `?search=${encodeURIComponent(search)}` : '';
+  return fetch(`${API_URL}/lms/courses/${query}`, {
+    method: 'GET',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsCourse[]>;
+};
+
+export const createLmsCourse = (
+  token: string,
+  data: { name: string; description?: string; is_published?: boolean }
+) =>
+  fetch(`${API_URL}/lms/courses/`, {
+    method: 'POST',
+    headers: lmsAuthHeaders(token),
+    body: JSON.stringify(data),
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsCourseDetail>;
+
+export const getLmsCourse = (token: string, courseId: number) =>
+  fetch(`${API_URL}/lms/courses/${courseId}/`, {
+    method: 'GET',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsCourseDetail>;
+
+export const updateLmsCourse = (
+  token: string,
+  courseId: number,
+  data: Partial<{ name: string; description: string; is_published: boolean }>
+) =>
+  fetch(`${API_URL}/lms/courses/${courseId}/`, {
+    method: 'PATCH',
+    headers: lmsAuthHeaders(token),
+    body: JSON.stringify(data),
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsCourseDetail>;
+
+export const deleteLmsCourse = (token: string, courseId: number) =>
+  fetch(`${API_URL}/lms/courses/${courseId}/`, {
+    method: 'DELETE',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res));
+
+export const createLmsCoursePart = (
+  token: string,
+  courseId: number,
+  data: Record<string, unknown>
+) =>
+  fetch(`${API_URL}/lms/courses/${courseId}/parts/`, {
+    method: 'POST',
+    headers: lmsAuthHeaders(token),
+    body: JSON.stringify(data),
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsCoursePart>;
+
+export const updateLmsCoursePart = (
+  token: string,
+  partId: number,
+  data: Record<string, unknown>
+) =>
+  fetch(`${API_URL}/lms/parts/${partId}/`, {
+    method: 'PATCH',
+    headers: lmsAuthHeaders(token),
+    body: JSON.stringify(data),
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsCoursePart>;
+
+export const deleteLmsCoursePart = (token: string, partId: number) =>
+  fetch(`${API_URL}/lms/parts/${partId}/`, {
+    method: 'DELETE',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res));
+
+export const uploadLmsCoursePartFile = (
+  token: string,
+  partId: number,
+  file: File
+) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  return fetch(`${API_URL}/lms/parts/${partId}/upload/`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsCoursePart>;
+};
+
+export const getLmsTests = (token: string, search = '') => {
+  const query = search ? `?search=${encodeURIComponent(search)}` : '';
+  return fetch(`${API_URL}/lms/tests/${query}`, {
+    method: 'GET',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsTest[]>;
+};
+
+export const createLmsTest = (
+  token: string,
+  data: Partial<ILmsTestDetail> & { name: string }
+) =>
+  fetch(`${API_URL}/lms/tests/`, {
+    method: 'POST',
+    headers: lmsAuthHeaders(token),
+    body: JSON.stringify(data),
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsTestDetail>;
+
+export const getLmsTest = (token: string, testId: number) =>
+  fetch(`${API_URL}/lms/tests/${testId}/`, {
+    method: 'GET',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsTestDetail>;
+
+export const updateLmsTest = (
+  token: string,
+  testId: number,
+  data: Partial<ILmsTestDetail>
+) =>
+  fetch(`${API_URL}/lms/tests/${testId}/`, {
+    method: 'PATCH',
+    headers: lmsAuthHeaders(token),
+    body: JSON.stringify(data),
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsTestDetail>;
+
+export const deleteLmsTest = (token: string, testId: number) =>
+  fetch(`${API_URL}/lms/tests/${testId}/`, {
+    method: 'DELETE',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res));
+
+export const getLmsTasks = (token: string, search = '') => {
+  const query = search ? `?search=${encodeURIComponent(search)}` : '';
+  return fetch(`${API_URL}/lms/tasks/${query}`, {
+    method: 'GET',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsTask[]>;
+};
+
+export const createLmsTask = (
+  token: string,
+  data: { name: string; description: string }
+) =>
+  fetch(`${API_URL}/lms/tasks/`, {
+    method: 'POST',
+    headers: lmsAuthHeaders(token),
+    body: JSON.stringify(data),
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsTask>;
+
+export const getLmsTask = (token: string, taskId: number) =>
+  fetch(`${API_URL}/lms/tasks/${taskId}/`, {
+    method: 'GET',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsTask>;
+
+export const updateLmsTask = (
+  token: string,
+  taskId: number,
+  data: Partial<{ name: string; description: string }>
+) =>
+  fetch(`${API_URL}/lms/tasks/${taskId}/`, {
+    method: 'PATCH',
+    headers: lmsAuthHeaders(token),
+    body: JSON.stringify(data),
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsTask>;
+
+export const deleteLmsTask = (token: string, taskId: number) =>
+  fetch(`${API_URL}/lms/tasks/${taskId}/`, {
+    method: 'DELETE',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res));
+
+export interface ILmsMaterialsPart {
+  id: number;
+  name: string;
+  part_type: ILmsPartType;
+  level: number;
+  position: number;
+  parent_id: number | null;
+  is_mandatory: boolean;
+}
+
+export interface ILmsMaterialsCourse {
+  id: number;
+  name: string;
+  description: string;
+  parts: ILmsMaterialsPart[];
+}
+
+export type TLmsMaterialsAccess =
+  | 'granted'
+  | 'blocked'
+  | 'no_application'
+  | 'no_course';
+
+export interface ILmsMaterialsResponse {
+  access: TLmsMaterialsAccess;
+  message?: string;
+  status?: string;
+  statusDisplay?: string;
+  applicationStatus?: string;
+  organizerComment?: string;
+  course?: ILmsMaterialsCourse;
+}
+
+export const getMyLmsMaterials = (token: string) =>
+  fetch(`${API_URL}/lms/my/materials/`, {
+    method: 'GET',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res)) as Promise<ILmsMaterialsResponse>;
+

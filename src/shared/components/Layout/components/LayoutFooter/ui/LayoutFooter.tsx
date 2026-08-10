@@ -33,6 +33,11 @@ const LayoutFooter: FC = () => {
                 Заявки на обучение
               </Link>
             </li>
+            <li>
+              <Link className='layout-footer__nav-link' to={EROUTES.STAFF_LMS}>
+                Конструктор LMS
+              </Link>
+            </li>
           </ul>
         )}
       </div>
