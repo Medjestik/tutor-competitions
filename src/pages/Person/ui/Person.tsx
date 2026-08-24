@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { IPersonProps, IStage, IStageNavItem, ILearningNavItem } from '../interface/interface';
 
 import { useState, useEffect, useContext } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Navigate, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import * as api from '../../../shared/utils/api';
 import { CurrentUserContext } from '../../../shared/context/team';
@@ -164,6 +164,7 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
             :
             <Routes>
               <Route index element={<PersonStageInitial />} />
+              <Route path="menu/*" element={<Navigate to={EROUTES.PERSON} replace />} />
               <Route path={EROUTESSTAGES.PERSON_FORM} element={<PersonStageForm onNextStage={handleNextStage} />} />
               <Route path={EROUTESSTAGES.PERSON_SCHEDULE} element={<PersonStageSchedule />} />
               <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides />} />

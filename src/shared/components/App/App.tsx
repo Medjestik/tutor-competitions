@@ -409,7 +409,7 @@ export const App = () => {
 									path="/person/*"
 									element={
 										<ProtectedRoute isAllowed={loggedIn}>
-											{currentUser.role === 'expert' ? (
+											{currentUser.role === 'expert' && !currentUser.is_staff ? (
 												<Expert
 													windowWidth={windowWidth}
 													onLogout={handleLogout}
