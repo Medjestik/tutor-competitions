@@ -1,0 +1,177 @@
+.staff-task-reviews {
+  padding: 24px 0 48px;
+}
+
+.staff-task-reviews__card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(20, 34, 67, 0.08);
+}
+
+.staff-task-reviews__title {
+  margin: 0 0 20px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #2f3440;
+}
+
+.staff-task-reviews__table-wrap {
+  overflow-x: auto;
+}
+
+.staff-task-reviews__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.staff-task-reviews__table th,
+.staff-task-reviews__table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e4e8f0;
+  text-align: left;
+}
+
+.staff-task-reviews__table th {
+  background: #f7f9fc;
+  font-weight: 600;
+}
+
+.staff-task-reviews__row {
+  cursor: pointer;
+}
+
+.staff-task-reviews__row:hover {
+  background: #f7f9fc;
+}
+
+.staff-task-reviews__empty {
+  text-align: center;
+  color: #596175;
+}
+
+.staff-task-reviews__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.staff-task-reviews__page-info {
+  font-size: 14px;
+  color: #596175;
+}
+
+.staff-task-reviews__error {
+  margin: 0;
+  color: #c0392b;
+  font-size: 13px;
+}
+
+.staff-task-reviews__modal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.staff-task-reviews__modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+
+.staff-task-reviews__modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #2f3440;
+}
+
+.staff-task-reviews__modal-close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 2px solid #000;
+  border-radius: 50%;
+  background: #3a3f4b;
+  cursor: pointer;
+}
+
+.staff-task-reviews__modal-close img {
+  width: 14px;
+  height: 14px;
+  filter: brightness(0) invert(1);
+}
+
+.staff-task-reviews__meta {
+  display: grid;
+  grid-template-columns: minmax(110px, 38%) 1fr;
+  gap: 4px 10px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.staff-task-reviews__meta dt {
+  margin: 0;
+  color: #596175;
+  font-weight: 600;
+}
+
+.staff-task-reviews__meta dd {
+  margin: 0;
+  color: #2f3440;
+  word-break: break-word;
+}
+
+.staff-task-reviews__comment {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.staff-task-reviews__comment-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2f3440;
+}
+
+.staff-task-reviews__comment-input {
+  width: 100%;
+  min-height: 72px;
+  padding: 8px 10px;
+  border: 1px solid #d8deea;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.35;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.staff-task-reviews__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.staff-task-reviews__reviewed-by {
+  margin: 0;
+  font-size: 12px;
+  color: #596175;
+}
+
+.staff-task-reviews__modal a {
+  color: var(--main-color, #0055a4);
+}

@@ -1,58 +1,52 @@
 import type { FC } from 'react';
-import type { ILmsMaterialsPart, ILmsMaterialsResponse } from '../../../../../shared/utils/api';
+import type { ILmsMaterialsResponse } from '../../../../../shared/utils/api';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
 import { getMyLmsMaterials } from '../../../../../shared/utils/api';
 import { EROUTES, EROUTESLEARNING } from '../../../../../shared/utils/ERoutes';
+import PersonLearningCoursePlayer from './player/PersonLearningCoursePlayer';
+import {
+  buildTreeOrder,
+  getPartIcon,
+} from '../lib/coursePlayer';
 
 import './person-learning-materials.css';
-
-const buildTreeOrder = (parts: ILmsMaterialsPart[]): ILmsMaterialsPart[] => {
-  const byParent = new Map<number | null, ILmsMaterialsPart[]>();
-  parts.forEach((part) => {
-    const key = part.parent_id ?? null;
-    const list = byParent.get(key) || [];
-    list.push(part);
-    byParent.set(key, list);
-  });
-  byParent.forEach((list) =>
-    list.sort((a, b) => a.position - b.position || a.id - b.id)
-  );
-
-  const result: ILmsMaterialsPart[] = [];
-  const walk = (parentId: number | null) => {
-    const children = byParent.get(parentId) || [];
-    children.forEach((child) => {
-      result.push(child);
-      walk(child.id);
-    });
-  };
-  walk(null);
-  return result;
-};
 
 const PersonLearningMaterials: FC = () => {
   const [data, setData] = useState<ILmsMaterialsResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedPartId, setSelectedPartId] = useState<number | null>(null);
 
-  useEffect(() => {
+  const loadMaterials = useCallback(() => {
     const token = localStorage.getItem('token');
     if (!token) {
       setError('Требуется авторизация');
       setIsLoading(false);
-      return;
+      return Promise.resolve();
     }
 
     setIsLoading(true);
-    getMyLmsMaterials(token)
-      .then((response) => setData(response))
+    return getMyLmsMaterials(token)
+      .then((response) => {
+        setData(response);
+        setError('');
+      })
       .catch(() => setError('Не удалось загрузить материалы обучения'))
       .finally(() => setIsLoading(false));
   }, []);
+
+  useEffect(() => {
+    void loadMaterials();
+  }, [loadMaterials]);
+
+  const handleClosePlayer = () => {
+    setSelectedPartId(null);
+    void loadMaterials();
+  };
 
   const orderedParts = useMemo(
     () => (data?.course?.parts ? buildTreeOrder(data.course.parts) : []),
@@ -102,6 +96,12 @@ const PersonLearningMaterials: FC = () => {
 
   return (
     <div className='person-learning-materials'>
+      <PersonLearningCoursePlayer
+        isOpen={selectedPartId !== null}
+        partId={selectedPartId}
+        onClose={handleClosePlayer}
+        onSelectPart={setSelectedPartId}
+      />
       <div className='person-learning-materials__header'>
         <h2 className='person-learning-materials__title'>{data.course.name}</h2>
         {data.course.description ? (
@@ -123,11 +123,33 @@ const PersonLearningMaterials: FC = () => {
                 className='person-learning-materials__tree-item'
                 style={{ paddingLeft: 12 + part.level * 20 }}
               >
-                <span className='person-learning-materials__tree-name'>{part.name}</span>
-                <span className='person-learning-materials__tree-type'>
-                  {part.part_type.name}
-                  {!part.is_mandatory ? ' · необязательно' : ''}
-                </span>
+                <div className='person-learning-materials__tree-main'>
+                  <img
+                    className='person-learning-materials__tree-icon'
+                    src={getPartIcon(part.part_type.code)}
+                    alt={part.part_type.name}
+                  />
+                  <span className='person-learning-materials__tree-name'>{part.name}</span>
+                </div>
+                {part.part_type.code !== 'folder' ? (
+                  <div className='person-learning-materials__tree-meta'>
+                    <span className='person-learning-materials__tree-badge'>
+                      {part.is_mandatory ? 'Обязательный' : 'Необязательный'}
+                    </span>
+                    {part.progress_status_display ? (
+                      <span className='person-learning-materials__tree-badge'>
+                        {part.progress_status_display}
+                      </span>
+                    ) : null}
+                    <button
+                      type='button'
+                      className='person-learning-materials__tree-action'
+                      onClick={() => setSelectedPartId(part.id)}
+                    >
+                      {part.progress_status ? 'Продолжить' : 'Начать'}
+                    </button>
+                  </div>
+                ) : null}
               </li>
             ))}
           </ul>

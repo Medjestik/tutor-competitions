@@ -20,6 +20,7 @@ import PersonStageEvaluate from '../components/PersonStage/ui/PersonStageEvaluat
 import PersonLearningProgram from '../components/PersonLearning/ui/PersonLearningProgram';
 import PersonLearningListener from '../components/PersonLearning/ui/PersonLearningListener';
 import PersonLearningMaterials from '../components/PersonLearning/ui/PersonLearningMaterials';
+import { getSettings } from '../../../shared/api/settings';
 
 import { EROUTES, EROUTESSTAGES, EROUTESLEARNING } from '../../../shared/utils/ERoutes';
 import { personStages, personStagesClose, learningNavItems } from '../lib/stages';
@@ -36,6 +37,7 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
   const [stages, setStages] = useState<IStageNavItem[]>(currentUser.passed_second_stage ? personStages : personStagesClose);
   const [openStageId, setOpenStageId] = useState<number>(personStages[0].id);
   const [openLearningId, setOpenLearningId] = useState<string | null>(null);
+  const [isEducationEnabled, setIsEducationEnabled] = useState<boolean>(false);
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
 
@@ -103,9 +105,25 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
   }, []);
 
   useEffect(() => {
+    getSettings()
+      .then((settings) => {
+        setIsEducationEnabled(settings.enable_education === true);
+      })
+      .catch(() => {
+        setIsEducationEnabled(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!isEducationEnabled && pathname.includes('/learning/')) {
+      setOpenLearningId(null);
+      navigate(EROUTES.PERSON, { replace: true });
+      return;
+    }
+
     const matchedLearning = learningNavItems.find((item) => pathname === item.route);
 
-    if (matchedLearning) {
+    if (matchedLearning && isEducationEnabled) {
       setOpenLearningId(matchedLearning.id);
       setOpenStageId(-1);
       return;
@@ -121,7 +139,7 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
     if (matched) {
       setOpenStageId(matched.id);
     }
-  }, [pathname, stages]);
+  }, [isEducationEnabled, navigate, pathname, stages]);
 
   return (
     isLoadingData
@@ -136,6 +154,7 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
           onChange={toggleStage}
           openLearningId={openLearningId}
           onLearningChange={toggleLearning}
+          isEducationEnabled={isEducationEnabled}
         /> 
         <PersonContainer>
           {
@@ -150,9 +169,13 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
               <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides />} />
               <Route path={EROUTESSTAGES.PERSON_WORKSHOP} element={<PersonStageWorkshop />} />
               <Route path={EROUTESSTAGES.PERSON_EVALUATE} element={<PersonStageEvaluate />} />
-              <Route path={EROUTESLEARNING.PROGRAM} element={<PersonLearningProgram />} />
-              <Route path={EROUTESLEARNING.LISTENER} element={<PersonLearningListener />} />
-              <Route path={EROUTESLEARNING.MATERIALS} element={<PersonLearningMaterials />} />
+              {isEducationEnabled && (
+                <>
+                  <Route path={EROUTESLEARNING.PROGRAM} element={<PersonLearningProgram />} />
+                  <Route path={EROUTESLEARNING.LISTENER} element={<PersonLearningListener />} />
+                  <Route path={EROUTESLEARNING.MATERIALS} element={<PersonLearningMaterials />} />
+                </>
+              )}
             </Routes>
           }
         </PersonContainer>

@@ -16,6 +16,7 @@ import Popup from '../../shared/components/Popup/ui/Popup';
 import { useToast } from '../../shared/components/ToastProvider/ui/ToastProvider';
 import {
   approveLearningApplication,
+  downloadLearningApplicationDocument,
   getLearningApplicationDetail,
   rejectLearningApplication,
   requestLearningApplicationCorrection,
@@ -121,6 +122,7 @@ const StaffLearningApplicationDetail: FC<IStaffLearningApplicationDetailProps> =
   const [statusDisplay, setStatusDisplay] = useState('');
   const [fileUrls, setFileUrls] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [actionModal, setActionModal] = useState<TStaffActionModal>('none');
@@ -306,6 +308,33 @@ const StaffLearningApplicationDetail: FC<IStaffLearningApplicationDetailProps> =
     }
   };
 
+  const handleDownloadDocument = async () => {
+    const token = localStorage.getItem('token');
+    if (!token || !applicationId || isDownloading) return;
+
+    setIsDownloading(true);
+    try {
+      const blob = await downloadLearningApplicationDocument(token, applicationId);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `documents_${applicationId}.docx`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      const message = await getErrorMessage(err, 'Не удалось скачать документ.');
+      showToast({
+        type: 'error',
+        title: 'Ошибка скачивания',
+        text: message,
+      });
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   const getTabProps = () => ({
     formData,
     fieldErrors: {},
@@ -371,6 +400,12 @@ const StaffLearningApplicationDetail: FC<IStaffLearningApplicationDetailProps> =
                     {formData.email ? ` · ${formData.email}` : ''}
                   </p>
                 </div>
+                <Button
+                  text={isDownloading ? 'Подготовка...' : 'Скачать документы'}
+                  color='primary'
+                  onClick={handleDownloadDocument}
+                  disabled={isDownloading}
+                />
               </div>
 
               {fileLinks.length > 0 && (

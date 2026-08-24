@@ -217,6 +217,7 @@ export interface IPersonLearningListenerFileUploadProps {
   fieldError?: IListenerFieldError;
   fieldKey?: keyof IListenerFormState;
   disabled?: boolean;
+  accept?: string;
 }
 
 export interface IPersonLearningListenerConfirmModalProps {

@@ -277,5 +277,6 @@ export const initialListenerForm: IListenerFormState = createListenerFormFromUse
   timezone: '',
   passed_second_stage: false,
   is_staff: false,
+  is_lms_tutor: false,
   nomination: null,
 });

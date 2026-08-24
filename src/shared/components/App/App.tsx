@@ -23,6 +23,9 @@ import StaffLmsTests from '../../../pages/Staff/StaffLmsTests';
 import StaffLmsTestEditor from '../../../pages/Staff/StaffLmsTestEditor';
 import StaffLmsTasks from '../../../pages/Staff/StaffLmsTasks';
 import StaffLmsTaskEditor from '../../../pages/Staff/StaffLmsTaskEditor';
+import StaffSettings from '../../../pages/Staff/StaffSettings';
+import StaffSettingEditor from '../../../pages/Staff/StaffSettingEditor';
+import StaffTaskReviews from '../../../pages/Staff/StaffTaskReviews';
 import Preloader from '../Preloader/ui/Preloader';
 import { EROUTES } from '../../utils/ERoutes';
 import { PublicRoute } from '../RoutesGuards/PublicRoute';
@@ -321,6 +324,51 @@ export const App = () => {
 										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
 									>
 										<StaffLmsTaskEditor
+											windowWidth={windowWidth}
+											onLogout={handleLogout}
+										/>
+									</ProtectedRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.STAFF_SETTINGS}
+								element={
+									<ProtectedRoute
+										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
+									>
+										<StaffSettings
+											windowWidth={windowWidth}
+											onLogout={handleLogout}
+										/>
+									</ProtectedRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.STAFF_SETTING}
+								element={
+									<ProtectedRoute
+										isAllowed={loggedIn && Boolean(currentUser.is_staff)}
+									>
+										<StaffSettingEditor
+											windowWidth={windowWidth}
+											onLogout={handleLogout}
+										/>
+									</ProtectedRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.STAFF_TASK_REVIEWS}
+								element={
+									<ProtectedRoute
+										isAllowed={
+											loggedIn
+											&& (Boolean(currentUser.is_staff) || Boolean(currentUser.is_lms_tutor))
+										}
+									>
+										<StaffTaskReviews
 											windowWidth={windowWidth}
 											onLogout={handleLogout}
 										/>

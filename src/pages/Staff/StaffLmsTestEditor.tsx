@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import MainLayout from '../../shared/components/Layout/ui/MainLayout';
 import Preloader from '../../shared/components/Preloader/ui/Preloader';
 import Button from '../../shared/components/Button/ui/Button';
+import StaffBackButton from './components/StaffBackButton';
 import { getLmsTest, updateLmsTest } from '../../shared/utils/api';
 import { EROUTES } from '../../shared/utils/ERoutes';
 
@@ -27,9 +28,9 @@ const QUESTION_TYPE_OPTIONS: { value: TQuestionType; label: string }[] = [
   { value: 'ordering', label: 'Упорядочивание' },
 ];
 
-const emptyAnswer = (position = 0): ILmsAnswer => ({
+const emptyAnswer = (position = 0, isCorrect = false): ILmsAnswer => ({
   text: '',
-  is_correct: false,
+  is_correct: isCorrect,
   match_text: '',
   position,
 });
@@ -159,16 +160,14 @@ const StaffLmsTestEditor: FC<IStaffLmsTestEditorProps> = ({
           text: question.text,
           question_type: question.question_type,
           position,
-          answers:
-            question.question_type === 'text'
-              ? []
-              : question.answers.map((answer, answerPosition) => ({
-                  id: answer.id || undefined,
-                  text: answer.text,
-                  is_correct: answer.is_correct,
-                  match_text: answer.match_text || '',
-                  position: answerPosition,
-                })),
+          answers: question.answers.map((answer, answerPosition) => ({
+            id: answer.id || undefined,
+            text: answer.text,
+            is_correct:
+              question.question_type === 'text' ? true : answer.is_correct,
+            match_text: answer.match_text || '',
+            position: answerPosition,
+          })),
         })),
       };
       const saved = await updateLmsTest(token, testId, payload);
@@ -196,6 +195,7 @@ const StaffLmsTestEditor: FC<IStaffLmsTestEditorProps> = ({
     >
       <div className='staff-lms'>
         <div className='staff-lms__card'>
+          <StaffBackButton fallbackTo={EROUTES.STAFF_LMS_TESTS} />
           <div className='staff-lms__breadcrumb'>
             <Link to={EROUTES.STAFF_LMS}>Конструктор LMS</Link>
             {' / '}
@@ -280,7 +280,12 @@ const StaffLmsTestEditor: FC<IStaffLmsTestEditorProps> = ({
                           question_type: questionType,
                           answers:
                             questionType === 'text'
-                              ? []
+                              ? question.answers.length
+                                ? question.answers.map((answer) => ({
+                                    ...answer,
+                                    is_correct: true,
+                                  }))
+                                : [emptyAnswer(0, true)]
                               : question.answers.length
                                 ? question.answers
                                 : [emptyAnswer(0)],
@@ -331,109 +336,118 @@ const StaffLmsTestEditor: FC<IStaffLmsTestEditorProps> = ({
                     />
                   </div>
 
-                  {question.question_type === 'text' ? (
-                    <p className='staff-lms__empty'>
-                      Открытый ответ проверяется вручную — варианты не нужны.
-                    </p>
-                  ) : (
-                    <div className='staff-lms__answers'>
-                      {question.answers.map((answer, answerIndex) => (
-                        <div
-                          className='staff-lms__answer-row'
-                          key={answer.id ?? `a-${questionIndex}-${answerIndex}`}
-                        >
+                  <div className='staff-lms__answers'>
+                    {question.question_type === 'text' ? (
+                      <p className='staff-lms__empty'>
+                        Укажите допустимые варианты открытого ответа. Любой из
+                        них считается верным.
+                      </p>
+                    ) : null}
+                    {question.answers.map((answer, answerIndex) => (
+                      <div
+                        className='staff-lms__answer-row'
+                        key={answer.id ?? `a-${questionIndex}-${answerIndex}`}
+                      >
+                        <input
+                          className='staff-lms__input'
+                          placeholder={
+                            question.question_type === 'matching'
+                              ? 'Левая часть'
+                              : question.question_type === 'text'
+                                ? 'Допустимый ответ'
+                                : 'Вариант / элемент'
+                          }
+                          value={answer.text}
+                          onChange={(event) =>
+                            updateAnswer(questionIndex, answerIndex, {
+                              text: event.target.value,
+                            })
+                          }
+                        />
+                        {question.question_type === 'matching' ? (
                           <input
                             className='staff-lms__input'
-                            placeholder={
-                              question.question_type === 'matching'
-                                ? 'Левая часть'
-                                : 'Вариант / элемент'
-                            }
-                            value={answer.text}
+                            placeholder='Правая часть'
+                            value={answer.match_text}
                             onChange={(event) =>
                               updateAnswer(questionIndex, answerIndex, {
-                                text: event.target.value,
+                                match_text: event.target.value,
                               })
                             }
                           />
-                          {question.question_type === 'matching' ? (
+                        ) : question.question_type === 'ordering' ? (
+                          <span className='staff-lms__empty'>
+                            Порядок: {answerIndex + 1}
+                          </span>
+                        ) : question.question_type === 'text' ? (
+                          <span className='staff-lms__empty'>Допустимый</span>
+                        ) : (
+                          <label className='staff-lms__checkbox'>
                             <input
-                              className='staff-lms__input'
-                              placeholder='Правая часть'
-                              value={answer.match_text}
+                              type='checkbox'
+                              checked={answer.is_correct}
                               onChange={(event) =>
                                 updateAnswer(questionIndex, answerIndex, {
-                                  match_text: event.target.value,
+                                  is_correct: event.target.checked,
                                 })
                               }
                             />
-                          ) : question.question_type === 'ordering' ? (
-                            <span className='staff-lms__empty'>
-                              Порядок: {answerIndex + 1}
-                            </span>
-                          ) : (
-                            <label className='staff-lms__checkbox'>
-                              <input
-                                type='checkbox'
-                                checked={answer.is_correct}
-                                onChange={(event) =>
-                                  updateAnswer(questionIndex, answerIndex, {
-                                    is_correct: event.target.checked,
-                                  })
-                                }
-                              />
-                              Верный
-                            </label>
-                          )}
-                          <button
-                            type='button'
-                            className='staff-lms__ghost-btn'
-                            onClick={() =>
-                              moveAnswer(questionIndex, answerIndex, -1)
-                            }
-                          >
-                            ↑
-                          </button>
-                          <button
-                            type='button'
-                            className='staff-lms__ghost-btn'
-                            onClick={() =>
-                              moveAnswer(questionIndex, answerIndex, 1)
-                            }
-                          >
-                            ↓
-                          </button>
-                          <button
-                            type='button'
-                            className='staff-lms__ghost-btn staff-lms__danger'
-                            onClick={() =>
-                              updateQuestion(questionIndex, {
-                                answers: question.answers.filter(
-                                  (_, index) => index !== answerIndex
-                                ),
-                              })
-                            }
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      ))}
-                      <button
-                        type='button'
-                        className='staff-lms__ghost-btn'
-                        onClick={() =>
-                          updateQuestion(questionIndex, {
-                            answers: [
-                              ...question.answers,
-                              emptyAnswer(question.answers.length),
-                            ],
-                          })
-                        }
-                      >
-                        + Вариант
-                      </button>
-                    </div>
-                  )}
+                            Верный
+                          </label>
+                        )}
+                        <button
+                          type='button'
+                          className='staff-lms__ghost-btn'
+                          onClick={() =>
+                            moveAnswer(questionIndex, answerIndex, -1)
+                          }
+                        >
+                          ↑
+                        </button>
+                        <button
+                          type='button'
+                          className='staff-lms__ghost-btn'
+                          onClick={() =>
+                            moveAnswer(questionIndex, answerIndex, 1)
+                          }
+                        >
+                          ↓
+                        </button>
+                        <button
+                          type='button'
+                          className='staff-lms__ghost-btn staff-lms__danger'
+                          onClick={() =>
+                            updateQuestion(questionIndex, {
+                              answers: question.answers.filter(
+                                (_, index) => index !== answerIndex
+                              ),
+                            })
+                          }
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type='button'
+                      className='staff-lms__ghost-btn'
+                      onClick={() =>
+                        updateQuestion(questionIndex, {
+                          answers: [
+                            ...question.answers,
+                            emptyAnswer(
+                              question.answers.length,
+                              question.question_type === 'text'
+                            ),
+                          ],
+                        })
+                      }
+                    >
+                      {question.question_type === 'text'
+                        ? '+ Допустимый ответ'
+                        : '+ Вариант'}
+                    </button>
+                  </div>
                 </div>
               ))}
 

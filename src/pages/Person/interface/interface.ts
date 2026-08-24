@@ -122,6 +122,7 @@ export interface IPersonNavigationProps {
   onChange: (stage: IStageNavItem) => void;
   openLearningId: string | null;
   onLearningChange: (item: ILearningNavItem) => void;
+  isEducationEnabled: boolean;
 }
 
 export interface IPersonContainerProps extends PropsWithChildren {

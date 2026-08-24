@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import MainLayout from '../../shared/components/Layout/ui/MainLayout';
 import Preloader from '../../shared/components/Preloader/ui/Preloader';
 import Button from '../../shared/components/Button/ui/Button';
+import StaffBackButton from './components/StaffBackButton';
 import { createLmsTask, deleteLmsTask, getLmsTasks } from '../../shared/utils/api';
 import { EROUTES } from '../../shared/utils/ERoutes';
 
@@ -93,6 +94,7 @@ const StaffLmsTasks: FC<IStaffLmsTasksProps> = ({ windowWidth, onLogout }) => {
     >
       <div className='staff-lms'>
         <div className='staff-lms__card'>
+          <StaffBackButton fallbackTo={EROUTES.STAFF_LMS} />
           <div className='staff-lms__breadcrumb'>
             <Link to={EROUTES.STAFF_LMS}>Конструктор LMS</Link>
             {' / Задания'}

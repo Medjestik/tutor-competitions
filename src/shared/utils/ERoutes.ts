@@ -17,6 +17,9 @@ export enum EROUTES {
   STAFF_LMS_TEST = '/staff/lms/tests/:id',
   STAFF_LMS_TASKS = '/staff/lms/tasks',
   STAFF_LMS_TASK = '/staff/lms/tasks/:id',
+  STAFF_SETTINGS = '/staff/settings',
+  STAFF_SETTING = '/staff/settings/:id',
+  STAFF_TASK_REVIEWS = '/staff/task-reviews',
 }
 
 export enum EROUTESSTAGES {

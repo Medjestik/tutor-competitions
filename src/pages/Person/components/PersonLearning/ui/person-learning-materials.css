@@ -48,13 +48,27 @@
 .person-learning-materials__tree-item {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px 12px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
   padding: 10px 12px;
   margin-bottom: 6px;
   border-radius: 10px;
   background: #fbfcff;
   border: 1px solid #eef2f7;
+}
+
+.person-learning-materials__tree-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.person-learning-materials__tree-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
 }
 
 .person-learning-materials__tree-name {
@@ -63,9 +77,45 @@
   color: #232323;
 }
 
-.person-learning-materials__tree-type {
-  font-size: 13px;
-  color: #7a8499;
+.person-learning-materials__tree-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.person-learning-materials__tree-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eef3ff;
+  color: #45618b;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.person-learning-materials__tree-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 999px;
+  background: var(--main-color);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.person-learning-materials__tree-action:hover {
+  opacity: 0.88;
 }
 
 .person-learning-materials__link {
@@ -84,4 +134,15 @@
   margin: 0;
   color: #c62828;
   font-size: 15px;
+}
+
+@media (max-width: 767px) {
+  .person-learning-materials__tree-item {
+    align-items: flex-start;
+  }
+
+  .person-learning-materials__tree-meta {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }

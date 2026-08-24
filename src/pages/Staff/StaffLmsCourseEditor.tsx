@@ -14,6 +14,7 @@ import { Link, useParams } from 'react-router-dom';
 import MainLayout from '../../shared/components/Layout/ui/MainLayout';
 import Preloader from '../../shared/components/Preloader/ui/Preloader';
 import Button from '../../shared/components/Button/ui/Button';
+import StaffBackButton from './components/StaffBackButton';
 import {
   createLmsCoursePart,
   deleteLmsCoursePart,
@@ -291,6 +292,7 @@ const StaffLmsCourseEditor: FC<IStaffLmsCourseEditorProps> = ({
     >
       <div className='staff-lms'>
         <div className='staff-lms__card'>
+          <StaffBackButton fallbackTo={EROUTES.STAFF_LMS_COURSES} />
           <div className='staff-lms__breadcrumb'>
             <Link to={EROUTES.STAFF_LMS}>Конструктор LMS</Link>
             {' / '}
