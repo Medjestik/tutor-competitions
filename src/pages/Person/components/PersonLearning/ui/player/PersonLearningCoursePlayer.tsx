@@ -1193,7 +1193,7 @@ const PersonLearningCoursePlayer: FC<IPersonLearningCoursePlayerProps> = ({
     if (!isOpen) return;
 
     const token = localStorage.getItem('token');
-    if (!token || !partId || !course) return;
+    if (!token || !partId) return;
 
     setIsLoadingPart(true);
     setCurrentPart(null);
@@ -1219,7 +1219,7 @@ const PersonLearningCoursePlayer: FC<IPersonLearningCoursePlayerProps> = ({
         setIsLoadingPart(false);
       }
     })();
-  }, [partId, course, isOpen]);
+  }, [partId, isOpen]);
 
   useEffect(() => {
     if (!isOpen) {
