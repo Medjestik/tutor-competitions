@@ -38,8 +38,10 @@ const Landing: FC = () => {
           windowWidth < 1001 &&
           <MobileMenu isShow={isShowMobileMenu} onClose={toggleMobileMenu} />
         }
-        <Header windowWidth={windowWidth} showMobileMenu={toggleMobileMenu} />
-        <Main windowWidth={windowWidth} />
+        <section className='landing__hero'>
+          <Header windowWidth={windowWidth} showMobileMenu={toggleMobileMenu} />
+          <Main windowWidth={windowWidth} />
+        </section>
         <Description />
         <Recruitment />
         <Advantages windowWidth={windowWidth} />

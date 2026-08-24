@@ -3,15 +3,17 @@ import type { ILoginForm, ILoginData } from '../interface/interface';
 import type { IFormError } from '../../../shared/components/Form/types/types';
 
 import { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useForm } from '../../../shared/hooks/useForm';
 
 import { Form } from '../../../shared/components/Form/ui/Form';
-import { FormField, FormButtons, FormInput, FormLinks } from '../../../shared/components/Form/components';
+import { FormField, FormInput } from '../../../shared/components/Form/components';
 import Button from '../../../shared/components/Button/ui/Button';
 import { EROUTES } from '../../../shared/utils/ERoutes';
 
 import { getSettings } from '../../../shared/api/settings';
 import { initialLoginValues, validationSchema, shouldBlockSubmit } from '../lib/helpers';
+import styles from '../styles/login.module.scss';
 
 interface ILoginFormProps {
 	onLogin: (data: ILoginData) => void;
@@ -99,7 +101,7 @@ const LoginForm: FC<ILoginFormProps> = ({ onLogin, loginError, isLoadingRequest 
 				</p>
 			)}
 
-			<FormButtons>
+			<div className={styles.formActions}>
 				<Button
 					type="submit"
 					text="Войти в личный кабинет"
@@ -108,17 +110,10 @@ const LoginForm: FC<ILoginFormProps> = ({ onLogin, loginError, isLoadingRequest 
 						!canLogin || isBlockSubmit || isLoadingRequest || isLoadingSettings
 					}
 				/>
-			</FormButtons>
-
-			<FormLinks
-				links={[
-					{
-						label: '',
-						text: 'Забыли пароль?',
-						url: EROUTES.FORGOT_PASSWORD,
-					},
-				]}
-			/>
+				<NavLink className={styles.forgotLink} to={EROUTES.FORGOT_PASSWORD}>
+					Забыли пароль?
+				</NavLink>
+			</div>
 		</Form>
 	);
 };

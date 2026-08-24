@@ -9,17 +9,55 @@
   min-height: 100vh;
 }
 
+.landing__hero {
+  height: 100vh;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 80px;
+  overflow: hidden;
+}
+
 .landing__background {
   width: 100%;
-  height: 140vh;
+  height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
-  background-image: url('../../shared/images/landing-background.svg');
-  background-position: bottom;
-  background-size: cover;
-  background-repeat: no-repeat;
   z-index: 1;
+  pointer-events: none;
+  background-color: #073ae9;
+  background-image: linear-gradient(
+    180deg,
+    #073ae9 0%,
+    #073ae9 52%,
+    #1a4ef0 62%,
+    #476dff 74%,
+    #8fa8ff 86%,
+    #d4ddff 94%,
+    #ffffff 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center top;
+}
+
+@media (max-height: 900px) {
+  .landing__background {
+    background-image: linear-gradient(
+      180deg,
+      #073ae9 0%,
+      #073ae9 48%,
+      #1a4ef0 58%,
+      #476dff 70%,
+      #a8bbff 84%,
+      #eef2ff 93%,
+      #ffffff 100%
+    );
+  }
 }
 
 .footer__background {

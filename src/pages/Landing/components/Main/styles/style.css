@@ -26,19 +26,29 @@
 }
 
 .main {
-  margin: 0 auto 160px;
+  flex: 1;
+  margin: 0 auto;
   padding: 0;
   width: 100%;
   max-width: 1440px;
-  height: calc(100vh - 90px);
+  min-height: 0;
   display: flex;
   flex-direction: column;
   position: relative;
 }
 
+.main__hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 0;
+  padding-top: 24px;
+}
+
 .main__tutor {
   position: absolute;
-  bottom: -140px;
+  bottom: 0;
   right: 40px;
   width: 880px;
   height: 100%;
@@ -47,10 +57,11 @@
   background-repeat: no-repeat;
   background-size: contain;
   z-index: 1;
+  pointer-events: none;
 }
 
 .main__caption {
-  margin: 88px 0 0 0;
+  margin: 0;
   color: var(--white-color);
   max-width: 400px;
   font-size: 28px;
@@ -120,7 +131,7 @@
 }
 
 .main__info {
-  margin: 20px 0 60px 0;
+  margin: 20px 0 0 0;
   width: 100%;
   display: flex;
   align-items: center;
@@ -130,22 +141,28 @@
 
 .main__timer {
   margin: auto 0 40px auto;
-  max-width: 600px;
-  display: flex;
-  align-items: flex-end;
+  width: max-content;
+  max-width: none;
+  display: block;
   font-size: 48px;
   line-height: 1.15;
   text-align: left;
   font-weight: bold;
   color: var(--main-color);
-  z-index: 2;
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .main__buttons {
-  margin: 0;
+  margin: 24px 0 0 0;
   display: flex;
   align-content: flex-start;
   gap: 20px;
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
 }
 
 @media all and (max-width: 1440px) {
@@ -169,13 +186,13 @@
 
 @media all and (max-width: 1366px) {
   .main {
-    margin: 0 auto 120px;
+    margin: 0 auto;
   }
 }
 
 @media all and (max-width: 1280px) {
   .main {
-    margin: 0 auto 80px;
+    margin: 0 auto;
   }
   .main__title {
     font-size: 56px;
@@ -191,13 +208,12 @@
 @media all and (max-width: 1000px) {
   .main {
     padding: 0 16px;
-    margin: 0 auto 80px;
+    margin: 0 auto;
     overflow: hidden;
-    height: calc(100vh - 60px);
   }
   .main__tutor {
     position: absolute;
-    bottom: -40px;
+    bottom: 0;
     right: -40px;
     width: 120%;
     height: 100%;
@@ -231,8 +247,9 @@
     margin: 0;
   }
   .main__timer {
-    font-size: 28px;
+    font-size: clamp(16px, 4.2vw, 28px);
     max-width: none;
+    white-space: nowrap;
   }
   .main__title_color_transparent::after {
     width: calc(100% - 12px);
