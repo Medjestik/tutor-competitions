@@ -8,6 +8,8 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { ToastProvider } from '../ToastProvider/ui/ToastProvider';
 import Landing from '../../../pages/Landing/Landing';
 import Login from '../../../pages/Login/ui/Login';
+import ForgotPassword from '../../../pages/ForgotPassword/ui/ForgotPassword';
+import ResetPassword from '../../../pages/ResetPassword/ui/ResetPassword';
 import Registration from '../../../pages/Registration/ui/Registration';
 import Consent from '../../../pages/Consent/ui/Consent';
 import Privacy from '../../../pages/Privacy/ui/Privacy';
@@ -160,6 +162,32 @@ export const App = () => {
 											loginError={isShowLoginError}
 											isLoadingRequest={isLoadingRequest}
 										/>
+									</PublicRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.FORGOT_PASSWORD}
+								element={
+									<PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
+										<ForgotPassword />
+									</PublicRoute>
+								}
+							/>
+
+							<Route
+								path={EROUTES.RESET_PASSWORD}
+								element={
+									<PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
+										<ResetPassword />
+									</PublicRoute>
+								}
+							/>
+							<Route
+								path={`${EROUTES.RESET_PASSWORD}/`}
+								element={
+									<PublicRoute isRestricted={true} isLoggedIn={loggedIn}>
+										<ResetPassword />
 									</PublicRoute>
 								}
 							/>

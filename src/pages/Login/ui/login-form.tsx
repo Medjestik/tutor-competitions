@@ -6,8 +6,9 @@ import { useState, useEffect } from 'react';
 import { useForm } from '../../../shared/hooks/useForm';
 
 import { Form } from '../../../shared/components/Form/ui/Form';
-import { FormField, FormButtons, FormInput } from '../../../shared/components/Form/components';
+import { FormField, FormButtons, FormInput, FormLinks } from '../../../shared/components/Form/components';
 import Button from '../../../shared/components/Button/ui/Button';
+import { EROUTES } from '../../../shared/utils/ERoutes';
 
 import { getSettings } from '../../../shared/api/settings';
 import { initialLoginValues, validationSchema, shouldBlockSubmit } from '../lib/helpers';
@@ -108,6 +109,16 @@ const LoginForm: FC<ILoginFormProps> = ({ onLogin, loginError, isLoadingRequest 
 					}
 				/>
 			</FormButtons>
+
+			<FormLinks
+				links={[
+					{
+						label: '',
+						text: 'Забыли пароль?',
+						url: EROUTES.FORGOT_PASSWORD,
+					},
+				]}
+			/>
 		</Form>
 	);
 };

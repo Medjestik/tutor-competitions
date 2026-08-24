@@ -35,7 +35,7 @@ export interface IFormError {
 }
 
 export interface IFormInputProps {
-	type?: 'text' | 'number' | 'password';
+	type?: 'text' | 'number' | 'password' | 'email';
 	name: string;
 	placeholder?: string;
 	value: string;

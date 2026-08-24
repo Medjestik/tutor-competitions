@@ -3,6 +3,8 @@ export enum EROUTES {
   INTERNATIONAL = '/international',
   REGISTRATION = '/registration',
   LOGIN = '/login',
+  FORGOT_PASSWORD = '/forgot-password',
+  RESET_PASSWORD = '/reset-password/:uid/:token',
 
   PERSON = '/person',
   RECORDS = '/records',
