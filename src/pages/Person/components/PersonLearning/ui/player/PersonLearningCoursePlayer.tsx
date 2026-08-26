@@ -334,7 +334,13 @@ const TestResultView: FC<{
           <span>
             Балл: {result.score ?? 0}% / порог: {result.pass_score ?? '—'}%
           </span>
-          <span>Попытка: {result.attempt}</span>
+          <span>
+            Попытка: {result.attempt}
+            {result.max_attempts ? ` / ${result.max_attempts}` : ''}
+          </span>
+          {!result.is_passed && !result.can_retry ? (
+            <span>Лимит попыток исчерпан</span>
+          ) : null}
         </div>
         <ul className='course-player__test-result-list'>
           {result.questions.map((question, index) => (
@@ -404,7 +410,7 @@ const TestViewer: FC<{
     setIsBootstrapping(true);
     getMyLmsCourseTestResult(token, partId)
       .then((existing) => {
-        if (existing?.is_passed) {
+        if (existing?.is_passed || (existing && !existing.can_retry)) {
           setResult(existing);
         } else {
           setResult(null);
@@ -469,6 +475,20 @@ const TestViewer: FC<{
     );
   }
 
+  if (test.attempts_used >= test.max_attempts) {
+    return (
+      <section className='course-player__content-card'>
+        <div className='course-player__content-head'>
+          <span className='course-player__eyebrow'>Тест</span>
+          <h1 className='course-player__content-title'>{test.name}</h1>
+        </div>
+        <p className='course-player__empty'>
+          Исчерпан лимит попыток ({test.attempts_used} / {test.max_attempts}).
+        </p>
+      </section>
+    );
+  }
+
   if (!question) {
     return (
       <section className='course-player__content-card'>
@@ -526,8 +546,19 @@ const TestViewer: FC<{
       if (submitted.is_passed) {
         onPassed();
       }
-    } catch {
-      setSubmitError('Не удалось отправить результаты теста');
+    } catch (error) {
+      let message = 'Не удалось отправить результаты теста';
+      if (error instanceof Response) {
+        try {
+          const data = await error.json();
+          if (data?.error) {
+            message = String(data.error);
+          }
+        } catch {
+          // keep default message
+        }
+      }
+      setSubmitError(message);
     } finally {
       setIsSubmitting(false);
     }
@@ -762,6 +793,9 @@ const TestViewer: FC<{
             <h1 className='course-player__content-title course-player__content-title_compact'>
               {test.name}
             </h1>
+            <p className='course-player__content-lead course-player__content-lead_compact'>
+              Попытка {test.attempts_used + 1} из {test.max_attempts}
+            </p>
             {test.description ? (
               <p className='course-player__content-lead course-player__content-lead_compact'>
                 {test.description}

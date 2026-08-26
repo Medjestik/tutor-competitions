@@ -25,7 +25,7 @@ export interface IPersonLearningDownloadProps {
 export interface ILearningFaqItem {
   id: number;
   title: string;
-  content: string;
+  content: ReactNode;
 }
 
 export interface IPersonLearningAccordionProps {
@@ -226,7 +226,7 @@ export interface IPersonLearningListenerConfirmModalProps {
   isLoading: boolean;
   error: string;
   onClose: () => void;
-  onConfirm: (password: string) => void;
+  onConfirm: (password?: string) => void;
 }
 
 export interface IListenerTabProps {

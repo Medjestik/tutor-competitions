@@ -57,6 +57,7 @@ const StaffLmsTestEditor: FC<IStaffLmsTestEditorProps> = ({
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [passScore, setPassScore] = useState<number | ''>(70);
+  const [maxAttempts, setMaxAttempts] = useState<number | ''>(99);
   const [questions, setQuestions] = useState<ILmsQuestion[]>([]);
 
   useEffect(() => {
@@ -73,6 +74,7 @@ const StaffLmsTestEditor: FC<IStaffLmsTestEditorProps> = ({
         setName(test.name);
         setDescription(test.description || '');
         setPassScore(test.pass_score ?? '');
+        setMaxAttempts(test.max_attempts ?? 99);
         setQuestions(
           test.questions.length
             ? test.questions.map((question) => ({
@@ -155,6 +157,7 @@ const StaffLmsTestEditor: FC<IStaffLmsTestEditorProps> = ({
         name,
         description,
         pass_score: passScore === '' ? null : Number(passScore),
+        max_attempts: maxAttempts === '' ? 99 : Number(maxAttempts),
         questions: questions.map((question, position) => ({
           id: question.id || undefined,
           text: question.text,
@@ -245,6 +248,22 @@ const StaffLmsTestEditor: FC<IStaffLmsTestEditorProps> = ({
                     value={passScore}
                     onChange={(event) =>
                       setPassScore(
+                        event.target.value === ''
+                          ? ''
+                          : Number(event.target.value)
+                      )
+                    }
+                  />
+                </div>
+                <div className='staff-lms__field'>
+                  <label className='staff-lms__label'>Максимум попыток</label>
+                  <input
+                    className='staff-lms__input'
+                    type='number'
+                    min={1}
+                    value={maxAttempts}
+                    onChange={(event) =>
+                      setMaxAttempts(
                         event.target.value === ''
                           ? ''
                           : Number(event.target.value)

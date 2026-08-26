@@ -301,6 +301,11 @@
   max-width: 1314px;
 }
 
+.person-learning-accordion__text a {
+  color: #1a66ff;
+  text-decoration: underline;
+}
+
 @media all and (max-width: 1366px) {
   .person-learning__title {
     font-size: 36px;

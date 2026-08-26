@@ -64,6 +64,7 @@ const StaffLmsTests: FC<IStaffLmsTestsProps> = ({ windowWidth, onLogout }) => {
         name: 'Новый тест',
         description: '',
         pass_score: 70,
+        max_attempts: 99,
         questions: [],
       });
       navigate(`/staff/lms/tests/${test.id}`);

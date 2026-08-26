@@ -421,8 +421,16 @@ export const updateLearningApplication = (token: string, data: Record<string, un
 export const confirmLearningSection = (
   token: string,
   section: string,
-  password: string
+  password?: string
 ) => {
+  const body: { section: string; agreed: boolean; password?: string } = {
+    section,
+    agreed: true,
+  };
+  if (password) {
+    body.password = password;
+  }
+
   return fetch(`${API_URL}/learning/applications/my/confirm-section/`, {
     method: 'POST',
     headers: {
@@ -430,11 +438,7 @@ export const confirmLearningSection = (
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
     },
-    body: JSON.stringify({
-      section,
-      password,
-      agreed: true,
-    }),
+    body: JSON.stringify(body),
   }).then((res) => handleResponse(res));
 };
 
@@ -459,7 +463,7 @@ export const uploadLearningDocument = (
   }).then((res) => handleResponse(res));
 };
 
-export const submitLearningApplication = (token: string, password: string) => {
+export const submitLearningApplication = (token: string) => {
   return fetch(`${API_URL}/learning/applications/my/submit/`, {
     method: 'POST',
     headers: {
@@ -467,7 +471,7 @@ export const submitLearningApplication = (token: string, password: string) => {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
     },
-    body: JSON.stringify({ password }),
+    body: JSON.stringify({}),
   }).then((res) => handleResponse(res));
 };
 
@@ -665,6 +669,7 @@ export interface ILmsTest {
   name: string;
   description: string;
   pass_score: number | null;
+  max_attempts: number;
   questions_count?: number;
   created_at: string;
   updated_at: string;
@@ -726,6 +731,8 @@ export interface ILmsLearnerTest {
   name: string;
   description: string;
   pass_score: number | null;
+  max_attempts: number;
+  attempts_used: number;
   questions: ILmsLearnerQuestion[];
 }
 
@@ -754,6 +761,7 @@ export interface ILmsLearnerTestResult {
   score: number | null;
   is_passed: boolean | null;
   pass_score: number | null;
+  max_attempts: number;
   finished_at: string | null;
   can_retry: boolean;
   questions: ILmsLearnerTestQuestionResult[];

@@ -24,6 +24,7 @@ import {
   getLmsTests,
   updateLmsCourse,
   updateLmsCoursePart,
+  updateLmsTest,
   uploadLmsCoursePartFile,
 } from '../../shared/utils/api';
 import { EROUTES } from '../../shared/utils/ERoutes';
@@ -93,6 +94,7 @@ const StaffLmsCourseEditor: FC<IStaffLmsCourseEditorProps> = ({
   const [partMandatory, setPartMandatory] = useState(true);
   const [partText, setPartText] = useState('');
   const [partTestId, setPartTestId] = useState<number | ''>('');
+  const [partTestMaxAttempts, setPartTestMaxAttempts] = useState<number | ''>(99);
   const [partTaskId, setPartTaskId] = useState<number | ''>('');
   const [partFileUrl, setPartFileUrl] = useState<string | null>(null);
 
@@ -166,6 +168,15 @@ const StaffLmsCourseEditor: FC<IStaffLmsCourseEditorProps> = ({
     setPartTaskId(selectedPart.task_id ?? '');
     setPartFileUrl(selectedPart.file_url);
   }, [selectedPart]);
+
+  useEffect(() => {
+    if (partTestId === '') {
+      setPartTestMaxAttempts(99);
+      return;
+    }
+    const selectedTest = tests.find((test) => test.id === partTestId);
+    setPartTestMaxAttempts(selectedTest?.max_attempts ?? 99);
+  }, [partTestId, tests]);
 
   const refreshCourse = async () => {
     const token = localStorage.getItem('token');
@@ -245,6 +256,18 @@ const StaffLmsCourseEditor: FC<IStaffLmsCourseEditorProps> = ({
         test_id: partTestId === '' ? null : partTestId,
         task_id: partTaskId === '' ? null : partTaskId,
       });
+      if (selectedTypeCode === 'test' && partTestId !== '') {
+        const maxAttempts =
+          partTestMaxAttempts === '' ? 99 : Number(partTestMaxAttempts);
+        await updateLmsTest(token, partTestId, { max_attempts: maxAttempts });
+        setTests((prev) =>
+          prev.map((test) =>
+            test.id === partTestId
+              ? { ...test, max_attempts: maxAttempts }
+              : test
+          )
+        );
+      }
       await refreshCourse();
       setMessage('Часть сохранена');
     } catch {
@@ -491,27 +514,49 @@ const StaffLmsCourseEditor: FC<IStaffLmsCourseEditorProps> = ({
                         )}
 
                         {selectedTypeCode === 'test' && (
-                          <div className='staff-lms__field'>
-                            <label className='staff-lms__label'>Тест</label>
-                            <select
-                              className='staff-lms__select'
-                              value={partTestId}
-                              onChange={(event) =>
-                                setPartTestId(
-                                  event.target.value
-                                    ? Number(event.target.value)
-                                    : ''
-                                )
-                              }
-                            >
-                              <option value=''>— не выбран —</option>
-                              {tests.map((test) => (
-                                <option key={test.id} value={test.id}>
-                                  {test.name}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
+                          <>
+                            <div className='staff-lms__field'>
+                              <label className='staff-lms__label'>Тест</label>
+                              <select
+                                className='staff-lms__select'
+                                value={partTestId}
+                                onChange={(event) =>
+                                  setPartTestId(
+                                    event.target.value
+                                      ? Number(event.target.value)
+                                      : ''
+                                  )
+                                }
+                              >
+                                <option value=''>— не выбран —</option>
+                                {tests.map((test) => (
+                                  <option key={test.id} value={test.id}>
+                                    {test.name}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            {partTestId !== '' && (
+                              <div className='staff-lms__field'>
+                                <label className='staff-lms__label'>
+                                  Максимум попыток
+                                </label>
+                                <input
+                                  className='staff-lms__input'
+                                  type='number'
+                                  min={1}
+                                  value={partTestMaxAttempts}
+                                  onChange={(event) =>
+                                    setPartTestMaxAttempts(
+                                      event.target.value === ''
+                                        ? ''
+                                        : Number(event.target.value)
+                                    )
+                                  }
+                                />
+                              </div>
+                            )}
+                          </>
                         )}
 
                         {selectedTypeCode === 'task' && (

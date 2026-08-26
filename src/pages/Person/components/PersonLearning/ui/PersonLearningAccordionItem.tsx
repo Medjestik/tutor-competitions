@@ -32,6 +32,7 @@ const PersonLearningAccordionItem: FC<IPersonLearningAccordionItemProps> = ({ it
         style={{ maxHeight: height }}
         ref={childrenRef}
         className='person-learning-accordion__children'
+        onClick={(event) => event.stopPropagation()}
       >
         <p className='person-learning-accordion__text'>{item.content}</p>
       </div>
