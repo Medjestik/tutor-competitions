@@ -11,6 +11,7 @@ import { EROUTES } from '../../../../../utils/ERoutes';
 import logoMintrans from '../../../../../images/person-cabinet/logo-mintrans.svg';
 import logoMintransText from '../../../../../images/person-cabinet/logo-mintrans-text.svg';
 import logoRut from '../../../../../images/person-cabinet/logo-rut-white.svg';
+import logoLto from '../../../../../images/person-cabinet/logo-lto.svg';
 import iconUser from '../../../../../images/person-cabinet/icon-user.svg';
 
 import '../styles/style.css';
@@ -79,6 +80,9 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ windowWidth, isLoggedIn, onLogou
         </Link>
         <Link className='layout-header__logo-link' to={homeRoute} aria-label='На главную'>
           <img className='layout-header__logo-rut' src={logoRut} alt='Российский университет транспорта' />
+        </Link>
+        <Link className='layout-header__logo-link' to={homeRoute} aria-label='На главную'>
+          <img className='layout-header__logo-lto' src={logoLto} alt='ЛТО' />
         </Link>
       </div>
       {

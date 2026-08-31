@@ -8,17 +8,21 @@ import { EROUTES } from '../../../../../utils/ERoutes';
 
 import styles from '../styles/public-header.module.scss';
 
-
 const PublicHeader: FC = () => {
   const navigate = useNavigate();
 
   return (
-    <header className={styles.header} id='header'>
+    <header className={styles.header} id="header">
       <div className={styles.logos}>
-        <div className={`${styles.logo} ${styles.logo_min}`}></div>
-        <div className={`${styles.logo} ${styles.logo_rut}`}></div>
+        <div className={`${styles.logo} ${styles.logo_min}`} />
+        <div className={`${styles.logo} ${styles.logo_rut}`} />
+        <div className={`${styles.logo} ${styles.logo_lto}`} />
       </div>
-      <Button text='На главную' color='gradient' onClick={() => navigate(EROUTES.LANDING)} />
+      <Button
+        text="На главную"
+        color="gradient"
+        onClick={() => navigate(EROUTES.LANDING)}
+      />
     </header>
   );
 };

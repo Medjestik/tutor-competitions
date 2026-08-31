@@ -3,6 +3,7 @@ import { request } from './utils';
 export interface ISettings {
 	can_login?: boolean;
 	enable_education?: boolean;
+	registration_open?: boolean;
 	[key: string]: boolean | string | undefined;
 }
 

@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.ad8ce889.css",
-    "main.js": "/static/js/main.8ea16da9.js",
+    "main.css": "/static/css/main.606e7582.css",
+    "main.js": "/static/js/main.e4234a26.js",
     "static/js/453.d4e7bad3.chunk.js": "/static/js/453.d4e7bad3.chunk.js",
     "static/js/977.fbc6d12e.chunk.js": "/static/js/977.fbc6d12e.chunk.js",
     "static/js/455.8a095ded.chunk.js": "/static/js/455.8a095ded.chunk.js",
@@ -14,6 +14,7 @@
     "static/media/workshop.svg": "/static/media/workshop.1f5865ad8a7450c82fc9e9e96d6cf52e.svg",
     "static/media/1.svg": "/static/media/1.7a266dc644b9b7b1a1ac.svg",
     "static/media/schedule.svg": "/static/media/schedule.b1b919f25201d51b850abfc899cc0c3d.svg",
+    "static/media/registration-hero.png": "/static/media/registration-hero.868eac58b6d8c30962a3.png",
     "static/media/video-poster.png": "/static/media/video-poster.b5bbc27bb7de8952704f.png",
     "static/media/logo-min.svg": "/static/media/logo-min.68c457e1c649ea21cb8b.svg",
     "static/media/logo-mintrans.svg": "/static/media/logo-mintrans.c1e292cf7ce8d2be797f3eb3e2f9d796.svg",
@@ -30,6 +31,8 @@
     "static/media/Akrobat-Regular.woff": "/static/media/Akrobat-Regular.9e31e53d72556b7eb4e7.woff",
     "static/media/Akrobat-Black.woff": "/static/media/Akrobat-Black.f14750998f34f5477f3f.woff",
     "static/media/Akrobat-Thin.woff": "/static/media/Akrobat-Thin.2e3f6f4a53187d9ba215.woff",
+    "static/media/logo-lto-3.svg": "/static/media/logo-lto-3.7b9e274451da88204164.svg",
+    "static/media/logo-lto.svg": "/static/media/logo-lto.7b9e274451da88204164d84f28bb4f9f.svg",
     "static/media/logo-rut-white.svg": "/static/media/logo-rut-white.2644eebfcdcb2ac6d7aa2d5a1451f9c6.svg",
     "static/media/logo-rut.svg": "/static/media/logo-rut.ff0e0551911dd6eccaf3.svg",
     "static/media/user.png": "/static/media/user.8d49e377c7c342895ec2.png",
@@ -66,14 +69,14 @@
     "static/media/check-green.svg": "/static/media/check-green.e4ff362737d24870ec9d.svg",
     "static/media/slider.svg": "/static/media/slider.9617bea413786255eb41cb8814bed372.svg",
     "static/media/check-complete.svg": "/static/media/check-complete.6b4bd84492a7f083a29d9242670b81eb.svg",
-    "main.ad8ce889.css.map": "/static/css/main.ad8ce889.css.map",
-    "main.8ea16da9.js.map": "/static/js/main.8ea16da9.js.map",
+    "main.606e7582.css.map": "/static/css/main.606e7582.css.map",
+    "main.e4234a26.js.map": "/static/js/main.e4234a26.js.map",
     "453.d4e7bad3.chunk.js.map": "/static/js/453.d4e7bad3.chunk.js.map",
     "977.fbc6d12e.chunk.js.map": "/static/js/977.fbc6d12e.chunk.js.map",
     "455.8a095ded.chunk.js.map": "/static/js/455.8a095ded.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ad8ce889.css",
-    "static/js/main.8ea16da9.js"
+    "static/css/main.606e7582.css",
+    "static/js/main.e4234a26.js"
   ]
 }

@@ -33,6 +33,13 @@
   background-repeat: no-repeat;
   background-size: contain;
 }
+.header__logo_type_lto {
+  background-image: url('../../../../../shared/images/logo-lto.svg');
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 116px;
+}
 .header__navigation {
   margin: 0 0 0 auto;
   display: flex;
@@ -72,6 +79,9 @@
 		width: 128px;
 		height: 40px;
 	}
+	.header__logo_type_lto {
+		width: 100px;
+	}
 }
 
 @media all and (max-width: 1441px) {
@@ -103,5 +113,8 @@
 	.header__logo {
 		width: 86px;
 		height: 32px;
+	}
+	.header__logo_type_lto {
+		width: 68px;
 	}
 }
