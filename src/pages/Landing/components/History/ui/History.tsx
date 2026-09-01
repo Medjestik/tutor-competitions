@@ -1,11 +1,11 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Document, Page } from 'react-pdf';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 import Button from '../../../../../shared/components/Button/ui/Button';
-import '../../../../../shared/lib/pdfWorker';
+import { useWindowWidth } from '../../../../../shared/hooks/useWindowWidth';
 
 import { ENAV } from '../../../../../shared/components/Navigation/interface/interface';
 
@@ -16,8 +16,18 @@ import '../styles/style.css';
 
 import pdfFile from './leaders.pdf';
 
+const DESKTOP_MIN_WIDTH = 1000;
+
 const History: FC = () => {
+  const windowWidth = useWindowWidth();
   const [numPages, setNumPages] = useState(0);
+  const isDesktop = windowWidth >= DESKTOP_MIN_WIDTH;
+
+  useEffect(() => {
+    if (isDesktop) {
+      void import('../../../../../shared/lib/pdfWorker');
+    }
+  }, [isDesktop]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -27,38 +37,40 @@ const History: FC = () => {
     <div className="history" id={ENAV.DOCUMENT}>
       <h2 className="history__title">ЛУЧШИЕ ПРАКТИКИ 2025&nbsp;ГОДА</h2>
 
-      <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
-        {numPages > 0 && (
-          <Swiper
-            modules={[Navigation, Pagination, Autoplay]}
-            navigation
-            pagination={{ clickable: true }}
-            spaceBetween={24}
-            slidesPerView={1}
-						autoplay={{
-							delay: 3000,
-							disableOnInteraction: false,
-							pauseOnMouseEnter: true,
-						}}
-						loop={true}
-            className="history-swiper"
-          >
-            {Array.from({ length: numPages }, (_, index) => (
-              <SwiperSlide key={index}>
-                <div className="history-slide">
-								<Page
-									pageNumber={index + 1}
-									height={520}
-									scale={2}
-									renderTextLayer={false}
-									renderAnnotationLayer={false}
-								/>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        )}
-      </Document>
+      {isDesktop && (
+        <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
+          {numPages > 0 && (
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay]}
+              navigation
+              pagination={{ clickable: true }}
+              spaceBetween={24}
+              slidesPerView={1}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              loop={true}
+              className="history-swiper"
+            >
+              {Array.from({ length: numPages }, (_, index) => (
+                <SwiperSlide key={index}>
+                  <div className="history-slide">
+                    <Page
+                      pageNumber={index + 1}
+                      height={520}
+                      scale={2}
+                      renderTextLayer={false}
+                      renderAnnotationLayer={false}
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
+        </Document>
+      )}
 
 			<div className="history__info">
 				<p className="history__info-text">Хотите ознакомиться с результатами подробнее?Скачайте итоги конкурса в удобном формате.</p>

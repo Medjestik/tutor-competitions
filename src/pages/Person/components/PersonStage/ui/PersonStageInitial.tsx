@@ -29,7 +29,7 @@ const PersonStageInitial: FC = () => {
       <div className='person-stage__grid'>
         <div className='person-stage__left'>
           <div className='person-stage__video-wrap'>
-            <PersonVideo url='https://course.emiit.ru/webtutor/ivan/land/video/video1.mp4' />
+            <PersonVideo url="" isEmpty />
           </div>
           <PersonChannelBanner />
         </div>

@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/958.ce511d17.chunk.js","mappings":"kIAEAA,GAA0BC,UAAS,GAAAC,OAAgC,GAAE","sources":["shared/lib/pdfWorker.ts"],"sourcesContent":["import { pdfjs } from 'react-pdf';\r\n\r\npdfjs.GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL || ''}/pdf.worker.min.js`;\r\n"],"names":["pdfjs","workerSrc","concat"],"sourceRoot":""}
