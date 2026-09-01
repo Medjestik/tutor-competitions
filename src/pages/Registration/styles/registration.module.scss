@@ -392,6 +392,16 @@
   font-style: normal;
 }
 
+.consentLink {
+  color: var(--main-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
 .selectWrap {
   width: 100%;
 }

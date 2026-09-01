@@ -1,7 +1,13 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import type { IRegistrationFormValues } from '../../interface/interface';
 
 import Button from '../../../../shared/components/Button/ui/Button';
+import { EROUTES } from '../../../../shared/utils/ERoutes';
+import {
+  ORDER_LINK,
+  PERSONAL_DATA_POLICY_LINK,
+  REGULATION_LINK,
+} from '../../../../shared/lib/lib';
 
 import styles from '../../styles/registration.module.scss';
 
@@ -14,32 +20,74 @@ interface IConfirmationStepProps {
   onSubmit: () => void;
 }
 
+const ConsentLink: FC<{ href: string; children: ReactNode }> = ({
+  href,
+  children,
+}) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noreferrer"
+    className={styles.consentLink}
+    onClick={(event) => event.stopPropagation()}
+  >
+    {children}
+  </a>
+);
+
 const CONSENT_ITEMS: Array<{
   name: keyof IRegistrationFormValues;
-  label: string;
+  label: ReactNode;
   section: 'personal' | 'competition';
 }> = [
   {
     name: 'consent_personal_data',
-    label: 'Выражаю согласие на обработку своих персональных данных.',
+    label: (
+      <>
+        Выражаю{' '}
+        <ConsentLink href={EROUTES.CONSENT}>
+          согласие на обработку своих персональных данных
+        </ConsentLink>
+        .
+      </>
+    ),
     section: 'personal',
   },
   {
     name: 'consent_personal_data_policy',
-    label:
-      'Подтверждаю, что ознакомился(-ась) с Положением об обработке персональных данных РУТ (МИИТ).',
+    label: (
+      <>
+        Подтверждаю, что ознакомился(-ась) с{' '}
+        <ConsentLink href={PERSONAL_DATA_POLICY_LINK}>
+          Положением об обработке персональных данных
+        </ConsentLink>{' '}
+        РУТ (МИИТ).
+      </>
+    ),
     section: 'personal',
   },
   {
     name: 'consent_personal_data_spread',
-    label:
-      'Выражаю согласие на распространение персональных данных в целях освещения конкурса.',
+    label: (
+      <>
+        Выражаю{' '}
+        <ConsentLink href={EROUTES.PRIVACY}>
+          согласие на распространение персональных данных
+        </ConsentLink>{' '}
+        в целях освещения конкурса.
+      </>
+    ),
     section: 'competition',
   },
   {
     name: 'consent_competition_rules',
-    label:
-      'Подтверждаю, что ознакомился(-ась) с условиями участия, изложенными в Положении и Регламенте.',
+    label: (
+      <>
+        Подтверждаю, что ознакомился(-ась) с условиями участия, изложенными в{' '}
+        <ConsentLink href={ORDER_LINK}>Положении</ConsentLink> и{' '}
+        <ConsentLink href={REGULATION_LINK}>Регламенте</ConsentLink>.
+      </>
+    ),
     section: 'competition',
   },
 ];
