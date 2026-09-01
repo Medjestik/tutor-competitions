@@ -1,11 +1,15 @@
 export const getApiUrl = (): string => {
-  const { hostname } = window.location;
-
-  if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return process.env.REACT_APP_API_URL || 'http://localhost:8888/api';
+  if (process.env.REACT_APP_API_URL) {
+    return process.env.REACT_APP_API_URL;
   }
 
-  return 'https://edtech-api.emiit.ru/api';
+  const { hostname, origin } = window.location;
+
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:8888/api';
+  }
+
+  return `${origin}/api`;
 };
 
 export const API_URL = getApiUrl();
