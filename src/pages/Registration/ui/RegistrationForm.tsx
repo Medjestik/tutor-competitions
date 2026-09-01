@@ -3,9 +3,11 @@ import type { IRegisterData, TRegistrationStep } from '../interface/interface';
 import type { ISelectOption } from '../../../shared/components/Select/interface/interface';
 
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useForm } from '../../../shared/hooks/useForm';
 import { registration } from '../../../shared/utils/api';
+import { EROUTES } from '../../../shared/utils/ERoutes';
 
 import RegistrationHero from './RegistrationHero';
 import RegistrationSteps from './RegistrationSteps';
@@ -13,7 +15,6 @@ import PersonalDataStep from './steps/PersonalDataStep';
 import ProfessionalStep from './steps/ProfessionalStep';
 import AccountStep from './steps/AccountStep';
 import ConfirmationStep from './steps/ConfirmationStep';
-import RegistrationSuccessPopup from './RegistrationSuccessPopup';
 import RegistrationErrorPopup from './RegistrationErrorPopup';
 
 import {
@@ -34,13 +35,13 @@ import {
 import styles from '../styles/registration.module.scss';
 
 const RegistrationForm: FC = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState<TRegistrationStep>(0);
   const [maxReachedStep, setMaxReachedStep] = useState(1);
   const [selectedOrganization, setSelectedOrganization] = useState<ISelectOption>(
     ORGANIZATION_PLACEHOLDER
   );
   const [isLoadingRequest, setIsLoadingRequest] = useState(false);
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isErrorOpen, setIsErrorOpen] = useState(false);
 
   const {
@@ -102,7 +103,7 @@ const RegistrationForm: FC = () => {
     setIsLoadingRequest(true);
     try {
       await registration(data);
-      setIsSuccessOpen(true);
+      navigate(EROUTES.LOGIN);
     } catch (error) {
       console.error(error);
       setIsErrorOpen(true);
@@ -214,10 +215,6 @@ const RegistrationForm: FC = () => {
         </form>
       </main>
 
-      <RegistrationSuccessPopup
-        isOpen={isSuccessOpen}
-        onClose={() => setIsSuccessOpen(false)}
-      />
       <RegistrationErrorPopup
         isOpen={isErrorOpen}
         onClose={() => setIsErrorOpen(false)}

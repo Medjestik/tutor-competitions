@@ -12,15 +12,7 @@ import { EROUTES } from '../../shared/utils/ERoutes';
 
 import './staff-lms.css';
 
-interface IStaffLmsTaskEditorProps {
-  windowWidth: number;
-  onLogout: () => void;
-}
-
-const StaffLmsTaskEditor: FC<IStaffLmsTaskEditorProps> = ({
-  windowWidth,
-  onLogout,
-}) => {
+const StaffLmsTaskEditor: FC = () => {
   const { id } = useParams();
   const taskId = Number(id);
 
@@ -68,9 +60,6 @@ const StaffLmsTaskEditor: FC<IStaffLmsTaskEditorProps> = ({
     <MainLayout
       mainContainer={false}
       transparentMain
-      windowWidth={windowWidth}
-      isLoggedIn
-      onLogout={onLogout}
     >
       <div className='staff-lms'>
         <div className='staff-lms__card'>

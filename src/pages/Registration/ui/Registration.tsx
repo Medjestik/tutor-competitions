@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import PublicLayout from '../../../shared/components/Layout/ui/PublicLayout';
 import PublicHeader from '../../../shared/components/Layout/components/PublicHeader/ui/PublicHeader';
 import PublicFooter from '../../../shared/components/Layout/components/PublicFooter/ui/PublicFooter';
-import { getSettings } from '../../../shared/api/settings';
+import { getSettings } from '../../../shared/api/user';
 
 import RegistrationClosed from './RegistrationClosed';
 import RegistrationForm from './RegistrationForm';

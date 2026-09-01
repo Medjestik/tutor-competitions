@@ -8,9 +8,9 @@ import type {
   TListenerTab,
 } from '../interface/interface';
 
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { CurrentUserContext } from '../../../../../shared/context/team';
+import { useSelector } from '../../../../../store/store';
 import { useToast } from '../../../../../shared/components/ToastProvider/ui/ToastProvider';
 import { GetBase64File } from '../../../../../shared/lib/getBase64File';
 import {
@@ -79,7 +79,7 @@ const applyApplicationResponse = (
 };
 
 const PersonLearningListener: FC = () => {
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useSelector((state) => state.user.user)!;
   const { showToast } = useToast();
 
   const [activeTab, setActiveTab] = useState<TListenerTab>('info');

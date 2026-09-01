@@ -12,7 +12,6 @@ interface IDocumentProps {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Document: FC<IDocumentProps> = ({ windowWidth }) => {
 
-
   return (
     <div className='document' id={ENAV.DOCUMENT}>
       <h2 className='document__title'>ДОКУМЕНТЫ</h2>
@@ -22,13 +21,13 @@ const Document: FC<IDocumentProps> = ({ windowWidth }) => {
           <Button 
             text='СКАЧАТЬ ПОЛОЖЕНИЕ' 
             type='link' 
-            href='https://cloud.mail.ru/public/D2WW/96UszWzkP'
+            href='https://cloud.mail.ru/public/1enV/6Fda9q7Sg'
             width='full'
           />
           <Button 
             text='СКАЧАТЬ РЕГЛАМЕНТ' 
             type='link' 
-            href='https://cloud.mail.ru/public/krgk/cMSykKYCT'
+            href='https://cloud.mail.ru/public/qie9/9QNZMWeAy'
             width='full'
           />
           <Button 

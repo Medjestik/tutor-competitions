@@ -31,11 +31,6 @@ import { EROUTES } from '../../shared/utils/ERoutes';
 
 import './staff-lms.css';
 
-interface IStaffLmsCourseEditorProps {
-  windowWidth: number;
-  onLogout: () => void;
-}
-
 const sortParts = (parts: ILmsCoursePart[]) =>
   [...parts].sort((a, b) => {
     if (a.level !== b.level) return a.level - b.level;
@@ -65,10 +60,7 @@ const buildTreeOrder = (parts: ILmsCoursePart[]): ILmsCoursePart[] => {
   return result;
 };
 
-const StaffLmsCourseEditor: FC<IStaffLmsCourseEditorProps> = ({
-  windowWidth,
-  onLogout,
-}) => {
+const StaffLmsCourseEditor: FC = () => {
   const { id } = useParams();
   const courseId = Number(id);
 
@@ -309,9 +301,6 @@ const StaffLmsCourseEditor: FC<IStaffLmsCourseEditorProps> = ({
     <MainLayout
       mainContainer={false}
       transparentMain
-      windowWidth={windowWidth}
-      isLoggedIn
-      onLogout={onLogout}
     >
       <div className='staff-lms'>
         <div className='staff-lms__card'>

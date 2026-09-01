@@ -25,6 +25,41 @@ export const login = (data: ILoginData) => {
 			setTokens(res.access);
 		}
 		return res;
+	}).catch((err) => {
+		let parsed;
+
+		try {
+			parsed = JSON.parse(err.message);
+		} catch {
+			parsed = null;
+		}
+
+		if (parsed?.detail === 'Недопустимый токен.') {
+			localStorage.removeItem('token');
+		}
+
+		throw err;
+	});
+};
+
+export const getMe = (token: string) => {
+	return request('/accounts/me/', {
+	  method: 'GET',
+	  headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json',
+		'Authorization': `Bearer ${token}`,
+	  }
+	});
+};
+
+export const getSettings = () => {
+	return request('/settings/', {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
 	});
 };
 

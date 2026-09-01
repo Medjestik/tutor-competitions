@@ -1,7 +1,11 @@
-const isLocalHost =
-  typeof window !== 'undefined' &&
-  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+export const getApiUrl = (): string => {
+  const { hostname } = window.location;
 
-export const API_URL =
-  process.env.REACT_APP_API_URL ||
-  (isLocalHost ? 'http://localhost:8888/api' : 'https://edtech.rut-miit.ru/api');
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return process.env.REACT_APP_API_URL || 'http://localhost:8888/api';
+  }
+
+  return 'https://edtech-api.emiit.ru/api';
+};
+
+export const API_URL = getApiUrl();

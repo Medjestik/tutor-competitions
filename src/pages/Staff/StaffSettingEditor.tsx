@@ -16,15 +16,7 @@ import { EROUTES } from '../../shared/utils/ERoutes';
 
 import './staff-lms.css';
 
-interface IStaffSettingEditorProps {
-  windowWidth: number;
-  onLogout: () => void;
-}
-
-const StaffSettingEditor: FC<IStaffSettingEditorProps> = ({
-  windowWidth,
-  onLogout,
-}) => {
+const StaffSettingEditor: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const settingId = Number(id);
@@ -106,9 +98,6 @@ const StaffSettingEditor: FC<IStaffSettingEditorProps> = ({
     <MainLayout
       mainContainer={false}
       transparentMain
-      windowWidth={windowWidth}
-      isLoggedIn
-      onLogout={onLogout}
     >
       <div className='staff-lms'>
         <div className='staff-lms__card'>

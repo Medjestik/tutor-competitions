@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-
 import type { ILayoutProps } from '../interface/interface';
 
 import LayoutHeader from '../components/LayoutHeader/ui/LayoutHeader';
@@ -11,9 +10,6 @@ const MainLayout: FC<ILayoutProps> = ({
   containerWidth = 'default',
   mainContainer = true,
   transparentMain = false,
-  isLoggedIn = true,
-  windowWidth,
-  onLogout,
   children,
 }) => {
   const mainClass = transparentMain
@@ -24,7 +20,7 @@ const MainLayout: FC<ILayoutProps> = ({
     <div className={`layout${transparentMain ? ' layout_cabinet' : ''}`}>
       <div className='layout__grid' aria-hidden='true' />
       <div className={`layout__container layout__container_width_${containerWidth}`}>
-        <LayoutHeader windowWidth={windowWidth} isLoggedIn={isLoggedIn} onLogout={onLogout} />
+        <LayoutHeader />
         <main className={mainClass}>
           {
             mainContainer

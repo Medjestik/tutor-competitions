@@ -17,12 +17,7 @@ import { EROUTES } from '../../shared/utils/ERoutes';
 
 import './staff-lms.css';
 
-interface IStaffSettingsProps {
-  windowWidth: number;
-  onLogout: () => void;
-}
-
-const StaffSettings: FC<IStaffSettingsProps> = ({ windowWidth, onLogout }) => {
+const StaffSettings: FC = () => {
   const navigate = useNavigate();
   const [settings, setSettings] = useState<IStaffSetting[]>([]);
   const [search, setSearch] = useState('');
@@ -155,9 +150,6 @@ const StaffSettings: FC<IStaffSettingsProps> = ({ windowWidth, onLogout }) => {
     <MainLayout
       mainContainer={false}
       transparentMain
-      windowWidth={windowWidth}
-      isLoggedIn
-      onLogout={onLogout}
     >
       <div className='staff-lms'>
         <div className='staff-lms__card'>

@@ -1,15 +1,57 @@
-import type { FC, ReactNode } from 'react';
-
+import type { FC, ReactElement } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import { EROUTES } from '../../utils/ERoutes';
+import { useSelector } from '../../../store/store';
 
-interface IProtectedRouteProps {
-  children: ReactNode;
-  isAllowed: boolean;
-  redirectPath?: string;
+import Preloader from '../Preloader/ui/Preloader';
+
+import { getIsAuthChecked, getUser } from '../../../store/user/reducer';
+
+interface IProtectedProps {
+	onlyUnAuth?: boolean;
+	component: ReactElement;
 }
 
-export const ProtectedRoute: FC<IProtectedRouteProps> = ({ children, isAllowed, redirectPath = EROUTES.LANDING }) => {
-  return isAllowed ? <>{children}</> : <Navigate to={redirectPath} replace />;
+const Protected: FC<IProtectedProps> = ({ onlyUnAuth = false, component }) => {
+	const isAuthChecked = useSelector(getIsAuthChecked);
+	const user = useSelector(getUser);
+
+	if (!isAuthChecked) return <Preloader />;
+
+	if (!user && !onlyUnAuth) {
+		return <Navigate to='/login' replace />;
+	}
+
+	if (onlyUnAuth && user) {
+		return <Navigate to='/person' replace />;
+	}
+
+	return component;
+};
+
+export const OnlyAuth = Protected;
+export const OnlyUnAuth = ({ component }: { component: ReactElement }) => (
+	<Protected onlyUnAuth component={component} />
+);
+
+export const OnlyStaffAuth = ({ component }: { component: ReactElement }) => {
+	const isAuthChecked = useSelector(getIsAuthChecked);
+	const user = useSelector(getUser);
+
+	if (!isAuthChecked) return <Preloader />;
+	if (!user) return <Navigate to='/login' replace />;
+	if (!user.is_staff) return <Navigate to='/person' replace />;
+
+	return component;
+};
+
+export const OnlyStaffOrTutorAuth = ({ component }: { component: ReactElement }) => {
+	const isAuthChecked = useSelector(getIsAuthChecked);
+	const user = useSelector(getUser);
+
+	if (!isAuthChecked) return <Preloader />;
+	if (!user) return <Navigate to='/login' replace />;
+	if (!user.is_staff && !user.is_lms_tutor) return <Navigate to='/person' replace />;
+
+	return component;
 };

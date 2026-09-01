@@ -18,6 +18,7 @@ export enum ENAV {
   RECRUITMENT = 'recruitment',
   ADVANTAGES = 'advantages',
   NOMINATIONS = 'nominations',
+  HISTORY = 'history',
   FAQ = 'faq',
   DOCUMENT = 'document',
   LEADERBOARD = 'leaderboard',

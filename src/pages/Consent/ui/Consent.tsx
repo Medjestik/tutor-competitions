@@ -4,14 +4,9 @@ import MainLayout from '../../../shared/components/Layout/ui/MainLayout';
 
 import '../styles/style.css';
 
-interface IConsentProps {
-  windowWidth: number;
-}
-
-const Consent: FC<IConsentProps> = ({ windowWidth }) => {
-
+const Consent: FC = () => {
   return (
-    <MainLayout windowWidth={windowWidth} isLoggedIn={false}>
+    <MainLayout isLoggedIn={false}>
       <h1 className="consent__title">СОГЛАСИЕ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ</h1>
 
       <p className="consent__text">1. В соответствии со ст. 9 Федерального закона от 27.07.2006 №152-ФЗ «О персональных данных» я, субъект персональных данных, даю своё согласие оператору персональных данных федеральному государственному автономному образовательному учреждению высшего образования «Российский университет транспорта», находящемуся по адресу: г. Москва, ул. Образцова, д. 9, стр. 9, (далее – «Оператор») на обработку следующих моих персональных данных: </p>

@@ -1,35 +1,38 @@
-import { type FC, useContext, useEffect, useRef, useState } from 'react';
+import { type FC, useEffect, useRef, useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
-
-import { CurrentUserContext } from '../../../../../context/team';
+import { useDispatch, useSelector } from '../../../../../../store/store';
 
 import Icon from '../../../../Icon/ui/Icon';
-
-import { EROUTES } from '../../../../../utils/ERoutes';
-
 import logoMintrans from '../../../../../images/person-cabinet/logo-mintrans.svg';
 import logoMintransText from '../../../../../images/person-cabinet/logo-mintrans-text.svg';
 import logoRut from '../../../../../images/person-cabinet/logo-rut-white.svg';
 import logoLto from '../../../../../images/person-cabinet/logo-lto.svg';
 import iconUser from '../../../../../images/person-cabinet/icon-user.svg';
 
+import { EROUTES } from '../../../../../utils/ERoutes';
+import { logoutUser } from '../../../../../../store/user/actions';
+
 import '../styles/style.css';
 
-interface ILayoutHeaderProps {
-  windowWidth: number;
-  isLoggedIn: boolean;
-  onLogout?: () => void;
-}
-
-const LayoutHeader: FC<ILayoutHeaderProps> = ({ windowWidth, isLoggedIn, onLogout }) => {
-  const currentTeam = useContext(CurrentUserContext);
+const LayoutHeader: FC = () => {
   const navigate = useNavigate();
-  const isAdminZoneVisible = currentTeam.is_staff || currentTeam.is_lms_tutor;
-  const isDesktopHeader = windowWidth > 1000;
-  const homeRoute = isLoggedIn ? EROUTES.PERSON : EROUTES.LANDING;
-  const [isAdminZoneOpen, setIsAdminZoneOpen] = useState<boolean>(false);
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isAdminZoneOpen, setIsAdminZoneOpen] = useState(false);
   const adminZoneRef = useRef<HTMLDivElement | null>(null);
+
+  const isAdminZoneVisible = Boolean(user?.is_staff || user?.is_lms_tutor);
+  const isDesktopHeader = windowWidth > 1000;
+  const homeRoute = user ? EROUTES.PERSON : EROUTES.LANDING;
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const handleDocumentPointerDown = (event: MouseEvent | TouchEvent) => {
@@ -53,12 +56,12 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ windowWidth, isLoggedIn, onLogou
   }, []);
 
   const formatUserShortName = () => {
-    const lastName = currentTeam.last_name?.trim();
-    const firstInitial = currentTeam.first_name?.trim()?.[0];
-    const middleInitial = currentTeam.middle_name?.trim()?.[0];
+    const lastName = user?.last_name?.trim();
+    const firstInitial = user?.first_name?.trim()?.[0];
+    const middleInitial = user?.middle_name?.trim()?.[0];
 
     if (!lastName && !firstInitial) {
-      return currentTeam.username;
+      return user?.username;
     }
 
     const initials = [firstInitial, middleInitial]
@@ -67,6 +70,10 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ windowWidth, isLoggedIn, onLogou
       .join('');
 
     return [lastName, initials].filter(Boolean).join(' ');
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
   };
 
   return (
@@ -86,7 +93,7 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ windowWidth, isLoggedIn, onLogou
         </Link>
       </div>
       {
-        isLoggedIn
+        user
         ?
         <div className='layout-header__actions'>
           {isAdminZoneVisible && isDesktopHeader && (
@@ -102,7 +109,7 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ windowWidth, isLoggedIn, onLogou
 
               <nav className='layout-header__admin-zone' aria-label='Админ-зона'>
                 <ul className={`layout-header__admin-nav ${isAdminZoneOpen ? 'layout-header__admin-nav_open' : ''}`}>
-                  {currentTeam.is_staff && (
+                  {user.is_staff && (
                     <>
                       <li>
                         <Link
@@ -158,12 +165,12 @@ const LayoutHeader: FC<ILayoutHeaderProps> = ({ windowWidth, isLoggedIn, onLogou
           <button
             className='layout-header__btn layout-header__desktop-only'
             type='button'
-            onClick={onLogout}
+            onClick={handleLogout}
           >
             Выход
           </button>
           <span className='layout-header__mobile-only'>
-            <Icon type='logout' onClick={onLogout} />
+            <Icon type='logout' onClick={handleLogout} />
           </span>
         </div>
         :

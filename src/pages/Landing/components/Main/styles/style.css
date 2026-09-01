@@ -46,20 +46,6 @@
   padding-top: 24px;
 }
 
-.main__tutor {
-  position: absolute;
-  bottom: 0;
-  right: 40px;
-  width: 880px;
-  height: 100%;
-  background-image: url('../../../../../shared/images/tutor.png');
-  background-position: bottom;
-  background-repeat: no-repeat;
-  background-size: contain;
-  z-index: 1;
-  pointer-events: none;
-}
-
 .main__caption {
   margin: 0;
   color: var(--white-color);
@@ -117,26 +103,50 @@
   animation: blink 1s ease-in-out infinite;
 }
 
-.main__subtitle {
+.main__row {
   margin: 20px 0 0 0;
+  display: grid;
+  grid-template-columns: minmax(0, 524px) 1fr;
+  align-items: end;
+  gap: 32px;
+  flex: 1;
+  min-height: 0;
+  z-index: 2;
+}
+
+.main__row-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  grid-column: 1;
+}
+
+.main__tutor {
+  display: none;
+  grid-column: 2;
+  justify-self: center;
+  width: 480px;
+  height: 260px;
+  background-image: url('../../../../../shared/images/tutor.png');
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+
+.main__subtitle {
+  margin: 0;
   width: 100%;
-  max-width: 524px;
   color: var(--white-color);
   font-size: 20px;
   line-height: 1.15;
   text-align: left;
   font-weight: normal;
   flex-shrink: 0;
-  z-index: 2;
 }
 
 .main__info {
-  margin: 20px 0 0 0;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 2;
 }
 
 .main__timer {
@@ -179,6 +189,10 @@
   .main__title-stroke {
     height: 64px;
   }
+  .main__tutor {
+    width: 400px;
+    height: 220px;
+  }
   .main__timer {
     font-size: 40px;
   }
@@ -197,8 +211,12 @@
   .main__title {
     font-size: 56px;
   }
-  .main__info {
+  .main__row {
     margin: 20px 0 32px 0;
+  }
+  .main__tutor {
+    width: 360px;
+    height: 200px;
   }
   .main__timer {
     margin: auto 0 32px auto;
@@ -211,18 +229,6 @@
     margin: 0 auto;
     overflow: hidden;
   }
-  .main__tutor {
-    position: absolute;
-    bottom: 0;
-    right: -40px;
-    width: 120%;
-    height: 100%;
-    background-image: url('../../../../../shared/images/tutor.png');
-    background-position: bottom;
-    background-repeat: no-repeat;
-    background-size: contain;
-    z-index: 1;
-  }
   .main__caption {
     margin: 8vh 0 0 0;
     max-width: none;
@@ -234,17 +240,30 @@
   .main__title {
     font-size: 20px;
   }
-  .main__subtitle {
+  .main__row {
     margin: 12px 0 0 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .main__row-content {
     max-width: none;
+  }
+  .main__subtitle {
     font-size: 16px;
   }
   .main__title-stroke {
     margin: 0 6px;
     height: 28px;
   }
-  .main__info {
-    margin: 0;
+  .main__tutor {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 320px;
+    height: 160px;
+    margin: 0 auto;
+    background-position: center bottom;
   }
   .main__timer {
     font-size: clamp(16px, 4.2vw, 28px);
@@ -256,7 +275,7 @@
     height: 16px;
   }
   .main__buttons {
-    margin: 24px 0 0 0;
+    margin: 16px 0 0 0;
     gap: 12px;
   }
 }

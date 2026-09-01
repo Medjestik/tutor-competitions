@@ -8,6 +8,7 @@ import Description from './components/Description/ui/Description';
 import Recruitment from './components/Recruitment/ui/Recruitment';
 import Advantages from './components/Advantages/ui/Advantages';
 import Nominations from './components/Nominations/ui/Nominations';
+import History from './components/History/ui/History';
 import Prize from './components/Prize/ui/Prize';
 import Stages from './components/Stages/ui/Stages';
 import FAQ from './components/FAQ/ui/FAQ';
@@ -46,6 +47,7 @@ const Landing: FC = () => {
         <Recruitment />
         <Advantages windowWidth={windowWidth} />
         <Nominations />
+        <History />
         <Prize />
         <Stages windowWidth={windowWidth} />
         <FAQ />

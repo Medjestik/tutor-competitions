@@ -109,6 +109,7 @@
 
 @media all and (max-width: 1000px) {
   .footer {
+    margin: 80px auto 0;
     padding: 0 16px;
   }
   .footer__navigation {

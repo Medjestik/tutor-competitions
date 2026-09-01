@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import iconArrow from '../../../../../shared/images/person-cabinet/icon-arrow-right.svg';
+import { SOCIAL_TG } from '../../../../../shared/lib/lib';
 
 import '../styles/channel-banner.css';
 
@@ -9,7 +10,7 @@ interface IPersonChannelBannerProps {
 }
 
 const PersonChannelBanner: FC<IPersonChannelBannerProps> = ({
-  href = 'https://t.me/edtechmiit',
+  href = SOCIAL_TG,
 }) => {
   return (
     <div className='person-channel'>

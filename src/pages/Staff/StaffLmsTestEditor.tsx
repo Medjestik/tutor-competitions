@@ -13,11 +13,6 @@ import { EROUTES } from '../../shared/utils/ERoutes';
 
 import './staff-lms.css';
 
-interface IStaffLmsTestEditorProps {
-  windowWidth: number;
-  onLogout: () => void;
-}
-
 type TQuestionType = ILmsQuestion['question_type'];
 
 const QUESTION_TYPE_OPTIONS: { value: TQuestionType; label: string }[] = [
@@ -42,10 +37,7 @@ const emptyQuestion = (position = 0): ILmsQuestion => ({
   answers: [emptyAnswer(0), emptyAnswer(1)],
 });
 
-const StaffLmsTestEditor: FC<IStaffLmsTestEditorProps> = ({
-  windowWidth,
-  onLogout,
-}) => {
+const StaffLmsTestEditor: FC = () => {
   const { id } = useParams();
   const testId = Number(id);
 
@@ -192,9 +184,6 @@ const StaffLmsTestEditor: FC<IStaffLmsTestEditorProps> = ({
     <MainLayout
       mainContainer={false}
       transparentMain
-      windowWidth={windowWidth}
-      isLoggedIn
-      onLogout={onLogout}
     >
       <div className='staff-lms'>
         <div className='staff-lms__card'>

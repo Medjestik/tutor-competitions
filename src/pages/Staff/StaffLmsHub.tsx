@@ -8,19 +8,11 @@ import { EROUTES } from '../../shared/utils/ERoutes';
 
 import './staff-lms.css';
 
-interface IStaffLmsHubProps {
-  windowWidth: number;
-  onLogout: () => void;
-}
-
-const StaffLmsHub: FC<IStaffLmsHubProps> = ({ windowWidth, onLogout }) => {
+const StaffLmsHub: FC = () => {
   return (
     <MainLayout
       mainContainer={false}
       transparentMain
-      windowWidth={windowWidth}
-      isLoggedIn
-      onLogout={onLogout}
     >
       <div className='staff-lms'>
         <div className='staff-lms__card'>

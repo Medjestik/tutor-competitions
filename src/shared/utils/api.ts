@@ -1,9 +1,8 @@
-import type { ILoginData } from '../../pages/Login/interface/interface';
 import type { IRegisterData } from '../../pages/Registration/interface/interface';
 import type { IUploadFile, IUploadLink } from '../components/Popup/interface/interface'; 
 import type { IScoreItem } from '../../pages/Person/interface/interface';
 
-import { API_URL } from './config';
+import { API_URL } from '../config';
 
 function handleResponse (res: Response) {
   if (res.ok) {
@@ -20,33 +19,6 @@ function checkResponse (res: Response) {
     return Promise.reject(res);
   }
 }
-
-export const getMe = (token: string) => {
-  return fetch(`${API_URL}/accounts/me/`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    }
-  })
-  .then(res => handleResponse(res));
-};
-
-export const login = (data: ILoginData) => {
-  return fetch(`${API_URL}/accounts/login/`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: data.username,
-      password: data.password,
-    }),
-  })
-  .then(res => handleResponse(res));
-};
 
 export const registration = (data: IRegisterData) => {
   return fetch(`${API_URL}/accounts/register/`, {

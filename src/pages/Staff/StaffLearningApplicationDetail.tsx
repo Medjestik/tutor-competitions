@@ -41,10 +41,6 @@ import './staff-learning-applications.css';
 import '../Person/components/PersonLearning/styles/style.css';
 import '../Person/components/PersonLearning/styles/listener.css';
 
-interface IStaffLearningApplicationDetailProps {
-  windowWidth: number;
-  onLogout: () => void;
-}
 
 interface IStaffLearningApplicationDetailResponse extends ILearningApplicationResponse {
   statusDisplay?: string;
@@ -106,10 +102,7 @@ const getErrorMessage = async (error: unknown, fallback: string) => {
   return fallback;
 };
 
-const StaffLearningApplicationDetail: FC<IStaffLearningApplicationDetailProps> = ({
-  windowWidth,
-  onLogout,
-}) => {
+const StaffLearningApplicationDetail: FC = () => {
   const { id } = useParams();
   const { showToast } = useToast();
 
@@ -364,9 +357,6 @@ const StaffLearningApplicationDetail: FC<IStaffLearningApplicationDetailProps> =
     <MainLayout
       mainContainer={false}
       transparentMain
-      windowWidth={windowWidth}
-      isLoggedIn
-      onLogout={onLogout}
     >
       <div className='staff-detail'>
         {isLoading ? (

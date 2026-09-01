@@ -13,12 +13,7 @@ import { EROUTES } from '../../shared/utils/ERoutes';
 
 import './staff-lms.css';
 
-interface IStaffLmsTestsProps {
-  windowWidth: number;
-  onLogout: () => void;
-}
-
-const StaffLmsTests: FC<IStaffLmsTestsProps> = ({ windowWidth, onLogout }) => {
+const StaffLmsTests: FC = () => {
   const navigate = useNavigate();
   const [tests, setTests] = useState<ILmsTest[]>([]);
   const [search, setSearch] = useState('');
@@ -91,9 +86,6 @@ const StaffLmsTests: FC<IStaffLmsTestsProps> = ({ windowWidth, onLogout }) => {
     <MainLayout
       mainContainer={false}
       transparentMain
-      windowWidth={windowWidth}
-      isLoggedIn
-      onLogout={onLogout}
     >
       <div className='staff-lms'>
         <div className='staff-lms__card'>

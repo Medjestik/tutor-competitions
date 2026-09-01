@@ -19,11 +19,6 @@ import { EROUTES } from '../../shared/utils/ERoutes';
 
 import './staff-task-reviews.css';
 
-interface IStaffTaskReviewsProps {
-  windowWidth: number;
-  onLogout: () => void;
-}
-
 const formatDate = (value: string | null) => {
   if (!value) {
     return '—';
@@ -41,7 +36,7 @@ const formatDate = (value: string | null) => {
   });
 };
 
-const StaffTaskReviews: FC<IStaffTaskReviewsProps> = ({ windowWidth, onLogout }) => {
+const StaffTaskReviews: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [submissions, setSubmissions] = useState<ILmsTaskReviewItem[]>([]);
   const [page, setPage] = useState(1);
@@ -175,9 +170,6 @@ const StaffTaskReviews: FC<IStaffTaskReviewsProps> = ({ windowWidth, onLogout })
     <MainLayout
       mainContainer={false}
       transparentMain
-      windowWidth={windowWidth}
-      isLoggedIn
-      onLogout={onLogout}
     >
       <div className='staff-task-reviews'>
         <div className='staff-task-reviews__card'>

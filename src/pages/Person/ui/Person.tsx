@@ -1,11 +1,11 @@
 import type { FC } from 'react';
-import type { IPersonProps, IStage, IStageNavItem, ILearningNavItem } from '../interface/interface';
+import type { IStage, IStageNavItem, ILearningNavItem } from '../interface/interface';
 
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigate, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import * as api from '../../../shared/utils/api';
-import { CurrentUserContext } from '../../../shared/context/team';
+import { useSelector } from '../../../store/store';
 
 import MainLayout from '../../../shared/components/Layout/ui/MainLayout';
 import Preloader from '../../../shared/components/Preloader/ui/Preloader';
@@ -20,16 +20,16 @@ import PersonStageEvaluate from '../components/PersonStage/ui/PersonStageEvaluat
 import PersonLearningProgram from '../components/PersonLearning/ui/PersonLearningProgram';
 import PersonLearningListener from '../components/PersonLearning/ui/PersonLearningListener';
 import PersonLearningMaterials from '../components/PersonLearning/ui/PersonLearningMaterials';
-import { getSettings } from '../../../shared/api/settings';
+import { getSettings } from '../../../shared/api/user';
 
 import { EROUTES, EROUTESSTAGES, EROUTESLEARNING } from '../../../shared/utils/ERoutes';
 import { personStages, personStagesClose, learningNavItems } from '../lib/stages';
 
 import '../styles/style.css';
 
-const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
+const Person: FC = () => {
 
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useSelector((state) => state.user.user)!;
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -48,6 +48,10 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
 
   const toggleLearning = (item: ILearningNavItem) => {
     navigate(item.route);
+  };
+
+  const onChangeStage = (id: number) => {
+    console.log(id);
   };
 
   const handleNextStage = () => {
@@ -146,7 +150,7 @@ const Person: FC<IPersonProps> = ({ windowWidth, onLogout, onChangeStage }) => {
     ?
     <Preloader />
     :
-    <MainLayout mainContainer={false} transparentMain windowWidth={windowWidth} onLogout={onLogout} > 
+    <MainLayout mainContainer={false} transparentMain > 
       <div className='person'>
         <PersonNavigation
           stages={stages}
