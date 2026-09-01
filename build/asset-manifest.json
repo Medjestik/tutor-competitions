@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.a7788063.css",
-    "main.js": "/static/js/main.411f2ba9.js",
+    "main.js": "/static/js/main.8c65ab04.js",
     "static/js/977.38d65915.chunk.js": "/static/js/977.38d65915.chunk.js",
     "static/js/455.8a095ded.chunk.js": "/static/js/455.8a095ded.chunk.js",
     "static/media/leaders.pdf": "/static/media/leaders.89a095f253ea5e40f70a.pdf",
@@ -9,7 +9,6 @@
     "static/media/schedule.svg": "/static/media/schedule.b1b919f25201d51b850abfc899cc0c3d.svg",
     "static/media/stages-background.svg": "/static/media/stages-background.c16efbe6f25cb3fff2b3.svg",
     "static/media/registration-hero.png": "/static/media/registration-hero.868eac58b6d8c30962a3.png",
-    "static/media/pdf.worker.min.mjs": "/static/media/pdf.worker.min.e8b13a7d235aa968c1e7.mjs",
     "static/media/video-poster.png": "/static/media/video-poster.b5bbc27bb7de8952704f.png",
     "static/media/logo-min.svg": "/static/media/logo-min.68c457e1c649ea21cb8b.svg",
     "static/media/logo-mintrans.svg": "/static/media/logo-mintrans.c1e292cf7ce8d2be797f3eb3e2f9d796.svg",
@@ -75,12 +74,12 @@
     "static/media/slider.svg": "/static/media/slider.9617bea413786255eb41cb8814bed372.svg",
     "static/media/check-complete.svg": "/static/media/check-complete.6b4bd84492a7f083a29d9242670b81eb.svg",
     "main.a7788063.css.map": "/static/css/main.a7788063.css.map",
-    "main.411f2ba9.js.map": "/static/js/main.411f2ba9.js.map",
+    "main.8c65ab04.js.map": "/static/js/main.8c65ab04.js.map",
     "977.38d65915.chunk.js.map": "/static/js/977.38d65915.chunk.js.map",
     "455.8a095ded.chunk.js.map": "/static/js/455.8a095ded.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a7788063.css",
-    "static/js/main.411f2ba9.js"
+    "static/js/main.8c65ab04.js"
   ]
 }

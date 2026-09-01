@@ -1,10 +1,11 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 import Button from '../../../../../shared/components/Button/ui/Button';
+import '../../../../../shared/lib/pdfWorker';
 
 import { ENAV } from '../../../../../shared/components/Navigation/interface/interface';
 
@@ -14,11 +15,6 @@ import 'swiper/css/pagination';
 import '../styles/style.css';
 
 import pdfFile from './leaders.pdf';
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url
-).toString();
 
 const History: FC = () => {
   const [numPages, setNumPages] = useState(0);
