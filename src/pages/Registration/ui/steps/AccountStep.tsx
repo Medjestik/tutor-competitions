@@ -39,6 +39,7 @@ const AccountStep: FC<IAccountStepProps> = ({
 
       <FormField
         title="Логин"
+        caption="Логин должен содержать от 6 до 16 символов"
         fieldError={{
           text: errors.username || '',
           isShow: !!errors.username,

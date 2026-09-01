@@ -54,8 +54,8 @@ export const validationSchema = {
   ],
   username: [
     required('Поле обязательно'),
-    minLength(3, 'Минимум 3 символа'),
-    maxLength(150, 'Максимум 150 символов'),
+    minLength(6, 'Минимум 6 символов'),
+    maxLength(16, 'Максимум 16 символов'),
   ],
   password: [
     required('Поле обязательно'),

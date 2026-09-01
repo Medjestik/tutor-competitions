@@ -1,22 +1,11 @@
 ﻿import type { FC } from 'react';
 
-import { useNavigate } from 'react-router-dom';
-
-import Button from '../../../../../shared/components/Button/ui/Button';
-import { EROUTES, EROUTESSTAGES } from '../../../../../shared/utils/ERoutes';
-
 import PersonVideo from '../../PersonVideo/ui/PersonVideo';
 import PersonChannelBanner from './PersonChannelBanner';
 
 import '../styles/style.css';
 
 const PersonStageInitial: FC = () => {
-  const navigate = useNavigate();
-
-  const handleContinue = () => {
-    navigate(`${EROUTES.PERSON}/${EROUTESSTAGES.PERSON_FORM}`);
-  };
-
   return (
     <div className='person-stage person-stage_initial'>
       <div className='person-stage__header'>
@@ -53,23 +42,6 @@ const PersonStageInitial: FC = () => {
             </p>
           </div>
         </div>
-      </div>
-
-      <div className='person-stage__footer-actions'>
-        <Button
-          text='Продолжить'
-          color='gradient'
-          onClick={handleContinue}
-          style={{
-            margin: 0,
-            fontSize: '16px',
-            fontWeight: 500,
-            height: '48px',
-            minWidth: '141px',
-            padding: '16px 24px',
-            lineHeight: 1,
-          }}
-        />
       </div>
     </div>
   );
