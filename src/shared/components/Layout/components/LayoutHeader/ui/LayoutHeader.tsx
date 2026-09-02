@@ -153,11 +153,6 @@ const LayoutHeader: FC = () => {
               </nav>
             </div>
           )}
-          <div className='layout-header__lang layout-header__desktop-only' aria-label='Язык'>
-            <span className='layout-header__lang-item layout-header__lang-item_active'>RU</span>
-            <span className='layout-header__lang-divider'>/</span>
-            <span className='layout-header__lang-item'>EN</span>
-          </div>
           <div className='layout-header__user layout-header__desktop-only'>
             <img className='layout-header__user-img' src={iconUser} alt='' />
             <p className='layout-header__user-name'>{formatUserShortName()}</p>

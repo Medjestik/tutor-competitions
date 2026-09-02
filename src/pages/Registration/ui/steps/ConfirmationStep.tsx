@@ -154,7 +154,7 @@ const ConfirmationStep: FC<IConfirmationStepProps> = ({
       </div>
 
       <div className={styles.actions}>
-        <Button text="Назад" color="inherit" onClick={onBack} />
+        <Button text="Назад" onClick={onBack} />
         <Button
           text="Зарегистрироваться"
           color="gradient"

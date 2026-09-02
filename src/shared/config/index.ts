@@ -6,7 +6,7 @@ export const getApiUrl = (): string => {
   const { hostname, origin } = window.location;
 
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return 'http://localhost:8888/api';
+    return 'http://10.242.221.0:8888/api';
   }
 
   return `${origin}/api`;

@@ -46,12 +46,6 @@ const NOMINATION_PLACEHOLDER: ISelectNomination = {
   name: 'Выберите номинацию',
 };
 
-const backButtonStyle = {
-  backgroundColor: '#f4f8ff',
-  color: 'var(--main-color)',
-  border: 'none',
-  fontWeight: 500,
-};
 
 const continueButtonStyle = {
   backgroundColor: 'var(--main-color)',
@@ -472,11 +466,7 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
       <div className='person-stage'>
         <h2 className='person-stage__title'>Анкета практики</h2>
         <p className='person-stage__lead'>
-          Спасибо! Анкета практики успешно отправлена.
-        </p>
-        <p className='person-stage__subtitle'>
-          Вы прошли в следующий этап Всероссийского конкурса лучших педагогических
-          практик «Лидеры транспортного образования».
+          Спасибо! Анкета практики успешно отправлена. Ожидайте результатов.
         </p>
       </div>
     );
@@ -567,7 +557,6 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
         <Button
           text='Назад'
           onClick={handleBack}
-          style={backButtonStyle}
         />
         <div className='practice-form__footer-actions'>
           <Button

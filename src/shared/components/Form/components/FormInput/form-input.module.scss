@@ -9,9 +9,9 @@
 	height: 50px;
   padding: 9px 16px 9px 16px;
   box-sizing: border-box;
-  border: 1px solid #F1F1F1;
-  border-radius: 12px;
-  background: #FBFCFF;
+  border: 2px solid var(--border-card-color);
+  background: var(--background-main-color);
+	border-radius: var(--border-radius);
   font-size: 16px;
   line-height: 1;
   color: var(--main-white-color);

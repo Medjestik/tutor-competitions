@@ -42,7 +42,7 @@
 .person-learning__grid {
   margin: 0;
   display: grid;
-  grid-template-columns: minmax(0, 689fr) minmax(0, 689fr);
+  grid-template-columns: 1fr;
   gap: 21px;
   align-items: start;
 }
@@ -66,7 +66,6 @@
   margin: 0;
   padding: 20px 24px 33px 24px;
   box-sizing: border-box;
-  min-height: 512px;
   background-color: #f4f8ff;
   border-radius: 12px;
   display: flex;

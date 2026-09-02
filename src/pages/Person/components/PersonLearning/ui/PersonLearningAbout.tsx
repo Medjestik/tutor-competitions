@@ -2,8 +2,6 @@ import type { FC } from 'react';
 import type { IPersonLearningAboutProps } from '../interface/interface';
 
 import Button from '../../../../../shared/components/Button/ui/Button';
-import PersonVideo from '../../PersonVideo/ui/PersonVideo';
-import PersonLearningDownload from './PersonLearningDownload';
 
 import { programContent } from '../mock/programContent';
 
@@ -13,9 +11,12 @@ const PersonLearningAbout: FC<IPersonLearningAboutProps> = ({ onContinue }) => {
   return (
     <>
       <div className='person-learning__grid'>
-        <div className='person-learning__left'>
+        {
+          /*
+
+                  <div className='person-learning__left'>
           <div className='person-learning__video-wrap'>
-            <PersonVideo url={programContent.videoUrl} />
+            <PersonVideo url='' isEmpty />
           </div>
           <PersonLearningDownload
             title={programContent.downloadTitle}
@@ -23,6 +24,9 @@ const PersonLearningAbout: FC<IPersonLearningAboutProps> = ({ onContinue }) => {
             href={programContent.pdfUrl}
           />
         </div>
+          */
+        }
+
 
         <div className='person-learning__info'>
           <p className='person-learning__info-title'>{programContent.aboutTitle}</p>

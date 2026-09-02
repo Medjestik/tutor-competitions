@@ -9,7 +9,6 @@ import { useForm } from '../../../shared/hooks/useForm';
 import { registration } from '../../../shared/utils/api';
 import { EROUTES } from '../../../shared/utils/ERoutes';
 
-import RegistrationHero from './RegistrationHero';
 import RegistrationSteps from './RegistrationSteps';
 import PersonalDataStep from './steps/PersonalDataStep';
 import ProfessionalStep from './steps/ProfessionalStep';
@@ -36,7 +35,7 @@ import styles from '../styles/registration.module.scss';
 
 const RegistrationForm: FC = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<TRegistrationStep>(0);
+  const [step, setStep] = useState<TRegistrationStep>(1);
   const [maxReachedStep, setMaxReachedStep] = useState(1);
   const [selectedOrganization, setSelectedOrganization] = useState<ISelectOption>(
     ORGANIZATION_PLACEHOLDER
@@ -153,10 +152,6 @@ const RegistrationForm: FC = () => {
       void handleSubmit();
     }
   };
-
-  if (step === 0) {
-    return <RegistrationHero onStart={() => goToStep(1)} />;
-  }
 
   return (
     <>

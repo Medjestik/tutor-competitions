@@ -27,6 +27,7 @@
 	}
 	&_width_default {
 		width: fit-content;
+		min-width: 100px;
 	}
 	&_width_full {
 		width: 100%;

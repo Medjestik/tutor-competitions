@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import iconArrow from '../../../../../shared/images/person-cabinet/icon-arrow-right.svg';
-import { SOCIAL_MAX } from '../../../../../shared/lib/lib';
+import { SOCIAL_MAX_CHAT } from '../../../../../shared/lib/lib';
 
 import '../styles/channel-banner.css';
 
@@ -10,7 +10,7 @@ interface IPersonChannelBannerProps {
 }
 
 const PersonChannelBanner: FC<IPersonChannelBannerProps> = ({
-  href = SOCIAL_MAX,
+  href = SOCIAL_MAX_CHAT
 }) => {
   return (
     <div className='person-channel'>

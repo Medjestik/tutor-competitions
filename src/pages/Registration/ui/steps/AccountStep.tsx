@@ -75,7 +75,7 @@ const AccountStep: FC<IAccountStepProps> = ({
       </FormField>
 
       <div className={styles.actions}>
-        <Button text="Назад" color="inherit" onClick={onBack} />
+        <Button text="Назад" onClick={onBack} />
         <Button
           text="Далее"
           color="gradient"

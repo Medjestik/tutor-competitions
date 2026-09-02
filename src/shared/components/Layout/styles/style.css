@@ -205,7 +205,7 @@
   }
   .public-container {
     min-height: calc(100vh - 16px);
-    height: calc(100vh - 16px);
+    height: auto;
   }
   .layout {
     padding: 8px 16px;
@@ -237,7 +237,7 @@
 
 @media all and (max-height: 750px) {
   .public-container {
-    gap: 12px;
+    gap: 16px;
   }
 
   .public-footer {

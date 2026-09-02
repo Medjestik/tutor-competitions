@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.bc0ac94c.css",
-    "main.js": "/static/js/main.e6b36e6c.js",
+    "main.css": "/static/css/main.560a8560.css",
+    "main.js": "/static/js/main.05eecf71.js",
     "static/js/408.22d1f5c3.chunk.js": "/static/js/408.22d1f5c3.chunk.js",
     "static/js/977.38d65915.chunk.js": "/static/js/977.38d65915.chunk.js",
     "static/js/455.01b60359.chunk.js": "/static/js/455.01b60359.chunk.js",
@@ -10,7 +10,6 @@
     "static/media/workshop.svg": "/static/media/workshop.dfdee93cf0c37a81c30a869ef1e20455.svg",
     "static/media/schedule.svg": "/static/media/schedule.0675973f9b64cfd8e9d5d74db1900d9c.svg",
     "static/media/stages-background.svg": "/static/media/stages-background.4c4a0933f3881d1ae9f7.svg",
-    "static/media/registration-hero.png": "/static/media/registration-hero.868eac58b6d8c30962a3.png",
     "static/media/video-poster.png": "/static/media/video-poster.b5bbc27bb7de8952704f.png",
     "static/media/logo-min.svg": "/static/media/logo-min.7423c6e399231b6f5930.svg",
     "static/media/logo-mintrans.svg": "/static/media/logo-mintrans.c1e292cf7ce8d2be797f3eb3e2f9d796.svg",
@@ -75,15 +74,15 @@
     "static/media/check-green.svg": "/static/media/check-green.13ff6f06827ea40f4c5a.svg",
     "static/media/slider.svg": "/static/media/slider.9617bea413786255eb41cb8814bed372.svg",
     "static/media/check-complete.svg": "/static/media/check-complete.6b4bd84492a7f083a29d9242670b81eb.svg",
-    "main.bc0ac94c.css.map": "/static/css/main.bc0ac94c.css.map",
-    "main.e6b36e6c.js.map": "/static/js/main.e6b36e6c.js.map",
+    "main.560a8560.css.map": "/static/css/main.560a8560.css.map",
+    "main.05eecf71.js.map": "/static/js/main.05eecf71.js.map",
     "408.22d1f5c3.chunk.js.map": "/static/js/408.22d1f5c3.chunk.js.map",
     "977.38d65915.chunk.js.map": "/static/js/977.38d65915.chunk.js.map",
     "455.01b60359.chunk.js.map": "/static/js/455.01b60359.chunk.js.map",
     "58.f82c34af.chunk.js.map": "/static/js/58.f82c34af.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.bc0ac94c.css",
-    "static/js/main.e6b36e6c.js"
+    "static/css/main.560a8560.css",
+    "static/js/main.05eecf71.js"
   ]
 }

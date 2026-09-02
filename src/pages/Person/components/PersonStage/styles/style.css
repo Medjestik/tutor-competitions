@@ -306,6 +306,18 @@
 }
 
 @media all and (max-width: 1000px) {
+  .person-stage__welcome-title {
+    font-size: 16px;
+  }
+  
+  .person-stage__welcome-body {
+    gap: 8px;
+  }
+  
+  .person-stage__welcome-body p {
+    font-size: 14px;
+  }
+    
   .person-stage__number {
     display: none;
   }

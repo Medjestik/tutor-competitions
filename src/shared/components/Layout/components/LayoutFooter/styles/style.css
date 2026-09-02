@@ -108,11 +108,26 @@
   }
 
   .layout-footer__social-link {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
   }
 
   .layout-footer__copy {
-    font-size: 14px;
+    font-size: 12px;
+  }
+
+  .layout-footer__social-icon_vk {
+    width: 28px;
+    height: 16px;
+  }
+  
+  .layout-footer__social-icon_max {
+    width: 28px;
+    height: 16px;
+  }
+  
+  .layout-footer__social-icon_tg {
+    width: 28px;
+    height: 16px;
   }
 }
