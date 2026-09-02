@@ -4,8 +4,6 @@ import { lazy, Suspense } from 'react';
 import Button from '../../../../../shared/components/Button/ui/Button';
 import { useWindowWidth } from '../../../../../shared/hooks/useWindowWidth';
 
-import { ENAV } from '../../../../../shared/components/Navigation/interface/interface';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -20,7 +18,7 @@ const History: FC = () => {
   const isDesktop = windowWidth >= DESKTOP_MIN_WIDTH;
 
   return (
-    <div className="history" id={ENAV.DOCUMENT}>
+    <div className="history">
       <h2 className="history__title">ЛУЧШИЕ ПРАКТИКИ 2025&nbsp;ГОДА</h2>
 
       {isDesktop && (
@@ -31,8 +29,7 @@ const History: FC = () => {
 
       <div className="history__info">
         <p className="history__info-text">
-          Хотите ознакомиться с результатами подробнее?Скачайте итоги конкурса в
-          удобном формате.
+          Хотите ознакомиться с результатами подробнее? Скачайте итоги конкурса в&nbsp;удобном формате.
         </p>
         <Button
           text="Скачать итоги конкурса"

@@ -6,6 +6,8 @@ import Button from '../../../../../shared/components/Button/ui/Button';
 import { NavFooterLinks } from '../../../../../shared/components/Navigation/interface/interface';
 import FooterSocialLink from './FooterSocialLink';
 
+import { SOCIAL_MAX_CHAT } from '../../../../../shared/lib/lib';
+
 import '../styles/style.css';
 
 const Footer: FC = () => {
@@ -14,7 +16,7 @@ const Footer: FC = () => {
       <div className='footer__navigation'>
         <Navigation links={NavFooterLinks} color='white' direction='column' />
         <div className='footer__info'>
-          <Button text='ЧАТ УЧАСТНИКОВ' color='gradient' />
+          <Button text='ЧАТ УЧАСТНИКОВ' color='gradient' type='link' href={SOCIAL_MAX_CHAT} />
           <p className='footer__support'>Почта оргкомитета: <a className='footer__support-link' href='mailto:edtech@rut-miit.ru' target='_blank'>edtech@rut-miit.ru</a></p>
         </div>
       </div>
