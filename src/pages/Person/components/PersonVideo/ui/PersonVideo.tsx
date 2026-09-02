@@ -29,7 +29,10 @@ const PersonVideo: FC<IPersonVideo> = ({ url, isEmpty = false }) => {
       {
         isEmpty 
         ?
-        <div className='person-video__empty'></div>
+        <div
+          className='person-video__empty'
+          style={{ backgroundImage: `url(${poster})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        />
         :
         <>
         <video 

@@ -14,6 +14,7 @@ export interface ICurrentUser {
   timezone: string;
   passed_second_stage: boolean;
   is_staff: boolean;
+  is_lms_tutor: boolean;
   nomination: { id: number, name: string } | null;
 }
 

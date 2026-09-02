@@ -4,6 +4,7 @@ import type { IPopupProps } from '../../../shared/components/Popup/interface/int
 import Popup from '../../../shared/components/Popup/ui/Popup';
 import Button from '../../../shared/components/Button/ui/Button';
 import Link from '../../../shared/components/Link/ui/Link';
+import { SOCIAL_TG } from '../../../shared/lib/lib';
 
 import telegramIcon from '../../../shared/icons/telegram.png';
 
@@ -25,7 +26,7 @@ const SubscribeSuccessPopup: FC<IPopupProps> = ({ isOpen, onClose }) => {
       <div className='popup__author'>
         <img className='popup__author-img popup__author-img_size_small' src={telegramIcon} alt='телеграм'></img>
         <div className='popup__author-info'>
-          <p className='popup__author-title'>Ещё больше информации в&nbsp;нашем <Link text='Телеграм-канале' path='https://t.me/contestmiit' /></p>
+          <p className='popup__author-title'>Ещё больше информации в&nbsp;нашем <Link text='Телеграм-канале' path={SOCIAL_TG} /></p>
         </div>
       </div>
       <Button style={btnStyle} text='Хорошо>' onClick={onClose} />

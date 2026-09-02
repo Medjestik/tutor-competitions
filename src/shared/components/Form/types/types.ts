@@ -35,7 +35,7 @@ export interface IFormError {
 }
 
 export interface IFormInputProps {
-	type?: 'text' | 'number' | 'password';
+	type?: 'text' | 'number' | 'password' | 'email';
 	name: string;
 	placeholder?: string;
 	value: string;
@@ -63,6 +63,8 @@ export interface IFormTextareaProps {
 	placeholder?: string;
 	value: string;
 	onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+	maxLength?: number;
+	rows?: number;
 }
 
 export interface IFormButtonsProps {

@@ -1,0 +1,16 @@
+.staff-back-button {
+  margin: 0 0 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--main-color);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.staff-back-button:hover {
+  text-decoration: underline;
+}

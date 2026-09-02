@@ -79,7 +79,7 @@ const SubscribePopup: FC<ISubscribePopupProps> = ({ isOpen, onClose, onSubmit, s
           <div className='popup__author'>
             <img className='popup__author-img popup__author-img_size_small' src={telegramIcon} alt='телеграм'></img>
             <div className='popup__author-info'>
-              <p className='popup__author-title'>Не пользуетесь электронной почтой? Следите за&nbsp;новостями в&nbsp;нашем <Link text='Телеграм-канале' path='https://t.me/contestmiit' /></p>
+              <p className='popup__author-title'>Не пользуетесь электронной почтой? Следите за&nbsp;новостями в&nbsp;нашем <Link text='Телеграм-канале' path='https://t.me/edtechmiit' /></p>
             </div>
           </div>
           <p className='popup__text'>Нажимая на кнопку "Отправить", вы соглашаетесь получать информацию и предложения от&nbsp;РУТ&nbsp;(МИИТ), подтверждаете, что ознакомились с <Link text='Положением об обработке персональных данных' path='https://rut-miit.ru/org/privacy' /> РУТ&nbsp;(МИИТ) и принимаете условия этого Положения.</p>

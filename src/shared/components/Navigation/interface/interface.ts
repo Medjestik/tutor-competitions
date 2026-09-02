@@ -23,6 +23,7 @@ export enum ENAV {
   DOCUMENT = 'document',
   LEADERBOARD = 'leaderboard',
   PRIZE = 'prize',
+  BEST_PRACTICES = 'best-practices',
 }
 
 export const NavHeaderLinks: INavigationLink[] = [

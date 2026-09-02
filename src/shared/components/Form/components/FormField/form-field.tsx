@@ -19,14 +19,16 @@ export const FormField: FC<IFormFieldProps> = ({
 			className={`${styles.container} ${
 				withMarginBottom ? styles.container_margin_bottom : ''
 			}`}>
-			<div className={styles.header}>
-				<h4 className={styles.title}>{title}</h4>
-				{withInfo && (
-					<Tooltip content={<p className={styles.tooltip__text}>{infoText}</p>}>
-						<div className={styles.tooltip__icon}></div>
-					</Tooltip>
-				)}
-			</div>
+			{(title || withInfo) && (
+				<div className={styles.header}>
+					{title && <h4 className={styles.title}>{title}</h4>}
+					{withInfo && (
+						<Tooltip content={<p className={styles.tooltip__text}>{infoText}</p>}>
+							<div className={styles.tooltip__icon}></div>
+						</Tooltip>
+					)}
+				</div>
+			)}
 			{children}
 			{fieldError && fieldError.isShow ? (
 				<span

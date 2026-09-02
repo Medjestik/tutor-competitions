@@ -14,6 +14,8 @@ import { confirmModalContent, listenerContent } from '../../mock/listenerContent
 
 import '../../styles/listener.css';
 
+const PASSWORD_REQUIRED_SECTIONS = new Set(['info', 'consent']);
+
 const cancelBtnStyle = {
   margin: 0,
   fontSize: '16px',
@@ -46,6 +48,7 @@ const PersonLearningListenerConfirmModal: FC<IPersonLearningListenerConfirmModal
 }) => {
   const [agreed, setAgreed] = useState(false);
   const [password, setPassword] = useState('');
+  const requiresPassword = PASSWORD_REQUIRED_SECTIONS.has(section);
 
   useEffect(() => {
     if (isOpen) {
@@ -58,8 +61,9 @@ const PersonLearningListenerConfirmModal: FC<IPersonLearningListenerConfirmModal
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!agreed || !password.trim() || isLoading) return;
-    onConfirm(password);
+    if (!agreed || isLoading) return;
+    if (requiresPassword && !password.trim()) return;
+    onConfirm(requiresPassword ? password : undefined);
   };
 
   return (
@@ -70,20 +74,22 @@ const PersonLearningListenerConfirmModal: FC<IPersonLearningListenerConfirmModal
           {content.question}
         </PersonLearningListenerCheckbox>
 
-        <PersonLearningListenerField
-          title='Пароль от личного кабинета'
-          titleColor='primary'
-          caption={listenerContent.passwordCaption}
-          className='person-learning-listener-field_password'
-        >
-          <FormInput
-            type='password'
-            name='confirmPassword'
-            value={password}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-            placeholder='Введите пароль'
-          />
-        </PersonLearningListenerField>
+        {requiresPassword && (
+          <PersonLearningListenerField
+            title='Пароль от личного кабинета'
+            titleColor='primary'
+            caption={listenerContent.passwordCaption}
+            className='person-learning-listener-field_password'
+          >
+            <FormInput
+              type='password'
+              name='confirmPassword'
+              value={password}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+              placeholder='Введите пароль'
+            />
+          </PersonLearningListenerField>
+        )}
 
         {error && <p className='person-learning-confirm-modal__error'>{error}</p>}
 

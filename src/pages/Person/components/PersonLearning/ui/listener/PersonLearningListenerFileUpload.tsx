@@ -28,6 +28,7 @@ const PersonLearningListenerFileUpload: FC<IPersonLearningListenerFileUploadProp
   fieldError,
   fieldKey,
   disabled = false,
+  accept = 'image/*,.pdf',
 }) => {
   const inputRef = useRef<HTMLInputElement>(null) as RefObject<HTMLInputElement>;
   const hasError = Boolean(fieldError?.isShow && fieldError.text);
@@ -73,7 +74,7 @@ const PersonLearningListenerFileUpload: FC<IPersonLearningListenerFileUploadProp
           <input
             ref={inputRef}
             type='file'
-            accept='image/*,.pdf'
+            accept={accept}
             onChange={handleFileChange}
             disabled={isDisabled}
           />

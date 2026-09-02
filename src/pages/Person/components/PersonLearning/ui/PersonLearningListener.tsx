@@ -8,9 +8,9 @@ import type {
   TListenerTab,
 } from '../interface/interface';
 
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { CurrentUserContext } from '../../../../../shared/context/team';
+import { useSelector } from '../../../../../store/store';
 import { useToast } from '../../../../../shared/components/ToastProvider/ui/ToastProvider';
 import { GetBase64File } from '../../../../../shared/lib/getBase64File';
 import {
@@ -79,7 +79,7 @@ const applyApplicationResponse = (
 };
 
 const PersonLearningListener: FC = () => {
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useSelector((state) => state.user.user)!;
   const { showToast } = useToast();
 
   const [activeTab, setActiveTab] = useState<TListenerTab>('info');
@@ -273,7 +273,7 @@ const PersonLearningListener: FC = () => {
     openConfirmModal('review', true);
   };
 
-  const handleConfirmModalSubmit = async (password: string) => {
+  const handleConfirmModalSubmit = async (password?: string) => {
     const token = localStorage.getItem('token');
     if (!token) {
       setConfirmError('Требуется авторизация');
@@ -285,7 +285,7 @@ const PersonLearningListener: FC = () => {
 
     try {
       if (submitAfterConfirm && confirmSection === 'review') {
-        await submitLearningApplication(token, password);
+        await submitLearningApplication(token);
         setApplicationStatus('submitted');
         showToast({
           type: 'success',
@@ -356,6 +356,10 @@ const PersonLearningListener: FC = () => {
 
     setIsUploading(true);
     try {
+      if (section === 'snils') {
+        await saveApplication('snils');
+      }
+
       const fileData = await GetBase64File(file);
       const data = (await uploadLearningDocument(
         token,

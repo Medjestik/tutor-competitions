@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import MainLayout from '../../shared/components/Layout/ui/MainLayout';
 import Preloader from '../../shared/components/Preloader/ui/Preloader';
 import Button from '../../shared/components/Button/ui/Button';
+import StaffBackButton from './components/StaffBackButton';
 import { getLearningApplicationsList } from '../../shared/utils/api';
 import { EROUTES } from '../../shared/utils/ERoutes';
 
@@ -93,6 +94,7 @@ const StaffLearningApplications: FC = () => {
     >
       <div className='staff-applications'>
         <div className='staff-applications__card'>
+          <StaffBackButton fallbackTo={EROUTES.PERSON} />
           <div className='staff-applications__header'>
             <h1 className='staff-applications__title'>Заявки на обучение</h1>
             <input

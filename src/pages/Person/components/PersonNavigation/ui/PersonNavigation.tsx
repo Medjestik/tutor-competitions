@@ -15,6 +15,7 @@ const PersonNavigation: FC<IPersonNavigationProps> = ({
   onChange,
   openLearningId,
   onLearningChange,
+  isEducationEnabled,
 }) => {
 
   const resolveState = (stage: IStageNavItem) => {
@@ -56,23 +57,25 @@ const PersonNavigation: FC<IPersonNavigationProps> = ({
         </ul>
       </div>
 
-      <div className='person__nav-card person__nav-card_learning'>
-        <h2 className='person__nav-card-title'>Обучение</h2>
-        <ul className='person__nav-list'>
-          {
-            learningNavItems.map((item) => (
-              <PersonNavItem
-                key={item.id}
-                title={item.name}
-                description={item.description}
-                number={item.number}
-                state={openLearningId === item.id ? 'active' : 'default'}
-                onClick={() => onLearningChange(item)}
-              />
-            ))
-          }
-        </ul>
-      </div>
+      {isEducationEnabled && (
+        <div className='person__nav-card person__nav-card_learning'>
+          <h2 className='person__nav-card-title'>Обучение</h2>
+          <ul className='person__nav-list'>
+            {
+              learningNavItems.map((item) => (
+                <PersonNavItem
+                  key={item.id}
+                  title={item.name}
+                  description={item.description}
+                  number={item.number}
+                  state={openLearningId === item.id ? 'active' : 'default'}
+                  onClick={() => onLearningChange(item)}
+                />
+              ))
+            }
+          </ul>
+        </div>
+      )}
     </aside>
   );
 };

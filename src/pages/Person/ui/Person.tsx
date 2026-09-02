@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import type { IStage, IStageNavItem, ILearningNavItem } from '../interface/interface';
 
-import { useState, useEffect, useContext } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Navigate, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import * as api from '../../../shared/utils/api';
-import { CurrentUserContext } from '../../../shared/context/team';
+import { useSelector } from '../../../store/store';
 
 import MainLayout from '../../../shared/components/Layout/ui/MainLayout';
 import Preloader from '../../../shared/components/Preloader/ui/Preloader';
@@ -19,22 +19,27 @@ import PersonStageWorkshop from '../components/PersonStage/ui/PersonStageWorksho
 import PersonStageEvaluate from '../components/PersonStage/ui/PersonStageEvaluate';
 import PersonLearningProgram from '../components/PersonLearning/ui/PersonLearningProgram';
 import PersonLearningListener from '../components/PersonLearning/ui/PersonLearningListener';
+import PersonLearningMaterials from '../components/PersonLearning/ui/PersonLearningMaterials';
+import { getSettings } from '../../../shared/api/user';
 
 import { EROUTES, EROUTESSTAGES, EROUTESLEARNING } from '../../../shared/utils/ERoutes';
-import { personStages, personStagesClose, learningNavItems } from '../lib/stages';
+import { personStages, buildPersonStages, learningNavItems } from '../lib/stages';
 
 import '../styles/style.css';
 
 const Person: FC = () => {
 
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useSelector((state) => state.user.user)!;
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const [stages, setStages] = useState<IStageNavItem[]>(currentUser.passed_second_stage ? personStages : personStagesClose);
+  const [stages, setStages] = useState<IStageNavItem[]>(() =>
+    buildPersonStages(currentUser.current_stage_id),
+  );
   const [openStageId, setOpenStageId] = useState<number>(personStages[0].id);
   const [openLearningId, setOpenLearningId] = useState<string | null>(null);
+  const [isEducationEnabled, setIsEducationEnabled] = useState<boolean>(false);
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
 
@@ -106,9 +111,29 @@ const Person: FC = () => {
   }, []);
 
   useEffect(() => {
+    getSettings()
+      .then((settings) => {
+        setIsEducationEnabled(settings.enable_education === true);
+      })
+      .catch(() => {
+        setIsEducationEnabled(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    setStages(buildPersonStages(currentUser.current_stage_id));
+  }, [currentUser.current_stage_id]);
+
+  useEffect(() => {
+    if (!isEducationEnabled && pathname.includes('/learning/')) {
+      setOpenLearningId(null);
+      navigate(EROUTES.PERSON, { replace: true });
+      return;
+    }
+
     const matchedLearning = learningNavItems.find((item) => pathname === item.route);
 
-    if (matchedLearning) {
+    if (matchedLearning && isEducationEnabled) {
       setOpenLearningId(matchedLearning.id);
       setOpenStageId(-1);
       return;
@@ -124,7 +149,7 @@ const Person: FC = () => {
     if (matched) {
       setOpenStageId(matched.id);
     }
-  }, [pathname, stages]);
+  }, [isEducationEnabled, navigate, pathname, stages]);
 
   return (
     isLoadingData
@@ -139,6 +164,7 @@ const Person: FC = () => {
           onChange={toggleStage}
           openLearningId={openLearningId}
           onLearningChange={toggleLearning}
+          isEducationEnabled={isEducationEnabled}
         /> 
         <PersonContainer>
           {
@@ -148,13 +174,19 @@ const Person: FC = () => {
             :
             <Routes>
               <Route index element={<PersonStageInitial />} />
+              <Route path="menu/*" element={<Navigate to={EROUTES.PERSON} replace />} />
               <Route path={EROUTESSTAGES.PERSON_FORM} element={<PersonStageForm onNextStage={handleNextStage} />} />
               <Route path={EROUTESSTAGES.PERSON_SCHEDULE} element={<PersonStageSchedule />} />
               <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides />} />
               <Route path={EROUTESSTAGES.PERSON_WORKSHOP} element={<PersonStageWorkshop />} />
               <Route path={EROUTESSTAGES.PERSON_EVALUATE} element={<PersonStageEvaluate />} />
-              <Route path={EROUTESLEARNING.PROGRAM} element={<PersonLearningProgram />} />
-              <Route path={EROUTESLEARNING.LISTENER} element={<PersonLearningListener />} />
+              {isEducationEnabled && (
+                <>
+                  <Route path={EROUTESLEARNING.PROGRAM} element={<PersonLearningProgram />} />
+                  <Route path={EROUTESLEARNING.LISTENER} element={<PersonLearningListener />} />
+                  <Route path={EROUTESLEARNING.MATERIALS} element={<PersonLearningMaterials />} />
+                </>
+              )}
             </Routes>
           }
         </PersonContainer>

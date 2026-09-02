@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, useContext } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import type { ISLot } from '../../../../../shared/utils/api';
 import type { ITimeInterval } from '../../../../../widgets/TimeSelect/interface/interface';
@@ -10,7 +10,8 @@ import Button from '../../../../../shared/components/Button/ui/Button';
 import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
 
 import { formatDateShort } from '../../../../../shared/utils/formatDate';
-import { CurrentUserContext } from '../../../../../shared/context/team';
+import { useSelector } from '../../../../../store/store';
+import { getUser } from '../../../../../store/user/reducer';
 
 import scheduleImg from '../../../../../shared/images/schedule.svg';
 
@@ -66,7 +67,7 @@ const generateIntervals = (): ITimeInterval[] => {
 
 const PersonStageSchedule: FC = () => {
 
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useSelector(getUser)!;
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selections, setSelections] = useState<ISelectedSlot[]>([]);

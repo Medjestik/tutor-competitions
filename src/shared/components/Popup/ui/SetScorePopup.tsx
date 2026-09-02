@@ -35,6 +35,9 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({ isOpen, onClose, form, isLoadi
   };
 
   const isFormValid = (): boolean => {
+    if (!form.evaluation_details) {
+      return false;
+    }
     return form.evaluation_details.every(criteria =>
       criteria.indicators.every(ind => scores[ind.id] !== null)
     );
@@ -42,7 +45,7 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({ isOpen, onClose, form, isLoadi
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isFormValid()) return;
+    if (!form.evaluation_details || !isFormValid()) return;
   
     const evaluations = form.evaluation_details.flatMap(criteria =>
       criteria.indicators.map(indicator => ({

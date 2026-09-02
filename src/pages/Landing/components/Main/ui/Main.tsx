@@ -27,21 +27,27 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
 
   return (
     <main className='main' id='main'>
-      <div className='main__tutor'></div>
-      <span className='main__caption'>МЕЖДУНАРОДНЫЙ&nbsp;КОНКУРС ЛУЧШИХ&nbsp;ОБРАЗОВАТЕЛЬНЫХ&nbsp;ПРАКТИК</span>
-      <div className='main__title-container'>
-        <h1 className='main__title'>«ЛИДЕРЫ </h1>
-        <span className='main__title-stroke'></span>
-        <h1 className='main__title main__title_color_transparent'>ТРАНСПОРТНОГО ОБРАЗОВАНИЯ»</h1>
+      <div className='main__hero'>
+        <span className='main__caption'>МЕЖДУНАРОДНЫЙ&nbsp;КОНКУРС ЛУЧШИХ&nbsp;ОБРАЗОВАТЕЛЬНЫХ&nbsp;ПРАКТИК</span>
+        <div className='main__title-container'>
+          <h1 className='main__title'>«ЛИДЕРЫ </h1>
+          <span className='main__title-stroke'></span>
+          <h1 className='main__title main__title_color_transparent'>ТРАНСПОРТНОГО ОБРАЗОВАНИЯ»</h1>
+        </div>
+        <div className='main__row'>
+          <div className='main__row-content'>
+            <div className='main__info'>
+              <p className='main__subtitle'>Конкурс проводится в&nbsp;рамках реализации Концепции подготовки кадров для&nbsp;транспортного комплекса до&nbsp;2035 года и&nbsp;направлен на&nbsp;выявление, поддержку и&nbsp;масштабирование лучших решений в&nbsp;системе транспортного образования.</p>
+            </div>
+            <div className='main__buttons'>
+              <Button text='Зарегистрироваться' onClick={() => navigate(EROUTES.REGISTRATION)} color='primary' style={btnRegStyle} />
+              <Button text='Личный кабинет' onClick={() => navigate(EROUTES.LOGIN)} color='inherit' style={btnRegStyle} />
+            </div>
+          </div>
+          <div className='main__tutor' aria-hidden='true' />
+        </div>
+        <p className='main__timer'>ОТКРЫТ&nbsp;ПРИЁМ&nbsp;РАБОТ&nbsp;НА&nbsp;СЕЗОН&nbsp;2026&nbsp;ГОДА</p>
       </div>
-      <div className='main__info'>
-        <p className='main__subtitle'>Конкурс проводится в&nbsp;рамках реализации Концепции подготовки кадров для&nbsp;транспортного комплекса до&nbsp;2035 года и&nbsp;направлен на&nbsp;выявление, поддержку и&nbsp;масштабирование лучших решений в&nbsp;системе транспортного образования.</p>
-      </div>
-      <div className='main__buttons'>
-        <Button text='Зарегистрироваться' onClick={() => navigate(EROUTES.REGISTRATION)} color='primary' style={btnRegStyle} />
-        <Button text='Личный кабинет' onClick={() => navigate(EROUTES.LOGIN)} color='inherit' style={btnRegStyle} />
-      </div>
-      <p className='main__timer'>ОТКРЫТ ПРИЁМ РАБОТ НА&nbsp;СЕЗОН&nbsp;2026&nbsp;ГОДА</p>
     </main>
   );
 };

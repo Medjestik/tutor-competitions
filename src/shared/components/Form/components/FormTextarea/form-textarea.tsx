@@ -8,6 +8,8 @@ export const FormTextarea: FC<IFormTextareaProps> = ({
 	placeholder = 'Введите значение..',
 	value,
 	onChange,
+	maxLength,
+	rows = 6,
 }) => {
 	return (
 		<textarea
@@ -18,6 +20,8 @@ export const FormTextarea: FC<IFormTextareaProps> = ({
 			onChange={onChange}
 			placeholder={placeholder}
 			autoComplete='off'
+			maxLength={maxLength}
+			rows={rows}
 		/>
 	);
 };

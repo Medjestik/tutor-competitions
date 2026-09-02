@@ -33,3 +33,25 @@ export const OnlyAuth = Protected;
 export const OnlyUnAuth = ({ component }: { component: ReactElement }) => (
 	<Protected onlyUnAuth component={component} />
 );
+
+export const OnlyStaffAuth = ({ component }: { component: ReactElement }) => {
+	const isAuthChecked = useSelector(getIsAuthChecked);
+	const user = useSelector(getUser);
+
+	if (!isAuthChecked) return <Preloader />;
+	if (!user) return <Navigate to='/login' replace />;
+	if (!user.is_staff) return <Navigate to='/person' replace />;
+
+	return component;
+};
+
+export const OnlyStaffOrTutorAuth = ({ component }: { component: ReactElement }) => {
+	const isAuthChecked = useSelector(getIsAuthChecked);
+	const user = useSelector(getUser);
+
+	if (!isAuthChecked) return <Preloader />;
+	if (!user) return <Navigate to='/login' replace />;
+	if (!user.is_staff && !user.is_lms_tutor) return <Navigate to='/person' replace />;
+
+	return component;
+};
