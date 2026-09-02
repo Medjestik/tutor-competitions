@@ -12,8 +12,27 @@ export interface ISelectNomination {
 export interface INomination {
   name: string;
   id: number;
+  code?: string;
   position: number;
   total_forms: number;
+  form_schema?: IFormFieldDef[];
+}
+
+export interface IFormFieldDef {
+  key: string;
+  title: string;
+  hint: string;
+  help_text: string;
+  max_length: number;
+  required: boolean;
+}
+
+export interface ICoauthor {
+  id?: number;
+  full_name: string;
+  position: string;
+  educational_organization: string;
+  order?: number;
 }
 
 export interface IItemForm {
@@ -27,20 +46,26 @@ export interface IItemForm {
 }
 
 export interface IFormData {
-  description: string;
+  description?: string | null;
   id: number;
-  name: string;
-  nomination: number;
-  nomination_name: string;
-  originality: string;
-  educational_organization: string;
+  name: string | null;
+  nomination: number | null;
+  nomination_name?: string;
+  nomination_code?: string | null;
+  originality?: string | null;
+  educational_organization?: string;
   status: string;
-  task: string;
-  text: string;
-  usability: string;
+  task?: string | null;
+  text?: string | null;
+  usability?: string | null;
   user: number;
+  answers?: Record<string, string>;
+  schema?: IFormFieldDef[];
+  coauthors?: ICoauthor[];
   resources: IResource[];
-  evaluation_details: ICriteria[];
+  evaluation_details?: ICriteria[];
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface IScoreItem {

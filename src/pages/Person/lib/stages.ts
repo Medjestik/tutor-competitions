@@ -87,6 +87,16 @@ export const personStages = [
   },
 ];
 
+/** Разблокирует пункты навигации по текущему этапу пользователя (id из personStages). */
+export function buildPersonStages(currentStageId: number): typeof personStages {
+  const unlockedThroughId = currentStageId > 0 ? currentStageId : 1;
+
+  return personStages.map((stage) => ({
+    ...stage,
+    type: unlockedThroughId >= stage.id ? 'default' : 'block',
+  }));
+}
+
 export const personStagesClose = [
   {
     name: 'Начало',

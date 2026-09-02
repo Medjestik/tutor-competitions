@@ -63,6 +63,8 @@ export interface IFormTextareaProps {
 	placeholder?: string;
 	value: string;
 	onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+	maxLength?: number;
+	rows?: number;
 }
 
 export interface IFormButtonsProps {

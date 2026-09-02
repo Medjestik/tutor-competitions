@@ -48,7 +48,7 @@ const ExpertFormPage: FC = () => {
   }, [form?.nomination]);
 
   const totalScore = useMemo(() => {
-    if (!form) return 0;
+    if (!form?.evaluation_details) return 0;
     return form.evaluation_details.reduce((sum, criteria) => {
       return sum + criteria.indicators.reduce((innerSum, indicator) => {
         return innerSum + (indicator.score ?? 0);

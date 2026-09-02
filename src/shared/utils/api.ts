@@ -106,6 +106,53 @@ export const setNomination = (token: string, nominationId: number) => {
   .then(res => handleResponse(res));
 };
 
+export interface IUpdatePracticeFormPayload {
+  name?: string;
+  answers?: Record<string, string>;
+  coauthors?: Array<{
+    full_name: string;
+    position: string;
+    educational_organization: string;
+  }>;
+}
+
+export const updatePracticeForm = (
+  token: string,
+  payload: IUpdatePracticeFormPayload,
+) => {
+  return fetch(`${API_URL}/competition/forms/update/`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return res.json().then((data) => Promise.reject(data));
+  });
+};
+
+export const submitPracticeForm = (token: string) => {
+  return fetch(`${API_URL}/competition/forms/my-form/submit/`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({}),
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return res.json().then((data) => Promise.reject(data));
+  });
+};
+
 const saveFormField = (token: string, field: string, value: string) => {
   return fetch(`${API_URL}/competition/forms/update/`, {
     method: 'PATCH',
@@ -197,7 +244,6 @@ export const uploadLink = (token: string, data: IUploadLink) => {
       type: 'link',
       link: data.link,
       description: data.name,
-      stage_id: 4,
     }),
   })
   .then(res => handleResponse(res));
@@ -216,7 +262,6 @@ export const uploadFile = (token: string, data: IUploadFile) => {
       file_data: data.file,
       description: data.name,
       filename: data.fileName,
-      stage_id: 4,
     }),
   })
   .then(res => handleResponse(res));

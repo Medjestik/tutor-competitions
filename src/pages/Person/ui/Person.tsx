@@ -23,7 +23,7 @@ import PersonLearningMaterials from '../components/PersonLearning/ui/PersonLearn
 import { getSettings } from '../../../shared/api/user';
 
 import { EROUTES, EROUTESSTAGES, EROUTESLEARNING } from '../../../shared/utils/ERoutes';
-import { personStages, personStagesClose, learningNavItems } from '../lib/stages';
+import { personStages, buildPersonStages, learningNavItems } from '../lib/stages';
 
 import '../styles/style.css';
 
@@ -34,7 +34,9 @@ const Person: FC = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const [stages, setStages] = useState<IStageNavItem[]>(currentUser.passed_second_stage ? personStages : personStagesClose);
+  const [stages, setStages] = useState<IStageNavItem[]>(() =>
+    buildPersonStages(currentUser.current_stage_id),
+  );
   const [openStageId, setOpenStageId] = useState<number>(personStages[0].id);
   const [openLearningId, setOpenLearningId] = useState<string | null>(null);
   const [isEducationEnabled, setIsEducationEnabled] = useState<boolean>(false);
@@ -117,6 +119,10 @@ const Person: FC = () => {
         setIsEducationEnabled(false);
       });
   }, []);
+
+  useEffect(() => {
+    setStages(buildPersonStages(currentUser.current_stage_id));
+  }, [currentUser.current_stage_id]);
 
   useEffect(() => {
     if (!isEducationEnabled && pathname.includes('/learning/')) {
