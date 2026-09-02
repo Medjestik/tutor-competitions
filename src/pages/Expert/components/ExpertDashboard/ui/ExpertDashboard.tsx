@@ -33,19 +33,28 @@ const ExpertDashboard: FC = () => {
   const [data, setData] = useState<IParticipant[]>([]);
   const [barData, setBarData] = useState<IBarItem[]>([]);
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const getData = () => {
     setIsLoadingData(true);
+    setErrorMessage(null);
+
     const token = localStorage.getItem('token');
-    if (token) {
-      api.getDashboardData(token)
-        .then(res => {
-          setData(res);
-          setBarData(buildBarData(res));
-        })
-        .catch(console.error)
-        .finally(() => setIsLoadingData(false));
+    if (!token) {
+      setIsLoadingData(false);
+      setErrorMessage('Не удалось загрузить данные: отсутствует токен авторизации.');
+      return;
     }
+
+    api.getDashboardData(token)
+      .then((res) => {
+        setData(res);
+        setBarData(buildBarData(res));
+      })
+      .catch(() => {
+        setErrorMessage('Не удалось загрузить данные дашборда. Попробуйте обновить страницу.');
+      })
+      .finally(() => setIsLoadingData(false));
   };
 
   const exportAsPdf = async () => {
@@ -70,6 +79,15 @@ const ExpertDashboard: FC = () => {
   }, []);
 
   if (isLoadingData) return <Preloader />;
+
+  if (errorMessage) {
+    return (
+      <div className='dashboard'>
+        <p className='dashboard-header__title'>{errorMessage}</p>
+        <Button style={btnExportStyle} text='Повторить' onClick={getData} />
+      </div>
+    );
+  }
 
   return (
     <div className='dashboard'>

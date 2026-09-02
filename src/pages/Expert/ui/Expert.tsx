@@ -38,6 +38,7 @@ const Expert: FC = () => {
             {showTabs && <Tabs rootPath='/person/menu' tabs={tabs} />}
             <Routes>
 
+              <Route path='menu' element={<Navigate to='/person/menu/nominations' replace />} />
               <Route path='menu/nominations' element={<ExpertNominations />} />
               <Route path='menu/dashboard' element={<ExpertDashboard />} />
 
@@ -45,7 +46,7 @@ const Expert: FC = () => {
 
               <Route path='nomination/:nominationId/form/:formId/*' element={<ExpertFormPage />} />
 
-              <Route path='*' element={<Navigate to='/person/menu' replace />} />
+              <Route path='*' element={<Navigate to='/person/menu/nominations' replace />} />
             </Routes>
           </div>
         </PersonContainer>
