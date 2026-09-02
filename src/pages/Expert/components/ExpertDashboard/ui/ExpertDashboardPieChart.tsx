@@ -18,6 +18,22 @@ const ExpertDashboardPieChart: FC<IPieChartProps> = ({ data, colors, onClickSect
     if (onClickSector) onClickSector(nextId);
   };
 
+  if (data.length === 0) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          color: '#666',
+        }}
+      >
+        Нет данных для отображения
+      </div>
+    );
+  }
+
   return (
     <ResponsivePie
       data={data}

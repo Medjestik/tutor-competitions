@@ -33,6 +33,40 @@ export const displayKeyLabels: Record<string, string> = {
 
 export const keys = Object.values(displayKeyLabels);
 
+const organizationAliases: Record<string, string> = {
+  'РУТ (МИИТ)': 'Российский университет транспорта',
+  'ПривГУПС': 'Приволжский государственный университет путей сообщения',
+  'ОмГУПС (ОмИИТ)': 'Омский государственный университет путей сообщения',
+  'МГУ им. адм. Г.И. Невельского': 'Морской государственный университет им. Г.И. Невельского',
+  'УИГА': 'УИ гражданской авиации им. Б.П. Бугаева',
+  'ВГУВТ': 'Волжский государственный университет водного транспорта',
+  'ГУМРФ': 'ГУМРФ им. адмирала С.О. Макарова',
+  'ДВГУПС': 'Дальневосточный государственный университет путей сообщения',
+  'ИрГУПС': 'Иркутский государственный университет путей сообщения',
+  'РГУПС': 'Ростовский государственный университет путей сообщения',
+  'СГУПС': 'Сибирский государственный университет путей сообщения',
+  'СибАДИ': 'Сибирский государственный автомобильно-дорожный университет',
+  'УрГУПС': 'Уральский государственный университет путей сообщения',
+};
+
+const resolveUniversityKey = (organization: string, resultMap: Map<string, IBarItem>): string => {
+  if (resultMap.has(organization)) {
+    return organization;
+  }
+
+  const aliasKey = organizationAliases[organization];
+  if (aliasKey && resultMap.has(aliasKey)) {
+    return aliasKey;
+  }
+
+  const byShortName = knownUniversities.find((university) => university.shortName === organization);
+  if (byShortName && resultMap.has(byShortName.name)) {
+    return byShortName.name;
+  }
+
+  return 'Другие университеты';
+};
+
 export const buildBarData = (participants: IParticipant[]): IBarItem[] => {
   const resultMap = new Map<string, IBarItem>();
 
@@ -47,11 +81,9 @@ export const buildBarData = (participants: IParticipant[]): IBarItem[] => {
     });
   });
 
-  const otherKey = 'Другие университеты';
-
   participants.forEach((participant) => {
     const org = participant.educational_organization;
-    const targetKey = resultMap.has(org) ? org : otherKey;
+    const targetKey = resolveUniversityKey(org, resultMap);
     const target = resultMap.get(targetKey);
     if (!target) return;
 
