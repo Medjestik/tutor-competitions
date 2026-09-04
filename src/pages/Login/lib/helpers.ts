@@ -1,22 +1,14 @@
 import type { ILoginForm } from '../interface/interface';
 import type { TFormValidationErrors } from '../../../shared/components/Form/types/types';
 
-import {
-	required,
-	minLength,
-	maxLength,
-} from '../../../shared/lib/validationRules';
+import { required } from '../../../shared/lib/validationRules';
 
 export const validationSchema = {
 	login: [
 		required('Поле обязательно'),
-		minLength(6, 'Минимум 6 символов'),
-		maxLength(16, 'Максимум 16 символов'),
 	],
 	password: [
 		required('Поле обязательно'),
-		minLength(6, 'Минимум 6 символов'),
-		maxLength(16, 'Максимум 16 символов'),
 	],
 };
 

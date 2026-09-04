@@ -31,13 +31,6 @@ const Document: FC<IDocumentProps> = ({ windowWidth }) => {
             href={REGULATION_LINK}
             width='full'
           />
-          <Button 
-            text='ИТОГИ ФИНАЛА' 
-            type='link' 
-            href='https://cloud.mail.ru/public/K46H/qmUUPH3Wz'
-            color='gradient'
-            width='full'
-          />
         </div>
       </div>
     </div>

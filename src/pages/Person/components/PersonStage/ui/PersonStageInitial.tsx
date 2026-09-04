@@ -18,7 +18,7 @@ const PersonStageInitial: FC = () => {
       <div className='person-stage__grid'>
         <div className='person-stage__left'>
           <div className='person-stage__video-wrap'>
-            <PersonVideo url="" isEmpty />
+            <PersonVideo url="https://storage.yandexcloud.net/files-competitions/video/tutor/initial.mov" />
           </div>
           <PersonChannelBanner />
         </div>
