@@ -124,7 +124,7 @@ export const App = () => {
 					/>
 					<Route
 						path='/person/*'
-						element={<OnlyAuth component={user?.role === 'expert' ? <Person /> : <Expert />} />}
+						element={<OnlyAuth component={user?.role === 'expert' ? <Expert /> : <Person />} />}
 					/>
 				</Routes>
 				<div id='modal-root'></div>

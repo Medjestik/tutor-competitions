@@ -4,7 +4,7 @@ import type { IForgotPasswordForm } from '../interface/interface';
 import { useEffect, useState } from 'react';
 import { useForm } from '../../../shared/hooks/useForm';
 
-import { Form } from '../../../shared/components/Form/ui/form';
+import { Form } from '../../../shared/components/Form/ui/Form';
 import {
 	FormField,
 	FormButtons,
