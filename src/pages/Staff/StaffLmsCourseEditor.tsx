@@ -479,9 +479,9 @@ const StaffLmsCourseEditor: FC = () => {
                           </div>
                         )}
 
-                        {selectedTypeCode === 'slider' && (
+                        {selectedTypeCode === 'pdf' && (
                           <div className='staff-lms__field'>
-                            <label className='staff-lms__label'>PDF-слайдер</label>
+                            <label className='staff-lms__label'>PDF</label>
                             {partFileUrl && (
                               <a
                                 href={partFileUrl}
@@ -500,6 +500,44 @@ const StaffLmsCourseEditor: FC = () => {
                               }
                             />
                           </div>
+                        )}
+
+                        {selectedTypeCode === 'video' && (
+                          <>
+                            <div className='staff-lms__field'>
+                              <label className='staff-lms__label'>
+                                Код iframe или ссылка на файл
+                              </label>
+                              <textarea
+                                className='staff-lms__textarea'
+                                value={partText}
+                                onChange={(event) => setPartText(event.target.value)}
+                                placeholder='<iframe ...></iframe> или https://...'
+                              />
+                            </div>
+                            <div className='staff-lms__field'>
+                              <label className='staff-lms__label'>
+                                Видеофайл (необязательно)
+                              </label>
+                              {partFileUrl && (
+                                <a
+                                  href={partFileUrl}
+                                  target='_blank'
+                                  rel='noreferrer'
+                                  className='staff-lms__row-link'
+                                >
+                                  Открыть текущий файл
+                                </a>
+                              )}
+                              <input
+                                type='file'
+                                accept='video/*'
+                                onChange={(event) =>
+                                  handleUpload(event.target.files?.[0] || null)
+                                }
+                              />
+                            </div>
+                          </>
                         )}
 
                         {selectedTypeCode === 'test' && (

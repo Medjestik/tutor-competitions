@@ -1,8 +1,9 @@
 import folderIcon from '../../../../../shared/icons/lms/folder.svg';
-import sliderIcon from '../../../../../shared/icons/lms/slider.svg';
+import pdfIcon from '../../../../../shared/icons/lms/pdf.svg';
 import taskIcon from '../../../../../shared/icons/lms/task.svg';
 import testIcon from '../../../../../shared/icons/lms/test.svg';
 import textIcon from '../../../../../shared/icons/lms/text.svg';
+import videoIcon from '../../../../../shared/icons/lms/video.svg';
 
 import type { ILmsLearnerCoursePart, ILmsMaterialsPart } from '../../../../../shared/utils/api';
 
@@ -10,7 +11,8 @@ type TTreePart = ILmsLearnerCoursePart | ILmsMaterialsPart;
 
 export const LMS_PART_ICONS: Record<string, string> = {
   folder: folderIcon,
-  slider: sliderIcon,
+  pdf: pdfIcon,
+  video: videoIcon,
   task: taskIcon,
   test: testIcon,
   text: textIcon,
