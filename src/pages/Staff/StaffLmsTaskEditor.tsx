@@ -1,7 +1,10 @@
 import type { FC } from 'react';
+import type { Options as EasyMdeOptions } from 'easymde';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import SimpleMdeReact from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
 
 import MainLayout from '../../shared/components/Layout/ui/MainLayout';
 import Preloader from '../../shared/components/Preloader/ui/Preloader';
@@ -22,6 +25,34 @@ const StaffLmsTaskEditor: FC = () => {
   const [message, setMessage] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+
+  const markdownEditorOptions = useMemo<EasyMdeOptions>(
+    () => ({
+      spellChecker: false,
+      status: false,
+      minHeight: '220px',
+      placeholder: 'Markdown: заголовки, списки, ссылки, код…',
+      toolbar: [
+        'bold',
+        'italic',
+        'heading',
+        '|',
+        'quote',
+        'unordered-list',
+        'ordered-list',
+        '|',
+        'link',
+        'table',
+        '|',
+        'preview',
+        'side-by-side',
+        'fullscreen',
+        '|',
+        'guide',
+      ],
+    }),
+    []
+  );
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -96,13 +127,15 @@ const StaffLmsTaskEditor: FC = () => {
                   />
                 </div>
                 <div className='staff-lms__field'>
-                  <label className='staff-lms__label'>Описание / условие</label>
-                  <textarea
-                    className='staff-lms__textarea'
-                    style={{ minHeight: 200 }}
-                    value={description}
-                    onChange={(event) => setDescription(event.target.value)}
-                  />
+                  <label className='staff-lms__label'>Описание / условие (Markdown)</label>
+                  <div className='staff-lms__markdown-editor'>
+                    <SimpleMdeReact
+                      key={taskId || 'new-task'}
+                      value={description}
+                      onChange={setDescription}
+                      options={markdownEditorOptions}
+                    />
+                  </div>
                 </div>
               </div>
 

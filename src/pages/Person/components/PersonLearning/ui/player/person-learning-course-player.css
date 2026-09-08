@@ -1036,7 +1036,17 @@
   cursor: default;
 }
 
-.course-player__task-description,
+.course-player__task-description {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.course-player__task-description .course-player__html {
+  font-size: 15px;
+  color: #596175;
+}
+
 .course-player__task-note,
 .course-player__empty,
 .course-player__error {

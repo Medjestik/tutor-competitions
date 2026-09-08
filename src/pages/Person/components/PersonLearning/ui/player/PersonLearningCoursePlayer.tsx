@@ -1109,9 +1109,14 @@ const TaskViewer: FC<{
         <h1 className='course-player__content-title'>{task.name}</h1>
       </div>
       <div className='course-player__task-description'>
-        {task.description}
-        {' '}
-        Если файлов несколько, объедините их в один архив (ZIP) перед загрузкой.
+        <div className='course-player__html'>
+          <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+            {task.description || 'Для этого задания пока не добавлено условие.'}
+          </ReactMarkdown>
+        </div>
+        <p className='course-player__task-note'>
+          Если файлов несколько, объедините их в один архив (ZIP) перед загрузкой.
+        </p>
       </div>
 
       {task.can_upload ? (
