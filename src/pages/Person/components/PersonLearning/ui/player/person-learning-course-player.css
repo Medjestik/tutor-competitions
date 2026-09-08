@@ -411,6 +411,33 @@
   background: #f5f7fb;
 }
 
+.course-player__video,
+.course-player__video-frame {
+  display: block;
+  width: 100%;
+  min-height: 420px;
+  max-height: 720px;
+  border: 1px solid #e5ebf5;
+  border-radius: 18px;
+  background: #0f1218;
+}
+
+.course-player__video-embed {
+  width: 100%;
+  min-height: 420px;
+  border: 1px solid #e5ebf5;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0f1218;
+}
+
+.course-player__video-embed iframe {
+  display: block;
+  width: 100%;
+  min-height: 420px;
+  border: 0;
+}
+
 .course-player__secondary-link {
   display: inline-block;
   margin-top: 14px;

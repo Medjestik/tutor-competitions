@@ -215,7 +215,7 @@ const PdfViewer: FC<ILessonViewerProps> = ({
   <section className='course-player__content-card course-player__content-card_lesson'>
     <div className='course-player__lesson-scroll'>
       <div className='course-player__content-head'>
-        <span className='course-player__eyebrow'>Слайдер PDF</span>
+        <span className='course-player__eyebrow'>PDF</span>
         <h1 className='course-player__content-title'>{part.name}</h1>
       </div>
       {part.file_url ? (
@@ -236,7 +236,7 @@ const PdfViewer: FC<ILessonViewerProps> = ({
         </>
       ) : (
         <p className='course-player__empty'>
-          Для этого слайдера пока не загружен PDF-файл.
+          Для этого урока пока не загружен PDF-файл.
         </p>
       )}
       {submitError ? (
@@ -255,6 +255,81 @@ const PdfViewer: FC<ILessonViewerProps> = ({
     </div>
   </section>
 );
+
+const isLikelyUrl = (value: string) => /^https?:\/\//i.test(value.trim());
+
+const VideoViewer: FC<ILessonViewerProps> = ({
+  part,
+  continueLabel,
+  onContinue,
+  isSubmitting,
+  submitError,
+}) => {
+  const rawText = (part.text || '').trim();
+  const hasIframe = /<iframe[\s>]/i.test(rawText);
+  const hasUrl = Boolean(rawText) && isLikelyUrl(rawText);
+
+  return (
+    <section className='course-player__content-card course-player__content-card_lesson'>
+      <div className='course-player__lesson-scroll'>
+        <div className='course-player__content-head'>
+          <span className='course-player__eyebrow'>Видео</span>
+          <h1 className='course-player__content-title'>{part.name}</h1>
+        </div>
+        {part.file_url ? (
+          <video
+            className='course-player__video'
+            src={part.file_url}
+            controls
+            preload='metadata'
+          >
+            Ваш браузер не поддерживает воспроизведение видео.
+          </video>
+        ) : hasIframe ? (
+          <div
+            className='course-player__video-embed'
+            dangerouslySetInnerHTML={{ __html: rawText }}
+          />
+        ) : hasUrl ? (
+          <>
+            <iframe
+              className='course-player__video-frame'
+              src={rawText}
+              title={part.name}
+              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+              allowFullScreen
+            />
+            <a
+              className='course-player__secondary-link'
+              href={rawText}
+              target='_blank'
+              rel='noreferrer'
+            >
+              Открыть видео по ссылке
+            </a>
+          </>
+        ) : (
+          <p className='course-player__empty'>
+            Для этого урока пока не добавлено видео (iframe, ссылка или файл).
+          </p>
+        )}
+        {submitError ? (
+          <p className='course-player__error course-player__error_inline'>{submitError}</p>
+        ) : null}
+      </div>
+      <div className='course-player__question-nav course-player__question-nav_fixed course-player__question-nav_single'>
+        <button
+          type='button'
+          className='course-player__primary-btn'
+          disabled={isSubmitting}
+          onClick={onContinue}
+        >
+          {continueLabel}
+        </button>
+      </div>
+    </section>
+  );
+};
 
 const formatUserResponse = (
   question: ILmsLearnerTestQuestionResult
@@ -1372,7 +1447,7 @@ const PersonLearningCoursePlayer: FC<IPersonLearningCoursePlayerProps> = ({
           submitError={completeError}
         />
       )
-      : currentPart.part_type.code === 'slider'
+      : currentPart.part_type.code === 'pdf'
         ? (
           <PdfViewer
             part={currentPart}
@@ -1382,6 +1457,16 @@ const PersonLearningCoursePlayer: FC<IPersonLearningCoursePlayerProps> = ({
             submitError={completeError}
           />
         )
+        : currentPart.part_type.code === 'video'
+          ? (
+            <VideoViewer
+              part={currentPart}
+              continueLabel={nextPlayablePart ? 'Продолжить' : 'Завершить'}
+              onContinue={handleCompletePart}
+              isSubmitting={isCompletingPart}
+              submitError={completeError}
+            />
+          )
         : currentPart.part_type.code === 'test'
           ? currentTest
             ? (
