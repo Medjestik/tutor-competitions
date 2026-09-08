@@ -198,6 +198,59 @@
   resize: vertical;
 }
 
+.staff-lms__markdown-editor {
+  width: 100%;
+}
+
+.staff-lms__markdown-editor .EasyMDEContainer .CodeMirror {
+  border: 0.5px solid #dde2eb;
+  border-radius: 0 0 12px 12px;
+  background: #fbfcff;
+  font-size: 15px;
+  color: #232323;
+  min-height: 220px;
+}
+
+.staff-lms__markdown-editor .editor-toolbar {
+  border: 0.5px solid #dde2eb;
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  background: #f5f7fb;
+}
+
+.staff-lms__markdown-editor .editor-toolbar button {
+  color: #232323 !important;
+}
+
+.staff-lms__markdown-editor .editor-preview,
+.staff-lms__markdown-editor .editor-preview-side {
+  background: #fff;
+  color: #232323;
+}
+
+.staff-lms__markdown-editor .editor-preview h1,
+.staff-lms__markdown-editor .editor-preview h2,
+.staff-lms__markdown-editor .editor-preview h3,
+.staff-lms__markdown-editor .editor-preview-side h1,
+.staff-lms__markdown-editor .editor-preview-side h2,
+.staff-lms__markdown-editor .editor-preview-side h3 {
+  margin: 1em 0 0.4em;
+  line-height: 1.3;
+}
+
+.staff-lms__markdown-editor .editor-preview p,
+.staff-lms__markdown-editor .editor-preview-side p {
+  margin: 0 0 12px;
+}
+
+.staff-lms__markdown-editor .editor-preview ul,
+.staff-lms__markdown-editor .editor-preview ol,
+.staff-lms__markdown-editor .editor-preview-side ul,
+.staff-lms__markdown-editor .editor-preview-side ol {
+  margin: 0 0 12px;
+  padding-left: 1.4em;
+}
+
 .staff-lms__checkbox {
   display: flex;
   align-items: center;
