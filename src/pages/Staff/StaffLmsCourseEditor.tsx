@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { Options as EasyMdeOptions } from 'easymde';
 import type {
   ILmsCourseDetail,
   ILmsCoursePart,
@@ -9,6 +10,8 @@ import type {
 
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import SimpleMdeReact from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
 
 
 import MainLayout from '../../shared/components/Layout/ui/MainLayout';
@@ -147,6 +150,34 @@ const StaffLmsCourseEditor: FC = () => {
     }
     return selectedPart.part_type.code;
   }, [selectedPart, partTypeId, partTypes]);
+
+  const markdownEditorOptions = useMemo<EasyMdeOptions>(
+    () => ({
+      spellChecker: false,
+      status: false,
+      minHeight: '220px',
+      placeholder: 'Markdown: заголовки, списки, ссылки, код…',
+      toolbar: [
+        'bold',
+        'italic',
+        'heading',
+        '|',
+        'quote',
+        'unordered-list',
+        'ordered-list',
+        '|',
+        'link',
+        'table',
+        '|',
+        'preview',
+        'side-by-side',
+        'fullscreen',
+        '|',
+        'guide',
+      ],
+    }),
+    []
+  );
 
   useEffect(() => {
     if (!selectedPart) return;
@@ -470,12 +501,15 @@ const StaffLmsCourseEditor: FC = () => {
 
                         {selectedTypeCode === 'text' && (
                           <div className='staff-lms__field'>
-                            <label className='staff-lms__label'>Текст</label>
-                            <textarea
-                              className='staff-lms__textarea'
-                              value={partText}
-                              onChange={(event) => setPartText(event.target.value)}
-                            />
+                            <label className='staff-lms__label'>Текст (Markdown)</label>
+                            <div className='staff-lms__markdown-editor'>
+                              <SimpleMdeReact
+                                key={selectedPartId ?? 'new-text'}
+                                value={partText}
+                                onChange={setPartText}
+                                options={markdownEditorOptions}
+                              />
+                            </div>
                           </div>
                         )}
 

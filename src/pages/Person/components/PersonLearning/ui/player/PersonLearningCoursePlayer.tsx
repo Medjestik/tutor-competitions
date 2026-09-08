@@ -14,6 +14,9 @@ import type {
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
+import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
+import remarkGfm from 'remark-gfm';
 
 import Preloader from '../../../../../../shared/components/Preloader/ui/Preloader';
 import checkCompleteIcon from '../../../../../../shared/icons/lms/check-complete.svg';
@@ -182,12 +185,11 @@ const HtmlViewer: FC<ILessonViewerProps> = ({
         <span className='course-player__eyebrow'>Текстовый урок</span>
         <h1 className='course-player__content-title'>{part.name}</h1>
       </div>
-      <div
-        className='course-player__html'
-        dangerouslySetInnerHTML={{
-          __html: part.text || '<p>Для этого урока пока не добавлен HTML-контент.</p>',
-        }}
-      />
+      <div className='course-player__html'>
+        <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+          {part.text || 'Для этого урока пока не добавлен контент.'}
+        </ReactMarkdown>
+      </div>
       {submitError ? (
         <p className='course-player__error course-player__error_inline'>{submitError}</p>
       ) : null}
