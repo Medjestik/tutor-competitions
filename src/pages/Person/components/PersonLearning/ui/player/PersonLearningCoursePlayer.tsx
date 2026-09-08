@@ -15,6 +15,7 @@ import type {
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ReactMarkdown from 'react-markdown';
+import type { Components } from 'react-markdown';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
@@ -43,6 +44,21 @@ import {
 import PersonLearningListenerFileUpload from '../listener/PersonLearningListenerFileUpload';
 
 import './person-learning-course-player.css';
+
+const markdownRemarkPlugins = [remarkGfm, remarkBreaks];
+
+const markdownComponents: Components = {
+  a: ({ href, children, ...props }) => (
+    <a
+      {...props}
+      href={href}
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      {children}
+    </a>
+  ),
+};
 
 type TQuestionResponse = Record<
   number,
@@ -186,7 +202,10 @@ const HtmlViewer: FC<ILessonViewerProps> = ({
         <h1 className='course-player__content-title'>{part.name}</h1>
       </div>
       <div className='course-player__html'>
-        <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+        <ReactMarkdown
+          remarkPlugins={markdownRemarkPlugins}
+          components={markdownComponents}
+        >
           {part.text || 'Для этого урока пока не добавлен контент.'}
         </ReactMarkdown>
       </div>
@@ -1110,7 +1129,10 @@ const TaskViewer: FC<{
       </div>
       <div className='course-player__task-description'>
         <div className='course-player__html'>
-          <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+          <ReactMarkdown
+            remarkPlugins={markdownRemarkPlugins}
+            components={markdownComponents}
+          >
             {task.description || 'Для этого задания пока не добавлено условие.'}
           </ReactMarkdown>
         </div>
