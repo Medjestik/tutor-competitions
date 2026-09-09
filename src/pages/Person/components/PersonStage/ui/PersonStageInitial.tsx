@@ -1,9 +1,11 @@
 ﻿import type { FC } from 'react';
 
-import PersonVideo from '../../PersonVideo/ui/PersonVideo';
 import PersonChannelBanner from './PersonChannelBanner';
 
 import '../styles/style.css';
+
+const INITIAL_VIDEO_URL =
+  'https://runtime.video.cloud.yandex.net/player/video/vplv6e42zl6az6k4n6km?autoplay=0&mute=0';
 
 const PersonStageInitial: FC = () => {
   return (
@@ -18,7 +20,15 @@ const PersonStageInitial: FC = () => {
       <div className='person-stage__grid'>
         <div className='person-stage__left'>
           <div className='person-stage__video-wrap'>
-            <PersonVideo url="https://storage.yandexcloud.net/files-competitions/video/tutor/initial.mov" />
+            <div className='person-stage__video-embed'>
+              <iframe
+                title='Видео о конкурсе'
+                src={INITIAL_VIDEO_URL}
+                allow='autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture; encrypted-media'
+                allowFullScreen
+                loading='lazy'
+              />
+            </div>
           </div>
           <PersonChannelBanner />
         </div>

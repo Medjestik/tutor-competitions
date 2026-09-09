@@ -1,4 +1,4 @@
-﻿.person-channel {
+.person-channel {
   margin: 0;
   padding: 20px 24px;
   box-sizing: border-box;
@@ -7,8 +7,8 @@
   background-color: #f4f8ff;
   border-radius: 12px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 16px;
 }
 
@@ -16,7 +16,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-width: 380px;
+  width: 100%;
 }
 
 .person-channel__title {
@@ -30,7 +30,7 @@
 .person-channel__desc {
   margin: 0;
   font-size: 16px;
-  line-height: 1;
+  line-height: 1.2;
   font-weight: 400;
   color: var(--subtitle-color);
 }
@@ -76,11 +76,4 @@
   height: 10px;
   object-fit: contain;
   display: block;
-}
-
-@media all and (max-width: 1000px) {
-  .person-channel {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }

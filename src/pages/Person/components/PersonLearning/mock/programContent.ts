@@ -3,7 +3,8 @@ import type { IProgramContent } from '../interface/interface';
 export const programContent: IProgramContent = {
   title: 'Инженерная дидактика и образовательные технологии в транспортном образовании',
   lead: 'Ознакомьтесь с основной информацией о программе обучения',
-  videoUrl: 'https://course.emiit.ru/webtutor/ivan/land/video/video1.mp4',
+  videoUrl:
+    'https://runtime.video.cloud.yandex.net/player/video/vplvbjjywvm5ybltj3bp?autoplay=0&mute=0',
   pdfUrl: '#',
   aboutTitle: 'Уважаемые участники!',
   aboutText:

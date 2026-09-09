@@ -13,6 +13,24 @@ import { EROUTES } from '../../shared/utils/ERoutes';
 
 import './staff-learning-applications.css';
 
+type TSortField = 'lastName' | 'workplace' | 'status' | 'updatedAt';
+
+const ORDERING_API_KEYS: Record<TSortField, string> = {
+  lastName: 'lastName',
+  workplace: 'workplace',
+  status: 'status',
+  updatedAt: 'updated_at',
+};
+
+const STATUS_FILTER_OPTIONS = [
+  { value: '', label: 'Все статусы' },
+  { value: 'filling', label: 'На заполнении' },
+  { value: 'submitted', label: 'Подана' },
+  { value: 'correction_required', label: 'На исправлении' },
+  { value: 'approved', label: 'Одобрена' },
+  { value: 'rejected', label: 'Отклонена' },
+] as const;
+
 const formatFullName = (item: ILearningApplicationListItem) =>
   [item.lastName, item.firstName, item.middleName || ''].filter(Boolean).join(' ');
 
@@ -34,6 +52,9 @@ const StaffLearningApplications: FC = () => {
   const [applications, setApplications] = useState<ILearningApplicationListItem[]>([]);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [sortField, setSortField] = useState<TSortField | null>(null);
+  const [sortDesc, setSortDesc] = useState(false);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [hasNext, setHasNext] = useState(false);
@@ -50,6 +71,11 @@ const StaffLearningApplications: FC = () => {
     return () => window.clearTimeout(timer);
   }, [search]);
 
+  const ordering =
+    sortField === null
+      ? undefined
+      : `${sortDesc ? '-' : ''}${ORDERING_API_KEYS[sortField]}`;
+
   const loadApplications = useCallback(async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -65,6 +91,8 @@ const StaffLearningApplications: FC = () => {
       const response = await getLearningApplicationsList(token, {
         page,
         search: debouncedSearch,
+        status: statusFilter || undefined,
+        ordering,
       });
       setApplications(response.results);
       setTotalCount(response.count);
@@ -79,11 +107,33 @@ const StaffLearningApplications: FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [page, debouncedSearch]);
+  }, [page, debouncedSearch, statusFilter, ordering]);
 
   useEffect(() => {
     loadApplications();
   }, [loadApplications]);
+
+  const handleSort = (field: TSortField) => {
+    setPage(1);
+    if (sortField === field) {
+      if (!sortDesc) {
+        setSortDesc(true);
+        return;
+      }
+      setSortField(null);
+      setSortDesc(false);
+      return;
+    }
+    setSortField(field);
+    setSortDesc(false);
+  };
+
+  const sortIndicator = (field: TSortField) => {
+    if (sortField !== field) {
+      return '';
+    }
+    return sortDesc ? ' ↓' : ' ↑';
+  };
 
   const totalPages = Math.max(1, Math.ceil(totalCount / 20));
 
@@ -97,13 +147,30 @@ const StaffLearningApplications: FC = () => {
           <StaffBackButton fallbackTo={EROUTES.PERSON} />
           <div className='staff-applications__header'>
             <h1 className='staff-applications__title'>Заявки на обучение</h1>
-            <input
-              className='staff-applications__search'
-              type='search'
-              placeholder='Поиск по ФИО'
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-            />
+            <div className='staff-applications__filters'>
+              <input
+                className='staff-applications__search'
+                type='search'
+                placeholder='Поиск по ФИО'
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+              />
+              <select
+                className='staff-applications__status-filter'
+                value={statusFilter}
+                onChange={(event) => {
+                  setStatusFilter(event.target.value);
+                  setPage(1);
+                }}
+                aria-label='Фильтр по статусу'
+              >
+                {STATUS_FILTER_OPTIONS.map((option) => (
+                  <option key={option.value || 'all'} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           {isLoading ? (
@@ -116,25 +183,83 @@ const StaffLearningApplications: FC = () => {
                 <table className='staff-applications__table'>
                   <thead>
                     <tr>
-                      <th>ФИО</th>
+                      <th
+                        className='staff-applications__th-sortable'
+                        onClick={() => handleSort('lastName')}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            handleSort('lastName');
+                          }
+                        }}
+                        role='button'
+                        tabIndex={0}
+                      >
+                        ФИО{sortIndicator('lastName')}
+                      </th>
+                      <th
+                        className='staff-applications__th-sortable'
+                        onClick={() => handleSort('workplace')}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            handleSort('workplace');
+                          }
+                        }}
+                        role='button'
+                        tabIndex={0}
+                      >
+                        Место работы{sortIndicator('workplace')}
+                      </th>
                       <th>Email</th>
                       <th>Телефон</th>
-                      <th>Статус</th>
-                      <th>Обновлено</th>
+                      <th
+                        className='staff-applications__th-sortable'
+                        onClick={() => handleSort('status')}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            handleSort('status');
+                          }
+                        }}
+                        role='button'
+                        tabIndex={0}
+                      >
+                        Статус{sortIndicator('status')}
+                      </th>
+                      <th
+                        className='staff-applications__th-sortable'
+                        onClick={() => handleSort('updatedAt')}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            handleSort('updatedAt');
+                          }
+                        }}
+                        role='button'
+                        tabIndex={0}
+                      >
+                        Обновлено{sortIndicator('updatedAt')}
+                      </th>
                       <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     {applications.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className='staff-applications__empty'>
+                        <td colSpan={7} className='staff-applications__empty'>
                           Заявки не найдены
                         </td>
                       </tr>
                     ) : (
                       applications.map((item) => (
                         <tr key={item.id}>
-                          <td>{formatFullName(item)}</td>
+                          <td>
+                            <div className='staff-applications__name'>
+                              {formatFullName(item)}
+                            </div>
+                          </td>
+                          <td>{item.workplace || '—'}</td>
                           <td>{item.email}</td>
                           <td>{item.phone || '—'}</td>
                           <td>{item.statusDisplay}</td>

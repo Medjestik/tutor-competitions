@@ -3,6 +3,8 @@ import type { IPersonLearningAboutProps } from '../interface/interface';
 
 import Button from '../../../../../shared/components/Button/ui/Button';
 
+import PersonLearningDownload from './PersonLearningDownload';
+
 import { programContent } from '../mock/programContent';
 
 import '../styles/style.css';
@@ -11,12 +13,17 @@ const PersonLearningAbout: FC<IPersonLearningAboutProps> = ({ onContinue }) => {
   return (
     <>
       <div className='person-learning__grid'>
-        {
-          /*
-
-                  <div className='person-learning__left'>
+        <div className='person-learning__left'>
           <div className='person-learning__video-wrap'>
-            <PersonVideo url='' isEmpty />
+            <div className='person-learning__video-embed'>
+              <iframe
+                title='Видео о программе обучения'
+                src={programContent.videoUrl}
+                allow='autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture; encrypted-media'
+                allowFullScreen
+                loading='lazy'
+              />
+            </div>
           </div>
           <PersonLearningDownload
             title={programContent.downloadTitle}
@@ -24,9 +31,6 @@ const PersonLearningAbout: FC<IPersonLearningAboutProps> = ({ onContinue }) => {
             href={programContent.pdfUrl}
           />
         </div>
-          */
-        }
-
 
         <div className='person-learning__info'>
           <p className='person-learning__info-title'>{programContent.aboutTitle}</p>

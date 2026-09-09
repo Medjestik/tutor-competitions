@@ -501,6 +501,7 @@ export interface ILearningApplicationListItem {
   middleName: string | null;
   email: string;
   phone: string | null;
+  workplace: string | null;
   updatedAt: string;
 }
 
@@ -513,7 +514,12 @@ export interface ILearningApplicationsListResponse {
 
 export const getLearningApplicationsList = (
   token: string,
-  params: { page?: number; search?: string } = {}
+  params: {
+    page?: number;
+    search?: string;
+    status?: string;
+    ordering?: string;
+  } = {}
 ) => {
   const searchParams = new URLSearchParams();
   if (params.page) {
@@ -521,6 +527,12 @@ export const getLearningApplicationsList = (
   }
   if (params.search) {
     searchParams.set('search', params.search);
+  }
+  if (params.status) {
+    searchParams.set('status', params.status);
+  }
+  if (params.ordering) {
+    searchParams.set('ordering', params.ordering);
   }
 
   const query = searchParams.toString();
