@@ -2,10 +2,9 @@
 
 import PersonChannelBanner from './PersonChannelBanner';
 
-import '../styles/style.css';
+import contestBanner from '../../../../../shared/images/person-cabinet/contest-banner.png';
 
-const INITIAL_VIDEO_URL =
-  'https://runtime.video.cloud.yandex.net/player/video/vplv6e42zl6az6k4n6km?autoplay=0&mute=0';
+import '../styles/style.css';
 
 const PersonStageInitial: FC = () => {
   return (
@@ -20,15 +19,11 @@ const PersonStageInitial: FC = () => {
       <div className='person-stage__grid'>
         <div className='person-stage__left'>
           <div className='person-stage__video-wrap'>
-            <div className='person-stage__video-embed'>
-              <iframe
-                title='Видео о конкурсе'
-                src={INITIAL_VIDEO_URL}
-                allow='autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture; encrypted-media'
-                allowFullScreen
-                loading='lazy'
-              />
-            </div>
+            <img
+              className='person-stage__preview'
+              src={contestBanner}
+              alt='Международный конкурс лучших педагогических практик «Лидеры транспортного образования»'
+            />
           </div>
           <PersonChannelBanner />
         </div>
