@@ -91,6 +91,49 @@ export const getDashboardData = (token: string) => {
   .then(res => handleResponse(res));
 };
 
+export const getDashboardStats = (token: string) => {
+  return fetch(`${API_URL}/competition/dashboard/stats/`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  })
+  .then(res => handleResponse(res));
+};
+
+export const getDashboardCourseStats = (token: string) => {
+  return fetch(`${API_URL}/competition/dashboard/course-stats/`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => handleResponse(res));
+};
+
+export const exportDashboardParticipantsReport = async (
+  token: string
+): Promise<Blob> => {
+  const res = await fetch(
+    `${API_URL}/competition/dashboard/participants-export/`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    throw res;
+  }
+
+  return res.blob();
+};
+
 export const setNomination = (token: string, nominationId: number) => {
   return fetch(`${API_URL}/competition/forms/select-nomination/`, {
     method: 'POST',

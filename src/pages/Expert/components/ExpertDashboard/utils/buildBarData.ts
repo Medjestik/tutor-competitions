@@ -72,12 +72,31 @@ export const knownUniversities: Omit<
 ];
 
 export const displayKeyLabels: Record<string, string> = {
-	registered: 'Прошли регистрацию',
-	nominationSelected: 'Выбрали номинацию',
+	registered: 'Только регистрация',
+	nominationSelected: 'В процессе',
 	formSubmitted: 'Отправили анкету',
 };
 
 export const keys = Object.values(displayKeyLabels);
+
+const shortNameFromOrg = (org: string): string => {
+	if (org.length <= 16) return org;
+	return `${org.slice(0, 14)}…`;
+};
+
+const emptyBuckets = (): Pick<
+	IBarItem,
+	'registered' | 'nominationSelected' | 'formSubmitted'
+> => ({
+	registered: [],
+	nominationSelected: [],
+	formSubmitted: [],
+});
+
+export const universityTotal = (item: IBarItem): number =>
+	item.registered.length +
+	item.nominationSelected.length +
+	item.formSubmitted.length;
 
 export const buildBarData = (
 	participants: IParticipant[],
@@ -89,34 +108,40 @@ export const buildBarData = (
 			id,
 			name,
 			shortName,
-			registered: [],
-			nominationSelected: [],
-			formSubmitted: [],
+			...emptyBuckets(),
 		});
 	});
 
-	participants.forEach((participant) => {
-		const org = participant.educational_organization;
+	let nextId = knownUniversities.length + 1;
 
-		const target = resultMap.get(org);
+	participants.forEach((participant) => {
+		const org = (participant.educational_organization || '').trim();
+		if (!org) return;
+
+		let target = resultMap.get(org);
 
 		if (!target) {
-			return;
+			target = {
+				id: nextId,
+				name: org,
+				shortName: shortNameFromOrg(org),
+				...emptyBuckets(),
+			};
+			resultMap.set(org, target);
+			nextId += 1;
 		}
 
-		// Все участники, пришедшие с бэка, прошли регистрацию
-		target.registered.push(participant);
-
-		// Есть выбранная номинация
-		if (participant.nomination !== null) {
-			target.nominationSelected.push(participant);
-		}
-
-		// Анкета отправлена
+		// Взаимоисключающие этапы: каждый участник ровно в одном сегменте
 		if (participant.isSubmitted) {
 			target.formSubmitted.push(participant);
+		} else if (participant.hasFormProgress) {
+			target.nominationSelected.push(participant);
+		} else {
+			target.registered.push(participant);
 		}
 	});
 
-	return Array.from(resultMap.values());
+	return Array.from(resultMap.values()).sort(
+		(a, b) => universityTotal(a) - universityTotal(b) || a.name.localeCompare(b.name, 'ru'),
+	);
 };

@@ -2,7 +2,6 @@ import { useState, type FC } from 'react';
 import type { IParticipant } from '../interface/interface';
 
 import Popup from '../../../../../shared/components/Popup/ui/Popup';
-import Button from '../../../../../shared/components/Button/ui/Button';
 
 import { nominationMap } from '../../../../../shared/utils/nominations';
 
@@ -15,16 +14,6 @@ interface IParticipantInfoPopupProps {
   subtitleText: string;
   statusLabel: string;
 }
-
-const btnStyle = {
-  width: '100%',
-  margin: '20px 0 0 0',
-  padding: '8px 14px',
-  height: '40px',
-  borderRadius: '12px',
-  fontSize: '18px',
-  lineHeight: '1',
-};
 
 const ParticipantInfoPopup: FC<IParticipantInfoPopupProps> = ({ 
   isOpen, 
@@ -50,7 +39,13 @@ const ParticipantInfoPopup: FC<IParticipantInfoPopupProps> = ({
 
   return (
     <Popup isOpen={isOpen} onClose={onClose} popupWidth='medium'>
-      <h2 className='popup__title'>Участники ({statusLabel} - {currentParticipants.length})</h2>
+      <button
+        type='button'
+        className='dashboard-participants__close'
+        onClick={onClose}
+        aria-label='Закрыть'
+      />
+      <h2 className='popup__title dashboard-participants__popup-title'>Участники ({statusLabel} - {currentParticipants.length})</h2>
       <p className='popup__subtitle'>{subtitleText}</p>
       <ul className='dashboard-participants__list'>
       {currentParticipants.map((elem, i) => {
@@ -84,8 +79,6 @@ const ParticipantInfoPopup: FC<IParticipantInfoPopupProps> = ({
         );
       })}
       </ul>
-
-      <Button style={btnStyle} text='Закрыть' onClick={onClose} />
     </Popup>
   );
 };
