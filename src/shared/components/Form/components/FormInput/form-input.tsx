@@ -12,6 +12,7 @@ export const FormInput: FC<IFormInputProps> = ({
 	onChange,
 	disabled = false,
 	min,
+	maxLength,
 	hasError = false,
 }) => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -32,6 +33,7 @@ export const FormInput: FC<IFormInputProps> = ({
 				autoComplete={autoComplete}
 				disabled={disabled}
 				min={min}
+				maxLength={maxLength}
 			/>
 
 			{isPassword && (

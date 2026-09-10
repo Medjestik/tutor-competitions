@@ -43,6 +43,7 @@ export interface IFormInputProps {
 	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 	disabled?: boolean;
 	min?: number;
+	maxLength?: number;
 	hasError?: boolean;
 }
 

@@ -416,15 +416,21 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
         }
       >
         {isNameField ? (
-          <FormInput
-            name={field.key}
-            value={value}
-            placeholder={placeholder || 'Введите название практики'}
-            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-              handleAnswerChange(field.key, event.target.value)
-            }
-            hasError={Boolean(errorText)}
-          />
+          <>
+            <FormInput
+              name={field.key}
+              value={value}
+              placeholder={placeholder || 'Введите название практики'}
+              maxLength={field.max_length}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                handleAnswerChange(field.key, event.target.value)
+              }
+              hasError={Boolean(errorText)}
+            />
+            <p className='practice-form__counter'>
+              {value.length}/{field.max_length}
+            </p>
+          </>
         ) : (
           <>
             {field.hint && (
