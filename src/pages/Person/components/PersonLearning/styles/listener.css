@@ -164,20 +164,25 @@
 }
 
 .person-learning-listener__passport-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(150px, max-content) minmax(150px, max-content) max-content;
   gap: 16px;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  align-items: start;
 }
 
 .person-learning-listener__passport-series,
 .person-learning-listener__passport-number {
-  width: 126px;
-  flex-shrink: 0;
+  min-width: 0;
+  width: auto;
+}
+
+.person-learning-listener__passport-series .person-learning-listener-field__title,
+.person-learning-listener__passport-number .person-learning-listener-field__title {
+  white-space: nowrap;
 }
 
 .person-learning-listener__passport-date {
-  flex: 0 0 auto;
+  min-width: 0;
 }
 
 /* Field */
@@ -612,6 +617,10 @@
 
   .person-learning-listener__row_birth {
     flex-direction: column;
+  }
+
+  .person-learning-listener__passport-row {
+    grid-template-columns: 1fr;
   }
 
   .person-learning-listener-file__row {
