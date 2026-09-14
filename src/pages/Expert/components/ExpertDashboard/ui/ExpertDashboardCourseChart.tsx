@@ -3,6 +3,7 @@ import type {
   ICourseDashboardStats,
   IParticipant,
   TCourseStatusKey,
+  TNominationMap,
 } from '../interface/interface';
 
 import { ResponsiveBar } from '@nivo/bar';
@@ -17,10 +18,12 @@ import {
 
 interface IExpertDashboardCourseChartProps {
   courseStats: ICourseDashboardStats;
+  nominationMap: TNominationMap;
 }
 
 const ExpertDashboardCourseChart: FC<IExpertDashboardCourseChartProps> = ({
   courseStats,
+  nominationMap,
 }) => {
   const [isShowParticipantInfo, setIsShowParticipantInfo] = useState(false);
   const [currentParticipants, setCurrentParticipants] = useState<IParticipant[] | null>(
@@ -183,6 +186,7 @@ const ExpertDashboardCourseChart: FC<IExpertDashboardCourseChartProps> = ({
           currentParticipants={currentParticipants}
           subtitleText={popupSubtitle}
           statusLabel={popupStatusLabel}
+          nominationMap={nominationMap}
         />
       )}
     </section>

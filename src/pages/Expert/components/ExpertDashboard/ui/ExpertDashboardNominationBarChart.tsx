@@ -1,5 +1,5 @@
 import { useState, type FC } from 'react';
-import type { IParticipant } from '../interface/interface';
+import type { IParticipant, TNominationMap } from '../interface/interface';
 
 import { ResponsiveBar } from '@nivo/bar';
 import ParticipantInfoPopup from './ParticipantInfoPopup';
@@ -13,6 +13,7 @@ import {
 
 interface IExpertDashboardNominationBarChartProps {
   data: IParticipant[];
+  nominationMap: TNominationMap;
 }
 
 const MODE_LABELS: Record<TNominationBarMode, string> = {
@@ -22,6 +23,7 @@ const MODE_LABELS: Record<TNominationBarMode, string> = {
 
 const ExpertDashboardNominationBarChart: FC<IExpertDashboardNominationBarChartProps> = ({
   data,
+  nominationMap,
 }) => {
   const [mode, setMode] = useState<TNominationBarMode>('submitted');
   const [isShowParticipantInfo, setIsShowParticipantInfo] = useState(false);
@@ -29,7 +31,7 @@ const ExpertDashboardNominationBarChart: FC<IExpertDashboardNominationBarChartPr
   const [popupSubtitle, setPopupSubtitle] = useState('');
   const [popupStatusLabel, setPopupStatusLabel] = useState('');
 
-  const barItems = buildNominationBarData(data, mode);
+  const barItems = buildNominationBarData(data, mode, nominationMap);
   const { rows, keys, participantsByCell } = buildNominationChartRows(barItems);
   const colorMap = buildUniversityColorMap(keys);
   const chartColors = keys.map((key) => colorMap[key]);
@@ -176,6 +178,7 @@ const ExpertDashboardNominationBarChart: FC<IExpertDashboardNominationBarChartPr
           currentParticipants={currentParticipants}
           subtitleText={popupSubtitle}
           statusLabel={popupStatusLabel}
+          nominationMap={nominationMap}
         />
       )}
     </section>

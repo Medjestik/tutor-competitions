@@ -1,23 +1,26 @@
 import { useState, type FC } from 'react';
-import type { IParticipant } from '../interface/interface';
+import type { IParticipant, TNominationMap } from '../interface/interface';
 
 import ExpertDashboardPieChart from './ExpertDashboardPieChart';
 import ParticipantInfoPopup from './ParticipantInfoPopup';
 
 import { buildPieDataByNomination, buildPieDataByNominationStatus } from '../utils/buildPieData';
-import { nominationMap } from '../../../../../shared/utils/nominations';
 
 interface IExpertDashboardPieChartsProps {
   data: IParticipant[];
+  nominationMap: TNominationMap;
 }
 
-const ExpertDashboardPieCharts: FC<IExpertDashboardPieChartsProps> = ({ data }) => {
+const ExpertDashboardPieCharts: FC<IExpertDashboardPieChartsProps> = ({
+  data,
+  nominationMap,
+}) => {
 
   const [selectedNomination, setSelectedNomination] = useState<string | null>(null);
   const [selectedStatusId, setSelectedStatusId] = useState<string | null>(null);
 
-  const pieDataByNomination = buildPieDataByNomination(data);
-  const pieDataByStatus = buildPieDataByNominationStatus(data, selectedNomination);
+  const pieDataByNomination = buildPieDataByNomination(data, nominationMap);
+  const pieDataByStatus = buildPieDataByNominationStatus(data, selectedNomination, nominationMap);
 
   const [currentParticipants, setCurrentParticipants] = useState<IParticipant[] | null>(null);
   const [popupNominationName, setPopupNominationName] = useState<string | null>(null);
@@ -98,6 +101,7 @@ const ExpertDashboardPieCharts: FC<IExpertDashboardPieChartsProps> = ({ data }) 
           currentParticipants={currentParticipants}
           subtitleText={`Номинация - ${popupNominationName ? popupNominationName : 'Все номинации'}`}
           statusLabel={popupStatusLabel ?? ''}
+          nominationMap={nominationMap}
         />
       }
     </section>

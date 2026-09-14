@@ -4,7 +4,9 @@ import type {
   ICourseDashboardStats,
   IDashboardStats,
   IParticipant,
+  TNominationMap,
 } from '../interface/interface';
+import type { INomination } from '../../../../Person/interface/interface';
 
 import { useState, useEffect, useRef } from 'react';
 import html2canvas from 'html2canvas';
@@ -49,6 +51,14 @@ const STAT_CARDS: Array<{ key: keyof IDashboardStats; label: string }> = [
   { key: 'completedTraining', label: 'Количество завершивших обучение' },
 ];
 
+const buildNominationMap = (nominations: INomination[]): TNominationMap => {
+  const map: TNominationMap = {};
+  nominations.forEach((nomination) => {
+    map[nomination.id] = nomination.name;
+  });
+  return map;
+};
+
 const ExpertDashboard: FC = () => {
 
   const chartsRef = useRef<HTMLDivElement>(null);
@@ -57,6 +67,7 @@ const ExpertDashboard: FC = () => {
   const [barData, setBarData] = useState<IBarItem[]>([]);
   const [stats, setStats] = useState<IDashboardStats>(EMPTY_STATS);
   const [courseStats, setCourseStats] = useState<ICourseDashboardStats>(EMPTY_COURSE_STATS);
+  const [nominationMap, setNominationMap] = useState<TNominationMap>({});
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
   const [isExportingReport, setIsExportingReport] = useState<boolean>(false);
 
@@ -71,12 +82,14 @@ const ExpertDashboard: FC = () => {
       api.getDashboardData(token),
       api.getDashboardStats(token),
       api.getDashboardCourseStats(token),
+      api.getNominations(),
     ])
-      .then(([participants, dashboardStats, dashboardCourseStats]) => {
+      .then(([participants, dashboardStats, dashboardCourseStats, nominations]) => {
         setData(participants);
         setBarData(buildBarData(participants));
         setStats(dashboardStats);
         setCourseStats(dashboardCourseStats);
+        setNominationMap(buildNominationMap(nominations));
       })
       .catch(console.error)
       .finally(() => setIsLoadingData(false));
@@ -153,12 +166,12 @@ const ExpertDashboard: FC = () => {
         <section className='dashboard__section'>
           <h2 className='dashboard__section-title'>Статистика по университетам</h2>
           <div className='dashboard__graph'>
-            <ExpertDashboardBarChart barData={barData} />
+            <ExpertDashboardBarChart barData={barData} nominationMap={nominationMap} />
           </div>
         </section>
-        <ExpertDashboardNominationBarChart data={data} />
-        <ExpertDashboardCourseChart courseStats={courseStats} />
-        <ExpertDashboardPieCharts data={data} />
+        <ExpertDashboardNominationBarChart data={data} nominationMap={nominationMap} />
+        <ExpertDashboardCourseChart courseStats={courseStats} nominationMap={nominationMap} />
+        <ExpertDashboardPieCharts data={data} nominationMap={nominationMap} />
       </div>
     </div>
   );

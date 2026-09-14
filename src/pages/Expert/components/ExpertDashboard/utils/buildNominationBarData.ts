@@ -1,6 +1,5 @@
-import type { IParticipant } from '../interface/interface';
+import type { IParticipant, TNominationMap } from '../interface/interface';
 
-import { nominationMap } from '../../../../../shared/utils/nominations';
 import { knownUniversities } from './buildBarData';
 
 export type TNominationBarMode = 'submitted' | 'inProgress';
@@ -110,6 +109,7 @@ export const nominationBarTotal = (item: INominationBarItem): number =>
 export const buildNominationBarData = (
   participants: IParticipant[],
   mode: TNominationBarMode,
+  nominationMap: TNominationMap,
 ): INominationBarItem[] => {
   const filtered = participants.filter((participant) => {
     if (participant.nomination == null) return false;

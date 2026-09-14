@@ -1,5 +1,5 @@
 import { useState, type FC } from 'react';
-import type { IBarItem, IParticipant, IBarDataWithLabels } from '../interface/interface';
+import type { IBarItem, IParticipant, IBarDataWithLabels, TNominationMap } from '../interface/interface';
 
 import { ResponsiveBar } from '@nivo/bar';
 import ParticipantInfoPopup from './ParticipantInfoPopup';
@@ -8,6 +8,7 @@ import { displayKeyLabels, keys, universityTotal } from '../utils/buildBarData';
 
 interface IUniversityBarChartProps {
   barData: IBarItem[];
+  nominationMap: TNominationMap;
 }
 
 interface IParticipantMap {
@@ -22,7 +23,7 @@ interface IChartRow extends IBarDataWithLabels {
 
 const rowTotal = (item: IBarItem): number => universityTotal(item);
 
-const ExpertDashboardBarChart: FC<IUniversityBarChartProps> = ({ barData }) => {
+const ExpertDashboardBarChart: FC<IUniversityBarChartProps> = ({ barData, nominationMap }) => {
   const [isShowParticipantInfo, setIsShowParticipantInfo] = useState<boolean>(false);
   const [currentParticipants, setCurrentParticipants] = useState<IParticipant[] | null>(null);
   const [currentUniversityName, setCurrentUniversityName] = useState<string>('');
@@ -209,6 +210,7 @@ const ExpertDashboardBarChart: FC<IUniversityBarChartProps> = ({ barData }) => {
           currentParticipants={currentParticipants}
           subtitleText={currentUniversityName}
           statusLabel={currentStatusLabel}
+          nominationMap={nominationMap}
         />
       )}
     </>

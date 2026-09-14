@@ -1,9 +1,7 @@
 import { useState, type FC } from 'react';
-import type { IParticipant } from '../interface/interface';
+import type { IParticipant, TNominationMap } from '../interface/interface';
 
 import Popup from '../../../../../shared/components/Popup/ui/Popup';
-
-import { nominationMap } from '../../../../../shared/utils/nominations';
 
 import '../styles/style.css';
 
@@ -13,6 +11,7 @@ interface IParticipantInfoPopupProps {
   currentParticipants: IParticipant[];
   subtitleText: string;
   statusLabel: string;
+  nominationMap: TNominationMap;
 }
 
 const ParticipantInfoPopup: FC<IParticipantInfoPopupProps> = ({ 
@@ -21,6 +20,7 @@ const ParticipantInfoPopup: FC<IParticipantInfoPopupProps> = ({
   currentParticipants, 
   subtitleText,
   statusLabel,
+  nominationMap,
 }) => {
 
   const [expandedIndexes, setExpandedIndexes] = useState<Set<number>>(new Set());

@@ -1,8 +1,9 @@
-import type { IParticipant, IPieChartDatum } from '../interface/interface';
+import type { IParticipant, IPieChartDatum, TNominationMap } from '../interface/interface';
 
-import { nominationMap } from '../../../../../shared/utils/nominations';
-
-export const buildPieDataByNomination = (participants: IParticipant[]): IPieChartDatum[] => {
+export const buildPieDataByNomination = (
+  participants: IParticipant[],
+  nominationMap: TNominationMap,
+): IPieChartDatum[] => {
   const counters: Record<number, number> = {};
   participants.forEach(p => {
     if (p.nomination != null) counters[p.nomination] = (counters[p.nomination] || 0) + 1;
@@ -16,7 +17,8 @@ export const buildPieDataByNomination = (participants: IParticipant[]): IPieChar
 
 export const buildPieDataByNominationStatus = (
   participants: IParticipant[],
-  selectedNominationName: string | null
+  selectedNominationName: string | null,
+  nominationMap: TNominationMap,
 ): IPieChartDatum[] => {
   const statuses = { selected: 0, submitted: 0, scored: 0 };
 

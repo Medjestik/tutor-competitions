@@ -13,6 +13,8 @@ export interface IParticipant {
   form_name: string;
 };
 
+export type TNominationMap = Record<number, string>;
+
 export interface IDashboardStats {
   registrations: number;
   uniqueUniversities: number;
