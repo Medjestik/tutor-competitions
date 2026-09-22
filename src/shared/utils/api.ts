@@ -134,6 +134,80 @@ export const exportDashboardParticipantsReport = async (
   return res.blob();
 };
 
+export interface IStaffParticipantListItem {
+  id: number;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  email: string;
+  phone: string;
+  workplace: string;
+  nomination: string;
+  questionnaireSubmitted: boolean;
+  courseDocumentsSubmitted: boolean;
+}
+
+export interface IStaffParticipantsListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: IStaffParticipantListItem[];
+}
+
+export const getStaffParticipantsList = (
+  token: string,
+  params: {
+    page?: number;
+    search?: string;
+    questionnaireSubmitted?: boolean;
+    courseDocumentsSubmitted?: boolean;
+  } = {}
+) => {
+  const searchParams = new URLSearchParams();
+  if (params.page) {
+    searchParams.set('page', String(params.page));
+  }
+  if (params.search) {
+    searchParams.set('search', params.search);
+  }
+  if (params.questionnaireSubmitted === true) {
+    searchParams.set('questionnaireSubmitted', 'true');
+  } else if (params.questionnaireSubmitted === false) {
+    searchParams.set('questionnaireSubmitted', 'false');
+  }
+  if (params.courseDocumentsSubmitted === true) {
+    searchParams.set('courseDocumentsSubmitted', 'true');
+  } else if (params.courseDocumentsSubmitted === false) {
+    searchParams.set('courseDocumentsSubmitted', 'false');
+  }
+
+  const query = searchParams.toString();
+  const url = `${API_URL}/competition/staff/participants/${query ? '?' + query : ''}`;
+
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => handleResponse(res)) as Promise<IStaffParticipantsListResponse>;
+};
+
+export const exportStaffParticipantsReport = async (token: string): Promise<Blob> => {
+  const res = await fetch(`${API_URL}/competition/staff/participants-export/`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw res;
+  }
+
+  return res.blob();
+};
+
 export const setNomination = (token: string, nominationId: number) => {
   return fetch(`${API_URL}/competition/forms/select-nomination/`, {
     method: 'POST',

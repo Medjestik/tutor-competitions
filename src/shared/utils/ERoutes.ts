@@ -10,6 +10,7 @@ export enum EROUTES {
   CONSENT = '/consent',
   PRIVACY = '/privacy',
   STAFF_LEARNING_APPLICATIONS = '/staff/learning-applications',
+  STAFF_PARTICIPANTS = '/staff/participants',
   STAFF_LEARNING_APPLICATION = '/staff/learning-applications/:id',
   STAFF_LMS = '/staff/lms',
   STAFF_LMS_COURSES = '/staff/lms/courses',

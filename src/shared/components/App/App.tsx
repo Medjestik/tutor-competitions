@@ -13,6 +13,7 @@ import Privacy from '../../../pages/Privacy/ui/Privacy';
 import Expert from '../../../pages/Expert/ui/Expert';
 import Person from '../../../pages/Person/ui/Person';
 import StaffLearningApplications from '../../../pages/Staff/StaffLearningApplications';
+import StaffParticipants from '../../../pages/Staff/StaffParticipants';
 import StaffLearningApplicationDetail from '../../../pages/Staff/StaffLearningApplicationDetail';
 import StaffLmsHub from '../../../pages/Staff/StaffLmsHub';
 import StaffLmsCourses from '../../../pages/Staff/StaffLmsCourses';
@@ -77,6 +78,10 @@ export const App = () => {
 					<Route
 						path={EROUTES.STAFF_LEARNING_APPLICATIONS}
 						element={<OnlyStaffAuth component={<StaffLearningApplications />} />}
+					/>
+					<Route
+						path={EROUTES.STAFF_PARTICIPANTS}
+						element={<OnlyStaffAuth component={<StaffParticipants />} />}
 					/>
 					<Route
 						path={EROUTES.STAFF_LEARNING_APPLICATION}
