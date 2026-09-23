@@ -298,4 +298,20 @@
   .layout-header__mobile-only .icon_type_home {
     filter: brightness(0) invert(1);
   }
+
+  .layout-header__admin-dropdown {
+    flex-shrink: 0;
+  }
+
+  .layout-header__admin-toggle {
+    min-width: auto;
+    min-height: 40px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .layout-header__admin-nav {
+    min-width: min(260px, calc(100vw - 32px));
+    right: 0;
+  }
 }

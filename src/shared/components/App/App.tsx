@@ -25,6 +25,7 @@ import StaffLmsTaskEditor from '../../../pages/Staff/StaffLmsTaskEditor';
 import StaffSettings from '../../../pages/Staff/StaffSettings';
 import StaffSettingEditor from '../../../pages/Staff/StaffSettingEditor';
 import StaffTaskReviews from '../../../pages/Staff/StaffTaskReviews';
+import StaffCourseProgress from '../../../pages/Staff/StaffCourseProgress';
 
 import { EROUTES } from '../../utils/ERoutes';
 import {
@@ -82,6 +83,10 @@ export const App = () => {
 					<Route
 						path={EROUTES.STAFF_PARTICIPANTS}
 						element={<OnlyStaffAuth component={<StaffParticipants />} />}
+					/>
+					<Route
+						path={EROUTES.STAFF_COURSE_PROGRESS}
+						element={<OnlyStaffAuth component={<StaffCourseProgress />} />}
 					/>
 					<Route
 						path={EROUTES.STAFF_LEARNING_APPLICATION}

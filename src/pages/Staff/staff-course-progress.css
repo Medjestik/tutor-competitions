@@ -1,0 +1,139 @@
+.staff-course-progress {
+  padding: 24px 0 48px;
+}
+
+.staff-course-progress__card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(20, 34, 67, 0.08);
+}
+
+.staff-course-progress__title {
+  margin: 0 0 20px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #2f3440;
+}
+
+.staff-course-progress__filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px 16px;
+  margin-bottom: 20px;
+}
+
+.staff-course-progress__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #5b6475;
+}
+
+.staff-course-progress__field input,
+.staff-course-progress__field select {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #d7dde8;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #2f3440;
+  background: #fff;
+}
+
+.staff-course-progress__hint {
+  margin: 0;
+  color: #5b6475;
+  font-size: 14px;
+}
+
+.staff-course-progress__error {
+  margin: 0 0 12px;
+  color: #c0392b;
+  font-size: 14px;
+}
+
+.staff-course-progress__table-wrap {
+  overflow-x: auto;
+}
+
+.staff-course-progress__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.staff-course-progress__table th,
+.staff-course-progress__table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e4e8f0;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.staff-course-progress__table th {
+  background: #f7f9fc;
+  font-weight: 600;
+}
+
+.staff-course-progress__empty {
+  text-align: center;
+  color: #8a93a3;
+}
+
+.staff-course-progress__name-btn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #1f4ea3;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.staff-course-progress__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.staff-course-progress__page-info {
+  font-size: 14px;
+  color: #5b6475;
+}
+
+.staff-course-progress__modal {
+  padding: 8px 4px 4px;
+}
+
+.staff-course-progress__modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.staff-course-progress__modal-title {
+  margin: 0;
+  font-size: 22px;
+  color: #2f3440;
+}
+
+.staff-course-progress__modal-close {
+  border: 0;
+  background: transparent;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.staff-course-progress__modal-phone {
+  margin: 0 0 16px;
+  color: #5b6475;
+  font-size: 14px;
+}

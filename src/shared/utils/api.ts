@@ -208,6 +208,118 @@ export const exportStaffParticipantsReport = async (token: string): Promise<Blob
   return res.blob();
 };
 
+export type TStaffCourseProgressStatus = 'not_started' | 'in_progress' | 'completed';
+
+export interface IStaffProgressCourseOption {
+  id: number;
+  name: string;
+}
+
+export interface IStaffCourseProgressListItem {
+  id: number;
+  fullName: string;
+  phone: string;
+  testsPassed: number;
+  testsTotal: number;
+  tasksCredited: number;
+  tasksTotal: number;
+  courseStatus: TStaffCourseProgressStatus;
+}
+
+export interface IStaffCourseProgressListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: IStaffCourseProgressListItem[];
+}
+
+export interface IStaffCourseProgressLesson {
+  id: number;
+  title: string;
+  partType: string;
+  status: 'not_started' | 'in_progress' | 'completed';
+}
+
+export interface IStaffCourseProgressDetail {
+  id: number;
+  fullName: string;
+  phone: string;
+  lessons: IStaffCourseProgressLesson[];
+}
+
+export const getStaffProgressCourses = (token: string) =>
+  fetch(`${API_URL}/lms/staff/courses/`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => handleResponse(res)) as Promise<IStaffProgressCourseOption[]>;
+
+export const getStaffCourseProgressList = (
+  token: string,
+  courseId: number,
+  params: {
+    page?: number;
+    search?: string;
+    status?: TStaffCourseProgressStatus | '';
+  } = {}
+) => {
+  const searchParams = new URLSearchParams();
+  if (params.page) {
+    searchParams.set('page', String(params.page));
+  }
+  if (params.search) {
+    searchParams.set('search', params.search);
+  }
+  if (params.status) {
+    searchParams.set('status', params.status);
+  }
+  const query = searchParams.toString();
+  const url = `${API_URL}/lms/staff/courses/${courseId}/progress/${query ? '?' + query : ''}`;
+
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => handleResponse(res)) as Promise<IStaffCourseProgressListResponse>;
+};
+
+export const getStaffCourseProgressDetail = (
+  token: string,
+  courseId: number,
+  userId: number
+) =>
+  fetch(`${API_URL}/lms/staff/courses/${courseId}/progress/${userId}/`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => handleResponse(res)) as Promise<IStaffCourseProgressDetail>;
+
+export const creditStaffCoursePart = (
+  token: string,
+  courseId: number,
+  userId: number,
+  partId: number
+) =>
+  fetch(
+    `${API_URL}/lms/staff/courses/${courseId}/progress/${userId}/parts/${partId}/credit/`,
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({}),
+    }
+  ).then((res) => handleResponse(res)) as Promise<IStaffCourseProgressLesson>;
+
+
 export const setNomination = (token: string, nominationId: number) => {
   return fetch(`${API_URL}/competition/forms/select-nomination/`, {
     method: 'POST',

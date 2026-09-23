@@ -20,19 +20,11 @@ const LayoutHeader: FC = () => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isAdminZoneOpen, setIsAdminZoneOpen] = useState(false);
   const adminZoneRef = useRef<HTMLDivElement | null>(null);
 
   const isAdminZoneVisible = Boolean(user?.is_staff || user?.is_lms_tutor);
-  const isDesktopHeader = windowWidth > 1000;
   const homeRoute = user ? EROUTES.PERSON : EROUTES.LANDING;
-
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   useEffect(() => {
     const handleDocumentPointerDown = (event: MouseEvent | TouchEvent) => {
@@ -96,8 +88,8 @@ const LayoutHeader: FC = () => {
         user
         ?
         <div className='layout-header__actions'>
-          {isAdminZoneVisible && isDesktopHeader && (
-            <div ref={adminZoneRef} className='layout-header__admin-dropdown layout-header__desktop-only'>
+          {isAdminZoneVisible && (
+            <div ref={adminZoneRef} className='layout-header__admin-dropdown'>
               <button
                 className='layout-header__btn layout-header__admin-toggle'
                 type='button'
@@ -127,6 +119,15 @@ const LayoutHeader: FC = () => {
                           onClick={() => setIsAdminZoneOpen(false)}
                         >
                           Заявки на обучение
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className='layout-header__admin-link'
+                          to={EROUTES.STAFF_COURSE_PROGRESS}
+                          onClick={() => setIsAdminZoneOpen(false)}
+                        >
+                          Прогресс курса
                         </Link>
                       </li>
                       <li>
