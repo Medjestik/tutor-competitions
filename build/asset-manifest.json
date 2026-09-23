@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.9f17c46b.css",
-    "main.js": "/static/js/main.d52b3bba.js",
+    "main.css": "/static/css/main.467d03fe.css",
+    "main.js": "/static/js/main.005aafda.js",
     "static/js/408.4fba0ac4.chunk.js": "/static/js/408.4fba0ac4.chunk.js",
     "static/js/977.429d357b.chunk.js": "/static/js/977.429d357b.chunk.js",
     "static/js/732.cda5b07b.chunk.js": "/static/js/732.cda5b07b.chunk.js",
@@ -22,7 +22,6 @@
     "static/media/Gilroy-Medium.ttf": "/static/media/Gilroy-Medium.1b4da6582f83f45ea039.ttf",
     "static/media/3.svg": "/static/media/3.bd1e9fa2494a9642f28e.svg",
     "static/media/5.png": "/static/media/5.6796da5ace8f865d651e.png",
-    "static/media/contest-banner.png": "/static/media/contest-banner.b228ed4fa80ccb29d99f.png",
     "static/media/4.png": "/static/media/4.6a85d9f472da1c6e1896.png",
     "static/media/review-hourglass.png": "/static/media/review-hourglass.6f778e422ea7f49d0e9c.png",
     "static/media/1.png": "/static/media/1.b9849573d961a484c838.png",
@@ -77,15 +76,15 @@
     "static/media/check-green.svg": "/static/media/check-green.e4ff362737d24870ec9d.svg",
     "static/media/video.svg": "/static/media/video.9617bea413786255eb41cb8814bed372.svg",
     "static/media/check-complete.svg": "/static/media/check-complete.6b4bd84492a7f083a29d9242670b81eb.svg",
-    "main.9f17c46b.css.map": "/static/css/main.9f17c46b.css.map",
-    "main.d52b3bba.js.map": "/static/js/main.d52b3bba.js.map",
+    "main.467d03fe.css.map": "/static/css/main.467d03fe.css.map",
+    "main.005aafda.js.map": "/static/js/main.005aafda.js.map",
     "408.4fba0ac4.chunk.js.map": "/static/js/408.4fba0ac4.chunk.js.map",
     "977.429d357b.chunk.js.map": "/static/js/977.429d357b.chunk.js.map",
     "732.cda5b07b.chunk.js.map": "/static/js/732.cda5b07b.chunk.js.map",
     "58.cbc50bcb.chunk.js.map": "/static/js/58.cbc50bcb.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9f17c46b.css",
-    "static/js/main.d52b3bba.js"
+    "static/css/main.467d03fe.css",
+    "static/js/main.005aafda.js"
   ]
 }
