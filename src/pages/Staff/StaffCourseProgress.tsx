@@ -342,7 +342,7 @@ const StaffCourseProgress: FC = () => {
       <Popup
         isOpen={Boolean(detail) || isDetailLoading}
         onClose={closeModal}
-        popupWidth='medium'
+        popupWidth='full'
         closeOutside
       >
         {isDetailLoading ? <Preloader /> : null}
