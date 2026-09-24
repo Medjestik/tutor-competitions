@@ -51,6 +51,18 @@ const LESSON_STATUS_LABELS: Record<string, string> = {
   completed: 'Зачтено',
 };
 
+const formatStreamEndsAt = (value: string | null | undefined): string => {
+  if (!value) {
+    return '—';
+  }
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
+  if (!match) {
+    return value;
+  }
+  const [, year, month, day] = match;
+  return `${day}.${month}.${year}`;
+};
+
 const StaffCourseProgress: FC = () => {
   const [courses, setCourses] = useState<IStaffProgressCourseOption[]>([]);
   const [courseId, setCourseId] = useState<number | ''>('');
@@ -276,6 +288,7 @@ const StaffCourseProgress: FC = () => {
                         <tr>
                           <th>ФИО</th>
                           <th>Телефон</th>
+                          <th>Окончание</th>
                           <th>Тесты</th>
                           <th>Задания</th>
                           <th>Статус</th>
@@ -284,7 +297,7 @@ const StaffCourseProgress: FC = () => {
                       <tbody>
                         {listeners.length === 0 ? (
                           <tr>
-                            <td colSpan={5} className='staff-course-progress__empty'>
+                            <td colSpan={6} className='staff-course-progress__empty'>
                               Слушатели не найдены
                             </td>
                           </tr>
@@ -301,6 +314,7 @@ const StaffCourseProgress: FC = () => {
                                 </button>
                               </td>
                               <td>{item.phone || '—'}</td>
+                              <td>{formatStreamEndsAt(item.streamEndsAt)}</td>
                               <td>
                                 {item.testsPassed}/{item.testsTotal}
                               </td>

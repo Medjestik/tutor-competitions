@@ -219,6 +219,7 @@ export interface IStaffCourseProgressListItem {
   id: number;
   fullName: string;
   phone: string;
+  streamEndsAt: string | null;
   testsPassed: number;
   testsTotal: number;
   tasksCredited: number;

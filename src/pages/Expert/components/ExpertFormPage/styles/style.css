@@ -88,5 +88,51 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  gap: 16px;
+}
+
+.expert-form__field-hint {
+  margin: 0 0 8px 0;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--title-color);
+  opacity: 0.85;
+}
+
+.expert-form__file-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.expert-form__file-item {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.expert-form__file-count {
+  margin: 0;
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+.expert-form__file-title {
+  margin: 0;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.expert-form__file-empty {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.2;
+  opacity: 0.8;
 }
 

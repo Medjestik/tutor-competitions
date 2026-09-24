@@ -6,7 +6,8 @@
   margin: 4px 0 0 0;
   font-weight: normal;
   font-size: 16px;
-  line-height: 1.15;
+  line-height: 1.35;
+  white-space: pre-line;
 }
 
 .score-buttons {
@@ -38,11 +39,11 @@
   background-color: var(--error-color);
 }
 
-.score-button-0-5.selected  {
+.score-button-1.selected  {
   background-color: var(--pending-color);
 }
 
-.score-button-1.selected  {
+.score-button-2.selected  {
   background-color: var(--success-color);
 }
 
@@ -51,4 +52,10 @@
   font-weight: bold;
   font-size: 20px;
   line-height: 1.15;
+}
+
+.score-empty {
+  margin: 12px 0 0 0;
+  font-size: 16px;
+  line-height: 1.4;
 }

@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import type { FC} from 'react';
-import type { IFormData, IScoreItem } from '../../../../Person/interface/interface';
+import type { FC } from 'react';
+import type { IFormData, IFormFieldDef, IScoreItem } from '../../../../Person/interface/interface';
 
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -10,8 +9,7 @@ import * as api from '../../../../../shared/utils/api';
 import Button from '../../../../../shared/components/Button/ui/Button';
 import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
 import SetScorePopup from '../../../../../shared/components/Popup/ui/SetScorePopup';
-
-import { nominationFieldTexts } from '../../../../Person/components/PersonStage/utils/nominationFields';
+import { FormField } from '../../../../../shared/components/Form/components/FormField/form-field';
 
 import '../styles/style.css';
 
@@ -32,27 +30,22 @@ const btnLinksStyle = {
 };
 
 const ExpertFormPage: FC = () => {
-
   const navigate = useNavigate();
-
   const { nominationId, formId } = useParams();
   const [form, setForm] = useState<IFormData | null>(null);
-
   const [isOpenSetScorePopup, setIsOpenSetScorePopup] = useState<boolean>(false);
-
   const [isLoadingScore, setIsLoadingScore] = useState<boolean>(false);
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
-
-  const texts = useMemo(() => {
-    return nominationFieldTexts[form?.nomination ?? 1];
-  }, [form?.nomination]);
 
   const totalScore = useMemo(() => {
     if (!form?.evaluation_details) return 0;
     return form.evaluation_details.reduce((sum, criteria) => {
-      return sum + criteria.indicators.reduce((innerSum, indicator) => {
-        return innerSum + (indicator.score ?? 0);
-      }, 0);
+      return (
+        sum +
+        criteria.indicators.reduce((innerSum, indicator) => {
+          return innerSum + (indicator.score ?? 0);
+        }, 0)
+      );
     }, 0);
   }, [form]);
 
@@ -72,15 +65,16 @@ const ExpertFormPage: FC = () => {
     setIsLoadingScore(true);
     const token = localStorage.getItem('token');
     if (token) {
-      api.scoreForm(token, data)
-      .then((res) => {
-        setForm(prev => prev ? { ...prev, evaluation_details: res } : prev);
-        closePopup();
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => setIsLoadingScore(false));
+      api
+        .scoreForm(token, data)
+        .then((res) => {
+          setForm((prev) => (prev ? { ...prev, evaluation_details: res } : prev));
+          closePopup();
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => setIsLoadingScore(false));
     }
   };
 
@@ -88,112 +82,116 @@ const ExpertFormPage: FC = () => {
     setIsLoadingData(true);
     const token = localStorage.getItem('token');
     if (token && formId) {
-      api.getExpertForm(token, formId)
-      .then((res) => {
-        console.log(res);
-        setForm(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => setIsLoadingData(false));
+      api
+        .getExpertForm(token, formId)
+        .then((res) => {
+          setForm(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => setIsLoadingData(false));
     }
+  };
+
+  const renderSchemaField = (field: IFormFieldDef) => {
+    const value = form?.answers?.[field.key] ?? '';
+    const isNameField = field.key === 'name';
+
+    return (
+      <FormField
+        key={field.key}
+        title={field.title}
+        caption={field.help_text || undefined}
+      >
+        {isNameField ? (
+          <p className='form__text-view'>{value || form?.name || ''}</p>
+        ) : (
+          <>
+            {field.hint && <p className='expert-form__field-hint'>{field.hint}</p>}
+            <p className='form__text-view'>{value}</p>
+          </>
+        )}
+      </FormField>
+    );
   };
 
   useEffect(() => {
     getData();
   }, []);
 
-  return (
-    isLoadingData
-    ?
+  return isLoadingData ? (
     <Preloader />
-    :
-    <> 
-      {
-        form &&
+  ) : (
+    <>
+      {form && (
         <>
-        <div className='expert-form__data'> 
-          <div className={`expert-form__img expert-form__img_type_${form.nomination}`}></div>
-          <div className='expert-form__info'>
-            <span className='expert-form__nomination'>{form.nomination_name}</span>
-            <h4 className='expert-form__name'>{form.name}</h4>
-            <p className='expert-form__score'>Текущая оценка - {totalScore}</p>
-            <div className='form__input-field'>
-              <Button onClick={backToForms} text='Вернуться к списку' style={btnFilesStyle} color='default' />
-              <Button onClick={openSetScorePopup} text='Оценить анкету' style={btnFilesStyle} color='primary' />
+          <div className='expert-form__data'>
+            <div
+              className={`expert-form__img expert-form__img_type_${form.nomination}`}
+            ></div>
+            <div className='expert-form__info'>
+              <span className='expert-form__nomination'>{form.nomination_name}</span>
+              <h4 className='expert-form__name'>{form.name}</h4>
+              <p className='expert-form__score'>Текущая оценка - {totalScore}</p>
+              <div className='form__input-field'>
+                <Button
+                  onClick={backToForms}
+                  text='Вернуться к списку'
+                  style={btnFilesStyle}
+                  color='default'
+                />
+                <Button
+                  onClick={openSetScorePopup}
+                  text='Оценить анкету'
+                  style={btnFilesStyle}
+                  color='primary'
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div className='expert-form__container'>
-        {
-          /*
-          <FormField title='Образовательная организация'>
-            <p className='form__text-view'>{form.educational_organization}</p>
-          </FormField>
-
-          <FormField title={texts.task.title}>
-            <p className='form__text-view'>{form.task}</p>
-          </FormField>
-
-          <FormField title={texts.description.title}>
-            <p className='form__text-view'>{form.description}</p>
-          </FormField>
-
-          <FormField title={texts.originality.title}>
-            <p className='form__text-view'>{form.originality}</p>
-          </FormField>
-
-          <FormField title={texts.text.title}>
-            <p className='form__text-view'>{form.text}</p>
-          </FormField>
-
-          <FormField title={texts.usability.title}>
-            <p className='form__text-view'>{form.usability}</p>
-          </FormField>
-
-          <FormField title={texts.files.title}>
-            <h3 className='person-stage__title-row'>Прикрепленные источники:</h3>
-            {
-              form && form.resources.length > 0
-              ?
-              <ul className='person-stage__file-list'>
-                { form.resources.map((elem, i) => (
-                  <li className='person-stage__file-item' key={i}>
-                    <span className='person-stage__file-count'>{i + 1}.</span>
-                    <h4 className='person-stage__file-title'>{elem.description}</h4>
-                    <Button 
-                      text='Ссылка' 
-                      type='link' 
-                      href={elem.type === 'link' ? elem.link : elem.file} 
-                      color='primary'
-                      style={btnLinksStyle}
-                    />
-                  </li>
-                ))
-                }
-              </ul>
-              :
-              <span className='person-stage__file-empty'>Список источников пока пуст.</span>
-            }
-          </FormField>
-          */
-        }
-
-
-        </div>
+          <div className='expert-form__container'>
+            {form.educational_organization && (
+              <FormField title='Образовательная организация'>
+                <p className='form__text-view'>{form.educational_organization}</p>
+              </FormField>
+            )}
+            {(form.schema ?? []).map(renderSchemaField)}
+            <FormField title='Прикреплённые источники'>
+              {form.resources.length > 0 ? (
+                <ul className='expert-form__file-list'>
+                  {form.resources.map((elem, i) => (
+                    <li className='expert-form__file-item' key={elem.id ?? i}>
+                      <span className='expert-form__file-count'>{i + 1}.</span>
+                      <h4 className='expert-form__file-title'>{elem.description}</h4>
+                      <Button
+                        text='Ссылка'
+                        type='link'
+                        href={elem.type === 'link' ? elem.link : elem.file}
+                        color='primary'
+                        style={btnLinksStyle}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span className='expert-form__file-empty'>
+                  Список источников пока пуст.
+                </span>
+              )}
+            </FormField>
+          </div>
         </>
-      }
-      {
-        isOpenSetScorePopup && form &&
-        <SetScorePopup 
+      )}
+      {isOpenSetScorePopup && form && (
+        <SetScorePopup
           isOpen={isOpenSetScorePopup}
           onClose={closePopup}
           form={form}
           isLoading={isLoadingScore}
           onScore={handleScoreForm}
         />
-      }
+      )}
     </>
   );
 };
