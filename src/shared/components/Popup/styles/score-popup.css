@@ -60,7 +60,7 @@
 }
 
 .score-caption {
-  margin: 0 0 20px 0;
+  margin: 16px 0 12px 0;
   font-weight: bold;
   font-size: 20px;
   line-height: 1.15;
@@ -70,4 +70,39 @@
   margin: 12px 0 0 0;
   font-size: 16px;
   line-height: 1.4;
+}
+
+.score-popup__head {
+  position: sticky;
+  top: -32px;
+  z-index: 3;
+  margin: -8px 0 0 0;
+  padding: 8px 40px 12px 0;
+  background: var(--white-color);
+}
+
+.score-popup__actions {
+  position: sticky;
+  bottom: -32px;
+  z-index: 3;
+  margin: 0;
+  padding: 16px 0 0 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--white-color);
+  border-top: 1px solid var(--border-card-color);
+}
+
+.score-popup__actions > * {
+  flex: 1 1 0;
+  width: auto !important;
+  min-width: 0;
+}
+
+.popup__close_score {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  z-index: 4;
 }

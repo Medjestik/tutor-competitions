@@ -5,7 +5,6 @@ import Popup from './Popup';
 import Button from '../../Button/ui/Button';
 import { Form } from '../../Form/ui/Form';
 import { FormField } from '../../Form/components/FormField/form-field';
-import { FormButtons } from '../../Form/components/FormButtons/form-buttons';
 
 import closeIcon from '../../../icons/buttons/close-color.svg';
 
@@ -108,19 +107,21 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({
   }, [form]);
 
   return (
-    <Popup isOpen={isOpen} onClose={onClose} popupWidth='large' closeOutside>
-      <div className='popup__head'>
+    <Popup isOpen={isOpen} onClose={onClose} popupWidth='full' closeOutside>
+      <button
+        type='button'
+        className='popup__close popup__close_score'
+        aria-label='Закрыть'
+        onClick={onClose}
+      >
+        <img src={closeIcon} alt='' aria-hidden='true' />
+      </button>
+      <div className='score-popup__head'>
         <h2 className='popup__title'>Оценка анкеты</h2>
-        <button
-          type='button'
-          className='popup__close'
-          aria-label='Закрыть'
-          onClick={onClose}
-        >
-          <img src={closeIcon} alt='' aria-hidden='true' />
-        </button>
+        <p className='popup__subtitle'>
+          Выберите балл 0, 1 или 2 для каждого индикатора:
+        </p>
       </div>
-      <p className='popup__subtitle'>Выберите балл 0, 1 или 2 для каждого индикатора:</p>
       {!hasIndicators ? (
         <p className='score-empty'>
           Для этой номинации пока не заданы критерии оценки. Обратитесь к
@@ -166,7 +167,7 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({
             </div>
           ))}
           <p className='score-caption'>Итоговый балл: {totalScore}</p>
-          <FormButtons withMargin>
+          <div className='score-popup__actions'>
             <Button
               style={btnStyle}
               text='Отменить'
@@ -181,7 +182,7 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({
               color='primary'
               isBlock={!isFormValid() || isLoading}
             />
-          </FormButtons>
+          </div>
         </Form>
       )}
     </Popup>
