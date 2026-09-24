@@ -117,41 +117,41 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({
       ) : (
         <Form name='set-score' onSubmit={handleSubmit}>
           {form.evaluation_details!.map((criteria, cIdx) => (
-            <FormField
-              key={criteria.criteria_id}
-              title={`${cIdx + 1}. ${criteria.criteria_name}`}
-              withMarginBottom
-            >
-              {criteria.indicators.map((indicator) => {
-                const rubric = getIndicatorRubric(
-                  indicator.name,
-                  criteria.criteria_name,
-                );
-                return (
-                  <div key={indicator.id} className='indicator-score-block'>
-                    {rubric ? (
-                      <p className='indicator-name'>{rubric}</p>
-                    ) : null}
-                    <div className='score-buttons'>
-                      {([0, 1, 2] as const).map((value) => {
-                        const selectedClass =
-                          scores[indicator.id] === value ? 'selected' : '';
-                        return (
-                          <button
-                            key={value}
-                            type='button'
-                            className={`score-button score-button-${value} ${selectedClass}`}
-                            onClick={() => handleChange(indicator.id, value)}
-                          >
-                            {value}
-                          </button>
-                        );
-                      })}
+            <div key={criteria.criteria_id} className='score-criteria-block'>
+              <FormField
+                title={`Индикатор ${cIdx + 1}. ${criteria.criteria_name}`}
+              >
+                {criteria.indicators.map((indicator) => {
+                  const rubric = getIndicatorRubric(
+                    indicator.name,
+                    criteria.criteria_name,
+                  );
+                  return (
+                    <div key={indicator.id} className='indicator-score-block'>
+                      {rubric ? (
+                        <p className='indicator-name'>{rubric}</p>
+                      ) : null}
+                      <div className='score-buttons'>
+                        {([0, 1, 2] as const).map((value) => {
+                          const selectedClass =
+                            scores[indicator.id] === value ? 'selected' : '';
+                          return (
+                            <button
+                              key={value}
+                              type='button'
+                              className={`score-button score-button-${value} ${selectedClass}`}
+                              onClick={() => handleChange(indicator.id, value)}
+                            >
+                              {value}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </FormField>
+                  );
+                })}
+              </FormField>
+            </div>
           ))}
           <p className='score-caption'>Итоговый балл: {totalScore}</p>
           <FormButtons withMargin>

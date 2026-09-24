@@ -1,5 +1,17 @@
+.score-criteria-block {
+  margin: 0 0 16px 0;
+  padding: 14px 16px;
+  border: 1px solid var(--border-card-color);
+  border-radius: var(--border-radius);
+  background-color: var(--background-main-color);
+}
+
+.score-criteria-block:last-of-type {
+  margin-bottom: 12px;
+}
+
 .indicator-score-block {
-  margin: 0 0 12px 0;
+  margin: 0;
 }
 
 .indicator-name {
