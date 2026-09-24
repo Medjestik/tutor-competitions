@@ -18,6 +18,22 @@ const btnStyle = {
   lineHeight: '1',
 };
 
+/** Rubric text under the criteria title — drop duplicated first line. */
+const getIndicatorRubric = (
+  indicatorName: string,
+  criteriaName: string,
+): string => {
+  const trimmed = indicatorName.trim();
+  const lines = trimmed.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  if (lines.length > 1 && lines[0] === criteriaName.trim()) {
+    return lines.slice(1).join('\n');
+  }
+  if (trimmed.startsWith(criteriaName.trim())) {
+    return trimmed.slice(criteriaName.trim().length).replace(/^[\s.:—-]+/, '').trim();
+  }
+  return trimmed;
+};
+
 const SetScorePopup: FC<ISetScorePopupProps> = ({
   isOpen,
   onClose,
@@ -106,29 +122,35 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({
               title={`${cIdx + 1}. ${criteria.criteria_name}`}
               withMarginBottom
             >
-              {criteria.indicators.map((indicator, iIdx) => (
-                <div key={indicator.id} className='indicator-score-block'>
-                  <p className='indicator-name'>
-                    {`${cIdx + 1}.${iIdx + 1} ${indicator.name}`}
-                  </p>
-                  <div className='score-buttons'>
-                    {([0, 1, 2] as const).map((value) => {
-                      const selectedClass =
-                        scores[indicator.id] === value ? 'selected' : '';
-                      return (
-                        <button
-                          key={value}
-                          type='button'
-                          className={`score-button score-button-${value} ${selectedClass}`}
-                          onClick={() => handleChange(indicator.id, value)}
-                        >
-                          {value}
-                        </button>
-                      );
-                    })}
+              {criteria.indicators.map((indicator) => {
+                const rubric = getIndicatorRubric(
+                  indicator.name,
+                  criteria.criteria_name,
+                );
+                return (
+                  <div key={indicator.id} className='indicator-score-block'>
+                    {rubric ? (
+                      <p className='indicator-name'>{rubric}</p>
+                    ) : null}
+                    <div className='score-buttons'>
+                      {([0, 1, 2] as const).map((value) => {
+                        const selectedClass =
+                          scores[indicator.id] === value ? 'selected' : '';
+                        return (
+                          <button
+                            key={value}
+                            type='button'
+                            className={`score-button score-button-${value} ${selectedClass}`}
+                            onClick={() => handleChange(indicator.id, value)}
+                          >
+                            {value}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </FormField>
           ))}
           <p className='score-caption'>Итоговый балл: {totalScore}</p>
