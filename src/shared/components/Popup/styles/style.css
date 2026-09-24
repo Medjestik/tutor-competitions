@@ -76,6 +76,35 @@
   line-height: 32px;
   color: var(--title-color);
 }
+.popup__head {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.popup__head .popup__title {
+  width: auto;
+  flex: 1 1 auto;
+}
+.popup__close {
+  margin: 0;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  line-height: 0;
+}
+.popup__close img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+.popup__close:hover {
+  opacity: 0.7;
+}
 .popup__title_margin_bottom {
   margin: 0px 0px 12px 0px;
 }

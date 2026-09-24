@@ -7,6 +7,8 @@ import { Form } from '../../Form/ui/Form';
 import { FormField } from '../../Form/components/FormField/form-field';
 import { FormButtons } from '../../Form/components/FormButtons/form-buttons';
 
+import closeIcon from '../../../icons/buttons/close-color.svg';
+
 import '../styles/style.css';
 import '../styles/score-popup.css';
 
@@ -107,7 +109,17 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({
 
   return (
     <Popup isOpen={isOpen} onClose={onClose} popupWidth='large' closeOutside>
-      <h2 className='popup__title'>Оценка анкеты</h2>
+      <div className='popup__head'>
+        <h2 className='popup__title'>Оценка анкеты</h2>
+        <button
+          type='button'
+          className='popup__close'
+          aria-label='Закрыть'
+          onClick={onClose}
+        >
+          <img src={closeIcon} alt='' aria-hidden='true' />
+        </button>
+      </div>
       <p className='popup__subtitle'>Выберите балл 0, 1 или 2 для каждого индикатора:</p>
       {!hasIndicators ? (
         <p className='score-empty'>
