@@ -3,7 +3,6 @@ import type { ISetScorePopupProps } from '../interface/interface';
 
 import Popup from './Popup';
 import Button from '../../Button/ui/Button';
-import { Form } from '../../Form/ui/Form';
 import { FormField } from '../../Form/components/FormField/form-field';
 
 import closeIcon from '../../../icons/buttons/close-color.svg';
@@ -108,83 +107,93 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({
 
   return (
     <Popup isOpen={isOpen} onClose={onClose} popupWidth='full' closeOutside>
-      <button
-        type='button'
-        className='popup__close popup__close_score'
-        aria-label='Закрыть'
-        onClick={onClose}
-      >
-        <img src={closeIcon} alt='' aria-hidden='true' />
-      </button>
-      <div className='score-popup__head'>
-        <h2 className='popup__title'>Оценка анкеты</h2>
-        <p className='popup__subtitle'>
-          Выберите балл 0, 1 или 2 для каждого индикатора:
-        </p>
-      </div>
-      {!hasIndicators ? (
-        <p className='score-empty'>
-          Для этой номинации пока не заданы критерии оценки. Обратитесь к
-          организаторам.
-        </p>
-      ) : (
-        <Form name='set-score' onSubmit={handleSubmit}>
-          {form.evaluation_details!.map((criteria, cIdx) => (
-            <div key={criteria.criteria_id} className='score-criteria-block'>
-              <FormField
-                title={`Индикатор ${cIdx + 1}. ${criteria.criteria_name}`}
-              >
-                {criteria.indicators.map((indicator) => {
-                  const rubric = getIndicatorRubric(
-                    indicator.name,
-                    criteria.criteria_name,
-                  );
-                  return (
-                    <div key={indicator.id} className='indicator-score-block'>
-                      {rubric ? (
-                        <p className='indicator-name'>{rubric}</p>
-                      ) : null}
-                      <div className='score-buttons'>
-                        {([0, 1, 2] as const).map((value) => {
-                          const selectedClass =
-                            scores[indicator.id] === value ? 'selected' : '';
-                          return (
-                            <button
-                              key={value}
-                              type='button'
-                              className={`score-button score-button-${value} ${selectedClass}`}
-                              onClick={() => handleChange(indicator.id, value)}
-                            >
-                              {value}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-              </FormField>
+      <div className='score-popup'>
+        <button
+          type='button'
+          className='popup__close popup__close_score'
+          aria-label='Закрыть'
+          onClick={onClose}
+        >
+          <img src={closeIcon} alt='' aria-hidden='true' />
+        </button>
+        <div className='score-popup__head'>
+          <h2 className='popup__title'>Оценка анкеты</h2>
+          <p className='popup__subtitle'>
+            Выберите балл 0, 1 или 2 для каждого индикатора:
+          </p>
+        </div>
+        {!hasIndicators ? (
+          <p className='score-empty'>
+            Для этой номинации пока не заданы критерии оценки. Обратитесь к
+            организаторам.
+          </p>
+        ) : (
+          <form
+            className='score-popup__form'
+            name='set-score'
+            id='set-score'
+            onSubmit={handleSubmit}
+            noValidate
+          >
+            <div className='score-popup__body'>
+              {form.evaluation_details!.map((criteria, cIdx) => (
+                <div key={criteria.criteria_id} className='score-criteria-block'>
+                  <FormField
+                    title={`Индикатор ${cIdx + 1}. ${criteria.criteria_name}`}
+                  >
+                    {criteria.indicators.map((indicator) => {
+                      const rubric = getIndicatorRubric(
+                        indicator.name,
+                        criteria.criteria_name,
+                      );
+                      return (
+                        <div key={indicator.id} className='indicator-score-block'>
+                          {rubric ? (
+                            <p className='indicator-name'>{rubric}</p>
+                          ) : null}
+                          <div className='score-buttons'>
+                            {([0, 1, 2] as const).map((value) => {
+                              const selectedClass =
+                                scores[indicator.id] === value ? 'selected' : '';
+                              return (
+                                <button
+                                  key={value}
+                                  type='button'
+                                  className={`score-button score-button-${value} ${selectedClass}`}
+                                  onClick={() => handleChange(indicator.id, value)}
+                                >
+                                  {value}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </FormField>
+                </div>
+              ))}
+              <p className='score-caption'>Итоговый балл: {totalScore}</p>
             </div>
-          ))}
-          <p className='score-caption'>Итоговый балл: {totalScore}</p>
-          <div className='score-popup__actions'>
-            <Button
-              style={btnStyle}
-              text='Отменить'
-              color='default'
-              onClick={onClose}
-              disabled={isLoading}
-            />
-            <Button
-              style={btnStyle}
-              text={isLoading ? 'Сохранение…' : 'Сохранить'}
-              type='submit'
-              color='primary'
-              isBlock={!isFormValid() || isLoading}
-            />
-          </div>
-        </Form>
-      )}
+            <div className='score-popup__actions'>
+              <Button
+                style={btnStyle}
+                text='Отменить'
+                color='default'
+                onClick={onClose}
+                disabled={isLoading}
+              />
+              <Button
+                style={btnStyle}
+                text={isLoading ? 'Сохранение…' : 'Сохранить'}
+                type='submit'
+                color='primary'
+                isBlock={!isFormValid() || isLoading}
+              />
+            </div>
+          </form>
+        )}
+      </div>
     </Popup>
   );
 };

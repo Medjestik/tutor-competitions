@@ -6,7 +6,6 @@ import MainLayout from '../../../shared/components/Layout/ui/MainLayout';
 import PersonContainer from '../../Person/components/PersonContainer/ui/PersonContainer';
 import ExpertNominations from '../components/ExpertNominations/ui/ExpertNominations';
 import ExpertForms from '../components/ExpertForms/ui/ExpertForms';
-import ExpertDashboard from '../components/ExpertDashboard/ui/ExpertDashboard';
 import ExpertFormPage from '../components/ExpertFormPage/ui/ExpertFormPage';
 import Tabs from '../../../shared/components/Tabs/ui/Tabs';
 
@@ -17,11 +16,6 @@ const tabs = [
     name: 'Оценка анкет',
     location: 'nominations',
     id: 'nominations'
-  },
-  {
-    name: 'Дашборд',
-    location: 'dashboard',
-    id: 'dashboard'
   },
 ];
 
@@ -39,13 +33,14 @@ const Expert: FC = () => {
             <Routes>
 
               <Route path='menu/nominations' element={<ExpertNominations />} />
-              <Route path='menu/dashboard' element={<ExpertDashboard />} />
+              <Route path='menu/dashboard' element={<Navigate to='/person/menu/nominations' replace />} />
+              <Route path='menu' element={<Navigate to='/person/menu/nominations' replace />} />
 
               <Route path='nomination/:nominationId' element={<ExpertForms />} />
 
               <Route path='nomination/:nominationId/form/:formId/*' element={<ExpertFormPage />} />
 
-              <Route path='*' element={<Navigate to='/person/menu' replace />} />
+              <Route path='*' element={<Navigate to='/person/menu/nominations' replace />} />
             </Routes>
           </div>
         </PersonContainer>

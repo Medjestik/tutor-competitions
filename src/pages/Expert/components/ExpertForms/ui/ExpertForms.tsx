@@ -85,7 +85,13 @@ const ExpertForms: FC = () => {
                     ?
                     <span className='expert__item-tag expert__item-tag_color_red'>Ожидает оценки</span>
                     :
-                    <span className='expert__item-tag expert__item-tag_color_green'>
+                    <span
+                      className={`expert__item-tag ${
+                        elem.total_evaluations === 1
+                          ? 'expert__item-tag_color_orange'
+                          : 'expert__item-tag_color_green'
+                      }`}
+                    >
                       {`Анкета оценена (${elem.total_evaluations})`}
                     </span>
                   }
@@ -96,7 +102,6 @@ const ExpertForms: FC = () => {
                 </div>
                 <h4 className='expert__item-name'>{elem.name}</h4>
               </div>
-              <span className='expert__item-score'>{elem.average_score || ''}</span>
             </li>
           ))
         }
