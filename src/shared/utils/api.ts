@@ -134,6 +134,23 @@ export const exportDashboardParticipantsReport = async (
   return res.blob();
 };
 
+export const exportStaffExpertScoresReport = async (
+  token: string
+): Promise<Blob> => {
+  const res = await fetch(`${API_URL}/competition/staff/expert-scores-export/`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw res;
+  }
+
+  return res.blob();
+};
+
 export interface IStaffParticipantListItem {
   id: number;
   lastName: string;

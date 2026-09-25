@@ -14,6 +14,7 @@ import Expert from '../../../pages/Expert/ui/Expert';
 import Person from '../../../pages/Person/ui/Person';
 import StaffLearningApplications from '../../../pages/Staff/StaffLearningApplications';
 import StaffParticipants from '../../../pages/Staff/StaffParticipants';
+import StaffDashboard from '../../../pages/Staff/StaffDashboard';
 import StaffLearningApplicationDetail from '../../../pages/Staff/StaffLearningApplicationDetail';
 import StaffLmsHub from '../../../pages/Staff/StaffLmsHub';
 import StaffLmsCourses from '../../../pages/Staff/StaffLmsCourses';
@@ -83,6 +84,10 @@ export const App = () => {
 					<Route
 						path={EROUTES.STAFF_PARTICIPANTS}
 						element={<OnlyStaffAuth component={<StaffParticipants />} />}
+					/>
+					<Route
+						path={EROUTES.STAFF_DASHBOARD}
+						element={<OnlyStaffAuth component={<StaffDashboard />} />}
 					/>
 					<Route
 						path={EROUTES.STAFF_COURSE_PROGRESS}

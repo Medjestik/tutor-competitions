@@ -70,6 +70,7 @@ const ExpertDashboard: FC = () => {
   const [nominationMap, setNominationMap] = useState<TNominationMap>({});
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
   const [isExportingReport, setIsExportingReport] = useState<boolean>(false);
+  const [isExportingScores, setIsExportingScores] = useState<boolean>(false);
 
   const getData = () => {
     setIsLoadingData(true);
@@ -135,6 +136,29 @@ const ExpertDashboard: FC = () => {
     }
   };
 
+  const exportExpertScores = async () => {
+    const token = localStorage.getItem('token');
+    if (!token || isExportingScores) return;
+
+    setIsExportingScores(true);
+    try {
+      const blob = await api.exportStaffExpertScoresReport(token);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'expert_scores_report.xlsx';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+    } catch (error) {
+      console.error('Ошибка при экспорте оценок экспертов:', error);
+      window.alert('Не удалось скачать оценки экспертов. Попробуйте ещё раз.');
+    } finally {
+      setIsExportingScores(false);
+    }
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -157,7 +181,13 @@ const ExpertDashboard: FC = () => {
             style={btnExportStyle}
             text={isExportingReport ? 'Экспорт…' : 'Экспорт отчёта'}
             onClick={exportReport}
-            disabled={isExportingReport}
+            disabled={isExportingReport || isExportingScores}
+          />
+          <Button
+            style={btnExportStyle}
+            text={isExportingScores ? 'Экспорт…' : 'Оценки экспертов'}
+            onClick={exportExpertScores}
+            disabled={isExportingReport || isExportingScores}
           />
           <Button style={btnExportStyle} text='Экспорт графиков' onClick={exportAsPdf} />
         </div>
