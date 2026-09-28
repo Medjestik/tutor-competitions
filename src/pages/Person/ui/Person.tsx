@@ -43,11 +43,16 @@ const Person: FC = () => {
   );
   const [openStageId, setOpenStageId] = useState<number>(personStages[0].id);
   const [openLearningId, setOpenLearningId] = useState<string | null>(null);
-  const [isEducationEnabled, setIsEducationEnabled] = useState<boolean>(false);
+  /** null = settings not loaded yet; avoid treating as disabled before resolve */
+  const [isEducationEnabled, setIsEducationEnabled] = useState<boolean | null>(null);
   const [isPracticeFormOpen, setIsPracticeFormOpen] = useState<boolean>(true);
   const [practiceFormStatus, setPracticeFormStatus] = useState<string | null>(null);
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
+  const educationOn = isEducationEnabled === true;
+  const onLearningPath = pathname.includes('/learning/');
+  const waitingEducationForLearning =
+    isEducationEnabled === null && onLearningPath;
 
   const withClosedFormNav = useCallback(
     (baseStages: IStageNavItem[], formStatus: string | null, formOpen: boolean) => {
@@ -180,15 +185,20 @@ const Person: FC = () => {
   ]);
 
   useEffect(() => {
-    if (!isEducationEnabled && pathname.includes('/learning/')) {
+    // Only bounce after settings resolve to disabled — not while still null
+    if (isEducationEnabled === false && onLearningPath) {
       setOpenLearningId(null);
       navigate(EROUTES.PERSON, { replace: true });
       return;
     }
 
+    if (isEducationEnabled === null && onLearningPath) {
+      return;
+    }
+
     const matchedLearning = learningNavItems.find((item) => pathname === item.route);
 
-    if (matchedLearning && isEducationEnabled) {
+    if (matchedLearning && educationOn) {
       setOpenLearningId(matchedLearning.id);
       setOpenStageId(-1);
       return;
@@ -204,10 +214,10 @@ const Person: FC = () => {
     if (matched) {
       setOpenStageId(matched.id);
     }
-  }, [isEducationEnabled, navigate, pathname, stages]);
+  }, [educationOn, isEducationEnabled, navigate, onLearningPath, pathname, stages]);
 
   return (
-    isLoadingData
+    isLoadingData || waitingEducationForLearning
     ?
     <Preloader />
     :
@@ -219,7 +229,7 @@ const Person: FC = () => {
           onChange={toggleStage}
           openLearningId={openLearningId}
           onLearningChange={toggleLearning}
-          isEducationEnabled={isEducationEnabled}
+          isEducationEnabled={educationOn}
         /> 
         <PersonContainer>
           {
@@ -236,7 +246,7 @@ const Person: FC = () => {
                   <PersonStageForm
                     onNextStage={handleNextStage}
                     isPracticeFormOpen={isPracticeFormOpen}
-                    isEducationEnabled={isEducationEnabled}
+                    isEducationEnabled={educationOn}
                   />
                 }
               />
@@ -244,7 +254,7 @@ const Person: FC = () => {
               <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides />} />
               <Route path={EROUTESSTAGES.PERSON_WORKSHOP} element={<PersonStageWorkshop />} />
               <Route path={EROUTESSTAGES.PERSON_EVALUATE} element={<PersonStageEvaluate />} />
-              {isEducationEnabled && (
+              {educationOn && (
                 <>
                   <Route path={EROUTESLEARNING.PROGRAM} element={<PersonLearningProgram />} />
                   <Route path={EROUTESLEARNING.LISTENER} element={<PersonLearningListener />} />
