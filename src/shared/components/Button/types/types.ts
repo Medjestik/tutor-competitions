@@ -30,5 +30,7 @@ export interface IButtonProps {
 	width?: 'default' | 'full' | 'auto';
 	isBlock?: boolean;
 	disabled?: boolean;
+	/** For `type="link"`: open in a new tab (default true). Set false for in-app same-tab navigation. */
+	openInNewTab?: boolean;
 	onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }

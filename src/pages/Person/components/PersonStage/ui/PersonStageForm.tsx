@@ -487,6 +487,7 @@ const PersonStageForm: FC<IStageFormProps> = ({
             text='Перейти к обучению'
             color='gradient'
             href={`${EROUTES.PERSON}/learning/program`}
+            openInNewTab={false}
           />
         )}
       </div>

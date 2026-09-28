@@ -14,6 +14,7 @@ const Button: FC<IButtonProps> = ({
 	href = '/',
 	withIcon,
 	disabled = false,
+	openInNewTab = true,
 }) => {
 	const baseClass = `${styles.button} ${styles[`button_width_${width}`]} ${
 		styles[`button_color_${color}`]
@@ -60,8 +61,9 @@ const Button: FC<IButtonProps> = ({
 			<a
 				href={href}
 				className={baseClass}
-				target='_blank'
-				rel='noreferrer'
+				{...(openInNewTab
+					? { target: '_blank', rel: 'noreferrer' }
+					: {})}
 				style={style}>
 				{renderContent()}
 			</a>
