@@ -30,6 +30,9 @@ export interface IUser {
 
 export interface ISettings {
 	can_login?: boolean;
+	registration_open?: boolean;
+	enable_education?: boolean;
+	practice_form_open?: boolean;
 	[key: string]: boolean | string | undefined;
 }
 

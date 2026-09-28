@@ -45,7 +45,7 @@ const Stages: FC<IStagesProps> = ({ windowWidth }) => {
           </li>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>с&nbsp;1&nbsp;по&nbsp;25&nbsp;сентября</span>
+              <span className='stages__date'>с&nbsp;1&nbsp;по&nbsp;27&nbsp;сентября</span>
               <h4 className='stages__item-title'>АНКЕТА ПРАКТИКИ</h4>
             </div>
             <div className='stages__separate'></div>
@@ -66,7 +66,7 @@ const Stages: FC<IStagesProps> = ({ windowWidth }) => {
           </li>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>с&nbsp;26&nbsp;по&nbsp;30&nbsp;сентября</span>
+              <span className='stages__date'>с&nbsp;28&nbsp;сентября&nbsp;по&nbsp;4&nbsp;октября</span>
               <h4 className='stages__item-title'>ИТОГИ 1&nbsp;ЭТАПА</h4>
             </div>
             <div className='stages__separate'></div>
@@ -76,7 +76,7 @@ const Stages: FC<IStagesProps> = ({ windowWidth }) => {
           </li>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>с&nbsp;1&nbsp;по&nbsp;14&nbsp;октября</span>
+              <span className='stages__date'>с&nbsp;5&nbsp;по&nbsp;17&nbsp;октября</span>
               <h4 className='stages__item-title'>ПРЕЗЕНТАЦИЯ ПРАКТИКИ</h4>
             </div>
             <div className='stages__separate'></div>
@@ -86,7 +86,7 @@ const Stages: FC<IStagesProps> = ({ windowWidth }) => {
           </li>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>с&nbsp;14&nbsp;по&nbsp;21&nbsp;октября</span>
+              <span className='stages__date'>с&nbsp;18&nbsp;по&nbsp;23&nbsp;октября</span>
               <h4 className='stages__item-title'>ИТОГИ 2&nbsp;ЭТАПА</h4>
             </div>
             <div className='stages__separate'></div>

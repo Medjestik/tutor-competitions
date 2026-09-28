@@ -2,6 +2,8 @@ import type { PropsWithChildren, } from 'react';
 
 export interface IStageFormProps {
   onNextStage: () => void;
+  isPracticeFormOpen?: boolean;
+  isEducationEnabled?: boolean;
 }
 
 export interface ISelectNomination {

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { IStage, IStageNavItem, ILearningNavItem } from '../interface/interface';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Navigate, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import * as api from '../../../shared/utils/api';
@@ -24,6 +24,10 @@ import { getSettings } from '../../../shared/api/user';
 
 import { EROUTES, EROUTESSTAGES, EROUTESLEARNING } from '../../../shared/utils/ERoutes';
 import { personStages, buildPersonStages, learningNavItems } from '../lib/stages';
+import {
+  PRACTICE_FORM_STAGE_ID,
+  getClosedPracticeFormMessage,
+} from '../lib/practiceFormClosed';
 
 import '../styles/style.css';
 
@@ -40,8 +44,28 @@ const Person: FC = () => {
   const [openStageId, setOpenStageId] = useState<number>(personStages[0].id);
   const [openLearningId, setOpenLearningId] = useState<string | null>(null);
   const [isEducationEnabled, setIsEducationEnabled] = useState<boolean>(false);
+  const [isPracticeFormOpen, setIsPracticeFormOpen] = useState<boolean>(true);
+  const [practiceFormStatus, setPracticeFormStatus] = useState<string | null>(null);
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
+
+  const withClosedFormNav = useCallback(
+    (baseStages: IStageNavItem[], formStatus: string | null, formOpen: boolean) => {
+      if (formOpen) {
+        return baseStages;
+      }
+      return baseStages.map((stage) =>
+        stage.id === PRACTICE_FORM_STAGE_ID
+          ? {
+              ...stage,
+              description: getClosedPracticeFormMessage(formStatus),
+              type: 'default' as const,
+            }
+          : stage,
+      );
+    },
+    [],
+  );
 
   const toggleStage = (stage: IStageNavItem) => {
     setOpenLearningId(null);
@@ -63,7 +87,7 @@ const Person: FC = () => {
       .then((res) => {
         onChangeStage(res.current_stage.id);
         const newStages = stages.map((elem: IStageNavItem) => ({ ...elem, type: res.current_stage.id >= elem.id ? 'default' : 'block' }));
-        setStages(newStages);
+        setStages(withClosedFormNav(newStages, practiceFormStatus, isPracticeFormOpen));
         toggleStage(res.current_stage);
       })
       .catch((err) => {
@@ -94,7 +118,7 @@ const Person: FC = () => {
           type: currentUser.current_stage_id >= elem.id ? 'default' : 'block'
         }));
       
-        setStages([...newStages]);
+        setStages(withClosedFormNav(newStages, practiceFormStatus, isPracticeFormOpen));
       })
       .catch((err) => {
         console.error(err);
@@ -114,15 +138,46 @@ const Person: FC = () => {
     getSettings()
       .then((settings) => {
         setIsEducationEnabled(settings.enable_education === true);
+        // Missing key → open (same as backend default)
+        setIsPracticeFormOpen(settings.practice_form_open !== false);
       })
       .catch(() => {
         setIsEducationEnabled(false);
+        setIsPracticeFormOpen(true);
       });
   }, []);
 
   useEffect(() => {
-    setStages(buildPersonStages(currentUser.current_stage_id));
-  }, [currentUser.current_stage_id]);
+    if (isPracticeFormOpen) {
+      setPracticeFormStatus(null);
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    }
+
+    api
+      .getFormData(token)
+      .then((form) => {
+        setPracticeFormStatus(form.status ?? null);
+      })
+      .catch((err) => {
+        console.error(err);
+        setPracticeFormStatus(null);
+      });
+  }, [isPracticeFormOpen]);
+
+  useEffect(() => {
+    const base = buildPersonStages(currentUser.current_stage_id);
+    setStages(withClosedFormNav(base, practiceFormStatus, isPracticeFormOpen));
+  }, [
+    currentUser.current_stage_id,
+    isPracticeFormOpen,
+    practiceFormStatus,
+    withClosedFormNav,
+  ]);
 
   useEffect(() => {
     if (!isEducationEnabled && pathname.includes('/learning/')) {
@@ -175,7 +230,16 @@ const Person: FC = () => {
             <Routes>
               <Route index element={<PersonStageInitial />} />
               <Route path="menu/*" element={<Navigate to={EROUTES.PERSON} replace />} />
-              <Route path={EROUTESSTAGES.PERSON_FORM} element={<PersonStageForm onNextStage={handleNextStage} />} />
+              <Route
+                path={EROUTESSTAGES.PERSON_FORM}
+                element={
+                  <PersonStageForm
+                    onNextStage={handleNextStage}
+                    isPracticeFormOpen={isPracticeFormOpen}
+                    isEducationEnabled={isEducationEnabled}
+                  />
+                }
+              />
               <Route path={EROUTESSTAGES.PERSON_SCHEDULE} element={<PersonStageSchedule />} />
               <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides />} />
               <Route path={EROUTESSTAGES.PERSON_WORKSHOP} element={<PersonStageWorkshop />} />

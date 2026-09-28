@@ -37,6 +37,7 @@ import {
   validateStep,
   getFirstErrorStep,
 } from '../utils/formValidation';
+import { getClosedPracticeFormMessage } from '../../../lib/practiceFormClosed';
 
 import '../styles/style.css';
 import '../styles/practice-form.css';
@@ -93,7 +94,11 @@ function flattenErrors(errorData: unknown): Record<string, string> {
   return result;
 }
 
-const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
+const PersonStageForm: FC<IStageFormProps> = ({
+  onNextStage,
+  isPracticeFormOpen = true,
+  isEducationEnabled = false,
+}) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<IFormData | null>(null);
@@ -465,6 +470,27 @@ const PersonStageForm: FC<IStageFormProps> = ({ onNextStage }) => {
 
   if (!formData) {
     return null;
+  }
+
+  if (!isPracticeFormOpen) {
+    const closedMessage = getClosedPracticeFormMessage(formData.status);
+    const showCourseCta =
+      formData.status !== 'submitted' && isEducationEnabled;
+
+    return (
+      <div className='person-stage'>
+        <h2 className='person-stage__title'>Анкета практики</h2>
+        <p className='person-stage__lead'>{closedMessage}</p>
+        {showCourseCta && (
+          <Button
+            type='link'
+            text='Перейти к обучению'
+            color='gradient'
+            href={`${EROUTES.PERSON}/learning/program`}
+          />
+        )}
+      </div>
+    );
   }
 
   if (formData.status === 'submitted') {
