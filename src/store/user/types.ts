@@ -25,6 +25,7 @@ export interface IUser {
   passed_second_stage: boolean;
   is_staff: boolean;
   is_lms_tutor: boolean;
+  viewing_as?: boolean;
   nomination: { id: number; name: string } | null;
 }
 

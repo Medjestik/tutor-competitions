@@ -2,6 +2,8 @@ import type { FC } from 'react';
 import type { IStaffParticipantListItem } from '../../shared/utils/api';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from '../../store/store';
 
 import MainLayout from '../../shared/components/Layout/ui/MainLayout';
 import Preloader from '../../shared/components/Preloader/ui/Preloader';
@@ -11,6 +13,7 @@ import {
   exportStaffParticipantsReport,
   getStaffParticipantsList,
 } from '../../shared/utils/api';
+import { startViewAsUser } from '../../store/user/actions';
 import { EROUTES } from '../../shared/utils/ERoutes';
 
 import './staff-learning-applications.css';
@@ -37,6 +40,8 @@ const parseBoolFilter = (value: string): boolean | undefined => {
 };
 
 const StaffParticipants: FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [participants, setParticipants] = useState<IStaffParticipantListItem[]>([]);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -50,6 +55,8 @@ const StaffParticipants: FC = () => {
   const [isExporting, setIsExporting] = useState(false);
   const [loadError, setLoadError] = useState('');
   const [exportError, setExportError] = useState('');
+  const [viewAsError, setViewAsError] = useState('');
+  const [startingUserId, setStartingUserId] = useState<number | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -124,6 +131,21 @@ const StaffParticipants: FC = () => {
     }
   };
 
+  const handleViewAs = async (userId: number) => {
+    setViewAsError('');
+    setStartingUserId(userId);
+    try {
+      await dispatch(startViewAsUser(userId)).unwrap();
+      navigate(EROUTES.PERSON);
+    } catch (error) {
+      setViewAsError(
+        error instanceof Error ? error.message : 'Не удалось открыть кабинет'
+      );
+    } finally {
+      setStartingUserId(null);
+    }
+  };
+
   const renderTableBody = () => {
     if (isLoading) {
       return <Preloader />;
@@ -144,12 +166,13 @@ const StaffParticipants: FC = () => {
                 <th>Номинация</th>
                 <th>Анкета отправлена</th>
                 <th>Документы на курс</th>
+                <th />
               </tr>
             </thead>
             <tbody>
               {participants.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className='staff-applications__empty'>
+                  <td colSpan={8} className='staff-applications__empty'>
                     Участники не найдены
                   </td>
                 </tr>
@@ -167,6 +190,18 @@ const StaffParticipants: FC = () => {
                     <td>{item.nomination || '—'}</td>
                     <td>{formatBool(item.questionnaireSubmitted)}</td>
                     <td>{formatBool(item.courseDocumentsSubmitted)}</td>
+                    <td>
+                      <Button
+                        text={
+                          startingUserId === item.id
+                            ? 'Открытие…'
+                            : 'Смотреть как'
+                        }
+                        color='primary'
+                        onClick={() => handleViewAs(item.id)}
+                        disabled={startingUserId !== null}
+                      />
+                    </td>
                   </tr>
                 ))
               )}
@@ -253,6 +288,9 @@ const StaffParticipants: FC = () => {
 
           {exportError ? (
             <p className='staff-applications__error'>{exportError}</p>
+          ) : null}
+          {viewAsError ? (
+            <p className='staff-applications__error'>{viewAsError}</p>
           ) : null}
           {renderTableBody()}
         </div>

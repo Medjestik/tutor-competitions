@@ -11,7 +11,7 @@ import logoLto from '../../../../../images/person-cabinet/logo-lto.svg';
 import iconUser from '../../../../../images/person-cabinet/icon-user.svg';
 
 import { EROUTES } from '../../../../../utils/ERoutes';
-import { logoutUser } from '../../../../../../store/user/actions';
+import { logoutUser, returnFromViewAs } from '../../../../../../store/user/actions';
 
 import '../styles/style.css';
 
@@ -21,9 +21,13 @@ const LayoutHeader: FC = () => {
   const dispatch = useDispatch();
 
   const [isAdminZoneOpen, setIsAdminZoneOpen] = useState(false);
+  const [isReturning, setIsReturning] = useState(false);
   const adminZoneRef = useRef<HTMLDivElement | null>(null);
 
-  const isAdminZoneVisible = Boolean(user?.is_staff || user?.is_lms_tutor);
+  const isViewingAs = Boolean(user?.viewing_as);
+  const isAdminZoneVisible = Boolean(
+    !isViewingAs && (user?.is_staff || user?.is_lms_tutor)
+  );
   const homeRoute = user ? EROUTES.PERSON : EROUTES.LANDING;
 
   useEffect(() => {
@@ -64,8 +68,30 @@ const LayoutHeader: FC = () => {
     return [lastName, initials].filter(Boolean).join(' ');
   };
 
+  const formatViewAsFullName = () => {
+    return [user?.last_name, user?.first_name, user?.middle_name]
+      .map((part) => part?.trim())
+      .filter(Boolean)
+      .join(' ');
+  };
+
   const handleLogout = () => {
     dispatch(logoutUser());
+  };
+
+  const handleReturnFromViewAs = async () => {
+    if (isReturning) {
+      return;
+    }
+    setIsReturning(true);
+    try {
+      await dispatch(returnFromViewAs()).unwrap();
+      navigate(EROUTES.STAFF_VIEW_AS);
+    } catch {
+      navigate(EROUTES.LOGIN);
+    } finally {
+      setIsReturning(false);
+    }
   };
 
   return (
@@ -88,6 +114,21 @@ const LayoutHeader: FC = () => {
         user
         ?
         <div className='layout-header__actions'>
+          {isViewingAs && (
+            <div className='layout-header__view-as' role='status'>
+              <span className='layout-header__view-as-text'>
+                Вы в кабинете: {formatViewAsFullName() || user.username}
+              </span>
+              <button
+                className='layout-header__btn layout-header__view-as-return'
+                type='button'
+                onClick={handleReturnFromViewAs}
+                disabled={isReturning}
+              >
+                {isReturning ? 'Возврат…' : 'Вернуться'}
+              </button>
+            </div>
+          )}
           {isAdminZoneVisible && (
             <div ref={adminZoneRef} className='layout-header__admin-dropdown'>
               <button
@@ -119,6 +160,15 @@ const LayoutHeader: FC = () => {
                           onClick={() => setIsAdminZoneOpen(false)}
                         >
                           Участники конкурса
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className='layout-header__admin-link'
+                          to={EROUTES.STAFF_VIEW_AS}
+                          onClick={() => setIsAdminZoneOpen(false)}
+                        >
+                          Смотреть как пользователь
                         </Link>
                       </li>
                       <li>

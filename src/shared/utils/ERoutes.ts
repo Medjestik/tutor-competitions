@@ -24,6 +24,7 @@ export enum EROUTES {
   STAFF_SETTING = '/staff/settings/:id',
   STAFF_TASK_REVIEWS = '/staff/task-reviews',
   STAFF_COURSE_PROGRESS = '/staff/course-progress',
+  STAFF_VIEW_AS = '/staff/view-as',
 }
 
 export enum EROUTESSTAGES {
