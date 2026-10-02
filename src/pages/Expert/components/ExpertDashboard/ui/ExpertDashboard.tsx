@@ -185,7 +185,7 @@ const ExpertDashboard: FC = () => {
           />
           <Button
             style={btnExportStyle}
-            text={isExportingScores ? 'Экспорт…' : 'Оценки экспертов'}
+            text={isExportingScores ? 'Экспорт…' : 'Протокол оценок'}
             onClick={exportExpertScores}
             disabled={isExportingReport || isExportingScores}
           />
