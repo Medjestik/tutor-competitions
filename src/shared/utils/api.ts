@@ -351,7 +351,6 @@ export const exportStaffCourseProgressReport = async (
   const res = await fetch(url, {
     method: 'GET',
     headers: {
-      Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       Authorization: `Bearer ${token}`,
     },
   });
