@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, KeyboardEvent } from 'react';
 import type {
   IStaffCourseProgressDetail,
   IStaffCourseProgressListItem,
@@ -14,9 +14,11 @@ import Button from '../../shared/components/Button/ui/Button';
 import Popup from '../../shared/components/Popup/ui/Popup';
 import StaffBackButton from './components/StaffBackButton';
 import closeIcon from '../../shared/icons/buttons/close-color.svg';
+import sortArrowIcon from '../../shared/icons/arrow.svg';
 import {
   creditStaffCoursePart,
   getStaffCourseProgressDetail,
+  exportStaffCourseProgressReport,
   getStaffCourseProgressList,
   getStaffProgressCourses,
 } from '../../shared/utils/api';
@@ -51,6 +53,25 @@ const LESSON_STATUS_LABELS: Record<string, string> = {
   completed: 'Зачтено',
 };
 
+type TSortField =
+  | 'fullName'
+  | 'workplace'
+  | 'phone'
+  | 'streamEndsAt'
+  | 'testsPassed'
+  | 'tasksCredited'
+  | 'courseStatus';
+
+const SORTABLE_COLUMNS: { field: TSortField; label: string }[] = [
+  { field: 'fullName', label: 'ФИО' },
+  { field: 'workplace', label: 'ВУЗ' },
+  { field: 'phone', label: 'Телефон' },
+  { field: 'streamEndsAt', label: 'Окончание' },
+  { field: 'testsPassed', label: 'Тесты' },
+  { field: 'tasksCredited', label: 'Задания' },
+  { field: 'courseStatus', label: 'Статус' },
+];
+
 const formatStreamEndsAt = (value: string | null | undefined): string => {
   if (!value) {
     return '—';
@@ -81,6 +102,15 @@ const StaffCourseProgress: FC = () => {
   const [isDetailLoading, setIsDetailLoading] = useState(false);
   const [creditingPartId, setCreditingPartId] = useState<number | null>(null);
   const [formError, setFormError] = useState('');
+  const [sortField, setSortField] = useState<TSortField | null>(null);
+  const [sortDesc, setSortDesc] = useState(false);
+  const [streamEndsFrom, setStreamEndsFrom] = useState('');
+  const [streamEndsTo, setStreamEndsTo] = useState('');
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportError, setExportError] = useState('');
+
+  const ordering =
+    sortField === null ? undefined : `${sortDesc ? '-' : ''}${sortField}`;
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -136,6 +166,9 @@ const StaffCourseProgress: FC = () => {
         page,
         search: debouncedSearch,
         status: statusFilter,
+        ordering,
+        streamEndsFrom: streamEndsFrom || undefined,
+        streamEndsTo: streamEndsTo || undefined,
       });
       setListeners(response.results);
       setTotalCount(response.count);
@@ -150,11 +183,75 @@ const StaffCourseProgress: FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [courseId, page, debouncedSearch, statusFilter]);
+  }, [courseId, page, debouncedSearch, statusFilter, ordering, streamEndsFrom, streamEndsTo]);
 
   useEffect(() => {
     loadListeners();
   }, [loadListeners]);
+
+  const handleSort = (field: TSortField) => {
+    setPage(1);
+    if (sortField === field) {
+      if (!sortDesc) {
+        setSortDesc(true);
+        return;
+      }
+      setSortField(null);
+      setSortDesc(false);
+      return;
+    }
+    setSortField(field);
+    setSortDesc(false);
+  };
+
+  const handleSortKeyDown = (field: TSortField, event: KeyboardEvent<HTMLTableCellElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleSort(field);
+    }
+  };
+
+  const handleExport = async () => {
+    if (courseId === '') {
+      return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setExportError('Требуется авторизация');
+      return;
+    }
+
+    setIsExporting(true);
+    setExportError('');
+    try {
+      const blob = await exportStaffCourseProgressReport(token, courseId, {
+        search: debouncedSearch,
+        status: statusFilter,
+        ordering,
+        streamEndsFrom: streamEndsFrom || undefined,
+        streamEndsTo: streamEndsTo || undefined,
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `course_progress_${courseId}.xlsx`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      setExportError('Не удалось выгрузить Excel');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const sortAriaValue = (field: TSortField): 'ascending' | 'descending' | 'none' => {
+    if (sortField !== field) {
+      return 'none';
+    }
+    return sortDesc ? 'descending' : 'ascending';
+  };
 
   const openDetail = async (userId: number) => {
     if (courseId === '') {
@@ -270,8 +367,44 @@ const StaffCourseProgress: FC = () => {
                     ))}
                   </select>
                 </label>
+
+                <label className='staff-course-progress__field'>
+                  <span>Окончание с</span>
+                  <input
+                    type='date'
+                    value={streamEndsFrom}
+                    onChange={(event) => {
+                      setStreamEndsFrom(event.target.value);
+                      setPage(1);
+                    }}
+                    disabled={courseId === ''}
+                  />
+                </label>
+
+                <label className='staff-course-progress__field'>
+                  <span>Окончание по</span>
+                  <input
+                    type='date'
+                    value={streamEndsTo}
+                    onChange={(event) => {
+                      setStreamEndsTo(event.target.value);
+                      setPage(1);
+                    }}
+                    disabled={courseId === ''}
+                  />
+                </label>
               </div>
 
+              <div className='staff-course-progress__actions'>
+                <Button
+                  text={isExporting ? 'Выгрузка…' : 'Excel: все отфильтрованные'}
+                  color='primary'
+                  onClick={handleExport}
+                  disabled={courseId === '' || isExporting || isLoading}
+                />
+              </div>
+
+              {exportError ? <p className='staff-course-progress__error'>{exportError}</p> : null}
               {loadError ? <p className='staff-course-progress__error'>{loadError}</p> : null}
 
               {courseId === '' ? (
@@ -286,18 +419,39 @@ const StaffCourseProgress: FC = () => {
                     <table className='staff-course-progress__table'>
                       <thead>
                         <tr>
-                          <th>ФИО</th>
-                          <th>Телефон</th>
-                          <th>Окончание</th>
-                          <th>Тесты</th>
-                          <th>Задания</th>
-                          <th>Статус</th>
+                          {SORTABLE_COLUMNS.map((column) => (
+                            <th
+                              key={column.field}
+                              className='staff-course-progress__th-sortable'
+                              onClick={() => handleSort(column.field)}
+                              onKeyDown={(event) => handleSortKeyDown(column.field, event)}
+                              role='button'
+                              tabIndex={0}
+                              aria-sort={sortAriaValue(column.field)}
+                            >
+                              <span className='staff-course-progress__th-label'>
+                                {column.label}
+                                <img
+                                  src={sortArrowIcon}
+                                  alt=''
+                                  aria-hidden='true'
+                                  className={`staff-course-progress__sort-icon${
+                                    sortField === column.field
+                                      ? sortDesc
+                                        ? ' staff-course-progress__sort-icon_desc'
+                                        : ' staff-course-progress__sort-icon_asc'
+                                      : ' staff-course-progress__sort-icon_idle'
+                                  }`}
+                                />
+                              </span>
+                            </th>
+                          ))}
                         </tr>
                       </thead>
                       <tbody>
                         {listeners.length === 0 ? (
                           <tr>
-                            <td colSpan={6} className='staff-course-progress__empty'>
+                            <td colSpan={7} className='staff-course-progress__empty'>
                               Слушатели не найдены
                             </td>
                           </tr>
@@ -313,6 +467,7 @@ const StaffCourseProgress: FC = () => {
                                   {item.fullName || '—'}
                                 </button>
                               </td>
+                              <td>{item.workplace || '—'}</td>
                               <td>{item.phone || '—'}</td>
                               <td>{formatStreamEndsAt(item.streamEndsAt)}</td>
                               <td>

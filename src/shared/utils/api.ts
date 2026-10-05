@@ -235,6 +235,7 @@ export interface IStaffProgressCourseOption {
 export interface IStaffCourseProgressListItem {
   id: number;
   fullName: string;
+  workplace: string;
   phone: string;
   streamEndsAt: string | null;
   testsPassed: number;
@@ -281,6 +282,9 @@ export const getStaffCourseProgressList = (
     page?: number;
     search?: string;
     status?: TStaffCourseProgressStatus | '';
+    ordering?: string;
+    streamEndsFrom?: string;
+    streamEndsTo?: string;
   } = {}
 ) => {
   const searchParams = new URLSearchParams();
@@ -293,6 +297,15 @@ export const getStaffCourseProgressList = (
   if (params.status) {
     searchParams.set('status', params.status);
   }
+  if (params.ordering) {
+    searchParams.set('ordering', params.ordering);
+  }
+  if (params.streamEndsFrom) {
+    searchParams.set('streamEndsFrom', params.streamEndsFrom);
+  }
+  if (params.streamEndsTo) {
+    searchParams.set('streamEndsTo', params.streamEndsTo);
+  }
   const query = searchParams.toString();
   const url = `${API_URL}/lms/staff/courses/${courseId}/progress/${query ? '?' + query : ''}`;
 
@@ -303,6 +316,51 @@ export const getStaffCourseProgressList = (
       Authorization: `Bearer ${token}`,
     },
   }).then((res) => handleResponse(res)) as Promise<IStaffCourseProgressListResponse>;
+};
+
+export const exportStaffCourseProgressReport = async (
+  token: string,
+  courseId: number,
+  params: {
+    search?: string;
+    status?: TStaffCourseProgressStatus | '';
+    ordering?: string;
+    streamEndsFrom?: string;
+    streamEndsTo?: string;
+  } = {}
+): Promise<Blob> => {
+  const searchParams = new URLSearchParams();
+  if (params.search) {
+    searchParams.set('search', params.search);
+  }
+  if (params.status) {
+    searchParams.set('status', params.status);
+  }
+  if (params.ordering) {
+    searchParams.set('ordering', params.ordering);
+  }
+  if (params.streamEndsFrom) {
+    searchParams.set('streamEndsFrom', params.streamEndsFrom);
+  }
+  if (params.streamEndsTo) {
+    searchParams.set('streamEndsTo', params.streamEndsTo);
+  }
+  const query = searchParams.toString();
+  const url = `${API_URL}/lms/staff/courses/${courseId}/progress/export/${query ? '?' + query : ''}`;
+
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw res;
+  }
+
+  return res.blob();
 };
 
 export const getStaffCourseProgressDetail = (

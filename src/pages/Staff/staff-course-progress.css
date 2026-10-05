@@ -20,7 +20,14 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 12px 16px;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
+}
+
+.staff-course-progress__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .staff-course-progress__field {
@@ -75,6 +82,42 @@
 .staff-course-progress__table th {
   background: #f7f9fc;
   font-weight: 600;
+}
+
+.staff-course-progress__th-sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.staff-course-progress__th-sortable:hover {
+  background: #eef2f8;
+}
+
+.staff-course-progress__th-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.staff-course-progress__sort-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.staff-course-progress__sort-icon_idle {
+  opacity: 0.35;
+}
+
+.staff-course-progress__sort-icon_asc {
+  opacity: 1;
+  transform: rotate(180deg);
+}
+
+.staff-course-progress__sort-icon_desc {
+  opacity: 1;
+  transform: rotate(0deg);
 }
 
 .staff-course-progress__empty {
