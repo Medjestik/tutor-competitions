@@ -4,6 +4,7 @@ import { useWindowWidth } from '../../shared/hooks/useWindowWidth';
 
 import Header from './components/Header/ui/Header';
 import Main from './components/Main/ui/Main';
+import LeaderBoard from './components/LeaderBoard/ui/LeaderBoard';
 import Description from './components/Description/ui/Description';
 import Recruitment from './components/Recruitment/ui/Recruitment';
 import Advantages from './components/Advantages/ui/Advantages';
@@ -43,6 +44,7 @@ const Landing: FC = () => {
           <Header windowWidth={windowWidth} showMobileMenu={toggleMobileMenu} />
           <Main windowWidth={windowWidth} />
         </section>
+        <LeaderBoard windowWidth={windowWidth} />
         <Description />
         <Recruitment />
         <Advantages windowWidth={windowWidth} />
