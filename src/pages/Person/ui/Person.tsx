@@ -39,7 +39,10 @@ const Person: FC = () => {
   const { pathname } = useLocation();
 
   const [stages, setStages] = useState<IStageNavItem[]>(() =>
-    buildPersonStages(currentUser.current_stage_id),
+    buildPersonStages(
+      currentUser.current_stage_id,
+      currentUser.passed_second_stage,
+    ),
   );
   const [openStageId, setOpenStageId] = useState<number>(personStages[0].id);
   const [openLearningId, setOpenLearningId] = useState<string | null>(null);
@@ -91,7 +94,10 @@ const Person: FC = () => {
       api.nextStage(token)
       .then((res) => {
         onChangeStage(res.current_stage.id);
-        const newStages = stages.map((elem: IStageNavItem) => ({ ...elem, type: res.current_stage.id >= elem.id ? 'default' : 'block' }));
+        const newStages = buildPersonStages(
+          res.current_stage.id,
+          currentUser.passed_second_stage,
+        );
         setStages(withClosedFormNav(newStages, practiceFormStatus, isPracticeFormOpen));
         toggleStage(res.current_stage);
       })
@@ -175,10 +181,14 @@ const Person: FC = () => {
   }, [isPracticeFormOpen]);
 
   useEffect(() => {
-    const base = buildPersonStages(currentUser.current_stage_id);
+    const base = buildPersonStages(
+      currentUser.current_stage_id,
+      currentUser.passed_second_stage,
+    );
     setStages(withClosedFormNav(base, practiceFormStatus, isPracticeFormOpen));
   }, [
     currentUser.current_stage_id,
+    currentUser.passed_second_stage,
     isPracticeFormOpen,
     practiceFormStatus,
     withClosedFormNav,

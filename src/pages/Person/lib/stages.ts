@@ -87,14 +87,27 @@ export const personStages = [
   },
 ];
 
+const VIDEO_PRESENTATION_STAGE_ID = 3;
+
 /** Разблокирует пункты навигации по текущему этапу пользователя (id из personStages). */
-export function buildPersonStages(currentStageId: number): typeof personStages {
+export function buildPersonStages(
+  currentStageId: number,
+  passedSecondStage = false,
+): typeof personStages {
   const unlockedThroughId = currentStageId > 0 ? currentStageId : 1;
 
-  return personStages.map((stage) => ({
-    ...stage,
-    type: unlockedThroughId >= stage.id ? 'default' : 'block',
-  }));
+  return personStages.map((stage) => {
+    if (stage.id === VIDEO_PRESENTATION_STAGE_ID) {
+      return {
+        ...stage,
+        type: passedSecondStage ? ('default' as const) : ('block' as const),
+      };
+    }
+    return {
+      ...stage,
+      type: unlockedThroughId >= stage.id ? ('default' as const) : ('block' as const),
+    };
+  });
 }
 
 export const personStagesClose = [

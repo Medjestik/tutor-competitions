@@ -553,6 +553,34 @@ export const uploadLink = (token: string, data: IUploadLink) => {
   .then(res => handleResponse(res));
 };
 
+export interface ISecondStageMaterials {
+  practice_video_url: string;
+  presentation_url: string;
+  presentation_file_url: string | null;
+  photo_url: string | null;
+}
+
+export const getSecondStageMaterials = (token: string) => {
+  return fetch(`${API_URL}/competition/second-stage/`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => handleResponse(res));
+};
+
+export const patchSecondStageMaterials = (token: string, formData: FormData) => {
+  return fetch(`${API_URL}/competition/second-stage/`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  }).then((res) => handleResponse(res));
+};
+
 export const uploadFile = (token: string, data: IUploadFile) => {
   return fetch(`${API_URL}/competition/forms/add-resource/`, {
     method: 'POST',
