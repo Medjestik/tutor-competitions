@@ -1,4 +1,4 @@
-import type { FC, ChangeEvent, FormEvent } from 'react';
+import type { FC, ChangeEvent } from 'react';
 
 import { useState, useEffect, useRef } from 'react';
 
@@ -23,15 +23,17 @@ const btnStyle = {
   padding: '8px 20px',
 };
 
+type TSaveSection = 'video' | 'presentation' | 'photo' | null;
+
 const PersonStageSlides: FC = () => {
   const passedSecondStage = useSelector(
     (state) => state.user.user?.passed_second_stage === true,
   );
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
-  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [savingSection, setSavingSection] = useState<TSaveSection>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
-  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
 
   const [practiceVideoUrl, setPracticeVideoUrl] = useState('');
   const [presentationLink, setPresentationLink] = useState('');
@@ -50,11 +52,6 @@ const PersonStageSlides: FC = () => {
     setPresentationLink(data.presentation_url || '');
     setSavedPresentationFileUrl(data.presentation_file_url);
     setSavedPhotoUrl(data.photo_url);
-    const complete =
-      Boolean(data.practice_video_url) &&
-      (Boolean(data.presentation_url) || Boolean(data.presentation_file_url)) &&
-      Boolean(data.photo_url);
-    setIsSaved(complete);
   };
 
   const loadData = () => {
@@ -96,45 +93,70 @@ const PersonStageSlides: FC = () => {
     e.target.value = '';
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const patchSection = async (
+    section: Exclude<TSaveSection, null>,
+    formData: FormData,
+  ) => {
     const token = localStorage.getItem('token');
     if (!token) {
       return;
     }
 
     setSaveError(null);
-    setIsSaving(true);
+    setSaveMessage(null);
+    setSavingSection(section);
 
+    try {
+      const res = await api.patchSecondStageMaterials(token, formData);
+      if (section === 'presentation') {
+        setPresentationFile(null);
+      }
+      if (section === 'photo') {
+        setPhotoFile(null);
+      }
+      applyServerData(res);
+      setSaveMessage('Сохранено.');
+    } catch (err) {
+      try {
+        const body = await (err as Response).json();
+        setSaveError(body.error || 'Не удалось сохранить материалы.');
+      } catch {
+        setSaveError('Не удалось сохранить материалы.');
+      }
+    } finally {
+      setSavingSection(null);
+    }
+  };
+
+  const savePracticeVideo = () => {
     const formData = new FormData();
     formData.append('practice_video_url', practiceVideoUrl.trim());
+    void patchSection('video', formData);
+  };
 
+  const savePresentation = () => {
+    const formData = new FormData();
     if (presentationFile) {
       formData.append('presentation_file', presentationFile);
     } else if (presentationLink.trim()) {
       formData.append('presentation_url', presentationLink.trim());
+    } else {
+      setSaveError('Выберите файл презентации или укажите ссылку.');
+      setSaveMessage(null);
+      return;
     }
+    void patchSection('presentation', formData);
+  };
 
-    if (photoFile) {
-      formData.append('photo', photoFile);
+  const savePhoto = () => {
+    if (!photoFile) {
+      setSaveError('Выберите файл фотографии.');
+      setSaveMessage(null);
+      return;
     }
-
-    api
-      .patchSecondStageMaterials(token, formData)
-      .then((res) => {
-        setPresentationFile(null);
-        setPhotoFile(null);
-        applyServerData(res);
-      })
-      .catch(async (err: Response) => {
-        try {
-          const body = await err.json();
-          setSaveError(body.error || 'Не удалось сохранить материалы.');
-        } catch {
-          setSaveError('Не удалось сохранить материалы.');
-        }
-      })
-      .finally(() => setIsSaving(false));
+    const formData = new FormData();
+    formData.append('photo', photoFile);
+    void patchSection('photo', formData);
   };
 
   if (!passedSecondStage) {
@@ -154,136 +176,159 @@ const PersonStageSlides: FC = () => {
     );
   }
 
+  const isBusy = savingSection !== null;
+
   return (
     <div className='person-stage'>
       <h2 className='person-stage__title'>Видеопрезентация</h2>
 
-      <div className='person-stage__container'>
-        <div className='person-stage__info'>
-          <p className='person-stage__subtitle'>
-            Ознакомьтесь с видео и подготовьте материалы второго этапа.
-          </p>
-          <Button
-            text='Скачать шаблон'
-            style={btnStyle}
-            type='link'
-            href={STAGE_2_TEMPLATE_HREF}
+      <p className='person-stage__subtitle'>
+        Ознакомьтесь с видео и подготовьте материалы второго этапа.
+      </p>
+
+      <div className='person-stage__video-wrap person-stage__video-wrap_full'>
+        <div className='person-stage__video-embed'>
+          <iframe
+            title='Видео организатора'
+            src={ORGANIZER_VIDEO_URL}
+            width={560}
+            height={315}
+            allow='autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture; encrypted-media'
+            allowFullScreen
           />
-        </div>
-        <div className='person-stage__video-wrap'>
-          <div className='person-stage__video-embed'>
-            <iframe
-              title='Видео организатора'
-              src={ORGANIZER_VIDEO_URL}
-              width={560}
-              height={315}
-              allow='autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture; encrypted-media'
-              allowFullScreen
-            />
-          </div>
         </div>
       </div>
 
-      <form className='person-stage__form' onSubmit={handleSubmit}>
-        <label className='person-stage__subtitle'>
-          Ссылка на видеопредставление практики *
+      <hr className='person-stage__divider' />
+
+      <p className='person-stage__subtitle'>Загрузите материалы второго этапа.</p>
+
+      <Button
+        text='Скачать шаблон презентации'
+        style={btnStyle}
+        type='link'
+        href={STAGE_2_TEMPLATE_HREF}
+      />
+
+      <div className='person-stage__form'>
+        <div className='person-stage__field-block'>
+          <label className='person-stage__subtitle' htmlFor='practice-video-url'>
+            Ссылка на видеопредставление практики
+          </label>
           <input
-            className='person-stage__input'
+            id='practice-video-url'
+            className='person-stage__input person-stage__input_full'
             type='url'
             value={practiceVideoUrl}
             onChange={(ev) => setPracticeVideoUrl(ev.target.value)}
             placeholder='https://'
-            required
           />
-        </label>
-
-        <p className='person-stage__subtitle person-stage__text-bold'>
-          Презентация * (файл до 30&nbsp;Мб или ссылка)
-        </p>
-        {savedPresentationFileUrl && !presentationFile && !presentationLink && (
-          <p className='person-stage__subtitle'>
-            Загружен файл:{' '}
-            <a href={savedPresentationFileUrl} target='_blank' rel='noreferrer'>
-              открыть
-            </a>
-          </p>
-        )}
-        <div className='person-stage__btn-container'>
           <Button
-            text='Добавить файл'
+            text={savingSection === 'video' ? 'Сохранение…' : 'Сохранить ссылку'}
             style={btnStyle}
             type='button'
-            onClick={() => presentationInputRef.current?.click()}
-          />
-          <input
-            ref={presentationInputRef}
-            type='file'
-            accept='.ppt,.pptx,.pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf'
-            hidden
-            onChange={handlePresentationFile}
-          />
-          <input
-            className='person-stage__input'
-            type='url'
-            value={presentationLink}
-            onChange={(ev) => {
-              setPresentationLink(ev.target.value);
-              if (ev.target.value) {
-                setPresentationFile(null);
-              }
-            }}
-            placeholder='Или ссылка на презентацию'
+            onClick={savePracticeVideo}
+            disabled={isBusy}
           />
         </div>
-        {presentationFile && (
-          <p className='person-stage__subtitle'>Выбран файл: {presentationFile.name}</p>
-        )}
 
-        <p className='person-stage__subtitle person-stage__text-bold'>
-          Фотография * (до 10&nbsp;Мб, JPEG, PNG или WebP)
-        </p>
-        {savedPhotoUrl && !photoFile && (
-          <p className='person-stage__subtitle'>
-            Загружено фото:{' '}
-            <a href={savedPhotoUrl} target='_blank' rel='noreferrer'>
-              открыть
-            </a>
+        <div className='person-stage__field-block'>
+          <p className='person-stage__subtitle person-stage__text-bold'>
+            Презентация (файл до 30&nbsp;Мб или ссылка)
           </p>
-        )}
-        <Button
-          text='Добавить фото'
-          style={btnStyle}
-          type='button'
-          onClick={() => photoInputRef.current?.click()}
-        />
-        <input
-          ref={photoInputRef}
-          type='file'
-          accept='image/jpeg,image/png,image/webp'
-          hidden
-          onChange={handlePhotoFile}
-        />
-        {photoFile && (
-          <p className='person-stage__subtitle'>Выбрано фото: {photoFile.name}</p>
-        )}
+          {savedPresentationFileUrl && !presentationFile && !presentationLink && (
+            <p className='person-stage__subtitle'>
+              Загружен файл:{' '}
+              <a href={savedPresentationFileUrl} target='_blank' rel='noreferrer'>
+                открыть
+              </a>
+            </p>
+          )}
+          <div className='person-stage__btn-container person-stage__btn-container_stack'>
+            <Button
+              text='Добавить файл'
+              style={btnStyle}
+              type='button'
+              onClick={() => presentationInputRef.current?.click()}
+              disabled={isBusy}
+            />
+            <input
+              ref={presentationInputRef}
+              type='file'
+              accept='.ppt,.pptx,.pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf'
+              hidden
+              onChange={handlePresentationFile}
+            />
+            <input
+              className='person-stage__input person-stage__input_full'
+              type='url'
+              value={presentationLink}
+              onChange={(ev) => {
+                setPresentationLink(ev.target.value);
+                if (ev.target.value) {
+                  setPresentationFile(null);
+                }
+              }}
+              placeholder='Или ссылка на презентацию'
+            />
+          </div>
+          {presentationFile && (
+            <p className='person-stage__subtitle'>Выбран файл: {presentationFile.name}</p>
+          )}
+          <Button
+            text={savingSection === 'presentation' ? 'Сохранение…' : 'Сохранить презентацию'}
+            style={btnStyle}
+            type='button'
+            onClick={savePresentation}
+            disabled={isBusy}
+          />
+        </div>
+
+        <div className='person-stage__field-block'>
+          <p className='person-stage__subtitle person-stage__text-bold'>
+            Фотография (до 10&nbsp;Мб, JPEG, PNG или WebP)
+          </p>
+          {savedPhotoUrl && !photoFile && (
+            <p className='person-stage__subtitle'>
+              Загружено фото:{' '}
+              <a href={savedPhotoUrl} target='_blank' rel='noreferrer'>
+                открыть
+              </a>
+            </p>
+          )}
+          <Button
+            text='Добавить фото'
+            style={btnStyle}
+            type='button'
+            onClick={() => photoInputRef.current?.click()}
+            disabled={isBusy}
+          />
+          <input
+            ref={photoInputRef}
+            type='file'
+            accept='image/jpeg,image/png,image/webp'
+            hidden
+            onChange={handlePhotoFile}
+          />
+          {photoFile && (
+            <p className='person-stage__subtitle'>Выбрано фото: {photoFile.name}</p>
+          )}
+          <Button
+            text={savingSection === 'photo' ? 'Сохранение…' : 'Сохранить фото'}
+            style={btnStyle}
+            type='button'
+            onClick={savePhoto}
+            disabled={isBusy}
+          />
+        </div>
 
         {saveError && (
           <p className='person-stage__subtitle person-stage__text-bold'>{saveError}</p>
         )}
-
-        {isSaved && !saveError && (
-          <p className='person-stage__subtitle person-stage__text-bold'>
-            Материалы сохранены. При необходимости вы можете заменить их и сохранить снова.
-          </p>
+        {saveMessage && !saveError && (
+          <p className='person-stage__subtitle person-stage__text-bold'>{saveMessage}</p>
         )}
-
-        <Button
-          text={isSaving ? 'Сохранение…' : 'Сохранить'}
-          style={btnStyle}
-          type='submit'
-          disabled={isSaving}
-        />
-      </form>
+      </div>
     </div>
   );
 };
