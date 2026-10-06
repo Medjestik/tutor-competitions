@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import Button from '../../../../../shared/components/Button/ui/Button';
-import { ORDER_LINK, REGULATION_LINK } from '../../../../../shared/lib/lib';
+import { ORDER_LINK, PROTOCOL_LINK, REGULATION_LINK } from '../../../../../shared/lib/lib';
 import { ENAV } from '../../../../../shared/components/Navigation/interface/interface';
 
 import '../styles/style.css';
@@ -29,6 +29,12 @@ const Document: FC<IDocumentProps> = ({ windowWidth }) => {
             text='СКАЧАТЬ РЕГЛАМЕНТ' 
             type='link' 
             href={REGULATION_LINK}
+            width='full'
+          />
+          <Button
+            text='СКАЧАТЬ ПРОТОКОЛ'
+            type='link'
+            href={PROTOCOL_LINK}
             width='full'
           />
         </div>
