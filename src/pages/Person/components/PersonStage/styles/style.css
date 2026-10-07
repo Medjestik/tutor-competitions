@@ -408,15 +408,6 @@
   width: 100%;
 }
 
-.person-stage__video-wrap_full {
-  width: 100%;
-  margin: 16px 0 0 0;
-}
-
-.person-stage__video-wrap_full .person-stage__video-embed {
-  width: 100%;
-}
-
 .person-stage__input {
   display: block;
   width: 100%;

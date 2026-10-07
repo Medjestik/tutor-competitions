@@ -13,7 +13,7 @@ import PersonNavigation from '../components/PersonNavigation/ui/PersonNavigation
 import PersonContainer from '../components/PersonContainer/ui/PersonContainer';
 import PersonStageInitial from '../components/PersonStage/ui/PersonStageInitial';
 import PersonStageForm from '../components/PersonStage/ui/PersonStageForm';
-import PersonStageSchedule from '../components/PersonStage/ui/PersonStageSchedule';
+import PersonStageResults from '../components/PersonStage/ui/PersonStageResults';
 import PersonStageSlides from '../components/PersonStage/ui/PersonStageSlides';
 import PersonStageWorkshop from '../components/PersonStage/ui/PersonStageWorkshop';
 import PersonStageEvaluate from '../components/PersonStage/ui/PersonStageEvaluate';
@@ -42,6 +42,7 @@ const Person: FC = () => {
     buildPersonStages(
       currentUser.current_stage_id,
       currentUser.passed_second_stage,
+      false,
     ),
   );
   const [openStageId, setOpenStageId] = useState<number>(personStages[0].id);
@@ -49,6 +50,8 @@ const Person: FC = () => {
   /** null = settings not loaded yet; avoid treating as disabled before resolve */
   const [isEducationEnabled, setIsEducationEnabled] = useState<boolean | null>(null);
   const [isPracticeFormOpen, setIsPracticeFormOpen] = useState<boolean>(true);
+  const [isStage1ResultsPublished, setIsStage1ResultsPublished] =
+    useState<boolean>(false);
   const [practiceFormStatus, setPracticeFormStatus] = useState<string | null>(null);
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
@@ -97,6 +100,7 @@ const Person: FC = () => {
         const newStages = buildPersonStages(
           res.current_stage.id,
           currentUser.passed_second_stage,
+          isStage1ResultsPublished,
         );
         setStages(withClosedFormNav(newStages, practiceFormStatus, isPracticeFormOpen));
         toggleStage(res.current_stage);
@@ -151,10 +155,13 @@ const Person: FC = () => {
         setIsEducationEnabled(settings.enable_education === true);
         // Missing key → open (same as backend default)
         setIsPracticeFormOpen(settings.practice_form_open !== false);
+        // Missing key → unpublished (safe default)
+        setIsStage1ResultsPublished(settings.stage1_results_published === true);
       })
       .catch(() => {
         setIsEducationEnabled(false);
         setIsPracticeFormOpen(true);
+        setIsStage1ResultsPublished(false);
       });
   }, []);
 
@@ -184,11 +191,13 @@ const Person: FC = () => {
     const base = buildPersonStages(
       currentUser.current_stage_id,
       currentUser.passed_second_stage,
+      isStage1ResultsPublished,
     );
     setStages(withClosedFormNav(base, practiceFormStatus, isPracticeFormOpen));
   }, [
     currentUser.current_stage_id,
     currentUser.passed_second_stage,
+    isStage1ResultsPublished,
     isPracticeFormOpen,
     practiceFormStatus,
     withClosedFormNav,
@@ -260,7 +269,12 @@ const Person: FC = () => {
                   />
                 }
               />
-              <Route path={EROUTESSTAGES.PERSON_SCHEDULE} element={<PersonStageSchedule />} />
+              <Route
+                path={EROUTESSTAGES.PERSON_RESULTS}
+                element={
+                  <PersonStageResults isPublished={isStage1ResultsPublished} />
+                }
+              />
               <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides />} />
               <Route path={EROUTESSTAGES.PERSON_WORKSHOP} element={<PersonStageWorkshop />} />
               <Route path={EROUTESSTAGES.PERSON_EVALUATE} element={<PersonStageEvaluate />} />

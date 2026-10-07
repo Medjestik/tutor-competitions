@@ -31,9 +31,9 @@ export const personStages = [
   },
   {
     name: 'Результаты 1 этапа',
-    description: 'Дождитесь решения жюри',
+    description: 'Итоги этапа',
     id: 2,
-    route: `${EROUTES.PERSON}/${EROUTESSTAGES.PERSON_SCHEDULE}`,
+    route: `${EROUTES.PERSON}/${EROUTESSTAGES.PERSON_RESULTS}`,
     is_active: true,
     position: 2,
     view: 'stage',
@@ -87,16 +87,28 @@ export const personStages = [
   },
 ];
 
+const STAGE1_RESULTS_STAGE_ID = 2;
 const VIDEO_PRESENTATION_STAGE_ID = 3;
+const STAGE1_RESULTS_WAITING_DESCRIPTION = 'Дождитесь решения жюри';
 
 /** Разблокирует пункты навигации по текущему этапу пользователя (id из personStages). */
 export function buildPersonStages(
   currentStageId: number,
   passedSecondStage = false,
+  stage1ResultsPublished = false,
 ): typeof personStages {
   const unlockedThroughId = currentStageId > 0 ? currentStageId : 1;
 
   return personStages.map((stage) => {
+    if (stage.id === STAGE1_RESULTS_STAGE_ID) {
+      return {
+        ...stage,
+        type: stage1ResultsPublished ? ('default' as const) : ('block' as const),
+        description: stage1ResultsPublished
+          ? stage.description
+          : STAGE1_RESULTS_WAITING_DESCRIPTION,
+      };
+    }
     if (stage.id === VIDEO_PRESENTATION_STAGE_ID) {
       return {
         ...stage,
@@ -143,7 +155,7 @@ export const personStagesClose = [
     name: 'Результаты 1 этапа',
     description: 'Дождитесь решения жюри',
     id: 2,
-    route: `${EROUTES.PERSON}/${EROUTESSTAGES.PERSON_SCHEDULE}`,
+    route: `${EROUTES.PERSON}/${EROUTESSTAGES.PERSON_RESULTS}`,
     is_active: true,
     position: 2,
     view: 'stage',

@@ -77,10 +77,6 @@ const Main: FC<IMainProps> = ({ windowWidth }) => {
             </div>
           </div>
         </div>
-
-        <p className='main__timer'>
-          ОТКРЫТ&nbsp;ПРИЁМ&nbsp;РАБОТ&nbsp;НА&nbsp;СЕЗОН&nbsp;2026&nbsp;ГОДА
-        </p>
       </div>
     </main>
   );

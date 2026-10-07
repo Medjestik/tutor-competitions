@@ -10,7 +10,8 @@
 }
 
 .landing__hero {
-  height: 100vh;
+  /* height: auto — иначе на низкой высоте окна кнопки hero обрезает overflow:hidden */
+  height: auto;
   min-height: 100vh;
   width: 100%;
   display: flex;

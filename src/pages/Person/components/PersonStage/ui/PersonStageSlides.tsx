@@ -162,8 +162,10 @@ const PersonStageSlides: FC = () => {
   if (!passedSecondStage) {
     return (
       <div className='person-stage'>
-        <h2 className='person-stage__title'>Видеопрезентация</h2>
-        <p className='person-stage__subtitle'>Этот этап вам недоступен</p>
+        <div className='person-stage__header'>
+          <h2 className='person-stage__title'>Видеопрезентация</h2>
+          <p className='person-stage__lead'>Этот этап вам недоступен</p>
+        </div>
       </div>
     );
   }
@@ -180,22 +182,68 @@ const PersonStageSlides: FC = () => {
 
   return (
     <div className='person-stage'>
-      <h2 className='person-stage__title'>Видеопрезентация</h2>
+      <div className='person-stage__header'>
+        <h2 className='person-stage__title'>Видеопрезентация</h2>
+        <p className='person-stage__lead'>
+          Ознакомьтесь с видео и подготовьте материалы второго этапа
+        </p>
+      </div>
 
-      <p className='person-stage__subtitle'>
-        Ознакомьтесь с видео и подготовьте материалы второго этапа.
-      </p>
+      <div className='person-stage__grid'>
+        <div className='person-stage__left'>
+          <div className='person-stage__video-wrap'>
+            <div className='person-stage__video-embed'>
+              <iframe
+                title='Видео организатора'
+                src={ORGANIZER_VIDEO_URL}
+                width={560}
+                height={315}
+                allow='autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture; encrypted-media'
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
 
-      <div className='person-stage__video-wrap person-stage__video-wrap_full'>
-        <div className='person-stage__video-embed'>
-          <iframe
-            title='Видео организатора'
-            src={ORGANIZER_VIDEO_URL}
-            width={560}
-            height={315}
-            allow='autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture; encrypted-media'
-            allowFullScreen
-          />
+        <div className='person-stage__info person-stage__info_welcome'>
+          <p className='person-stage__welcome-title'>
+            Поздравляем с выходом в полуфинал!
+          </p>
+          <div className='person-stage__welcome-body'>
+            <p>
+              Вы успешно прошли отборочный этап Международного конкурса лучших
+              педагогических практик «Лидеры транспортного образования» и вошли в
+              число полуфиналистов конкурса 2026 года.
+            </p>
+            <p>
+              На этом этапе вам предстоит подробнее представить свою педагогическую
+              практику и показать её особенности, результаты и практическую ценность.
+              Для этого необходимо подготовить видеопредставление практики и
+              презентацию.
+            </p>
+            <p>
+              Видеопрезентация — это возможность наглядно продемонстрировать, как
+              работает ваша практика: показать фрагмент занятия или мероприятия,
+              рассказать о подходе, продемонстрировать используемые инструменты,
+              результаты или отзывы участников. Формат видео свободный, главное —
+              помочь экспертам понять суть практики и увидеть её в работе.
+            </p>
+            <p>
+              Презентация должна быть самостоятельным материалом, который позволяет
+              понять содержание практики без дополнительного устного комментария.
+              Используйте её, чтобы структурировано раскрыть ключевые особенности,
+              механику реализации, роль студентов, результаты и возможности
+              дальнейшего применения практики.
+            </p>
+            <p>
+              Обратите особое внимание на результаты первого этапа. При подготовке
+              материалов второго этапа рекомендуем прежде всего раскрыть те стороны
+              практики, которые были представлены недостаточно подробно на первом.
+            </p>
+            <p>
+              Желаем успешно представить свою практику и пройти в финал конкурса!
+            </p>
+          </div>
         </div>
       </div>
 
