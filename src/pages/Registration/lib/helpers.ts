@@ -20,7 +20,6 @@ export const initialRegistrationValues: IRegistrationFormValues = {
   educational_organization: '',
   other_organization: '',
   main_position: '',
-  username: '',
   password: '',
   consent_personal_data: false,
   consent_personal_data_policy: false,
@@ -51,11 +50,6 @@ export const validationSchema = {
     required('Поле обязательно'),
     minLength(2, 'Минимум 2 символа'),
     maxLength(255, 'Максимум 255 символов'),
-  ],
-  username: [
-    required('Поле обязательно'),
-    minLength(6, 'Минимум 6 символов'),
-    maxLength(16, 'Максимум 16 символов'),
   ],
   password: [
     required('Поле обязательно'),
@@ -104,8 +98,6 @@ export const isAccountStepValid = (
   values: IRegistrationFormValues,
   errors: TFormValidationErrors
 ): boolean =>
-  Boolean(values.username.trim()) &&
-  !hasFieldError(errors, 'username') &&
   Boolean(values.password.trim()) &&
   !hasFieldError(errors, 'password');
 

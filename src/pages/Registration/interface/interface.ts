@@ -18,7 +18,6 @@ export interface IRegisterData {
   email: string;
   phone_number: string;
   telegram_username: string;
-  username: string;
   password: string;
   educational_organization: string;
   main_position: string;
@@ -34,7 +33,6 @@ export interface IRegistrationFormValues {
   educational_organization: string;
   other_organization: string;
   main_position: string;
-  username: string;
   password: string;
   consent_personal_data: boolean;
   consent_personal_data_policy: boolean;

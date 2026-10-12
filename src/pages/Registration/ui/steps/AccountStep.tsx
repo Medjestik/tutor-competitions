@@ -33,27 +33,9 @@ const AccountStep: FC<IAccountStepProps> = ({
         <div className={styles.stepNumber}>03</div>
       </div>
       <p className={styles.contentSubtitle}>
-        Создайте данные для входа, чтобы управлять заявкой и добавлять
+        Придумайте пароль для входа по email, чтобы управлять заявкой и добавлять
         образовательные практики.
       </p>
-
-      <FormField
-        title="Логин"
-        caption="Логин должен содержать от 6 до 16 символов"
-        fieldError={{
-          text: errors.username || '',
-          isShow: !!errors.username,
-        }}
-      >
-        <FormInput
-          name="username"
-          placeholder="Придумайте логин"
-          value={values.username}
-          onChange={onChange}
-          hasError={!!errors.username}
-          autoComplete="username"
-        />
-      </FormField>
 
       <FormField
         title="Пароль"
@@ -78,7 +60,7 @@ const AccountStep: FC<IAccountStepProps> = ({
         <Button text="Назад" onClick={onBack} />
         <Button
           text="Далее"
-          color="gradient"
+          color="primary"
           onClick={onNext}
           isBlock={isNextBlocked}
         />

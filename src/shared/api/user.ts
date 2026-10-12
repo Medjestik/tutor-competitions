@@ -17,7 +17,7 @@ export const login = (data: ILoginData) => {
 		method: 'POST',
 		headers: jsonHeaders,
 		body: JSON.stringify({
-			username: data.username,
+			email: data.email,
 			password: data.password,
 		}),
 	}).then((res: IAuthResponse) => {

@@ -57,7 +57,7 @@ const LayoutHeader: FC = () => {
     const middleInitial = user?.middle_name?.trim()?.[0];
 
     if (!lastName && !firstInitial) {
-      return user?.username;
+      return user?.email || user?.username;
     }
 
     const initials = [firstInitial, middleInitial]
