@@ -130,14 +130,16 @@
 }
 
 .main__row {
-	margin: 20px 0 0 0;
+	/* Прижимаем блок текста+кнопок вниз, как силуэты (.main__tutor bottom: 0).
+	   Раньше это делал .main__timer { margin: auto 0 40px }. */
+	margin: auto 0 40px 0;
 
   width: 100%;
   max-width: 720px;
 
 	display: flex;
 
-	flex: 1;
+	flex: 0 0 auto;
 	min-height: 0;
 
 	z-index: 2;
@@ -211,7 +213,8 @@
 	}
 
 	.main__row {
-		margin-top: 20px;
+		margin-top: auto;
+		margin-bottom: 36px;
 	}
 
 	.main__subtitle {
@@ -256,7 +259,8 @@
 
 	.main__row {
 		max-width: 650px;
-		margin-top: 18px;
+		margin-top: auto;
+		margin-bottom: 32px;
 	}
 
 	.main__subtitle {
@@ -296,7 +300,8 @@
 
 	.main__row {
 		max-width: 600px;
-		margin-top: 16px;
+		margin-top: auto;
+		margin-bottom: 28px;
 	}
 
 	.main__subtitle {
@@ -337,7 +342,8 @@
 
 	.main__row {
 		max-width: 560px;
-		margin-top: 14px;
+		margin-top: auto;
+		margin-bottom: 24px;
 	}
 
 	.main__subtitle {
@@ -508,7 +514,8 @@
 	}
 
 	.main__row {
-		margin-top: 10px;
+		margin-top: auto;
+		margin-bottom: 20px;
 	}
 
 	.main__subtitle {
