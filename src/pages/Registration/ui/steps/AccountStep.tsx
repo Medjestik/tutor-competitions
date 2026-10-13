@@ -33,9 +33,28 @@ const AccountStep: FC<IAccountStepProps> = ({
         <div className={styles.stepNumber}>03</div>
       </div>
       <p className={styles.contentSubtitle}>
-        Придумайте пароль для входа по email, чтобы управлять заявкой и добавлять
-        образовательные практики.
+        Придумайте логин и пароль для входа (можно войти и по email), чтобы
+        управлять заявкой и добавлять образовательные практики.
       </p>
+
+      <FormField
+        title="Логин"
+        caption="3–150 символов: латиница, цифры, _ . - (без @)"
+        fieldError={{
+          text: errors.username || '',
+          isShow: !!errors.username,
+        }}
+      >
+        <FormInput
+          type="text"
+          name="username"
+          placeholder="Придумайте логин"
+          value={values.username}
+          onChange={onChange}
+          hasError={!!errors.username}
+          autoComplete="username"
+        />
+      </FormField>
 
       <FormField
         title="Пароль"

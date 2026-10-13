@@ -59,7 +59,7 @@ const LoginForm: FC = () => {
     }
 
     const data: ILoginData = {
-      email: values.email.trim(),
+      login: values.login.trim(),
       password: values.password,
     };
 
@@ -77,19 +77,19 @@ const LoginForm: FC = () => {
   return (
     <Form name="form-login" onSubmit={handleSubmit}>
       <FormField
-        title="Email"
+        title="Email или логин"
         fieldError={{
-          text: errors.email || '',
-          isShow: !!errors.email,
+          text: errors.login || '',
+          isShow: !!errors.login,
         }}
       >
         <FormInput
-          type="email"
-          name="email"
-          placeholder="Введите email"
-          value={values.email}
+          type="text"
+          name="login"
+          placeholder="Введите email или логин"
+          value={values.login}
           onChange={handleChange}
-          autoComplete="email"
+          autoComplete="username"
         />
       </FormField>
 

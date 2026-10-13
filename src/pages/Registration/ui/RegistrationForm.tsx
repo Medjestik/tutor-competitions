@@ -89,6 +89,7 @@ const RegistrationForm: FC = () => {
       first_name: values.first_name.trim(),
       last_name: values.last_name.trim(),
       middle_name: values.middle_name.trim(),
+      username: values.username.trim().toLowerCase(),
       email: values.email.trim(),
       phone_number: values.phone_number.trim(),
       telegram_username: '',

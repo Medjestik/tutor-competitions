@@ -12,6 +12,18 @@ export const emailFormat = (
 	errorMessage,
 });
 
+export const usernameFormat = (
+	errorMessage = 'Логин: 3–150 символов, латиница, цифры и _ . - (без @)'
+) => ({
+	validate: (value: string) => {
+		const normalized = value.trim().toLowerCase();
+		if (normalized.length < 3 || normalized.length > 150) return false;
+		if (normalized.includes('@')) return false;
+		return /^[a-z0-9._-]+$/.test(normalized);
+	},
+	errorMessage,
+});
+
 export const phoneFormat = (
 	errorMessage = 'Введите корректный мобильный номер РФ'
 ) => ({

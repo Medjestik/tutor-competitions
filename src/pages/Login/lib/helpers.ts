@@ -1,12 +1,11 @@
 import type { ILoginForm } from '../interface/interface';
 import type { TFormValidationErrors } from '../../../shared/components/Form/types/types';
 
-import { required, emailFormat } from '../../../shared/lib/validationRules';
+import { required } from '../../../shared/lib/validationRules';
 
 export const validationSchema = {
-	email: [
+	login: [
 		required('Поле обязательно'),
-		emailFormat(),
 	],
 	password: [
 		required('Поле обязательно'),
@@ -14,7 +13,7 @@ export const validationSchema = {
 };
 
 export const initialLoginValues: ILoginForm = {
-	email: '',
+	login: '',
 	password: '',
 };
 
@@ -23,8 +22,8 @@ export const shouldBlockSubmit = (
 	errors: TFormValidationErrors
 ): boolean => {
 	return (
-		!values.email.trim() ||
-		!!errors.email ||
+		!values.login.trim() ||
+		!!errors.login ||
 		!values.password.trim() ||
 		!!errors.password
 	);

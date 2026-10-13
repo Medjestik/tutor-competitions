@@ -22,8 +22,8 @@ const RegistrationSuccessPopup: FC<IPopupProps> = ({ isOpen, onClose }) => {
       <img className="popup__icon" src={icon} alt="иконка" />
       <h2 className="popup__title">Регистрация успешно завершена!</h2>
       <p className="popup__subtitle">
-        На указанную вами электронную почту направлено письмо с email и
-        паролем для входа.
+        На указанную вами электронную почту направлено письмо с логином,
+        email и паролем для входа.
       </p>
       <p className="popup__subtitle">Доступ в личный кабинет уже открыт.</p>
       <Button style={btnStyle} text="Хорошо" onClick={onClose} />
