@@ -40,7 +40,7 @@ const Stages: FC<IStagesProps> = ({ windowWidth }) => {
             <div className='stages__separate'></div>
             <div className='stages__description'>
               <p className='stages__item-text'>Зарегистрируйтесь на&nbsp;сайте, чтобы стать участником конкурса или&nbsp;бесплатно пройти повышение квалификации</p>
-              <Button text='Регистрация' type='link' href={EROUTES.LOGIN} color='gradient' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
+              <Button text='Регистрация' type='link' href={EROUTES.REGISTRATION} color='gradient' style={windowWidth > 1280 ? btnStubStyle : btnMobileStyle} />
             </div>
           </li>
           <li className='stages__item'>
@@ -76,7 +76,7 @@ const Stages: FC<IStagesProps> = ({ windowWidth }) => {
           </li>
           <li className='stages__item'>
             <div className='stages__dates'>
-              <span className='stages__date'>с&nbsp;6&nbsp;по&nbsp;17&nbsp;октября</span>
+              <span className='stages__date'>с&nbsp;6&nbsp;по&nbsp;22&nbsp;октября</span>
               <h4 className='stages__item-title'>ПРЕЗЕНТАЦИЯ ПРАКТИКИ</h4>
             </div>
             <div className='stages__separate'></div>
