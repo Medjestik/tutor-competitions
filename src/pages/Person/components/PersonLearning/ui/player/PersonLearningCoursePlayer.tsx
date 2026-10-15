@@ -234,27 +234,27 @@ const PdfViewer: FC<ILessonViewerProps> = ({
   submitError,
 }) => (
   <section className='course-player__content-card course-player__content-card_lesson'>
-    <div className='course-player__lesson-scroll'>
+    <div className='course-player__lesson-scroll course-player__lesson-scroll_fit'>
       <div className='course-player__content-head'>
         <span className='course-player__eyebrow'>PDF</span>
         <h1 className='course-player__content-title'>{part.name}</h1>
-      </div>
-      {part.file_url ? (
-        <>
-          <iframe
-            className='course-player__pdf-frame'
-            src={part.file_url}
-            title={part.name}
-          />
+        {part.file_url ? (
           <a
-            className='course-player__secondary-link'
+            className='course-player__secondary-link course-player__secondary-link_under-title'
             href={part.file_url}
             target='_blank'
             rel='noreferrer'
           >
             Открыть PDF в новой вкладке
           </a>
-        </>
+        ) : null}
+      </div>
+      {part.file_url ? (
+        <iframe
+          className='course-player__pdf-frame'
+          src={part.file_url}
+          title={part.name}
+        />
       ) : (
         <p className='course-player__empty'>
           Для этого урока пока не загружен PDF-файл.
@@ -292,7 +292,7 @@ const VideoViewer: FC<ILessonViewerProps> = ({
 
   return (
     <section className='course-player__content-card course-player__content-card_lesson'>
-      <div className='course-player__lesson-scroll'>
+      <div className='course-player__lesson-scroll course-player__lesson-scroll_fit'>
         <div className='course-player__content-head'>
           <span className='course-player__eyebrow'>Видео</span>
           <h1 className='course-player__content-title'>{part.name}</h1>

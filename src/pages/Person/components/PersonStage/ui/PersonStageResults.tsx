@@ -84,8 +84,8 @@ const PersonStageResults: FC<IPersonStageResultsProps> = ({ isPublished }) => {
       {isSubmitted ? (
         <p className='person-stage__subtitle person-stage__text-bold'>{verdict}</p>
       ) : (
-        <p className='person-stage__subtitle person-stage__text-bold'>
-          Вы не отправляли анкету
+        <p className='person-stage__lead'>
+          Вы не отправили анкету педагогической практики в установленный срок. К сожалению, получение сертификата участника конкурса вам недоступно.
         </p>
       )}
       <Button

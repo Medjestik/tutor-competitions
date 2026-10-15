@@ -37,7 +37,10 @@ import {
   validateStep,
   getFirstErrorStep,
 } from '../utils/formValidation';
-import { getClosedPracticeFormMessage } from '../../../lib/practiceFormClosed';
+import {
+  CLOSED_FORM_MISSED_PAGE_MESSAGE,
+  CLOSED_FORM_SUBMITTED_MESSAGE,
+} from '../../../lib/practiceFormClosed';
 
 import '../styles/style.css';
 import '../styles/practice-form.css';
@@ -473,7 +476,10 @@ const PersonStageForm: FC<IStageFormProps> = ({
   }
 
   if (!isPracticeFormOpen) {
-    const closedMessage = getClosedPracticeFormMessage(formData.status);
+    const closedMessage =
+      formData.status === 'submitted'
+        ? CLOSED_FORM_SUBMITTED_MESSAGE
+        : CLOSED_FORM_MISSED_PAGE_MESSAGE;
     const showCourseCta =
       formData.status !== 'submitted' && isEducationEnabled;
 

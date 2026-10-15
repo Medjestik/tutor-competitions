@@ -42,7 +42,7 @@ export interface IProgramContent {
   videoUrl: string;
   pdfUrl: string;
   aboutTitle: string;
-  aboutText: string;
+  aboutText: string[];
   downloadTitle: string;
   downloadDescription: string;
 }

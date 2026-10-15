@@ -34,7 +34,11 @@ const PersonLearningAbout: FC<IPersonLearningAboutProps> = ({ onContinue }) => {
 
         <div className='person-learning__info'>
           <p className='person-learning__info-title'>{programContent.aboutTitle}</p>
-          <p className='person-learning__info-text'>{programContent.aboutText}</p>
+          {programContent.aboutText.map((paragraph) => (
+            <p className='person-learning__info-text' key={paragraph}>
+              {paragraph}
+            </p>
+          ))}
         </div>
       </div>
 

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from '../../../shared/hooks/useForm';
 
-import { Form } from '../../../shared/components/Form/ui/Form';
+import { Form } from '../../../shared/components/Form/ui/form';
 import {
 	FormField,
 	FormButtons,

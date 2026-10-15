@@ -101,6 +101,10 @@
   color: #232323;
 }
 
+.person-learning__info-text + .person-learning__info-text {
+  margin-top: 12px;
+}
+
 .person-learning__footer {
   margin: auto 0 0 0;
   padding-top: 40px;

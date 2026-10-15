@@ -103,7 +103,7 @@
 
 .course-player__layout {
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
+  grid-template-columns: 240px minmax(0, 1fr);
   gap: 20px;
   align-items: stretch;
   flex: 1 1 auto;
@@ -225,6 +225,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  flex: 1 1 auto;
   min-width: 0;
 }
 
@@ -235,9 +236,11 @@
 }
 
 .course-player__tree-name {
+  min-width: 0;
   font-size: 14px;
   line-height: 1.35;
   color: #2d3446;
+  overflow-wrap: break-word;
 }
 
 .course-player__tree-flags {
@@ -306,9 +309,24 @@
 
 .course-player__lesson-scroll {
   flex: 1 1 auto;
+  min-width: 0;
   min-height: 0;
+  overflow-x: hidden;
   overflow-y: auto;
   padding-bottom: 16px;
+}
+
+.course-player__lesson-scroll_fit {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.course-player__lesson-scroll_fit .course-player__content-head,
+.course-player__lesson-scroll_fit .course-player__secondary-link,
+.course-player__lesson-scroll_fit .course-player__error_inline,
+.course-player__lesson-scroll_fit .course-player__empty {
+  flex-shrink: 0;
 }
 
 .course-player__error_inline {
@@ -504,37 +522,47 @@
 }
 
 .course-player__pdf-frame {
+  display: block;
+  box-sizing: border-box;
   width: 100%;
-  min-height: 760px;
+  max-width: 100%;
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
   border: 1px solid #e5ebf5;
   border-radius: 18px;
   background: #f5f7fb;
 }
 
 .course-player__video,
-.course-player__video-frame {
+.course-player__video-frame,
+.course-player__video-embed {
   display: block;
+  box-sizing: border-box;
   width: 100%;
-  min-height: 420px;
-  max-height: 720px;
+  flex: 1 1 auto;
+  height: 0;
+  min-height: 0;
   border: 1px solid #e5ebf5;
   border-radius: 18px;
   background: #0f1218;
+}
+
+.course-player__video {
+  object-fit: contain;
 }
 
 .course-player__video-embed {
-  width: 100%;
-  min-height: 420px;
-  border: 1px solid #e5ebf5;
-  border-radius: 18px;
+  position: relative;
   overflow: hidden;
-  background: #0f1218;
 }
 
 .course-player__video-embed iframe {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  min-height: 420px;
+  height: 100%;
   border: 0;
 }
 
@@ -544,6 +572,12 @@
   color: var(--main-color);
   font-weight: 600;
   text-decoration: none;
+}
+
+.course-player__secondary-link_under-title {
+  order: 3;
+  flex: 1 1 100%;
+  margin-top: 0;
 }
 
 .course-player__test-top {
