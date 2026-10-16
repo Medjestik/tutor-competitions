@@ -65,3 +65,23 @@ export interface ICourseDashboardStats {
   cards: Record<TCourseStatusKey, number>;
   byUniversity: ICourseUniversityStats[];
 }
+
+export type TSecondStageStatus = 'submitted' | 'in_progress' | 'not_started';
+
+export interface ISemifinalParticipant extends IParticipant {
+  secondStageStatus: TSecondStageStatus;
+}
+
+export interface ISemifinalDashboardStats {
+  cards: {
+    submitted: number;
+    inProgress: number;
+    notStarted: number;
+  };
+  participants: ISemifinalParticipant[];
+}
+
+export const EMPTY_SEMIFINAL_STATS: ISemifinalDashboardStats = {
+  cards: { submitted: 0, inProgress: 0, notStarted: 0 },
+  participants: [],
+};

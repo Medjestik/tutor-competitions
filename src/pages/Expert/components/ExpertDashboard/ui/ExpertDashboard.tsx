@@ -5,6 +5,7 @@ import type {
   IDashboardStats,
   IParticipant,
   TNominationMap,
+  ISemifinalDashboardStats,
 } from '../interface/interface';
 import type { INomination } from '../../../../Person/interface/interface';
 
@@ -18,10 +19,12 @@ import Button from '../../../../../shared/components/Button/ui/Button';
 import ExpertDashboardBarChart from './ExpertDashboardBarChart';
 import ExpertDashboardCourseChart from './ExpertDashboardCourseChart';
 import ExpertDashboardNominationBarChart from './ExpertDashboardNominationBarChart';
+import ExpertDashboardSemifinalSection from './ExpertDashboardSemifinalSection';
 import ExpertDashboardPieCharts from './ExpertDashboardPieCharts';
 
 import { buildBarData } from '../utils/buildBarData';
 import { EMPTY_COURSE_STATS } from '../utils/buildCourseBarData';
+import { EMPTY_SEMIFINAL_STATS } from '../interface/interface';
 
 import * as api from '../../../../../shared/utils/api';
 
@@ -67,6 +70,8 @@ const ExpertDashboard: FC = () => {
   const [barData, setBarData] = useState<IBarItem[]>([]);
   const [stats, setStats] = useState<IDashboardStats>(EMPTY_STATS);
   const [courseStats, setCourseStats] = useState<ICourseDashboardStats>(EMPTY_COURSE_STATS);
+  const [semifinalStats, setSemifinalStats] =
+    useState<ISemifinalDashboardStats>(EMPTY_SEMIFINAL_STATS);
   const [nominationMap, setNominationMap] = useState<TNominationMap>({});
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
   const [isExportingReport, setIsExportingReport] = useState<boolean>(false);
@@ -83,13 +88,15 @@ const ExpertDashboard: FC = () => {
       api.getDashboardData(token),
       api.getDashboardStats(token),
       api.getDashboardCourseStats(token),
+      api.getDashboardSemifinalStats(token),
       api.getNominations(),
     ])
-      .then(([participants, dashboardStats, dashboardCourseStats, nominations]) => {
+      .then(([participants, dashboardStats, dashboardCourseStats, semifinal, nominations]) => {
         setData(participants);
         setBarData(buildBarData(participants));
         setStats(dashboardStats);
         setCourseStats(dashboardCourseStats);
+        setSemifinalStats(semifinal);
         setNominationMap(buildNominationMap(nominations));
       })
       .catch(console.error)
@@ -201,6 +208,10 @@ const ExpertDashboard: FC = () => {
         </section>
         <ExpertDashboardNominationBarChart data={data} nominationMap={nominationMap} />
         <ExpertDashboardCourseChart courseStats={courseStats} nominationMap={nominationMap} />
+        <ExpertDashboardSemifinalSection
+          semifinalStats={semifinalStats}
+          nominationMap={nominationMap}
+        />
         <ExpertDashboardPieCharts data={data} nominationMap={nominationMap} />
       </div>
     </div>

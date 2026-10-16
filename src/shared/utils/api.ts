@@ -114,6 +114,17 @@ export const getDashboardCourseStats = (token: string) => {
   }).then((res) => handleResponse(res));
 };
 
+export const getDashboardSemifinalStats = (token: string) => {
+  return fetch(`${API_URL}/competition/dashboard/semifinal-stats/`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => handleResponse(res));
+};
+
 export const exportDashboardParticipantsReport = async (
   token: string
 ): Promise<Blob> => {
