@@ -41,4 +41,5 @@ export enum EROUTESLEARNING {
   PROGRAM = 'learning/program',
   LISTENER = 'learning/listener',
   MATERIALS = 'learning/materials',
+  RESULTS = 'learning/results',
 }

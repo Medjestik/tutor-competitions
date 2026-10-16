@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { IStage, IStageNavItem, ILearningNavItem } from '../interface/interface';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Navigate, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import * as api from '../../../shared/utils/api';
@@ -20,10 +20,11 @@ import PersonStageEvaluate from '../components/PersonStage/ui/PersonStageEvaluat
 import PersonLearningProgram from '../components/PersonLearning/ui/PersonLearningProgram';
 import PersonLearningListener from '../components/PersonLearning/ui/PersonLearningListener';
 import PersonLearningMaterials from '../components/PersonLearning/ui/PersonLearningMaterials';
+import PersonLearningResults from '../components/PersonLearning/ui/PersonLearningResults';
 import { getSettings } from '../../../shared/api/user';
 
 import { EROUTES, EROUTESSTAGES, EROUTESLEARNING } from '../../../shared/utils/ERoutes';
-import { personStages, buildPersonStages, learningNavItems } from '../lib/stages';
+import { personStages, buildPersonStages, buildLearningNavItems } from '../lib/stages';
 import {
   PRACTICE_FORM_STAGE_ID,
   getClosedPracticeFormMessage,
@@ -55,7 +56,12 @@ const Person: FC = () => {
   const [practiceFormStatus, setPracticeFormStatus] = useState<string | null>(null);
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
+  const [resultsNavVisible, setResultsNavVisible] = useState(false);
   const educationOn = isEducationEnabled === true;
+  const cabinetLearningNavItems = useMemo(
+    () => buildLearningNavItems(resultsNavVisible),
+    [resultsNavVisible],
+  );
   const onLearningPath = pathname.includes('/learning/');
   const waitingEducationForLearning =
     isEducationEnabled === null && onLearningPath;
@@ -188,6 +194,21 @@ const Person: FC = () => {
   }, [isPracticeFormOpen]);
 
   useEffect(() => {
+    if (!educationOn) {
+      setResultsNavVisible(false);
+      return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    }
+    api
+      .getMyLearningOutcome(token)
+      .then((outcome) => setResultsNavVisible(outcome.resultsAvailable))
+      .catch(() => setResultsNavVisible(false));
+  }, [educationOn, pathname]);
+
+  useEffect(() => {
     const base = buildPersonStages(
       currentUser.current_stage_id,
       currentUser.passed_second_stage,
@@ -215,7 +236,7 @@ const Person: FC = () => {
       return;
     }
 
-    const matchedLearning = learningNavItems.find((item) => pathname === item.route);
+    const matchedLearning = cabinetLearningNavItems.find((item) => pathname === item.route);
 
     if (matchedLearning && educationOn) {
       setOpenLearningId(matchedLearning.id);
@@ -233,7 +254,15 @@ const Person: FC = () => {
     if (matched) {
       setOpenStageId(matched.id);
     }
-  }, [educationOn, isEducationEnabled, navigate, onLearningPath, pathname, stages]);
+  }, [
+    cabinetLearningNavItems,
+    educationOn,
+    isEducationEnabled,
+    navigate,
+    onLearningPath,
+    pathname,
+    stages,
+  ]);
 
   return (
     isLoadingData || waitingEducationForLearning
@@ -249,6 +278,7 @@ const Person: FC = () => {
           openLearningId={openLearningId}
           onLearningChange={toggleLearning}
           isEducationEnabled={educationOn}
+          learningNavItems={cabinetLearningNavItems}
         /> 
         <PersonContainer>
           {
@@ -283,6 +313,7 @@ const Person: FC = () => {
                   <Route path={EROUTESLEARNING.PROGRAM} element={<PersonLearningProgram />} />
                   <Route path={EROUTESLEARNING.LISTENER} element={<PersonLearningListener />} />
                   <Route path={EROUTESLEARNING.MATERIALS} element={<PersonLearningMaterials />} />
+                  <Route path={EROUTESLEARNING.RESULTS} element={<PersonLearningResults />} />
                 </>
               )}
             </Routes>

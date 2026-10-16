@@ -232,3 +232,14 @@ export const learningNavItems = [
     route: `${EROUTES.PERSON}/learning/materials`,
   },
 ];
+
+export const learningResultsNavItem = {
+  id: 'results',
+  number: '04',
+  name: 'Итоги',
+  description: 'Удостоверение и результат',
+  route: `${EROUTES.PERSON}/learning/results`,
+};
+
+export const buildLearningNavItems = (showResults: boolean) =>
+  showResults ? [...learningNavItems, learningResultsNavItem] : learningNavItems;

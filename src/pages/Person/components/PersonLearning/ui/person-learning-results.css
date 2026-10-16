@@ -1,0 +1,65 @@
+.person-learning-results {
+  padding: 8px 0 24px;
+}
+
+.person-learning-results__card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 28px;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+}
+
+.person-learning-results__card_success {
+  border-left: 4px solid #2e7d32;
+}
+
+.person-learning-results__card_failure {
+  border-left: 4px solid #c62828;
+}
+
+.person-learning-results__card_waiting {
+  border-left: 4px solid #1565c0;
+}
+
+.person-learning-results__title {
+  margin: 0 0 16px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.person-learning-results__text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: #333;
+}
+
+.person-learning-results__actions {
+  margin-top: 24px;
+}
+
+.person-learning-results__checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 24px;
+  font-size: 15px;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.person-learning-results__checkbox input {
+  margin-top: 3px;
+}
+
+.person-learning-results__link {
+  display: inline-block;
+  margin-top: 16px;
+  color: #1565c0;
+  text-decoration: underline;
+}
+
+.person-learning-results__error {
+  color: #c62828;
+}

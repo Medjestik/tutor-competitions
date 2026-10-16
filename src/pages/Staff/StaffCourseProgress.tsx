@@ -21,6 +21,7 @@ import {
   exportStaffCourseProgressReport,
   getStaffCourseProgressList,
   getStaffProgressCourses,
+  updateStaffCourseLearningOutcome,
 } from '../../shared/utils/api';
 import { EROUTES } from '../../shared/utils/ERoutes';
 
@@ -37,6 +38,11 @@ const STATUS_LABELS: Record<TStaffCourseProgressStatus, string> = {
   not_started: 'Не начал',
   in_progress: 'В процессе',
   completed: 'Завершил',
+};
+
+const OUTCOME_LABELS: Record<string, string> = {
+  passed: 'Зачтён',
+  failed: 'Не зачтён',
 };
 
 const PART_TYPE_LABELS: Record<string, string> = {
@@ -108,6 +114,10 @@ const StaffCourseProgress: FC = () => {
   const [streamEndsTo, setStreamEndsTo] = useState('');
   const [isExporting, setIsExporting] = useState(false);
   const [exportError, setExportError] = useState('');
+  const [wantsOriginalOnly, setWantsOriginalOnly] = useState(false);
+  const [outcomeDraft, setOutcomeDraft] = useState<'passed' | 'failed' | ''>('');
+  const [certificateFile, setCertificateFile] = useState<File | null>(null);
+  const [isSavingOutcome, setIsSavingOutcome] = useState(false);
 
   const ordering =
     sortField === null ? undefined : `${sortDesc ? '-' : ''}${sortField}`;
@@ -169,6 +179,7 @@ const StaffCourseProgress: FC = () => {
         ordering,
         streamEndsFrom: streamEndsFrom || undefined,
         streamEndsTo: streamEndsTo || undefined,
+        wantsOriginal: wantsOriginalOnly || undefined,
       });
       setListeners(response.results);
       setTotalCount(response.count);
@@ -183,7 +194,16 @@ const StaffCourseProgress: FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [courseId, page, debouncedSearch, statusFilter, ordering, streamEndsFrom, streamEndsTo]);
+  }, [
+    courseId,
+    page,
+    debouncedSearch,
+    statusFilter,
+    ordering,
+    streamEndsFrom,
+    streamEndsTo,
+    wantsOriginalOnly,
+  ]);
 
   useEffect(() => {
     loadListeners();
@@ -267,6 +287,12 @@ const StaffCourseProgress: FC = () => {
     try {
       const payload = await getStaffCourseProgressDetail(token, courseId, userId);
       setDetail(payload);
+      setOutcomeDraft(
+        payload.learningOutcome === 'passed' || payload.learningOutcome === 'failed'
+          ? payload.learningOutcome
+          : ''
+      );
+      setCertificateFile(null);
     } catch {
       setFormError('Не удалось загрузить уроки слушателя');
       setDetail(null);
@@ -279,6 +305,47 @@ const StaffCourseProgress: FC = () => {
     setDetail(null);
     setFormError('');
     setCreditingPartId(null);
+    setOutcomeDraft('');
+    setCertificateFile(null);
+  };
+
+  const handleSaveOutcome = async () => {
+    if (!detail || courseId === '') {
+      return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setFormError('Требуется авторизация');
+      return;
+    }
+
+    setIsSavingOutcome(true);
+    setFormError('');
+    try {
+      const formData = new FormData();
+      if (outcomeDraft === 'passed' || outcomeDraft === 'failed') {
+        formData.append('learningOutcome', outcomeDraft);
+      } else {
+        formData.append('learningOutcome', '');
+      }
+      if (certificateFile) {
+        formData.append('certificateScan', certificateFile);
+      }
+      await updateStaffCourseLearningOutcome(token, courseId, detail.id, formData);
+      const refreshed = await getStaffCourseProgressDetail(token, courseId, detail.id);
+      setDetail(refreshed);
+      setOutcomeDraft(
+        refreshed.learningOutcome === 'passed' || refreshed.learningOutcome === 'failed'
+          ? refreshed.learningOutcome
+          : ''
+      );
+      setCertificateFile(null);
+      await loadListeners();
+    } catch {
+      setFormError('Не удалось сохранить итог обучения');
+    } finally {
+      setIsSavingOutcome(false);
+    }
   };
 
   const handleCredit = async (partId: number) => {
@@ -393,6 +460,19 @@ const StaffCourseProgress: FC = () => {
                     disabled={courseId === ''}
                   />
                 </label>
+
+                <label className='staff-course-progress__field staff-course-progress__field_checkbox'>
+                  <input
+                    type='checkbox'
+                    checked={wantsOriginalOnly}
+                    onChange={(event) => {
+                      setWantsOriginalOnly(event.target.checked);
+                      setPage(1);
+                    }}
+                    disabled={courseId === ''}
+                  />
+                  <span>Нужен оригинал</span>
+                </label>
               </div>
 
               <div className='staff-course-progress__actions'>
@@ -446,12 +526,14 @@ const StaffCourseProgress: FC = () => {
                               </span>
                             </th>
                           ))}
+                          <th>Итог</th>
+                          <th>Оригинал</th>
                         </tr>
                       </thead>
                       <tbody>
                         {listeners.length === 0 ? (
                           <tr>
-                            <td colSpan={7} className='staff-course-progress__empty'>
+                            <td colSpan={9} className='staff-course-progress__empty'>
                               Слушатели не найдены
                             </td>
                           </tr>
@@ -477,6 +559,14 @@ const StaffCourseProgress: FC = () => {
                                 {item.tasksCredited}/{item.tasksTotal}
                               </td>
                               <td>{STATUS_LABELS[item.courseStatus]}</td>
+                              <td>
+                                {item.learningOutcome
+                                  ? OUTCOME_LABELS[item.learningOutcome] || item.learningOutcome
+                                  : '—'}
+                              </td>
+                              <td>
+                                {item.wantsOriginalCertificate ? 'Да' : '—'}
+                              </td>
                             </tr>
                           ))
                         )}
@@ -531,6 +621,51 @@ const StaffCourseProgress: FC = () => {
             <p className='staff-course-progress__modal-phone'>
               Телефон: {detail.phone || '—'}
             </p>
+
+            <div className='staff-course-progress__outcome'>
+              <h3 className='staff-course-progress__outcome-title'>Итог обучения</h3>
+              <label className='staff-course-progress__field'>
+                <span>Решение оргкомитета</span>
+                <select
+                  value={outcomeDraft}
+                  onChange={(event) =>
+                    setOutcomeDraft(event.target.value as 'passed' | 'failed' | '')
+                  }
+                >
+                  <option value=''>Не задано</option>
+                  <option value='passed'>Зачтён</option>
+                  <option value='failed'>Не зачтён</option>
+                </select>
+              </label>
+              {outcomeDraft === 'passed' ? (
+                <label className='staff-course-progress__field'>
+                  <span>Скан удостоверения</span>
+                  <input
+                    type='file'
+                    accept='application/pdf,image/*'
+                    onChange={(event) =>
+                      setCertificateFile(event.target.files?.[0] ?? null)
+                    }
+                  />
+                  {detail.hasCertificateScan ? (
+                    <span className='staff-course-progress__hint'>
+                      Скан уже загружен{detail.wantsOriginalCertificate ? ', нужен оригинал' : ''}
+                    </span>
+                  ) : null}
+                </label>
+              ) : null}
+              {detail.learningOutcome === 'passed' && detail.wantsOriginalCertificate ? (
+                <p className='staff-course-progress__hint'>
+                  Слушатель запросил оригинал удостоверения
+                </p>
+              ) : null}
+              <Button
+                text={isSavingOutcome ? 'Сохранение…' : 'Сохранить итог'}
+                color='primary'
+                onClick={() => void handleSaveOutcome()}
+                disabled={isSavingOutcome}
+              />
+            </div>
 
             <div className='staff-course-progress__table-wrap'>
               <table className='staff-course-progress__table'>

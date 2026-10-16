@@ -1,8 +1,6 @@
 import type { FC } from 'react';
 import type { IPersonNavigationProps, IStageNavItem } from '../../../interface/interface';
 
-import { learningNavItems } from '../../../lib/stages';
-
 import PersonNavItem from './PersonNavItem';
 
 import '../styles/style.css';
@@ -16,6 +14,7 @@ const PersonNavigation: FC<IPersonNavigationProps> = ({
   openLearningId,
   onLearningChange,
   isEducationEnabled,
+  learningNavItems,
 }) => {
 
   const resolveState = (stage: IStageNavItem) => {

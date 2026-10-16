@@ -243,6 +243,9 @@ export interface IStaffCourseProgressListItem {
   tasksCredited: number;
   tasksTotal: number;
   courseStatus: TStaffCourseProgressStatus;
+  learningOutcome?: TLearningOutcome;
+  wantsOriginalCertificate?: boolean;
+  hasCertificateScan?: boolean;
 }
 
 export interface IStaffCourseProgressListResponse {
@@ -264,6 +267,9 @@ export interface IStaffCourseProgressDetail {
   fullName: string;
   phone: string;
   lessons: IStaffCourseProgressLesson[];
+  learningOutcome?: TLearningOutcome;
+  wantsOriginalCertificate?: boolean;
+  hasCertificateScan?: boolean;
 }
 
 export const getStaffProgressCourses = (token: string) =>
@@ -285,6 +291,7 @@ export const getStaffCourseProgressList = (
     ordering?: string;
     streamEndsFrom?: string;
     streamEndsTo?: string;
+    wantsOriginal?: boolean;
   } = {}
 ) => {
   const searchParams = new URLSearchParams();
@@ -305,6 +312,9 @@ export const getStaffCourseProgressList = (
   }
   if (params.streamEndsTo) {
     searchParams.set('streamEndsTo', params.streamEndsTo);
+  }
+  if (params.wantsOriginal) {
+    searchParams.set('wantsOriginal', 'true');
   }
   const query = searchParams.toString();
   const url = `${API_URL}/lms/staff/courses/${courseId}/progress/${query ? '?' + query : ''}`;
@@ -1423,7 +1433,8 @@ export type TLmsMaterialsAccess =
   | 'granted'
   | 'blocked'
   | 'no_application'
-  | 'no_course';
+  | 'no_course'
+  | 'stream_ended';
 
 export interface ILmsMaterialsResponse {
   access: TLmsMaterialsAccess;
@@ -1432,7 +1443,21 @@ export interface ILmsMaterialsResponse {
   statusDisplay?: string;
   applicationStatus?: string;
   organizerComment?: string;
+  streamEndsAt?: string | null;
+  resultsAvailable?: boolean;
   course?: ILmsMaterialsCourse;
+}
+
+export type TLearningOutcome = 'passed' | 'failed' | null;
+
+export interface ILearningOutcomeResponse {
+  streamEndsAt: string | null;
+  resultsAvailable: boolean;
+  coursePlayable: boolean;
+  outcome: TLearningOutcome;
+  wantsOriginalCertificate: boolean;
+  hasCertificateScan: boolean;
+  certificateScanUrl: string | null;
 }
 
 export const getMyLmsMaterials = (token: string) =>
@@ -1440,6 +1465,52 @@ export const getMyLmsMaterials = (token: string) =>
     method: 'GET',
     headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
   }).then((res) => handleLmsResponse(res)) as Promise<ILmsMaterialsResponse>;
+
+export const getMyLearningOutcome = (token: string) =>
+  fetch(`${API_URL}/lms/my/learning-outcome/`, {
+    method: 'GET',
+    headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+  }).then((res) => handleLmsResponse(res)) as Promise<ILearningOutcomeResponse>;
+
+export const downloadMyCertificateScan = async (token: string) => {
+  const response = await fetch(`${API_URL}/lms/my/learning-outcome/certificate/`, {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!response.ok) {
+    throw new Error('Не удалось скачать скан удостоверения');
+  }
+  return response.blob();
+};
+
+export const patchMyLearningOutcome = (
+  token: string,
+  body: { wantsOriginalCertificate: boolean }
+) =>
+  fetch(`${API_URL}/lms/my/learning-outcome/`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  }).then((res) => handleLmsResponse(res)) as Promise<ILearningOutcomeResponse>;
+
+export const updateStaffCourseLearningOutcome = (
+  token: string,
+  courseId: number,
+  userId: number,
+  formData: FormData
+) =>
+  fetch(`${API_URL}/lms/staff/courses/${courseId}/progress/${userId}/outcome/`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  }).then((res) => handleResponse(res));
 
 export const getMyLmsCourse = (token: string) =>
   fetch(`${API_URL}/lms/my/course/`, {

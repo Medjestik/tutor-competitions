@@ -65,6 +65,30 @@ const PersonLearningMaterials: FC = () => {
     );
   }
 
+  if (data?.access === 'stream_ended') {
+    return (
+      <div className='person-learning-materials'>
+        <div className='person-learning-materials__card'>
+          <h2 className='person-learning-materials__title'>
+            {data.course?.name || 'Материалы обучения'}
+          </h2>
+          <p className='person-learning-materials__message'>
+            {data.message ||
+              'Срок обучения истёк. Перейдите в раздел «Итоги», чтобы узнать результат.'}
+          </p>
+          {data.resultsAvailable ? (
+            <Link
+              className='person-learning-materials__link'
+              to={`${EROUTES.PERSON}/${EROUTESLEARNING.RESULTS}`}
+            >
+              Перейти к итогам обучения
+            </Link>
+          ) : null}
+        </div>
+      </div>
+    );
+  }
+
   if (!data || data.access !== 'granted' || !data.course) {
     return (
       <div className='person-learning-materials'>

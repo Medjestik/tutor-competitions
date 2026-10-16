@@ -150,6 +150,7 @@ export interface IPersonNavigationProps {
   openLearningId: string | null;
   onLearningChange: (item: ILearningNavItem) => void;
   isEducationEnabled: boolean;
+  learningNavItems: ILearningNavItem[];
 }
 
 export interface IPersonContainerProps extends PropsWithChildren {
