@@ -462,16 +462,18 @@ const StaffCourseProgress: FC = () => {
                 </label>
 
                 <label className='staff-course-progress__field staff-course-progress__field_checkbox'>
-                  <input
-                    type='checkbox'
-                    checked={wantsOriginalOnly}
-                    onChange={(event) => {
-                      setWantsOriginalOnly(event.target.checked);
-                      setPage(1);
-                    }}
-                    disabled={courseId === ''}
-                  />
                   <span>Нужен оригинал</span>
+                  <span className='staff-course-progress__checkbox-control'>
+                    <input
+                      type='checkbox'
+                      checked={wantsOriginalOnly}
+                      onChange={(event) => {
+                        setWantsOriginalOnly(event.target.checked);
+                        setPage(1);
+                      }}
+                      disabled={courseId === ''}
+                    />
+                  </span>
                 </label>
               </div>
 

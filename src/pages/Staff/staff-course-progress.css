@@ -38,7 +38,7 @@
   color: #5b6475;
 }
 
-.staff-course-progress__field input,
+.staff-course-progress__field input:not([type='checkbox']),
 .staff-course-progress__field select {
   min-height: 40px;
   padding: 8px 12px;
@@ -47,6 +47,26 @@
   font-size: 14px;
   color: #2f3440;
   background: #fff;
+}
+
+.staff-course-progress__field_checkbox .staff-course-progress__checkbox-control {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+}
+
+.staff-course-progress__field_checkbox input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  accent-color: #1f4ea3;
+  cursor: pointer;
+}
+
+.staff-course-progress__field_checkbox input[type='checkbox']:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .staff-course-progress__hint {
