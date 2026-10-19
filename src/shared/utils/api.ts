@@ -243,12 +243,24 @@ export interface IStaffProgressCourseOption {
   name: string;
 }
 
+export interface IStaffLearningStream {
+  id: number;
+  courseId: number;
+  name: string;
+  startDate: string;
+  endDate: string;
+}
+
 export interface IStaffCourseProgressListItem {
   id: number;
   fullName: string;
   workplace: string;
   phone: string;
   streamEndsAt: string | null;
+  learningStreamId: number | null;
+  learningStreamName: string | null;
+  learningStreamStartDate: string | null;
+  learningStreamEndDate: string | null;
   testsPassed: number;
   testsTotal: number;
   tasksCredited: number;
@@ -303,6 +315,7 @@ export const getStaffCourseProgressList = (
     streamEndsFrom?: string;
     streamEndsTo?: string;
     wantsOriginal?: boolean;
+    learningStreamId?: number | 'none';
   } = {}
 ) => {
   const searchParams = new URLSearchParams();
@@ -327,6 +340,12 @@ export const getStaffCourseProgressList = (
   if (params.wantsOriginal) {
     searchParams.set('wantsOriginal', 'true');
   }
+  if (params.learningStreamId !== undefined) {
+    searchParams.set(
+      'learningStreamId',
+      params.learningStreamId === 'none' ? 'none' : String(params.learningStreamId)
+    );
+  }
   const query = searchParams.toString();
   const url = `${API_URL}/lms/staff/courses/${courseId}/progress/${query ? '?' + query : ''}`;
 
@@ -348,6 +367,7 @@ export const exportStaffCourseProgressReport = async (
     ordering?: string;
     streamEndsFrom?: string;
     streamEndsTo?: string;
+    learningStreamId?: number | 'none';
   } = {}
 ): Promise<Blob> => {
   const searchParams = new URLSearchParams();
@@ -366,6 +386,12 @@ export const exportStaffCourseProgressReport = async (
   if (params.streamEndsTo) {
     searchParams.set('streamEndsTo', params.streamEndsTo);
   }
+  if (params.learningStreamId !== undefined) {
+    searchParams.set(
+      'learningStreamId',
+      params.learningStreamId === 'none' ? 'none' : String(params.learningStreamId)
+    );
+  }
   const query = searchParams.toString();
   const url = `${API_URL}/lms/staff/courses/${courseId}/progress/export/${query ? '?' + query : ''}`;
 
@@ -382,6 +408,78 @@ export const exportStaffCourseProgressReport = async (
 
   return res.blob();
 };
+
+export const getStaffLearningStreams = (token: string, courseId: number) =>
+  fetch(`${API_URL}/lms/staff/courses/${courseId}/streams/`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => handleResponse(res)) as Promise<IStaffLearningStream[]>;
+
+export const createStaffLearningStream = (
+  token: string,
+  courseId: number,
+  body: { name: string; startDate: string; endDate: string }
+) =>
+  fetch(`${API_URL}/lms/staff/courses/${courseId}/streams/`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  }).then((res) => handleResponse(res)) as Promise<IStaffLearningStream>;
+
+export const updateStaffLearningStream = (
+  token: string,
+  courseId: number,
+  streamId: number,
+  body: Partial<{ name: string; startDate: string; endDate: string }>
+) =>
+  fetch(`${API_URL}/lms/staff/courses/${courseId}/streams/${streamId}/`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  }).then((res) => handleResponse(res)) as Promise<IStaffLearningStream>;
+
+export const deleteStaffLearningStream = (
+  token: string,
+  courseId: number,
+  streamId: number
+) =>
+  fetch(`${API_URL}/lms/staff/courses/${courseId}/streams/${streamId}/`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => {
+    if (!res.ok) {
+      return handleResponse(res);
+    }
+    return undefined;
+  });
+
+export const assignStaffLearningStream = (
+  token: string,
+  courseId: number,
+  body: { userIds: number[]; learningStreamId: number | null }
+) =>
+  fetch(`${API_URL}/lms/staff/courses/${courseId}/progress/assign-stream/`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  }).then((res) => handleResponse(res)) as Promise<{ updated: number }>;
 
 export const getStaffCourseProgressDetail = (
   token: string,

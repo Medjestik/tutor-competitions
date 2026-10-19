@@ -2,6 +2,7 @@ import type { FC, KeyboardEvent } from 'react';
 import type {
   IStaffCourseProgressDetail,
   IStaffCourseProgressListItem,
+  IStaffLearningStream,
   IStaffProgressCourseOption,
   TStaffCourseProgressStatus,
 } from '../../shared/utils/api';
@@ -16,12 +17,17 @@ import StaffBackButton from './components/StaffBackButton';
 import closeIcon from '../../shared/icons/buttons/close-color.svg';
 import sortArrowIcon from '../../shared/icons/arrow.svg';
 import {
+  assignStaffLearningStream,
+  createStaffLearningStream,
   creditStaffCoursePart,
+  deleteStaffLearningStream,
   getStaffCourseProgressDetail,
   exportStaffCourseProgressReport,
   getStaffCourseProgressList,
+  getStaffLearningStreams,
   getStaffProgressCourses,
   updateStaffCourseLearningOutcome,
+  updateStaffLearningStream,
 } from '../../shared/utils/api';
 import { EROUTES } from '../../shared/utils/ERoutes';
 
@@ -72,7 +78,7 @@ const SORTABLE_COLUMNS: { field: TSortField; label: string }[] = [
   { field: 'fullName', label: 'ФИО' },
   { field: 'workplace', label: 'ВУЗ' },
   { field: 'phone', label: 'Телефон' },
-  { field: 'streamEndsAt', label: 'Окончание' },
+  { field: 'streamEndsAt', label: 'Окончание доступа (LMS)' },
   { field: 'testsPassed', label: 'Тесты' },
   { field: 'tasksCredited', label: 'Задания' },
   { field: 'courseStatus', label: 'Статус' },
@@ -118,6 +124,15 @@ const StaffCourseProgress: FC = () => {
   const [outcomeDraft, setOutcomeDraft] = useState<'passed' | 'failed' | ''>('');
   const [certificateFile, setCertificateFile] = useState<File | null>(null);
   const [isSavingOutcome, setIsSavingOutcome] = useState(false);
+  const [learningStreams, setLearningStreams] = useState<IStaffLearningStream[]>([]);
+  const [learningStreamFilter, setLearningStreamFilter] = useState<'' | 'none' | number>('');
+  const [isStreamsModalOpen, setIsStreamsModalOpen] = useState(false);
+  const [streamFormName, setStreamFormName] = useState('');
+  const [streamFormStart, setStreamFormStart] = useState('');
+  const [streamFormEnd, setStreamFormEnd] = useState('');
+  const [editingStreamId, setEditingStreamId] = useState<number | null>(null);
+  const [streamsError, setStreamsError] = useState('');
+  const [assigningUserId, setAssigningUserId] = useState<number | null>(null);
 
   const ordering =
     sortField === null ? undefined : `${sortDesc ? '-' : ''}${sortField}`;
@@ -151,6 +166,27 @@ const StaffCourseProgress: FC = () => {
       .finally(() => setIsCoursesLoading(false));
   }, []);
 
+  const loadLearningStreams = useCallback(async () => {
+    if (courseId === '') {
+      setLearningStreams([]);
+      return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    }
+    try {
+      const items = await getStaffLearningStreams(token, courseId);
+      setLearningStreams(items);
+    } catch {
+      setLearningStreams([]);
+    }
+  }, [courseId]);
+
+  useEffect(() => {
+    loadLearningStreams();
+  }, [loadLearningStreams]);
+
   const loadListeners = useCallback(async () => {
     if (courseId === '') {
       setListeners([]);
@@ -180,6 +216,8 @@ const StaffCourseProgress: FC = () => {
         streamEndsFrom: streamEndsFrom || undefined,
         streamEndsTo: streamEndsTo || undefined,
         wantsOriginal: wantsOriginalOnly || undefined,
+        learningStreamId:
+          learningStreamFilter === '' ? undefined : learningStreamFilter,
       });
       setListeners(response.results);
       setTotalCount(response.count);
@@ -203,6 +241,7 @@ const StaffCourseProgress: FC = () => {
     streamEndsFrom,
     streamEndsTo,
     wantsOriginalOnly,
+    learningStreamFilter,
   ]);
 
   useEffect(() => {
@@ -250,6 +289,8 @@ const StaffCourseProgress: FC = () => {
         ordering,
         streamEndsFrom: streamEndsFrom || undefined,
         streamEndsTo: streamEndsTo || undefined,
+        learningStreamId:
+          learningStreamFilter === '' ? undefined : learningStreamFilter,
       });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -374,6 +415,108 @@ const StaffCourseProgress: FC = () => {
 
   const totalPages = Math.max(1, Math.ceil(totalCount / 20));
 
+  const resetStreamForm = () => {
+    setStreamFormName('');
+    setStreamFormStart('');
+    setStreamFormEnd('');
+    setEditingStreamId(null);
+    setStreamsError('');
+  };
+
+  const openStreamsModal = () => {
+    resetStreamForm();
+    setIsStreamsModalOpen(true);
+  };
+
+  const handleSaveStream = async () => {
+    if (courseId === '') {
+      return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setStreamsError('Требуется авторизация');
+      return;
+    }
+    if (!streamFormName.trim() || !streamFormStart || !streamFormEnd) {
+      setStreamsError('Заполните название и даты потока');
+      return;
+    }
+    setStreamsError('');
+    try {
+      if (editingStreamId !== null) {
+        await updateStaffLearningStream(token, courseId, editingStreamId, {
+          name: streamFormName.trim(),
+          startDate: streamFormStart,
+          endDate: streamFormEnd,
+        });
+      } else {
+        await createStaffLearningStream(token, courseId, {
+          name: streamFormName.trim(),
+          startDate: streamFormStart,
+          endDate: streamFormEnd,
+        });
+      }
+      resetStreamForm();
+      await loadLearningStreams();
+    } catch {
+      setStreamsError('Не удалось сохранить поток');
+    }
+  };
+
+  const handleEditStream = (stream: IStaffLearningStream) => {
+    setEditingStreamId(stream.id);
+    setStreamFormName(stream.name);
+    setStreamFormStart(stream.startDate);
+    setStreamFormEnd(stream.endDate);
+    setStreamsError('');
+  };
+
+  const handleDeleteStream = async (streamId: number) => {
+    if (courseId === '') {
+      return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    }
+    setStreamsError('');
+    try {
+      await deleteStaffLearningStream(token, courseId, streamId);
+      if (editingStreamId === streamId) {
+        resetStreamForm();
+      }
+      await loadLearningStreams();
+      await loadListeners();
+    } catch {
+      setStreamsError('Не удалось удалить поток');
+    }
+  };
+
+  const handleAssignStream = async (userId: number, value: string) => {
+    if (courseId === '') {
+      return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    }
+    setAssigningUserId(userId);
+    try {
+      const learningStreamId = value === '' ? null : Number(value);
+      await assignStaffLearningStream(token, courseId, {
+        userIds: [userId],
+        learningStreamId,
+      });
+      await loadListeners();
+    } catch {
+      setLoadError('Не удалось назначить поток');
+    } finally {
+      setAssigningUserId(null);
+    }
+  };
+
+  const tableColumnCount = SORTABLE_COLUMNS.length + 6;
+
   return (
     <MainLayout mainContainer={false} transparentMain>
       <div className='staff-course-progress'>
@@ -393,6 +536,7 @@ const StaffCourseProgress: FC = () => {
                     onChange={(event) => {
                       const value = event.target.value;
                       setCourseId(value ? Number(value) : '');
+                      setLearningStreamFilter('');
                       setPage(1);
                       closeModal();
                     }}
@@ -461,6 +605,39 @@ const StaffCourseProgress: FC = () => {
                   />
                 </label>
 
+                <label className='staff-course-progress__field'>
+                  <span>Орг. поток</span>
+                  <select
+                    value={
+                      learningStreamFilter === ''
+                        ? ''
+                        : learningStreamFilter === 'none'
+                          ? 'none'
+                          : String(learningStreamFilter)
+                    }
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      if (value === '') {
+                        setLearningStreamFilter('');
+                      } else if (value === 'none') {
+                        setLearningStreamFilter('none');
+                      } else {
+                        setLearningStreamFilter(Number(value));
+                      }
+                      setPage(1);
+                    }}
+                    disabled={courseId === ''}
+                  >
+                    <option value=''>Все</option>
+                    <option value='none'>Без потока</option>
+                    {learningStreams.map((stream) => (
+                      <option key={stream.id} value={stream.id}>
+                        {stream.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
                 <label className='staff-course-progress__field staff-course-progress__field_checkbox'>
                   <span>Нужен оригинал</span>
                   <span className='staff-course-progress__checkbox-control'>
@@ -478,6 +655,12 @@ const StaffCourseProgress: FC = () => {
               </div>
 
               <div className='staff-course-progress__actions'>
+                <Button
+                  text='Потоки'
+                  color='default'
+                  onClick={openStreamsModal}
+                  disabled={courseId === ''}
+                />
                 <Button
                   text={isExporting ? 'Выгрузка…' : 'Excel: все отфильтрованные'}
                   color='primary'
@@ -528,14 +711,18 @@ const StaffCourseProgress: FC = () => {
                               </span>
                             </th>
                           ))}
+                          <th>Поток</th>
+                          <th>Начало потока</th>
+                          <th>Конец потока</th>
                           <th>Итог</th>
                           <th>Оригинал</th>
+                          <th>Назначить поток</th>
                         </tr>
                       </thead>
                       <tbody>
                         {listeners.length === 0 ? (
                           <tr>
-                            <td colSpan={9} className='staff-course-progress__empty'>
+                            <td colSpan={tableColumnCount} className='staff-course-progress__empty'>
                               Слушатели не найдены
                             </td>
                           </tr>
@@ -554,6 +741,9 @@ const StaffCourseProgress: FC = () => {
                               <td>{item.workplace || '—'}</td>
                               <td>{item.phone || '—'}</td>
                               <td>{formatStreamEndsAt(item.streamEndsAt)}</td>
+                              <td>{item.learningStreamName || '—'}</td>
+                              <td>{formatStreamEndsAt(item.learningStreamStartDate)}</td>
+                              <td>{formatStreamEndsAt(item.learningStreamEndDate)}</td>
                               <td>
                                 {item.testsPassed}/{item.testsTotal}
                               </td>
@@ -568,6 +758,27 @@ const StaffCourseProgress: FC = () => {
                               </td>
                               <td>
                                 {item.wantsOriginalCertificate ? 'Да' : '—'}
+                              </td>
+                              <td>
+                                <select
+                                  value={
+                                    item.learningStreamId !== null &&
+                                    item.learningStreamId !== undefined
+                                      ? String(item.learningStreamId)
+                                      : ''
+                                  }
+                                  onChange={(event) =>
+                                    handleAssignStream(item.id, event.target.value)
+                                  }
+                                  disabled={assigningUserId === item.id}
+                                >
+                                  <option value=''>Без потока</option>
+                                  {learningStreams.map((stream) => (
+                                    <option key={stream.id} value={stream.id}>
+                                      {stream.name}
+                                    </option>
+                                  ))}
+                                </select>
                               </td>
                             </tr>
                           ))
@@ -709,6 +920,113 @@ const StaffCourseProgress: FC = () => {
             {formError ? <p className='staff-course-progress__error'>{formError}</p> : null}
           </div>
         ) : null}
+      </Popup>
+
+      <Popup
+        isOpen={isStreamsModalOpen}
+        onClose={() => {
+          setIsStreamsModalOpen(false);
+          resetStreamForm();
+        }}
+        popupWidth='full'
+        closeOutside
+      >
+        <div className='staff-course-progress__modal'>
+          <div className='staff-course-progress__modal-head'>
+            <h2 className='staff-course-progress__modal-title'>Организационные потоки</h2>
+            <button
+              type='button'
+              className='staff-course-progress__modal-close'
+              aria-label='Закрыть'
+              onClick={() => {
+                setIsStreamsModalOpen(false);
+                resetStreamForm();
+              }}
+            >
+              <img src={closeIcon} alt='' aria-hidden='true' />
+            </button>
+          </div>
+
+          <div className='staff-course-progress__filters'>
+            <label className='staff-course-progress__field'>
+              <span>Название</span>
+              <input
+                type='text'
+                value={streamFormName}
+                onChange={(event) => setStreamFormName(event.target.value)}
+              />
+            </label>
+            <label className='staff-course-progress__field'>
+              <span>Начало</span>
+              <input
+                type='date'
+                value={streamFormStart}
+                onChange={(event) => setStreamFormStart(event.target.value)}
+              />
+            </label>
+            <label className='staff-course-progress__field'>
+              <span>Окончание</span>
+              <input
+                type='date'
+                value={streamFormEnd}
+                onChange={(event) => setStreamFormEnd(event.target.value)}
+              />
+            </label>
+          </div>
+
+          <div className='staff-course-progress__actions'>
+            <Button
+              text={editingStreamId !== null ? 'Сохранить' : 'Создать поток'}
+              color='primary'
+              onClick={handleSaveStream}
+            />
+            {editingStreamId !== null ? (
+              <Button text='Отмена редактирования' color='default' onClick={resetStreamForm} />
+            ) : null}
+          </div>
+
+          {streamsError ? <p className='staff-course-progress__error'>{streamsError}</p> : null}
+
+          <table className='staff-course-progress__table'>
+            <thead>
+              <tr>
+                <th>Название</th>
+                <th>Начало</th>
+                <th>Окончание</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              {learningStreams.length === 0 ? (
+                <tr>
+                  <td colSpan={4} className='staff-course-progress__empty'>
+                    Потоков пока нет
+                  </td>
+                </tr>
+              ) : (
+                learningStreams.map((stream) => (
+                  <tr key={stream.id}>
+                    <td>{stream.name}</td>
+                    <td>{formatStreamEndsAt(stream.startDate)}</td>
+                    <td>{formatStreamEndsAt(stream.endDate)}</td>
+                    <td>
+                      <Button
+                        text='Изменить'
+                        color='default'
+                        onClick={() => handleEditStream(stream)}
+                      />
+                      <Button
+                        text='Удалить'
+                        color='default'
+                        onClick={() => handleDeleteStream(stream.id)}
+                      />
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </Popup>
     </MainLayout>
   );
