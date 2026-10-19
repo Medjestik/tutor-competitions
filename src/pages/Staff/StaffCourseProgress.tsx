@@ -78,7 +78,7 @@ const SORTABLE_COLUMNS: { field: TSortField; label: string }[] = [
   { field: 'fullName', label: 'ФИО' },
   { field: 'workplace', label: 'ВУЗ' },
   { field: 'phone', label: 'Телефон' },
-  { field: 'streamEndsAt', label: 'Окончание доступа (LMS)' },
+  { field: 'streamEndsAt', label: 'Поток' },
   { field: 'testsPassed', label: 'Тесты' },
   { field: 'tasksCredited', label: 'Задания' },
   { field: 'courseStatus', label: 'Статус' },
@@ -94,6 +94,25 @@ const formatStreamEndsAt = (value: string | null | undefined): string => {
   }
   const [, year, month, day] = match;
   return `${day}.${month}.${year}`;
+};
+
+const renderListenerStreamCell = (item: IStaffCourseProgressListItem) => {
+  const streamName = item.learningStreamName?.trim() || 'Без потока';
+  const orgStart = formatStreamEndsAt(item.learningStreamStartDate);
+  const orgEnd = formatStreamEndsAt(item.learningStreamEndDate);
+  const orgRange =
+    orgStart !== '—' && orgEnd !== '—' ? `${orgStart} – ${orgEnd}` : null;
+  const lmsEnd = formatStreamEndsAt(item.streamEndsAt);
+
+  return (
+    <div className='staff-course-progress__stream-cell'>
+      <div className='staff-course-progress__stream-name'>{streamName}</div>
+      {orgRange ? (
+        <div className='staff-course-progress__stream-meta'>{orgRange}</div>
+      ) : null}
+      <div className='staff-course-progress__stream-meta'>доступ LMS: {lmsEnd}</div>
+    </div>
+  );
 };
 
 const StaffCourseProgress: FC = () => {
@@ -515,7 +534,7 @@ const StaffCourseProgress: FC = () => {
     }
   };
 
-  const tableColumnCount = SORTABLE_COLUMNS.length + 6;
+  const tableColumnCount = SORTABLE_COLUMNS.length + 3;
 
   return (
     <MainLayout mainContainer={false} transparentMain>
@@ -711,9 +730,6 @@ const StaffCourseProgress: FC = () => {
                               </span>
                             </th>
                           ))}
-                          <th>Поток</th>
-                          <th>Начало потока</th>
-                          <th>Конец потока</th>
                           <th>Итог</th>
                           <th>Оригинал</th>
                           <th>Назначить поток</th>
@@ -740,10 +756,7 @@ const StaffCourseProgress: FC = () => {
                               </td>
                               <td>{item.workplace || '—'}</td>
                               <td>{item.phone || '—'}</td>
-                              <td>{formatStreamEndsAt(item.streamEndsAt)}</td>
-                              <td>{item.learningStreamName || '—'}</td>
-                              <td>{formatStreamEndsAt(item.learningStreamStartDate)}</td>
-                              <td>{formatStreamEndsAt(item.learningStreamEndDate)}</td>
+                              <td>{renderListenerStreamCell(item)}</td>
                               <td>
                                 {item.testsPassed}/{item.testsTotal}
                               </td>

@@ -75,6 +75,22 @@
   font-size: 14px;
 }
 
+.staff-course-progress__stream-cell {
+  min-width: 140px;
+  line-height: 1.35;
+}
+
+.staff-course-progress__stream-name {
+  font-weight: 600;
+  color: #2f3440;
+}
+
+.staff-course-progress__stream-meta {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #5b6475;
+}
+
 .staff-course-progress__error {
   margin: 0 0 12px;
   color: #c0392b;
