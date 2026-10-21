@@ -32,7 +32,6 @@ const Landing: FC = () => {
 
   return (
     <div className='landing'>
-      <div className='landing__background'></div>
       <div className='landing__lines'></div>
       {
         <>
@@ -41,6 +40,7 @@ const Landing: FC = () => {
           <MobileMenu isShow={isShowMobileMenu} onClose={toggleMobileMenu} />
         }
         <section className='landing__hero'>
+          <div className='landing__background' aria-hidden='true' />
           <Header windowWidth={windowWidth} showMobileMenu={toggleMobileMenu} />
           <Main windowWidth={windowWidth} />
         </section>

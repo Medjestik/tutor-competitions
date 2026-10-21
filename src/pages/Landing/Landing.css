@@ -13,6 +13,7 @@
   /* height: auto — иначе на низкой высоте окна кнопки hero обрезает overflow:hidden */
   height: auto;
   min-height: 100vh;
+  min-height: 100svh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -24,7 +25,7 @@
 
 .landing__background {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -34,11 +35,11 @@
   background-image: linear-gradient(
     180deg,
     #073ae9 0%,
-    #073ae9 52%,
-    #1a4ef0 62%,
-    #476dff 74%,
-    #8fa8ff 86%,
-    #d4ddff 94%,
+    #073ae9 58%,
+    #1a4ef0 68%,
+    #476dff 79%,
+    #8fa8ff 88%,
+    #d4ddff 95%,
     #ffffff 100%
   );
   background-repeat: no-repeat;
@@ -51,11 +52,11 @@
     background-image: linear-gradient(
       180deg,
       #073ae9 0%,
-      #073ae9 48%,
-      #1a4ef0 58%,
-      #476dff 70%,
-      #a8bbff 84%,
-      #eef2ff 93%,
+      #073ae9 56%,
+      #1a4ef0 66%,
+      #476dff 77%,
+      #a8bbff 87%,
+      #eef2ff 95%,
       #ffffff 100%
     );
   }
