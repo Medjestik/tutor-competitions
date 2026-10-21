@@ -12,6 +12,69 @@ function handleResponse (res: Response) {
   }
 }
 
+export type TSecondStageStatus = 'submitted' | 'in_progress' | 'not_started';
+export type TSecondStageMissing = 'video' | 'presentation' | 'photo';
+
+export interface ISecondStageFilters {
+  search: string;
+  nomination: string;
+  status: TSecondStageStatus | '';
+  missing: TSecondStageMissing[];
+  page: number;
+}
+
+export interface ISecondStageParticipant {
+  id: number;
+  fullname: string;
+  educational_organization: string;
+  nomination: { id: number; name: string } | null;
+  email: string;
+  phone_number: string;
+  telegram_username: string;
+  secondStageStatus: TSecondStageStatus;
+  hasVideo: boolean;
+  hasPresentation: boolean;
+  hasPhoto: boolean;
+  practice_video_url: string;
+  presentation_file_url: string | null;
+  presentation_url: string;
+  photo_url: string | null;
+}
+
+export interface ISecondStageReport {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: ISecondStageParticipant[];
+  cards: { total: number; submitted: number; inProgress: number; notStarted: number };
+}
+
+export const secondStageQuery = (filters: ISecondStageFilters, exportFile = false) => {
+  const params = new URLSearchParams();
+  if (filters.search.trim()) params.set('search', filters.search.trim());
+  if (filters.nomination) params.set('nomination', filters.nomination);
+  if (filters.status) params.set('status', filters.status);
+  filters.missing.forEach((value) => params.append('missing', value));
+  if (!exportFile) params.set('page', String(filters.page));
+  return params.toString();
+};
+
+export const getSecondStageParticipants = (
+  token: string, filters: ISecondStageFilters, signal?: AbortSignal
+): Promise<ISecondStageReport> => fetch(
+  `${API_URL}/competition/staff/second-stage-participants/?${secondStageQuery(filters)}`,
+  { headers: { Authorization: `Bearer ${token}` }, signal }
+).then(handleResponse);
+
+export const exportSecondStageParticipants = async (token: string, filters: ISecondStageFilters): Promise<Blob> => {
+  const response = await fetch(
+    `${API_URL}/competition/staff/second-stage-participants-export/?${secondStageQuery(filters, true)}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  if (!response.ok) throw new Error('Не удалось скачать Excel');
+  return response.blob();
+};
+
 function checkResponse (res: Response) {
   if (res.status === 201) {
     return res;

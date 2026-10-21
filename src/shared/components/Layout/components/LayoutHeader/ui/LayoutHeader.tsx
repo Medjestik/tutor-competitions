@@ -114,6 +114,15 @@ const LayoutHeader: FC = () => {
                       <li>
                         <Link
                           className='layout-header__admin-link'
+                          to={EROUTES.STAFF_SECOND_STAGE_PARTICIPANTS}
+                          onClick={() => setIsAdminZoneOpen(false)}
+                        >
+                          Второй этап
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className='layout-header__admin-link'
                           to={EROUTES.STAFF_LEARNING_APPLICATIONS}
                           onClick={() => setIsAdminZoneOpen(false)}
                         >
