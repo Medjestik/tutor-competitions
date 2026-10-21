@@ -12,6 +12,7 @@ export enum EROUTES {
   STAFF_LEARNING_APPLICATIONS = '/staff/learning-applications',
   STAFF_PARTICIPANTS = '/staff/participants',
   STAFF_DASHBOARD = '/staff/dashboard',
+  STAFF_SECOND_STAGE_PARTICIPANTS = '/staff/second-stage-participants',
   STAFF_LEARNING_APPLICATION = '/staff/learning-applications/:id',
   STAFF_LMS = '/staff/lms',
   STAFF_LMS_COURSES = '/staff/lms/courses',

@@ -15,6 +15,7 @@ import Person from '../../../pages/Person/ui/Person';
 import StaffLearningApplications from '../../../pages/Staff/StaffLearningApplications';
 import StaffParticipants from '../../../pages/Staff/StaffParticipants';
 import StaffDashboard from '../../../pages/Staff/StaffDashboard';
+import StaffSecondStageParticipants from '../../../pages/Staff/StaffSecondStageParticipants';
 import StaffLearningApplicationDetail from '../../../pages/Staff/StaffLearningApplicationDetail';
 import StaffLmsHub from '../../../pages/Staff/StaffLmsHub';
 import StaffLmsCourses from '../../../pages/Staff/StaffLmsCourses';
@@ -55,6 +56,10 @@ export const App = () => {
 			<div className={styles.page}>
 				<ScrollToTop />
 				<Routes>
+					<Route
+						path={EROUTES.STAFF_SECOND_STAGE_PARTICIPANTS}
+						element={<OnlyStaffAuth component={<StaffSecondStageParticipants />} />}
+					/>
 					<Route
 						path={EROUTES.LANDING}
 						element={<OnlyUnAuth component={<Landing />} />}
