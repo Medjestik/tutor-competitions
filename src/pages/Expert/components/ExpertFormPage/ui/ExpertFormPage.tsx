@@ -2,7 +2,9 @@ import type { FC } from 'react';
 import type { IFormData, IFormFieldDef, IScoreItem } from '../../../../Person/interface/interface';
 
 import { useState, useEffect, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { getEvaluationStage } from '../../../evaluationStage';
+import '../../../evaluation-stage.css';
 
 import * as api from '../../../../../shared/utils/api';
 
@@ -32,6 +34,10 @@ const btnLinksStyle = {
 const ExpertFormPage: FC = () => {
   const navigate = useNavigate();
   const { nominationId, formId } = useParams();
+  const [searchParams] = useSearchParams();
+  const stage = getEvaluationStage(searchParams);
+  const [error, setError] = useState('');
+  const [scoreError, setScoreError] = useState('');
   const [form, setForm] = useState<IFormData | null>(null);
   const [isOpenSetScorePopup, setIsOpenSetScorePopup] = useState<boolean>(false);
   const [isLoadingScore, setIsLoadingScore] = useState<boolean>(false);
@@ -58,41 +64,54 @@ const ExpertFormPage: FC = () => {
   };
 
   const backToForms = () => {
-    navigate(`/person/nomination/${nominationId}`);
+    navigate(`/person/nomination/${nominationId}?stage=${stage}`);
   };
 
   const handleScoreForm = (data: IScoreItem[]) => {
     setIsLoadingScore(true);
+    setScoreError('');
     const token = localStorage.getItem('token');
     if (token) {
       api
-        .scoreForm(token, data)
+        .scoreForm(token, data, stage)
         .then((res) => {
           setForm((prev) => (prev ? { ...prev, evaluation_details: res } : prev));
           closePopup();
         })
-        .catch((err) => {
-          console.error(err);
+        .catch(() => {
+          setScoreError('Не удалось сохранить оценку. Проверьте доступность практики и повторите попытку.');
         })
         .finally(() => setIsLoadingScore(false));
+    } else {
+      setScoreError('Для сохранения оценки необходимо войти в систему.');
+      setIsLoadingScore(false);
     }
   };
 
-  const getData = () => {
+  useEffect(() => {
+    let active = true;
     setIsLoadingData(true);
+    setForm(null);
+    setError('');
+    setScoreError('');
+    setIsOpenSetScorePopup(false);
     const token = localStorage.getItem('token');
     if (token && formId) {
       api
-        .getExpertForm(token, formId)
+        .getExpertForm(token, formId, stage)
         .then((res) => {
-          setForm(res);
+          if (active) setForm(res);
         })
-        .catch((err) => {
-          console.error(err);
+        .catch(() => {
+          if (active) setError('Практика недоступна на выбранном этапе или не удалось загрузить данные.');
         })
-        .finally(() => setIsLoadingData(false));
+        .finally(() => { if (active) setIsLoadingData(false); });
+    } else {
+      setError('Для просмотра практики необходимо войти в систему.');
+      setIsLoadingData(false);
     }
-  };
+    return () => { active = false; };
+  }, [formId, stage]);
 
   const renderSchemaField = (field: IFormFieldDef) => {
     const value = form?.answers?.[field.key] ?? '';
@@ -116,14 +135,14 @@ const ExpertFormPage: FC = () => {
     );
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
-
   return isLoadingData ? (
     <Preloader />
   ) : (
     <>
+      {error && <>
+        <p role='alert'>{error}</p>
+        <Button onClick={backToForms} text='Вернуться к списку' color='default' />
+      </>}
       {form && (
         <>
           <div className='expert-form__data'>
@@ -134,6 +153,7 @@ const ExpertFormPage: FC = () => {
               <span className='expert-form__nomination'>{form.nomination_name}</span>
               <h4 className='expert-form__name'>{form.name}</h4>
               <p className='expert-form__score'>Текущая оценка - {totalScore}</p>
+              <p>{stage === 'semifinal' ? 'Полуфинал' : 'Отборочный'} · Оценка общая для обоих этапов</p>
               <div className='form__input-field'>
                 <Button
                   onClick={backToForms}
@@ -151,6 +171,25 @@ const ExpertFormPage: FC = () => {
             </div>
           </div>
           <div className='expert-form__container'>
+            {stage === 'semifinal' && (
+              <section className='expert-stage-materials' aria-label='Материалы полуфинала'>
+                <h3>Материалы полуфинала</h3>
+                <p>Материалы: {form.second_stage_materials?.count ?? 0}/3</p>
+                <ul>
+                  <li>Видео: {form.second_stage_materials?.has_video && form.second_stage_materials.practice_video_url
+                    ? <a href={form.second_stage_materials.practice_video_url} target='_blank' rel='noreferrer'>Открыть видео</a>
+                    : 'Не загружено'}</li>
+                  <li>Презентация: {form.second_stage_materials?.has_presentation ? <>
+                    {form.second_stage_materials.presentation_file_url && <a href={form.second_stage_materials.presentation_file_url} target='_blank' rel='noreferrer'>Открыть файл</a>}
+                    {' '}
+                    {form.second_stage_materials.presentation_url && <a href={form.second_stage_materials.presentation_url} target='_blank' rel='noreferrer'>Открыть презентацию</a>}
+                  </> : 'Не загружено'}</li>
+                  <li>Фото: {form.second_stage_materials?.has_photo && form.second_stage_materials.photo_url
+                    ? <a href={form.second_stage_materials.photo_url} target='_blank' rel='noreferrer'>Открыть фото</a>
+                    : 'Не загружено'}</li>
+                </ul>
+              </section>
+            )}
             {form.educational_organization && (
               <FormField title='Образовательная организация'>
                 <p className='form__text-view'>{form.educational_organization}</p>
@@ -190,6 +229,7 @@ const ExpertFormPage: FC = () => {
           form={form}
           isLoading={isLoadingScore}
           onScore={handleScoreForm}
+          error={scoreError}
         />
       )}
     </>

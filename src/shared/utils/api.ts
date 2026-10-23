@@ -106,8 +106,8 @@ export const getNominations = () => {
   .then(res => handleResponse(res));
 };
 
-export const getNominationForms = (token: string, nominationId: string) => {
-  return fetch(`${API_URL}/competition/evaluations/nomination/${nominationId}`, {
+export const getNominationForms = (token: string, nominationId: string, stage: 'qualifying' | 'semifinal' = 'qualifying') => {
+  return fetch(`${API_URL}/competition/evaluations/nomination/${nominationId}/?stage=${stage}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -130,8 +130,8 @@ export const getFormData = (token: string) => {
   .then(res => handleResponse(res));
 };
 
-export const getExpertForm = (token: string, formId: string) => {
-  return fetch(`${API_URL}/competition/evaluations/forms/${formId}`, {
+export const getExpertForm = (token: string, formId: string, stage: 'qualifying' | 'semifinal' = 'qualifying') => {
+  return fetch(`${API_URL}/competition/evaluations/forms/${formId}/?stage=${stage}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -694,8 +694,8 @@ export const editForm = (token: string) => {
   }).then(res => handleResponse(res));
 };
 
-export const scoreForm = (token: string, evaluations: IScoreItem[]) => {
-  return fetch(`${API_URL}/competition/evaluations/`, {
+export const scoreForm = (token: string, evaluations: IScoreItem[], stage: 'qualifying' | 'semifinal' = 'qualifying') => {
+  return fetch(`${API_URL}/competition/evaluations/?stage=${stage}`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',

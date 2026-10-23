@@ -2,7 +2,9 @@ import type { FC } from 'react';
 import type { IItemForm } from '../../../../Person/interface/interface';
 
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { getEvaluationStage, materialNames } from '../../../evaluationStage';
+import '../../../evaluation-stage.css';
 
 import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
 import Button from '../../../../../shared/components/Button/ui/Button';
@@ -22,43 +24,45 @@ const ExpertForms: FC = () => {
 
   const navigate = useNavigate();
   const { nominationId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const stage = getEvaluationStage(searchParams);
+  const [error, setError] = useState('');
 
   const [forms, setForms] = useState<IItemForm[]>([]);
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
 
-  const getData = () => {
+  useEffect(() => {
+    let active = true;
     setIsLoadingData(true);
+    setForms([]);
+    setError('');
     const token = localStorage.getItem('token');
     if (token && nominationId) {
-      api.getNominationForms(token, nominationId)
+      api.getNominationForms(token, nominationId, stage)
       .then((res) => {
-        setForms(res);
+        if (active) setForms(res);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        if (active) setError('Не удалось загрузить практики. Попробуйте выбрать этап ещё раз.');
       })
-      .finally(() => setIsLoadingData(false));
+      .finally(() => { if (active) setIsLoadingData(false); });
+    } else {
+      setError('Для просмотра практик необходимо войти в систему.');
+      setIsLoadingData(false);
     }
-  };
+    return () => { active = false; };
+  }, [nominationId, stage]);
 
   const handleOpenForm = (form: IItemForm) => {
-    navigate(`/person/nomination/${nominationId}/form/${form.id}`);
+    navigate(`/person/nomination/${nominationId}/form/${form.id}?stage=${stage}`);
   };
 
   const backToNominations = () => {
     navigate('/person/menu/nominations');
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
-
   return (
-    isLoadingData 
-    ?
-    <Preloader />
-    :
     <>
     <div className='expert-form__data'> 
       <div className={`expert-form__img expert-form__img_type_${nominationId}`}></div>
@@ -70,13 +74,25 @@ const ExpertForms: FC = () => {
         </div>
       </div>
     </div>
+    <label className='expert-stage-filter'>
+      Этап
+      <select value={stage} onChange={(event) => {
+        const next = new URLSearchParams(searchParams);
+        next.set('stage', event.target.value);
+        setSearchParams(next);
+      }}>
+        <option value='qualifying'>Отборочный</option>
+        <option value='semifinal'>Полуфинал</option>
+      </select>
+    </label>
+    {error && <p role='alert'>{error}</p>}
     {
-      forms.length > 0
+      isLoadingData ? <Preloader /> : error ? null : forms.length > 0
       ?
       <ul className='expert__list'>
         {
           forms.map((elem, i) => (
-            <li className='expert__item' key={i} onClick={() => handleOpenForm(elem)}>
+            <li className='expert__item' key={elem.id} onClick={() => handleOpenForm(elem)}>
               <span className='expert__item-count'>{i + 1}.</span>
               <div className='expert__item-info'>
                 <div className='expert__item-tags'>
@@ -101,6 +117,12 @@ const ExpertForms: FC = () => {
                   }
                 </div>
                 <h4 className='expert__item-name'>{elem.name}</h4>
+                {stage === 'semifinal' && (
+                  <p className='expert-material-summary'>
+                    Материалы: {elem.second_stage_materials?.count ?? 0}/3
+                    {materialNames(elem.second_stage_materials) && ` · ${materialNames(elem.second_stage_materials)}`}
+                  </p>
+                )}
               </div>
             </li>
           ))

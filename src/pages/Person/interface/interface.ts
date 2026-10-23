@@ -38,6 +38,7 @@ export interface ICoauthor {
 }
 
 export interface IItemForm {
+  second_stage_materials?: IExpertMaterials;
   total_evaluations: number;
   name: string;
   id: number;
@@ -48,6 +49,7 @@ export interface IItemForm {
 }
 
 export interface IFormData {
+  second_stage_materials?: IExpertMaterials;
   description?: string | null;
   id: number;
   name: string | null;
@@ -68,6 +70,17 @@ export interface IFormData {
   evaluation_details?: ICriteria[];
   created_at?: string;
   updated_at?: string;
+}
+
+export interface IExpertMaterials {
+  count: number;
+  has_video: boolean;
+  has_presentation: boolean;
+  has_photo: boolean;
+  practice_video_url?: string;
+  presentation_url?: string;
+  presentation_file_url?: string | null;
+  photo_url?: string | null;
 }
 
 export interface IScoreItem {

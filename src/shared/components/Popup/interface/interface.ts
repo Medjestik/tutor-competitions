@@ -23,6 +23,7 @@ export interface IConfirmRemovePopupProps {
 }
 
 export interface ISetScorePopupProps {
+  error?: string;
   isOpen: boolean;
   onClose: () => void;
   form: IFormData;

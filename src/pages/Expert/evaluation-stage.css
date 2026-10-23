@@ -1,0 +1,48 @@
+.expert-stage-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 24px 0;
+  font-size: 18px;
+}
+
+.expert-stage-filter select {
+  min-width: 200px;
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #9ca3af;
+  border-radius: 10px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+
+.expert-material-summary {
+  margin: 10px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.expert-stage-materials {
+  padding: 20px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+}
+
+.expert-stage-materials h3 {
+  margin: 0 0 12px;
+}
+
+.expert-stage-materials ul {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 0;
+  padding-left: 24px;
+}
+
+.expert-stage-materials a {
+  color: #365aba;
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}

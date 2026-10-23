@@ -40,6 +40,7 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({
   form,
   isLoading,
   onScore,
+  error,
 }) => {
   const [scores, setScores] = useState<Record<number, number | null>>({});
 
@@ -86,7 +87,7 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({
         participant_form: form.id,
         indicator: indicator.id,
         score: scores[indicator.id] ?? 0,
-        comment: '',
+        comment: indicator.comment || '',
       })),
     );
 
@@ -175,6 +176,7 @@ const SetScorePopup: FC<ISetScorePopupProps> = ({
               ))}
               <p className='score-caption'>Итоговый балл: {totalScore}</p>
             </div>
+            {error && <p role='alert'>{error}</p>}
             <div className='score-popup__actions'>
               <Button
                 style={btnStyle}
