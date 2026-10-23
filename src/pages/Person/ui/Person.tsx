@@ -31,6 +31,7 @@ import {
 } from '../lib/practiceFormClosed';
 
 import '../styles/style.css';
+import { withSecondStageNav } from '../lib/secondStageClosed';
 
 const Person: FC = () => {
 
@@ -54,6 +55,8 @@ const Person: FC = () => {
   const [isStage1ResultsPublished, setIsStage1ResultsPublished] =
     useState<boolean>(false);
   const [practiceFormStatus, setPracticeFormStatus] = useState<string | null>(null);
+  const [secondStageState, setSecondStageState] = useState<api.ISecondStageMaterials | null>(null);
+  const [secondStageFailed, setSecondStageFailed] = useState(false);
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
   const [resultsNavVisible, setResultsNavVisible] = useState(false);
@@ -172,6 +175,22 @@ const Person: FC = () => {
   }, []);
 
   useEffect(() => {
+    let active = true;
+    setSecondStageState(null);
+    setSecondStageFailed(false);
+    if (!currentUser.passed_second_stage) return;
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setSecondStageFailed(true);
+      return;
+    }
+    api.getSecondStageMaterials(token)
+      .then((data) => { if (active) setSecondStageState(data); })
+      .catch(() => { if (active) setSecondStageFailed(true); });
+    return () => { active = false; };
+  }, [currentUser.passed_second_stage, pathname]);
+
+  useEffect(() => {
     if (isPracticeFormOpen) {
       setPracticeFormStatus(null);
       return;
@@ -272,7 +291,7 @@ const Person: FC = () => {
     <MainLayout mainContainer={false} transparentMain > 
       <div className='person'>
         <PersonNavigation
-          stages={stages}
+          stages={withSecondStageNav(stages, currentUser.passed_second_stage, secondStageState, secondStageFailed)}
           openStageId={openStageId}
           onChange={toggleStage}
           openLearningId={openLearningId}
@@ -305,7 +324,7 @@ const Person: FC = () => {
                   <PersonStageResults isPublished={isStage1ResultsPublished} />
                 }
               />
-              <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides />} />
+              <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides isEducationEnabled={educationOn} onStateChange={setSecondStageState} />} />
               <Route path={EROUTESSTAGES.PERSON_WORKSHOP} element={<PersonStageWorkshop />} />
               <Route path={EROUTESSTAGES.PERSON_EVALUATE} element={<PersonStageEvaluate />} />
               {educationOn && (

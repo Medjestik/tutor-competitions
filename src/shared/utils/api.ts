@@ -736,6 +736,8 @@ export const uploadLink = (token: string, data: IUploadLink) => {
 };
 
 export interface ISecondStageMaterials {
+  is_open: boolean;
+  has_materials: boolean;
   practice_video_url: string;
   presentation_url: string;
   presentation_file_url: string | null;

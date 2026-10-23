@@ -10,6 +10,7 @@ import { useSelector } from '../../../../../store/store';
 import * as api from '../../../../../shared/utils/api';
 
 import '../styles/style.css';
+import { getClosedSecondStageMessage } from '../../../lib/secondStageClosed';
 
 const ORGANIZER_VIDEO_URL =
   'https://runtime.video.cloud.yandex.net/player/video/vplvizgnahys4zwqjc3s?autoplay=0&mute=0';
@@ -25,12 +26,17 @@ const btnStyle = {
 
 type TSaveSection = 'video' | 'presentation' | 'photo' | null;
 
-const PersonStageSlides: FC = () => {
+const PersonStageSlides: FC<{
+  isEducationEnabled?: boolean;
+  onStateChange?: (data: api.ISecondStageMaterials) => void;
+}> = ({ isEducationEnabled = false, onStateChange }) => {
   const passedSecondStage = useSelector(
     (state) => state.user.user?.passed_second_stage === true,
   );
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
+  const [serverState, setServerState] = useState<api.ISecondStageMaterials | null>(null);
+  const [loadError, setLoadError] = useState(false);
   const [savingSection, setSavingSection] = useState<TSaveSection>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
@@ -48,6 +54,8 @@ const PersonStageSlides: FC = () => {
   const photoInputRef = useRef<HTMLInputElement>(null);
 
   const applyServerData = (data: api.ISecondStageMaterials) => {
+    setServerState(data);
+    onStateChange?.(data);
     setPracticeVideoUrl(data.practice_video_url || '');
     setPresentationLink(data.presentation_url || '');
     setSavedPresentationFileUrl(data.presentation_file_url);
@@ -61,6 +69,7 @@ const PersonStageSlides: FC = () => {
       return;
     }
     setIsLoadingData(true);
+    setLoadError(false);
     api
       .getSecondStageMaterials(token)
       .then((res) => {
@@ -68,6 +77,7 @@ const PersonStageSlides: FC = () => {
       })
       .catch((err) => {
         console.error(err);
+        setLoadError(true);
       })
       .finally(() => setIsLoadingData(false));
   };
@@ -119,6 +129,10 @@ const PersonStageSlides: FC = () => {
     } catch (err) {
       try {
         const body = await (err as Response).json();
+        if (body.code === 'second_stage_closed') {
+          loadData();
+          return;
+        }
         setSaveError(body.error || 'Не удалось сохранить материалы.');
       } catch {
         setSaveError('Не удалось сохранить материалы.');
@@ -179,6 +193,24 @@ const PersonStageSlides: FC = () => {
   }
 
   const isBusy = savingSection !== null;
+
+  if (loadError || !serverState) {
+    return <div className='person-stage'>
+      <p role='alert'>Не удалось загрузить состояние второго этапа.</p>
+      <Button text='Повторить' onClick={loadData} color='primary' />
+    </div>;
+  }
+
+  if (!serverState.is_open) {
+    return <div className='person-stage'>
+      <h2 className='person-stage__title'>Видеопрезентация</h2>
+      <p className='person-stage__lead'>{getClosedSecondStageMessage(serverState.has_materials)}</p>
+      {!serverState.has_materials && isEducationEnabled && <Button
+        text='Перейти к обучению' type='link' href='/person/learning/program'
+        openInNewTab={false} color='gradient'
+      />}
+    </div>;
+  }
 
   return (
     <div className='person-stage'>
