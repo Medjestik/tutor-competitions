@@ -23,6 +23,7 @@ import {
   deleteStaffLearningStream,
   getStaffCourseProgressDetail,
   exportStaffCourseProgressReport,
+  exportStaffCourseTestScores,
   getStaffCourseProgressList,
   getStaffLearningStreams,
   getStaffProgressCourses,
@@ -138,6 +139,7 @@ const StaffCourseProgress: FC = () => {
   const [streamEndsFrom, setStreamEndsFrom] = useState('');
   const [streamEndsTo, setStreamEndsTo] = useState('');
   const [isExporting, setIsExporting] = useState(false);
+  const [isExportingScores, setIsExportingScores] = useState(false);
   const [exportError, setExportError] = useState('');
   const [wantsOriginalOnly, setWantsOriginalOnly] = useState(false);
   const [outcomeDraft, setOutcomeDraft] = useState<'passed' | 'failed' | ''>('');
@@ -286,6 +288,34 @@ const StaffCourseProgress: FC = () => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       handleSort(field);
+    }
+  };
+
+  const handleExportScores = async () => {
+    if (courseId === '' || typeof learningStreamFilter !== 'number' || isExportingScores) {
+      return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setExportError('Требуется авторизация');
+      return;
+    }
+    setIsExportingScores(true);
+    setExportError('');
+    try {
+      const blob = await exportStaffCourseTestScores(token, courseId, learningStreamFilter);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `test_scores_course_${courseId}_stream_${learningStreamFilter}.xlsx`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      setExportError('Не удалось выгрузить баллы за тесты. Попробуйте ещё раз.');
+    } finally {
+      setIsExportingScores(false);
     }
   };
 
@@ -686,7 +716,18 @@ const StaffCourseProgress: FC = () => {
                   onClick={handleExport}
                   disabled={courseId === '' || isExporting || isLoading}
                 />
+                <Button
+                  text={isExportingScores ? 'Выгрузка баллов…' : 'Excel: баллы за тесты'}
+                  color='primary'
+                  onClick={handleExportScores}
+                  disabled={courseId === '' || typeof learningStreamFilter !== 'number' || isExportingScores}
+                />
               </div>
+
+              <p className='staff-course-progress__hint'>
+                Для выгрузки баллов выберите конкретный орг. поток. Отчёт содержит всех слушателей
+                выбранного потока и баллы по всем тестам курса; остальные фильтры таблицы не учитываются.
+              </p>
 
               {exportError ? <p className='staff-course-progress__error'>{exportError}</p> : null}
               {loadError ? <p className='staff-course-progress__error'>{loadError}</p> : null}

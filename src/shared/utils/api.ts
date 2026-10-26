@@ -472,6 +472,22 @@ export const exportStaffCourseProgressReport = async (
   return res.blob();
 };
 
+export const exportStaffCourseTestScores = async (
+  token: string,
+  courseId: number,
+  learningStreamId: number
+): Promise<Blob> => {
+  const query = new URLSearchParams({ learningStreamId: String(learningStreamId) });
+  const response = await fetch(
+    `${API_URL}/lms/staff/courses/${courseId}/test-scores/export/?${query}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  if (!response.ok) {
+    throw response;
+  }
+  return response.blob();
+};
+
 export const getStaffLearningStreams = (token: string, courseId: number) =>
   fetch(`${API_URL}/lms/staff/courses/${courseId}/streams/`, {
     method: 'GET',
