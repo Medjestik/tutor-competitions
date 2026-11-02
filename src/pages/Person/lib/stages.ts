@@ -89,13 +89,18 @@ export const personStages = [
 
 const STAGE1_RESULTS_STAGE_ID = 2;
 const VIDEO_PRESENTATION_STAGE_ID = 3;
+const STAGE2_RESULTS_STAGE_ID = 4;
+const FINAL_STAGE_ID = 5;
 const STAGE1_RESULTS_WAITING_DESCRIPTION = 'Дождитесь решения жюри';
+export const FINAL_RESULTS_WAITING_DESCRIPTION = STAGE1_RESULTS_WAITING_DESCRIPTION;
 
 /** Разблокирует пункты навигации по текущему этапу пользователя (id из personStages). */
 export function buildPersonStages(
   currentStageId: number,
   passedSecondStage = false,
   stage1ResultsPublished = false,
+  finalResultsPublished = false,
+  passedFinal = false,
 ): typeof personStages {
   const unlockedThroughId = currentStageId > 0 ? currentStageId : 1;
 
@@ -113,6 +118,26 @@ export function buildPersonStages(
       return {
         ...stage,
         type: passedSecondStage ? ('default' as const) : ('block' as const),
+      };
+    }
+    if (stage.id === STAGE2_RESULTS_STAGE_ID) {
+      const open = finalResultsPublished && passedSecondStage;
+      return {
+        ...stage,
+        type: open ? ('default' as const) : ('block' as const),
+        description: finalResultsPublished
+          ? stage.description
+          : STAGE1_RESULTS_WAITING_DESCRIPTION,
+      };
+    }
+    if (stage.id === FINAL_STAGE_ID) {
+      const open = finalResultsPublished && passedFinal;
+      return {
+        ...stage,
+        type: open ? ('default' as const) : ('block' as const),
+        description: finalResultsPublished
+          ? stage.description
+          : STAGE1_RESULTS_WAITING_DESCRIPTION,
       };
     }
     return {

@@ -23,6 +23,7 @@ export interface IUser {
   telegram_username: string
   timezone: string;
   passed_second_stage: boolean;
+  passed_final: boolean;
   is_staff: boolean;
   is_lms_tutor: boolean;
   viewing_as?: boolean;

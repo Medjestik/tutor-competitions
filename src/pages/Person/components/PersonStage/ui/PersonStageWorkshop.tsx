@@ -1,81 +1,111 @@
 import type { FC } from 'react';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+import Button from '../../../../../shared/components/Button/ui/Button';
 import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
-import Link from '../../../../../shared/components/Link/ui/Link';
-
-import { convertDate } from '../../../../../shared/utils/formatDate';
-
-import workshopImg from '../../../../../shared/images/workshop.svg';
-
+import { PROTOCOL_SEMIFINAL_LINK } from '../../../../../shared/lib/lib';
 import * as api from '../../../../../shared/utils/api';
+import { useSelector } from '../../../../../store/store';
 
 import '../styles/style.css';
 
-interface IWebinarData {
-  admin_link: string;
-  date: string;
-  guest_link: string;
-  id: number;
-  time: string;
-  user: number;
+interface IPersonStageWorkshopProps {
+  isPublished: boolean;
 }
 
-const PersonStageWorkshop: FC = () => {
+const btnStyle = {
+  margin: '24px 0 0 0',
+  fontSize: '18px',
+  height: '40px',
+  lineHeight: '18px',
+  padding: '8px 20px',
+};
 
-  const [webinarData, setWebinarData] = useState<IWebinarData | null>(null);
-  const [isSelectTime, setIsSelectTime] = useState<boolean>(false);
-  const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
+const PersonStageWorkshop: FC<IPersonStageWorkshopProps> = ({ isPublished }) => {
+  const passedSecondStage = useSelector(
+    (state) => state.user.user?.passed_second_stage === true,
+  );
+  const passedFinal = useSelector(
+    (state) => state.user.user?.passed_final === true,
+  );
 
-  const getData = () => {
-    setIsLoadingData(true);
+  const [isLoading, setIsLoading] = useState(isPublished);
+  const [formStatus, setFormStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isPublished) {
+      setIsLoading(false);
+      return;
+    }
+
     const token = localStorage.getItem('token');
-    if (token) {
-      api.getWebinars(token)
-      .then((res) => {
-        setWebinarData(res);
-        setIsSelectTime(true);
+    if (!token) {
+      setFormStatus('draft');
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    api
+      .getFormData(token)
+      .then((form) => {
+        setFormStatus(form.status ?? 'draft');
       })
       .catch((err) => {
         console.error(err);
+        setFormStatus('draft');
       })
-      .finally(() => setIsLoadingData(false));
-    }
-  };
+      .finally(() => setIsLoading(false));
+  }, [isPublished]);
 
-  useEffect(() => {
-    getData();
-  }, []);
-  
+  if (isLoading) {
+    return (
+      <div className='person-stage'>
+        <Preloader />
+      </div>
+    );
+  }
+
+  if (!isPublished) {
+    return (
+      <div className='person-stage'>
+        <h2 className='person-stage__title'>Результаты 2 этапа</h2>
+        <p className='person-stage__lead'>Результаты ещё не опубликованы</p>
+      </div>
+    );
+  }
+
+  if (!passedSecondStage) {
+    return (
+      <div className='person-stage'>
+        <h2 className='person-stage__title'>Результаты 2 этапа</h2>
+        <p className='person-stage__lead'>Этот этап вам недоступен</p>
+      </div>
+    );
+  }
+
+  const isSubmitted = formStatus === 'submitted';
+  const verdict = passedFinal
+    ? 'Работа прошла в финал'
+    : 'Работа не прошла в финал';
 
   return (
     <div className='person-stage'>
-      {
-        isLoadingData
-        ?
-        <Preloader />
-        :
-        <>
-        <h2 className='person-stage__title'>Расписание мастер-классов</h2>
-        {
-          isSelectTime && webinarData
-          ?
-          <>
-            <p className='person-stage__subtitle'>Дата и время проведения вашего онлайн-мастер-класса по московскому времени: <span className='person-stage__text-bold'>{convertDate(webinarData.date)}, {webinarData.time}</span></p>
-            <p className='person-stage__subtitle'>Для участия в качестве спикера используйте следующую ссылку для подключения к вебинару: <Link text='Ссылка на вебинар' path={webinarData.admin_link || ''} /></p>
-            <p className='person-stage__subtitle'>Проверьте, что вы заранее подготовили материал и загрузили его в личный кабинет (кнопка «03»).</p>
-            <p className='person-stage__subtitle'>Рекомендуем заранее проверить работу оборудования и стабильность интернет-соединения, чтобы ваше выступление прошло без заминок. Если у вас возникнут вопросы или вам потребуется техническая помощь, обращайтесь в поддержку.</p>
-          </>
-          :
-          <>
-            <p className='person-stage__subtitle'>Здесь скоро появится расписание онлайн-мастер-классов — мы уже работаем над ним и скоро всё опубликуем. Следите за обновлениями!</p>
-            
-          </>
-        }
-        <img className="person-stage__img" src={workshopImg} alt='изображение'></img>
-      </>
-      }
+      <h2 className='person-stage__title'>Результаты 2 этапа</h2>
+      {isSubmitted ? (
+        <p className='person-stage__subtitle person-stage__text-bold'>{verdict}</p>
+      ) : (
+        <p className='person-stage__lead'>
+          Вы не отправили анкету педагогической практики в установленный срок. К сожалению, получение сертификата участника конкурса вам недоступно.
+        </p>
+      )}
+      <Button
+        text='Скачать протокол'
+        type='link'
+        href={PROTOCOL_SEMIFINAL_LINK}
+        style={btnStyle}
+      />
     </div>
   );
 };

@@ -1,13 +1,12 @@
 {
   "files": {
     "main.css": "/static/css/main.701f60fc.css",
-    "main.js": "/static/js/main.b369059c.js",
+    "main.js": "/static/js/main.08f716db.js",
     "static/js/408.4fba0ac4.chunk.js": "/static/js/408.4fba0ac4.chunk.js",
     "static/js/977.429d357b.chunk.js": "/static/js/977.429d357b.chunk.js",
     "static/js/732.cda5b07b.chunk.js": "/static/js/732.cda5b07b.chunk.js",
     "static/js/58.cbc50bcb.chunk.js": "/static/js/58.cbc50bcb.chunk.js",
     "static/media/leaders.pdf": "/static/media/leaders.89a095f253ea5e40f70a.pdf",
-    "static/media/workshop.svg": "/static/media/workshop.1f5865ad8a7450c82fc9e9e96d6cf52e.svg",
     "static/media/stages-background.svg": "/static/media/stages-background.c16efbe6f25cb3fff2b3.svg",
     "static/media/logo-min.svg": "/static/media/logo-min.68c457e1c649ea21cb8b.svg",
     "static/media/logo-mintrans.svg": "/static/media/logo-mintrans.c1e292cf7ce8d2be797f3eb3e2f9d796.svg",
@@ -74,7 +73,7 @@
     "static/media/video.svg": "/static/media/video.9617bea413786255eb41cb8814bed372.svg",
     "static/media/check-complete.svg": "/static/media/check-complete.6b4bd84492a7f083a29d9242670b81eb.svg",
     "main.701f60fc.css.map": "/static/css/main.701f60fc.css.map",
-    "main.b369059c.js.map": "/static/js/main.b369059c.js.map",
+    "main.08f716db.js.map": "/static/js/main.08f716db.js.map",
     "408.4fba0ac4.chunk.js.map": "/static/js/408.4fba0ac4.chunk.js.map",
     "977.429d357b.chunk.js.map": "/static/js/977.429d357b.chunk.js.map",
     "732.cda5b07b.chunk.js.map": "/static/js/732.cda5b07b.chunk.js.map",
@@ -82,6 +81,6 @@
   },
   "entrypoints": [
     "static/css/main.701f60fc.css",
-    "static/js/main.b369059c.js"
+    "static/js/main.08f716db.js"
   ]
 }

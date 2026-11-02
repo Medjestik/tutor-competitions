@@ -45,6 +45,8 @@ const Person: FC = () => {
       currentUser.current_stage_id,
       currentUser.passed_second_stage,
       false,
+      false,
+      currentUser.passed_final,
     ),
   );
   const [openStageId, setOpenStageId] = useState<number>(personStages[0].id);
@@ -54,6 +56,9 @@ const Person: FC = () => {
   const [isPracticeFormOpen, setIsPracticeFormOpen] = useState<boolean>(true);
   const [isStage1ResultsPublished, setIsStage1ResultsPublished] =
     useState<boolean>(false);
+  const [isFinalResultsPublished, setIsFinalResultsPublished] =
+    useState<boolean>(false);
+  const [finalistsMaxChatLink, setFinalistsMaxChatLink] = useState<string>('');
   const [practiceFormStatus, setPracticeFormStatus] = useState<string | null>(null);
   const [secondStageState, setSecondStageState] = useState<api.ISecondStageMaterials | null>(null);
   const [secondStageFailed, setSecondStageFailed] = useState(false);
@@ -110,6 +115,8 @@ const Person: FC = () => {
           res.current_stage.id,
           currentUser.passed_second_stage,
           isStage1ResultsPublished,
+          isFinalResultsPublished,
+          currentUser.passed_final,
         );
         setStages(withClosedFormNav(newStages, practiceFormStatus, isPracticeFormOpen));
         toggleStage(res.current_stage);
@@ -166,11 +173,18 @@ const Person: FC = () => {
         setIsPracticeFormOpen(settings.practice_form_open !== false);
         // Missing key → unpublished (safe default)
         setIsStage1ResultsPublished(settings.stage1_results_published === true);
+        setIsFinalResultsPublished(settings.final_results_published === true);
+        const chatLink = settings.finalists_max_chat_link;
+        setFinalistsMaxChatLink(
+          typeof chatLink === 'string' ? chatLink : '',
+        );
       })
       .catch(() => {
         setIsEducationEnabled(false);
         setIsPracticeFormOpen(true);
         setIsStage1ResultsPublished(false);
+        setIsFinalResultsPublished(false);
+        setFinalistsMaxChatLink('');
       });
   }, []);
 
@@ -232,12 +246,16 @@ const Person: FC = () => {
       currentUser.current_stage_id,
       currentUser.passed_second_stage,
       isStage1ResultsPublished,
+      isFinalResultsPublished,
+      currentUser.passed_final,
     );
     setStages(withClosedFormNav(base, practiceFormStatus, isPracticeFormOpen));
   }, [
     currentUser.current_stage_id,
     currentUser.passed_second_stage,
     isStage1ResultsPublished,
+    isFinalResultsPublished,
+    currentUser.passed_final,
     isPracticeFormOpen,
     practiceFormStatus,
     withClosedFormNav,
@@ -325,8 +343,21 @@ const Person: FC = () => {
                 }
               />
               <Route path={EROUTESSTAGES.PERSON_SLIDES} element={<PersonStageSlides isEducationEnabled={educationOn} onStateChange={setSecondStageState} />} />
-              <Route path={EROUTESSTAGES.PERSON_WORKSHOP} element={<PersonStageWorkshop />} />
-              <Route path={EROUTESSTAGES.PERSON_EVALUATE} element={<PersonStageEvaluate />} />
+              <Route
+                path={EROUTESSTAGES.PERSON_WORKSHOP}
+                element={
+                  <PersonStageWorkshop isPublished={isFinalResultsPublished} />
+                }
+              />
+              <Route
+                path={EROUTESSTAGES.PERSON_EVALUATE}
+                element={
+                  <PersonStageEvaluate
+                    isPublished={isFinalResultsPublished}
+                    maxChatLink={finalistsMaxChatLink}
+                  />
+                }
+              />
               {educationOn && (
                 <>
                   <Route path={EROUTESLEARNING.PROGRAM} element={<PersonLearningProgram />} />

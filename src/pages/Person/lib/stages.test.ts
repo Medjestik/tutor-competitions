@@ -38,4 +38,21 @@ describe('buildPersonStages', () => {
     const video = stages.find((s) => s.id === 3);
     expect(video?.type).toBe('block');
   });
+
+  it('blocks stage-2 results until published even for semifinalists', () => {
+    const stages = buildPersonStages(5, true, true, false, false);
+    expect(stages.find((s) => s.id === 4)?.type).toBe('block');
+  });
+
+  it('opens stage-2 results for semifinalists when final results published', () => {
+    const stages = buildPersonStages(1, true, true, true, false);
+    expect(stages.find((s) => s.id === 4)?.type).toBe('default');
+  });
+
+  it('opens final stage only for passed_final when published', () => {
+    const stages = buildPersonStages(5, true, true, true, true);
+    expect(stages.find((s) => s.id === 5)?.type).toBe('default');
+    const notFinal = buildPersonStages(5, true, true, true, false);
+    expect(notFinal.find((s) => s.id === 5)?.type).toBe('block');
+  });
 });
