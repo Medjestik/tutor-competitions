@@ -33,9 +33,11 @@ const LeaderBoard: FC<ILeaderBoardProps> = ({ windowWidth }) => {
   };
 
   const renderStatus = (status: string) => {
-    if (status === 'semifinal') {
+    if (status === 'finalist' || status === 'semifinal') {
       return (
-        <div className='leaderboard__status leaderboard__status-semifinal'>Полуфиналист</div>
+        <div className='leaderboard__status leaderboard__status-semifinal'>
+          {status === 'finalist' ? 'Финалист' : 'Полуфиналист'}
+        </div>
       );
     }
     return <div></div>;
@@ -45,7 +47,7 @@ const LeaderBoard: FC<ILeaderBoardProps> = ({ windowWidth }) => {
     <div className='leaderboard' id={ENAV.LEADERBOARD}>
       <Section>
         <div className='leaderboard__section'>
-          <h2 className='section__title'>Итоги 1 этапа</h2>
+          <h2 className='section__title'>Итоги полуфинала</h2>
           <ul className='leaderboard__nav'>
             {results.map((item, i) => (
               <li

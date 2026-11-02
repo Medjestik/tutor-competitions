@@ -35,9 +35,12 @@
 .document__buttons {
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(3, 220px);
-  gap: 40px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
   z-index: 2;
+  flex: 1;
+  min-width: 0;
+  max-width: 920px;
 }
 
 @media all and (max-width: 1440px) {
@@ -66,8 +69,10 @@
     gap: 20px;
   }
   .document__buttons {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    width: 100%;
+    max-width: none;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
   }
 }
 

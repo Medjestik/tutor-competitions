@@ -54,7 +54,7 @@ test('downloads the selected stream workbook and releases the object URL', async
   fireEvent.change(screen.getByLabelText('Орг. поток'), { target: { value: '12' } });
   fireEvent.click(screen.getByRole('button', { name: 'Excel: баллы за тесты' }));
   await waitFor(() => expect(click).toHaveBeenCalledTimes(1));
-  expect(click.mock.instances[0].download).toBe('test_scores_course_3_stream_12.xlsx');
+  expect((click.mock.instances[0] as unknown as HTMLAnchorElement).download).toBe('test_scores_course_3_stream_12.xlsx');
   expect(window.URL.createObjectURL).toHaveBeenCalledWith(file);
   expect(window.URL.revokeObjectURL).toHaveBeenCalledWith('blob:scores');
   click.mockRestore();

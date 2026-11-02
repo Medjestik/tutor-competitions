@@ -10,4 +10,5 @@ export const SOCIAL_VK = 'https://vk.ru/edtechmiit';
 export const REGULATION_LINK = 'https://cloud.mail.ru/public/DK9P/cgtKrx6Uk';
 export const ORDER_LINK = 'https://cloud.mail.ru/public/EhNd/QJfdwYBAV';
 export const PROTOCOL_LINK = '/protocol-stage-1.pdf';
+export const PROTOCOL_SEMIFINAL_LINK = '/protocol-semifinal.pdf';
 export const PERSONAL_DATA_POLICY_LINK = 'https://rut-miit.ru/org/privacy';
