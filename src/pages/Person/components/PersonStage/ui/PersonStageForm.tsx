@@ -24,6 +24,7 @@ import { FormTextarea } from '../../../../../shared/components/Form/components/F
 
 import PracticeFormCoauthors from './PracticeFormCoauthors';
 import PracticeFormMaterials from './PracticeFormMaterials';
+import MissedPracticeIllustration from './MissedPracticeIllustration';
 import {
   PRACTICE_FORM_STEPS,
   getFieldsForStep,
@@ -484,10 +485,12 @@ const PersonStageForm: FC<IStageFormProps> = ({
       formData.status !== 'submitted' && isEducationEnabled;
 
     return (
-      <div className='person-stage'>
+      <div className={`person-stage${formData.status !== 'submitted' ? ' person-stage_missed' : ''}`}>
         <h2 className='person-stage__title'>Анкета практики</h2>
-        <p className='person-stage__lead'>{closedMessage}</p>
+        <p className={formData.status !== 'submitted' ? 'person-stage__missed-message' : 'person-stage__lead'}>{closedMessage}</p>
+        {formData.status !== 'submitted' && <MissedPracticeIllustration kind='hourglass' />}
         {showCourseCta && (
+          <div className='person-stage__missed-action'>
           <Button
             type='link'
             text='Перейти к обучению'
@@ -495,6 +498,7 @@ const PersonStageForm: FC<IStageFormProps> = ({
             href={`${EROUTES.PERSON}/learning/program`}
             openInNewTab={false}
           />
+          </div>
         )}
       </div>
     );
