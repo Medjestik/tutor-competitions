@@ -8,6 +8,7 @@ import { PROTOCOL_SEMIFINAL_LINK } from '../../../../../shared/lib/lib';
 import * as api from '../../../../../shared/utils/api';
 import { useSelector } from '../../../../../store/store';
 import MissedPracticeIllustration from './MissedPracticeIllustration';
+import CoauthorCertificate from './CoauthorCertificate';
 
 import '../styles/style.css';
 
@@ -132,7 +133,8 @@ const PersonStageWorkshop: FC<IPersonStageWorkshopProps> = ({ isPublished }) => 
       <p className='person-stage__missed-message'>К сожалению, ваша работа не вышла в финал.</p>
       <div className='person-stage__results-actions'>
         <div>
-          <Button text={downloading ? 'Загрузка...' : 'Скачать сертификат'} onClick={download} disabled={downloading} />
+          <Button text={downloading ? 'Загрузка...' : 'Скачать сертификат'} onClick={download} disabled={downloading} style={{ ...btnStyle, margin: 0 }} />
+          <CoauthorCertificate />
           {downloadError && <p role='alert'>Не удалось скачать сертификат. Попробуйте ещё раз.</p>}
         </div>
         <Button text='Скачать протокол' type='link' href={PROTOCOL_SEMIFINAL_LINK} style={{ ...btnStyle, margin: 0 }} />

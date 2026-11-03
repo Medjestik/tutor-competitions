@@ -52,6 +52,25 @@
   margin-top: 24px;
 }
 
+.person-stage__coauthor-trigger {
+  display: block;
+  margin: 8px 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--main-color);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+.person-stage__coauthor-header { display: flex; justify-content: space-between; gap: 12px; }
+.person-stage__coauthor-header h2 { margin: 0; font-size: 22px; }
+.person-stage__coauthor-header button { border: 0; background: transparent; font-size: 28px; cursor: pointer; }
+.person-stage__coauthor-form { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+.person-stage__coauthor-form label { display: flex; flex-direction: column; gap: 6px; }
+.person-stage__coauthor-form input { width: 100%; box-sizing: border-box; padding: 10px; font: inherit; }
+.person-stage__coauthor-form [role='alert'] { color: #c62828; margin: 0; }
+
 @media (max-width: 1000px) {
   .person-stage_missed { min-height: 480px; }
   .person-stage__missed-message { margin-top: 24px; font-size: 16px; }

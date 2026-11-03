@@ -8,6 +8,7 @@ import { PROTOCOL_LINK } from '../../../../../shared/lib/lib';
 import * as api from '../../../../../shared/utils/api';
 import { useSelector } from '../../../../../store/store';
 import MissedPracticeIllustration from './MissedPracticeIllustration';
+import CoauthorCertificate from './CoauthorCertificate';
 
 import '../styles/style.css';
 
@@ -133,7 +134,8 @@ const PersonStageResults: FC<IPersonStageResultsProps> = ({ isPublished }) => {
       <div className='person-stage__results-actions'>
       {isSubmitted && !passedSecondStage && (
         <div>
-          <Button text={certificateLoading ? 'Загрузка...' : 'Скачать сертификат'} onClick={downloadCertificate} disabled={certificateLoading} />
+          <Button text={certificateLoading ? 'Загрузка...' : 'Скачать сертификат'} onClick={downloadCertificate} disabled={certificateLoading} style={btnStyle} />
+          <CoauthorCertificate />
           {certificateError && <p role='alert'>Не удалось скачать сертификат. Попробуйте ещё раз.</p>}
         </div>
       )}

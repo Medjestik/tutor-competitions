@@ -14,6 +14,18 @@ export const downloadParticipantCertificate = async (token: string): Promise<Blo
   return response.blob();
 };
 
+export const downloadCertificateWithCoauthors = async (token: string, coauthors: string[]): Promise<Blob> => {
+  const response = await fetch(`${API_URL}/competition/forms/my-form/certificate/`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ coauthors }),
+  });
+  if (!response.ok || !response.headers.get('content-type')?.includes('application/pdf')) {
+    throw new Error('Не удалось скачать сертификат');
+  }
+  return response.blob();
+};
+
 function handleResponse (res: Response) {
   if (res.ok) {
     return res.json();
