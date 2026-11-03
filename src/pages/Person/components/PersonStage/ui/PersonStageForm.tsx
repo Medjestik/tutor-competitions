@@ -40,7 +40,6 @@ import {
 } from '../utils/formValidation';
 import {
   CLOSED_FORM_MISSED_PAGE_MESSAGE,
-  CLOSED_FORM_SUBMITTED_MESSAGE,
 } from '../../../lib/practiceFormClosed';
 
 import '../styles/style.css';
@@ -479,16 +478,15 @@ const PersonStageForm: FC<IStageFormProps> = ({
   if (!isPracticeFormOpen) {
     const closedMessage =
       formData.status === 'submitted'
-        ? CLOSED_FORM_SUBMITTED_MESSAGE
+        ? 'Анкета вашей практики успешно отправлена. Результаты оценки будут доступны в следующих разделах.'
         : CLOSED_FORM_MISSED_PAGE_MESSAGE;
-    const showCourseCta =
-      formData.status !== 'submitted' && isEducationEnabled;
+    const showCourseCta = isEducationEnabled;
 
     return (
-      <div className={`person-stage${formData.status !== 'submitted' ? ' person-stage_missed' : ''}`}>
+      <div className='person-stage person-stage_missed'>
         <h2 className='person-stage__title'>Анкета практики</h2>
-        <p className={formData.status !== 'submitted' ? 'person-stage__missed-message' : 'person-stage__lead'}>{closedMessage}</p>
-        {formData.status !== 'submitted' && <MissedPracticeIllustration kind='hourglass' />}
+        <p className='person-stage__missed-message'>{closedMessage}</p>
+        <MissedPracticeIllustration kind='hourglass' />
         {showCourseCta && (
           <div className='person-stage__missed-action'>
           <Button

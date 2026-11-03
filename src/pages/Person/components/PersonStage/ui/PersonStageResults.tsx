@@ -90,22 +90,25 @@ const PersonStageResults: FC<IPersonStageResultsProps> = ({ isPublished }) => {
   }
 
   const isSubmitted = formStatus === 'submitted';
-  const verdict = passedSecondStage
-    ? 'Работа прошла в полуфинал'
-    : 'Работа не прошла в полуфинал';
-
   return (
-    <div className={`person-stage${!isSubmitted ? ' person-stage_missed' : ''}`}>
+    <div className='person-stage person-stage_missed'>
       <h2 className='person-stage__title'>Результаты 1 этапа</h2>
       {isSubmitted ? (
-        <p className='person-stage__subtitle person-stage__text-bold'>{verdict}</p>
+        passedSecondStage ? (
+          <p className='person-stage__missed-message'>Ваша работа вышла в полуфинал</p>
+        ) : (
+          <div className='person-stage__missed-message'>
+            <p>К сожалению, ваша работа не вышла в полуфинал.</p>
+            <p>Скоро на этой странице будет доступен для скачивания сертификат участника конкурса.</p>
+          </div>
+        )
       ) : (
         <p className='person-stage__missed-message'>
           Вы не отправили анкету педагогической практики в установленный срок. К сожалению, получение сертификата участника конкурса вам недоступно.
         </p>
       )}
-      {!isSubmitted && <MissedPracticeIllustration kind='sad' />}
-      <div className={!isSubmitted ? 'person-stage__missed-action' : undefined}>
+      <MissedPracticeIllustration kind={isSubmitted && passedSecondStage ? 'stars' : 'sad'} />
+      <div className='person-stage__missed-action'>
       <Button
         text='Скачать протокол'
         type='link'

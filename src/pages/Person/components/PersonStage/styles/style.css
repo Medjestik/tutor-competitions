@@ -35,6 +35,9 @@
   width: min(240px, 55%);
 }
 
+.person-stage__missed-message p { margin: 0; }
+.person-stage__missed-message p + p { margin-top: 24px; }
+
 .person-stage__missed-action {
   margin-top: auto;
   padding-top: 24px;
