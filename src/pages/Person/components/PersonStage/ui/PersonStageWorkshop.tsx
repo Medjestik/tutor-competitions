@@ -134,9 +134,9 @@ const PersonStageWorkshop: FC<IPersonStageWorkshopProps> = ({ isPublished }) => 
       <div className='person-stage__results-actions'>
         <div>
           <Button text={downloading ? 'Загрузка...' : 'Скачать сертификат'} onClick={download} disabled={downloading} style={{ ...btnStyle, margin: 0 }} />
-          <CoauthorCertificate />
           {downloadError && <p role='alert'>Не удалось скачать сертификат. Попробуйте ещё раз.</p>}
         </div>
+        <CoauthorCertificate />
         <Button text='Скачать протокол' type='link' href={PROTOCOL_SEMIFINAL_LINK} style={{ ...btnStyle, margin: 0 }} />
       </div>
       <MissedPracticeIllustration kind='sad' />

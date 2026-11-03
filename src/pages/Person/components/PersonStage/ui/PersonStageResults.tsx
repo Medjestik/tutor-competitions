@@ -135,10 +135,10 @@ const PersonStageResults: FC<IPersonStageResultsProps> = ({ isPublished }) => {
       {isSubmitted && !passedSecondStage && (
         <div>
           <Button text={certificateLoading ? 'Загрузка...' : 'Скачать сертификат'} onClick={downloadCertificate} disabled={certificateLoading} style={btnStyle} />
-          <CoauthorCertificate />
           {certificateError && <p role='alert'>Не удалось скачать сертификат. Попробуйте ещё раз.</p>}
         </div>
       )}
+      {isSubmitted && !passedSecondStage && <CoauthorCertificate />}
       <Button
         text='Скачать протокол'
         type='link'

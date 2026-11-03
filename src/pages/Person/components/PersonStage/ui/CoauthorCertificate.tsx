@@ -8,13 +8,13 @@ const CoauthorCertificate = () => {
   const [names, setNames] = useState(['', '', '', '']);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const trigger = useRef<HTMLButtonElement>(null);
+  const trigger = useRef<HTMLSpanElement>(null);
   const dialog = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
     dialog.current?.querySelector<HTMLInputElement>('input')?.focus();
-    return () => trigger.current?.focus();
+    return () => trigger.current?.querySelector('button')?.focus();
   }, [open]);
 
   const submit = async (event: React.FormEvent) => {
@@ -40,7 +40,7 @@ const CoauthorCertificate = () => {
   };
 
   return <>
-    <button ref={trigger} type='button' className='person-stage__coauthor-trigger' onClick={() => setOpen(true)}>Сертификат для соавторов</button>
+    <span ref={trigger}><Button text='Сертификат для соавторов' onClick={() => setOpen(true)} style={{ margin: 0, fontSize: '18px', height: '40px', lineHeight: '18px', padding: '8px 20px' }} /></span>
     {open && <Popup isOpen onClose={() => setOpen(false)} popupWidth='medium' closeOutside>
       <div ref={dialog} role='dialog' aria-modal='true' aria-labelledby='coauthor-certificate-title' onKeyDown={(event) => {
         if (event.key === 'Escape') setOpen(false);
