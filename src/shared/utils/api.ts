@@ -4,6 +4,16 @@ import type { IScoreItem } from '../../pages/Person/interface/interface';
 
 import { API_URL } from '../config';
 
+export const downloadParticipantCertificate = async (token: string): Promise<Blob> => {
+  const response = await fetch(`${API_URL}/competition/forms/my-form/certificate/`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!response.ok || !response.headers.get('content-type')?.includes('application/pdf')) {
+    throw new Error('Не удалось скачать сертификат');
+  }
+  return response.blob();
+};
+
 function handleResponse (res: Response) {
   if (res.ok) {
     return res.json();

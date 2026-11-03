@@ -32,6 +32,30 @@ const PersonStageResults: FC<IPersonStageResultsProps> = ({ isPublished }) => {
   const [formStatus, setFormStatus] = useState<string | null>(null);
   const [hasError, setHasError] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const [certificateError, setCertificateError] = useState(false);
+  const [certificateLoading, setCertificateLoading] = useState(false);
+
+  const downloadCertificate = async () => {
+    setCertificateError(false);
+    setCertificateLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('Missing token');
+      const blob = await api.downloadParticipantCertificate(token);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'participant-certificate.pdf';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      setCertificateError(true);
+    } finally {
+      setCertificateLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!isPublished) {
@@ -99,7 +123,6 @@ const PersonStageResults: FC<IPersonStageResultsProps> = ({ isPublished }) => {
         ) : (
           <div className='person-stage__missed-message'>
             <p>К сожалению, ваша работа не вышла в полуфинал.</p>
-            <p>Скоро на этой странице будет доступен для скачивания сертификат участника конкурса.</p>
           </div>
         )
       ) : (
@@ -109,6 +132,12 @@ const PersonStageResults: FC<IPersonStageResultsProps> = ({ isPublished }) => {
       )}
       <MissedPracticeIllustration kind={isSubmitted && passedSecondStage ? 'stars' : 'sad'} />
       <div className='person-stage__missed-action'>
+      {isSubmitted && !passedSecondStage && (
+        <div>
+          <Button text={certificateLoading ? 'Загрузка...' : 'Скачать сертификат'} onClick={downloadCertificate} disabled={certificateLoading} />
+          {certificateError && <p role='alert'>Не удалось скачать сертификат. Попробуйте ещё раз.</p>}
+        </div>
+      )}
       <Button
         text='Скачать протокол'
         type='link'
