@@ -44,6 +44,14 @@
   align-self: flex-start;
 }
 
+.person-stage__results-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 24px;
+}
+
 @media (max-width: 1000px) {
   .person-stage_missed { min-height: 480px; }
   .person-stage__missed-message { margin-top: 24px; font-size: 16px; }

@@ -7,6 +7,7 @@ import Preloader from '../../../../../shared/components/Preloader/ui/Preloader';
 import { PROTOCOL_SEMIFINAL_LINK } from '../../../../../shared/lib/lib';
 import * as api from '../../../../../shared/utils/api';
 import { useSelector } from '../../../../../store/store';
+import MissedPracticeIllustration from './MissedPracticeIllustration';
 
 import '../styles/style.css';
 
@@ -32,6 +33,32 @@ const PersonStageWorkshop: FC<IPersonStageWorkshopProps> = ({ isPublished }) => 
 
   const [isLoading, setIsLoading] = useState(isPublished);
   const [formStatus, setFormStatus] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
+  const [downloadError, setDownloadError] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+
+  const download = async () => {
+    setDownloadError(false);
+    setDownloading(true);
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('Missing token');
+      const blob = await api.downloadParticipantCertificate(token);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'participant-certificate.pdf';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      setDownloadError(true);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   useEffect(() => {
     if (!isPublished) {
@@ -41,12 +68,13 @@ const PersonStageWorkshop: FC<IPersonStageWorkshopProps> = ({ isPublished }) => 
 
     const token = localStorage.getItem('token');
     if (!token) {
-      setFormStatus('draft');
+      setLoadError(true);
       setIsLoading(false);
       return;
     }
 
     setIsLoading(true);
+    setLoadError(false);
     api
       .getFormData(token)
       .then((form) => {
@@ -54,10 +82,10 @@ const PersonStageWorkshop: FC<IPersonStageWorkshopProps> = ({ isPublished }) => 
       })
       .catch((err) => {
         console.error(err);
-        setFormStatus('draft');
+        setLoadError(true);
       })
       .finally(() => setIsLoading(false));
-  }, [isPublished]);
+  }, [isPublished, attempt]);
 
   if (isLoading) {
     return (
@@ -85,10 +113,33 @@ const PersonStageWorkshop: FC<IPersonStageWorkshopProps> = ({ isPublished }) => 
     );
   }
 
+  if (loadError) {
+    return <div className='person-stage'>
+      <h2 className='person-stage__title'>Результаты 2 этапа</h2>
+      <p role='alert'>Не удалось загрузить статус анкеты. Попробуйте ещё раз.</p>
+      <Button text='Повторить' onClick={() => setAttempt((value) => value + 1)} />
+    </div>;
+  }
+
   const isSubmitted = formStatus === 'submitted';
   const verdict = passedFinal
     ? 'Работа прошла в финал'
     : 'Работа не прошла в финал';
+
+  if (isSubmitted && !passedFinal) {
+    return <div className='person-stage person-stage_missed'>
+      <h2 className='person-stage__title'>Результаты 2 этапа</h2>
+      <p className='person-stage__missed-message'>К сожалению, ваша работа не вышла в финал.</p>
+      <div className='person-stage__results-actions'>
+        <div>
+          <Button text={downloading ? 'Загрузка...' : 'Скачать сертификат'} onClick={download} disabled={downloading} />
+          {downloadError && <p role='alert'>Не удалось скачать сертификат. Попробуйте ещё раз.</p>}
+        </div>
+        <Button text='Скачать протокол' type='link' href={PROTOCOL_SEMIFINAL_LINK} style={{ ...btnStyle, margin: 0 }} />
+      </div>
+      <MissedPracticeIllustration kind='sad' />
+    </div>;
+  }
 
   return (
     <div className='person-stage'>

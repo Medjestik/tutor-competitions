@@ -10,7 +10,7 @@ import { useSelector } from '../../../../../store/store';
 import * as api from '../../../../../shared/utils/api';
 
 import '../styles/style.css';
-import { getClosedSecondStageMessage } from '../../../lib/secondStageClosed';
+import MissedPracticeIllustration from './MissedPracticeIllustration';
 
 const ORGANIZER_VIDEO_URL =
   'https://runtime.video.cloud.yandex.net/player/video/vplvizgnahys4zwqjc3s?autoplay=0&mute=0';
@@ -202,13 +202,18 @@ const PersonStageSlides: FC<{
   }
 
   if (!serverState.is_open) {
-    return <div className='person-stage'>
+    return <div className='person-stage person-stage_missed'>
       <h2 className='person-stage__title'>Видеопрезентация</h2>
-      <p className='person-stage__lead'>{getClosedSecondStageMessage(serverState.has_materials)}</p>
-      {!serverState.has_materials && isEducationEnabled && <Button
+      <p className='person-stage__missed-message'>{serverState.has_materials
+        ? 'Приём материалов завершён. Ожидайте результатов.'
+        : isEducationEnabled
+          ? 'Срок загрузки материалов завершён. Вы можете пройти программу обучения.'
+          : 'Срок загрузки материалов завершён.'}</p>
+      <MissedPracticeIllustration kind='hourglass' />
+      {!serverState.has_materials && isEducationEnabled && <div className='person-stage__missed-action'><Button
         text='Перейти к обучению' type='link' href='/person/learning/program'
         openInNewTab={false} color='gradient'
-      />}
+      /></div>}
     </div>;
   }
 

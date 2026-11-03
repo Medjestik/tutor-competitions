@@ -16,7 +16,7 @@ interface IPersonStageResultsProps {
 }
 
 const btnStyle = {
-  margin: '24px 0 0 0',
+  margin: 0,
   fontSize: '18px',
   height: '40px',
   lineHeight: '18px',
@@ -130,8 +130,7 @@ const PersonStageResults: FC<IPersonStageResultsProps> = ({ isPublished }) => {
           Вы не отправили анкету педагогической практики в установленный срок. К сожалению, получение сертификата участника конкурса вам недоступно.
         </p>
       )}
-      <MissedPracticeIllustration kind={isSubmitted && passedSecondStage ? 'stars' : 'sad'} />
-      <div className='person-stage__missed-action'>
+      <div className='person-stage__results-actions'>
       {isSubmitted && !passedSecondStage && (
         <div>
           <Button text={certificateLoading ? 'Загрузка...' : 'Скачать сертификат'} onClick={downloadCertificate} disabled={certificateLoading} />
@@ -145,6 +144,7 @@ const PersonStageResults: FC<IPersonStageResultsProps> = ({ isPublished }) => {
         style={btnStyle}
       />
       </div>
+      <MissedPracticeIllustration kind={isSubmitted && passedSecondStage ? 'stars' : 'sad'} />
     </div>
   );
 };

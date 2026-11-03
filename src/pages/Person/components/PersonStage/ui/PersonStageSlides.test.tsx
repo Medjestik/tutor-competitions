@@ -28,7 +28,7 @@ beforeEach(() => {
 
 test('no materials shows missed message and course link in same tab', async () => {
   render(<PersonStageSlides isEducationEnabled />);
-  expect(await screen.findByText('Вы не успели, но можете пройти курс')).toBeVisible();
+  expect(await screen.findByText(/Срок загрузки материалов завершён/)).toBeVisible();
   const link = screen.getByRole('link', { name: 'Перейти к обучению' });
   expect(link).toHaveAttribute('href', '/person/learning/program');
   expect(link).not.toHaveAttribute('target');
@@ -39,14 +39,14 @@ test('no materials shows missed message and course link in same tab', async () =
 test('photo-only submission waits for results without course or upload controls', async () => {
   get.mockResolvedValue({ ...closed, has_materials: true, photo_url: 'https://example.com/photo.jpg' });
   render(<PersonStageSlides isEducationEnabled />);
-  expect(await screen.findByText('Ждите итогов')).toBeVisible();
+  expect(await screen.findByText('Приём материалов завершён. Ожидайте результатов.')).toBeVisible();
   expect(screen.queryByRole('link', { name: 'Перейти к обучению' })).not.toBeInTheDocument();
   expect(screen.queryByText('Добавить фото')).not.toBeInTheDocument();
 });
 
 test('disabled education hides course action', async () => {
   render(<PersonStageSlides />);
-  await screen.findByText('Вы не успели, но можете пройти курс');
+  await screen.findByText(/Срок загрузки материалов завершён/);
   expect(screen.queryByRole('link')).not.toBeInTheDocument();
 });
 
@@ -65,7 +65,7 @@ test('pending request never displays a missed conclusion or upload controls', as
   expect(screen.queryByText('Вы не успели, но можете пройти курс')).not.toBeInTheDocument();
   expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
   await act(async () => { resolveState(closed); });
-  expect(await screen.findByText('Вы не успели, но можете пройти курс')).toBeVisible();
+  expect(await screen.findByText(/Срок загрузки материалов завершён/)).toBeVisible();
 });
 
 test('failed state request offers retry instead of claiming no submission', async () => {
@@ -75,7 +75,7 @@ test('failed state request offers retry instead of claiming no submission', asyn
   expect(await screen.findByRole('alert')).toHaveTextContent('Не удалось загрузить состояние');
   expect(screen.queryByText('Вы не успели, но можете пройти курс')).not.toBeInTheDocument();
   fireEvent.click(screen.getByText('Повторить'));
-  expect(await screen.findByText('Вы не успели, но можете пройти курс')).toBeVisible();
+  expect(await screen.findByText(/Срок загрузки материалов завершён/)).toBeVisible();
   log.mockRestore();
 });
 
@@ -88,7 +88,7 @@ test('open stage permits saving and closure response replaces a stale upload for
   fireEvent.change(input, { target: { value: 'https://example.com/video' } });
   fireEvent.click(screen.getByText('Сохранить ссылку'));
   await waitFor(() => expect(patch).toHaveBeenCalledWith('token', expect.any(FormData)));
-  expect(await screen.findByText('Вы не успели, но можете пройти курс')).toBeVisible();
+  expect(await screen.findByText(/Срок загрузки материалов завершён/)).toBeVisible();
   expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
   expect(onStateChange).toHaveBeenLastCalledWith(closed);
 });
