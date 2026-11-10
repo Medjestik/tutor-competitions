@@ -88,9 +88,9 @@ const PersonLearningResults: FC = () => {
         <div className='person-learning-results__card'>
           <h2 className='person-learning-results__title'>Итоги обучения</h2>
           <p className='person-learning-results__text'>
-            Раздел «Итоги» откроется после окончания срока обучения
+            {data?.streamStartsAt && !data.coursePlayable ? `Обучение начнётся ${data.streamStartsAt}. ` : ''}Раздел «Итоги» откроется после окончания срока обучения
             {data?.streamEndsAt ? ` (${data.streamEndsAt})` : ''}. Пока вы можете
-            продолжать курс в разделе «Обучение».
+            {data?.coursePlayable ? 'продолжать курс в разделе «Обучение».' : 'ожидайте начала обучения.'}
           </p>
           <Link
             className='person-learning-results__link'

@@ -1132,7 +1132,7 @@ export const downloadLearningApplicationDocument = async (
   return res.blob();
 };
 
-export const approveLearningApplication = (token: string, applicationId: number) => {
+export const approveLearningApplication = (token: string, applicationId: number, learningStreamId: number) => {
   return fetch(`${API_URL}/learning/applications/${applicationId}/approve/`, {
     method: 'POST',
     headers: {
@@ -1140,6 +1140,7 @@ export const approveLearningApplication = (token: string, applicationId: number)
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify({ learningStreamId }),
   }).then((res) => handleResponse(res));
 };
 
@@ -1646,7 +1647,8 @@ export type TLmsMaterialsAccess =
   | 'blocked'
   | 'no_application'
   | 'no_course'
-  | 'stream_ended';
+  | 'stream_ended'
+  | 'stream_not_started';
 
 export interface ILmsMaterialsResponse {
   access: TLmsMaterialsAccess;
@@ -1656,6 +1658,7 @@ export interface ILmsMaterialsResponse {
   applicationStatus?: string;
   organizerComment?: string;
   streamEndsAt?: string | null;
+  streamStartsAt?: string | null;
   resultsAvailable?: boolean;
   course?: ILmsMaterialsCourse;
 }
@@ -1663,6 +1666,7 @@ export interface ILmsMaterialsResponse {
 export type TLearningOutcome = 'passed' | 'failed' | null;
 
 export interface ILearningOutcomeResponse {
+  streamStartsAt?: string | null;
   streamEndsAt: string | null;
   resultsAvailable: boolean;
   coursePlayable: boolean;

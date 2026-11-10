@@ -65,7 +65,7 @@ const PersonLearningMaterials: FC = () => {
     );
   }
 
-  if (data?.access === 'stream_ended') {
+  if (data?.access === 'stream_ended' || data?.access === 'stream_not_started') {
     return (
       <div className='person-learning-materials'>
         <div className='person-learning-materials__card'>

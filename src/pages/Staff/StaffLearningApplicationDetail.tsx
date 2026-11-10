@@ -22,6 +22,9 @@ import {
   requestLearningApplicationCorrection,
 } from '../../shared/utils/api';
 import { EROUTES } from '../../shared/utils/ERoutes';
+import { getStaffLearningStreams } from '../../shared/utils/api';
+import type { IStaffLearningStream } from '../../shared/utils/api';
+import LearningStreamsModal from './LearningStreamsModal';
 
 import PersonLearningListenerTabs from '../Person/components/PersonLearning/ui/listener/PersonLearningListenerTabs';
 import PersonLearningListenerInfoTab from '../Person/components/PersonLearning/ui/listener/PersonLearningListenerInfoTab';
@@ -43,6 +46,7 @@ import '../Person/components/PersonLearning/styles/listener.css';
 
 
 interface IStaffLearningApplicationDetailResponse extends ILearningApplicationResponse {
+  courseId?: number | null;
   statusDisplay?: string;
   snilsFileUrl?: string;
   diplomaFileUrl?: string;
@@ -123,6 +127,17 @@ const StaffLearningApplicationDetail: FC = () => {
     useState<IListenerConfirmedSections>(emptyConfirmedSections);
   const [comment, setComment] = useState('');
   const [formError, setFormError] = useState('');
+  const [courseId, setCourseId] = useState<number | null>(null);
+  const [streams, setStreams] = useState<IStaffLearningStream[]>([]);
+  const [streamId, setStreamId] = useState('');
+  const [streamsOpen, setStreamsOpen] = useState(false);
+
+  const loadStreams = useCallback(async () => {
+    const token = localStorage.getItem('token');
+    if (!token || !courseId) { setStreams([]); return; }
+    try { setStreams(await getStaffLearningStreams(token, courseId)); }
+    catch { setStreams([]); setFormError('Не удалось загрузить потоки'); }
+  }, [courseId]);
 
   const isActionable = status === 'submitted';
   const fullName = useMemo(
@@ -134,6 +149,7 @@ const StaffLearningApplicationDetail: FC = () => {
   );
 
   const applyDetail = useCallback((data: IStaffLearningApplicationDetailResponse) => {
+    setCourseId(data.courseId ?? null);
     setFormData(mapApplicationToFormState(data));
     const confirmed = mapApplicationToConfirmedSections(data);
     setConfirmedSections(confirmed);
@@ -186,6 +202,8 @@ const StaffLearningApplicationDetail: FC = () => {
   const openApproveModal = () => {
     setActionModal('approve');
     setFormError('');
+    setStreamId('');
+    void loadStreams();
   };
 
   const openCorrectionModal = () => {
@@ -203,6 +221,7 @@ const StaffLearningApplicationDetail: FC = () => {
 
   const handleApprove = async () => {
     if (!isActionable || isSubmitting) return;
+    if (!streamId || !streams.some(stream => stream.id === Number(streamId))) { setFormError('Выберите поток курса'); return; }
 
     const token = localStorage.getItem('token');
     if (!token) return;
@@ -211,7 +230,8 @@ const StaffLearningApplicationDetail: FC = () => {
     try {
       const data = (await approveLearningApplication(
         token,
-        applicationId
+        applicationId,
+        Number(streamId)
       )) as IStaffLearningApplicationDetailResponse;
       applyDetail(data);
       setActionModal('none');
@@ -480,6 +500,14 @@ const StaffLearningApplicationDetail: FC = () => {
                 Слушателю будет отправлено письмо о том, что заявка одобрена и можно
                 приступать к обучению.
               </p>
+              <label>Поток обучения
+                <select value={streamId} onChange={event => setStreamId(event.target.value)}>
+                  <option value=''>Выберите поток</option>
+                  {streams.map(stream => <option key={stream.id} value={stream.id}>{stream.name} ({stream.startDate} — {stream.endDate})</option>)}
+                </select>
+              </label>
+              {!courseId && <p>В заявке не указан курс. Обратитесь к администратору.</p>}
+              <Button text='Потоки' onClick={() => setStreamsOpen(true)} disabled={!courseId} />
               {formError && <p className='staff-detail__field-error'>{formError}</p>}
               <div className='staff-detail__modal-actions'>
                 <Button
@@ -498,6 +526,8 @@ const StaffLearningApplicationDetail: FC = () => {
                 />
               </div>
             </Popup>
+
+            <LearningStreamsModal isOpen={streamsOpen} courseId={courseId ?? ''} onClose={() => { setStreamsOpen(false); void loadStreams(); }} onChanged={() => void loadStreams()} />
 
             <Popup
               isOpen={actionModal === 'correction'}
