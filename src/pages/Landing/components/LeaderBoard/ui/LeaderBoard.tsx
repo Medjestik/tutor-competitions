@@ -47,6 +47,13 @@ const LeaderBoard: FC<ILeaderBoardProps> = ({ windowWidth }) => {
     <div className='leaderboard' id={ENAV.LEADERBOARD}>
       <Section>
         <div className='leaderboard__section'>
+          <h2 className='section__title'>Победители конкурса</h2>
+          <ul className='leaderboard__winners'>
+            <li><strong>Педагогический приём:</strong> Грузд Анжелика Андреевна — ПривГУПС, Самара. Практика «Диспетчерский круг».</li>
+            <li><strong>Цифровой педагог:</strong> Мадяр Ольга Николаевна — РУТ (МИИТ), Москва. Практика «Организация доступной среды на транспорте».</li>
+            <li><strong>Территория роста:</strong> Супчинский Олег Павлович — ОмГУПС (ОмИИТ), Омск. Практика «Посткроссинг: мост между людьми и поколениями».</li>
+            <li><strong>Партнёрство и инновации:</strong> Хаджаев Данис Ильнурович — Институт морского и речного флота им. ГСС М.П. Девятаева – Казанский филиал ВГУВТ, Казань. Практика «Цифровой фарватер: путь в профессию речника».</li>
+          </ul>
           <h2 className='section__title'>Итоги полуфинала</h2>
           <ul className='leaderboard__nav'>
             {results.map((item, i) => (

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import Button from '../../../../../shared/components/Button/ui/Button';
-import { ORDER_LINK, PROTOCOL_LINK, PROTOCOL_SEMIFINAL_LINK, REGULATION_LINK } from '../../../../../shared/lib/lib';
+import { ORDER_LINK, PROTOCOL_LINK, PROTOCOL_SEMIFINAL_LINK, PROTOCOL_FINAL_LINK, REGULATION_LINK } from '../../../../../shared/lib/lib';
 import { ENAV } from '../../../../../shared/components/Navigation/interface/interface';
 
 import '../styles/style.css';
@@ -43,6 +43,7 @@ const Document: FC<IDocumentProps> = ({ windowWidth }) => {
             href={PROTOCOL_SEMIFINAL_LINK}
             width='full'
           />
+          <Button text='СКАЧАТЬ ИТОГОВЫЙ ПРОТОКОЛ' type='link' href={PROTOCOL_FINAL_LINK} width='full' />
         </div>
       </div>
     </div>
