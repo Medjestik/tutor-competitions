@@ -19,6 +19,7 @@ import {
   downloadLearningApplicationDocument,
   getLearningApplicationDetail,
   rejectLearningApplication,
+  reopenLearningApplication,
   requestLearningApplicationCorrection,
 } from '../../shared/utils/api';
 import { EROUTES } from '../../shared/utils/ERoutes';
@@ -55,7 +56,7 @@ interface IStaffLearningApplicationDetailResponse extends ILearningApplicationRe
   degreeDiplomaFileUrl?: string;
 }
 
-type TStaffActionModal = 'none' | 'approve' | 'correction' | 'reject';
+type TStaffActionModal = 'none' | 'approve' | 'correction' | 'reject' | 'reopen';
 
 const staffTabs = listenerTabs.filter((tab) => tab.id !== 'review');
 
@@ -140,6 +141,7 @@ const StaffLearningApplicationDetail: FC = () => {
   }, [courseId]);
 
   const isActionable = status === 'submitted';
+  const canReopen = Boolean(status) && !isActionable;
   const fullName = useMemo(
     () =>
       [formData.lastName, formData.firstName, formData.middleName]
@@ -321,6 +323,31 @@ const StaffLearningApplicationDetail: FC = () => {
     }
   };
 
+  const handleReopen = async () => {
+    if (!canReopen || isSubmitting) return;
+
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    setIsSubmitting(true);
+    setFormError('');
+    try {
+      const data = (await reopenLearningApplication(
+        token,
+        applicationId,
+        status
+      )) as IStaffLearningApplicationDetailResponse;
+      applyDetail(data);
+      setActionModal('none');
+      showToast({ type: 'success', title: 'Заявка возвращена в статус «Подана»' });
+    } catch (err) {
+      const message = await getErrorMessage(err, 'Не удалось вернуть заявку в статус «Подана».');
+      setFormError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleDownloadDocument = async () => {
     const token = localStorage.getItem('token');
     if (!token || !applicationId || isDownloading) return;
@@ -462,9 +489,9 @@ const StaffLearningApplicationDetail: FC = () => {
             </div>
 
             <div className='staff-detail__actions'>
-              {!isActionable && (
+              {canReopen && (
                 <p className='staff-detail__actions-hint'>
-                  Действия доступны только для заявок со статусом «Подана».
+                  Для повторного рассмотрения верните заявку в статус «Подана».
                 </p>
               )}
               <div className='staff-detail__actions-buttons'>
@@ -486,6 +513,14 @@ const StaffLearningApplicationDetail: FC = () => {
                   onClick={openRejectModal}
                   disabled={!isActionable || isSubmitting}
                 />
+                {canReopen && (
+                  <Button
+                    text='Вернуть в статус «Подана»'
+                    color='white'
+                    onClick={() => setActionModal('reopen')}
+                    disabled={isSubmitting}
+                  />
+                )}
               </div>
             </div>
 
@@ -625,6 +660,38 @@ const StaffLearningApplicationDetail: FC = () => {
                 />
               </div>
             </Popup>
+
+            {actionModal === 'reopen' && (
+              <Popup isOpen onClose={closeModal} popupWidth='medium' closeOutside={false}>
+                <h2 className='popup__title'>Вернуть заявку в статус «Подана»?</h2>
+                <p className='staff-detail__modal-text'>
+                  Заявка снова будет доступна для рассмотрения.
+                </p>
+                {status === 'approved' && (
+                  <p className='staff-detail__modal-text'>
+                    Доступ слушателя к курсу будет закрыт до повторного одобрения заявки.
+                    Поток, прогресс и итог обучения сохранятся.
+                  </p>
+                )}
+                {formError && <p className='staff-detail__field-error' role='alert'>{formError}</p>}
+                <div className='staff-detail__modal-actions'>
+                  <Button
+                    text='Отменить'
+                    color='primary'
+                    onClick={closeModal}
+                    style={cancelBtnStyle}
+                    disabled={isSubmitting}
+                  />
+                  <Button
+                    text={isSubmitting ? 'Отправка...' : 'Вернуть заявку'}
+                    color='gradient'
+                    onClick={handleReopen}
+                    style={confirmBtnStyle}
+                    disabled={isSubmitting}
+                  />
+                </div>
+              </Popup>
+            )}
           </>
         )}
       </div>

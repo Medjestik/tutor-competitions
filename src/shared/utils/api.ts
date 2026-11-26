@@ -1144,6 +1144,22 @@ export const approveLearningApplication = (token: string, applicationId: number,
   }).then((res) => handleResponse(res));
 };
 
+export const reopenLearningApplication = (
+  token: string,
+  applicationId: number,
+  expectedStatus: string
+) => {
+  return fetch(`${API_URL}/learning/applications/${applicationId}/reopen/`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ expectedStatus }),
+  }).then((res) => handleResponse(res));
+};
+
 export const requestLearningApplicationCorrection = (
   token: string,
   applicationId: number,
